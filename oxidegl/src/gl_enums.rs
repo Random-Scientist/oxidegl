@@ -1,5 +1,5 @@
-use crate::dispatch::conversions::{GLenumExt, GlDstType, GlEnumGroup, SrcType};
-use crate::dispatch::gl_types::GLenum;
+use crate::conversions::{GLenumExt, GlDstType, GlEnumGroup, SrcType};
+use crate::gl_types::GLenum;
 use bitflags::bitflags;
 pub const GL_DEPTH_BUFFER_BIT: GLenum = 0x100;
 pub const GL_STENCIL_BUFFER_BIT: GLenum = 0x400;

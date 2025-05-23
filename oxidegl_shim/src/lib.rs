@@ -1,7 +1,3 @@
-use crate::{
-    context::{CTX, Context},
-    entry_point::{box_ctx, set_context, swap_buffers},
-};
 use core_foundation_sys::{
     base::CFEqual,
     bundle::{CFBundleGetFunctionPointerForName, CFBundleGetIdentifier, CFBundleRef},
@@ -21,6 +17,8 @@ use objc2::{
     sel,
 };
 use objc2_foundation::NSObjectProtocol;
+use oxidegl::context::Context;
+use oxidegl_c::{box_ctx, context::CTX, set_context, swap_buffers};
 use std::{
     cell::OnceCell,
     ffi::{CStr, c_void},
@@ -231,15 +229,6 @@ impl OXGLOxideGlCtxShim {
                     ),
                     method_getTypeEncoding(class_getClassMethod(opengl_ctx_class_ptr, sel_ptr)),
                 );
-                let sel_ptr = sel!(initWithCGLPixelFormatObj:);
-                class_replaceMethod(
-                    opengl_ctx_class_ptr,
-                    sel_ptr,
-                    mem::transmute(
-                        Self::init_with_cgl_pf_obj as unsafe extern "C-unwind" fn(_, _, _) -> _,
-                    ),
-                    method_getTypeEncoding(class_getClassMethod(opengl_ctx_class_ptr, sel_ptr)),
-                );
 
                 let sel_ptr = sel!(setValues:forParameter:);
                 class_replaceMethod(
@@ -361,9 +350,7 @@ unsafe extern "C" fn CFBundleGetFunctionPointerForNameOverride(
             }
             let symbol =
                 CStr::from_bytes_until_nul(&buf).expect("failed to create CStr from NSString");
-            trace!(
-                "Redirecting NSGL function lookup of {symbol:?} to OxideGL"
-            );
+            trace!("Redirecting NSGL function lookup of {symbol:?} to OxideGL");
             dlsym(get_oxidegl_handle(), symbol.as_ptr())
         } else {
             CFBundleGetFunctionPointerForName(bundle, function_name)
@@ -408,14 +395,15 @@ pub static DYLD_LIBC_DLOPEN_INTERPOSE: DyldInterposeTuple = DyldInterposeTuple {
 mod ctor {
     use ctor::ctor;
 
-    use crate::{entry_point::oxidegl_platform_init, nsgl_shim::OXGLOxideGlCtxShim};
+    use super::OXGLOxideGlCtxShim;
+    use oxidegl::debug_init;
     #[ctor]
     fn ctor() {
         println!(
             "OxideGL running static constructor. Ensure liboxidegl is loaded BEFORE main is run. Loading liboxidegl after main may cause nasal demons to spontaneously appear"
         );
         // Safety: we are living the good life (before main), so there are no other threads to race on environment variables with
-        unsafe { oxidegl_platform_init() }
+        unsafe { debug_init() }
         // Safety: running from static ctor (equivalent to objc +load context)
         unsafe { OXGLOxideGlCtxShim::clobber_ns_opengl() }
     }

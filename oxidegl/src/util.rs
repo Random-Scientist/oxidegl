@@ -131,6 +131,7 @@ pub(crate) const unsafe fn transmute_unchecked<Src, Dst>(value: Src) -> Dst {
         src: ManuallyDrop<Src>,
         dst: ManuallyDrop<Dst>,
     }
+    // Safety: caller
     ManuallyDrop::into_inner(unsafe {
         Transmute {
             src: ManuallyDrop::new(value),

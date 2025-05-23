@@ -7,8 +7,8 @@ use crate::{
         program::Program,
         shader::Shader,
     },
-    dispatch::gl_types::{GLint, GLuint},
-    enums::ProgramProperty,
+    gl_enums::ProgramProperty,
+    gl_types::{GLint, GLuint},
     util::run_if_changed,
 };
 

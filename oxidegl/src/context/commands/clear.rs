@@ -1,7 +1,7 @@
 use crate::{
     context::Context,
-    dispatch::gl_types::{GLdouble, GLfloat, GLint},
-    enums::ClearBufferMask,
+    gl_enums::ClearBufferMask,
+    gl_types::{GLdouble, GLfloat, GLint},
     util::run_if_changed,
 };
 

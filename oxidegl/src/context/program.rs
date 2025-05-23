@@ -9,7 +9,7 @@ use crate::{
         debug::{gl_debug, gl_trace, with_debug_state},
         shader::ShaderInternal,
     },
-    enums::ShaderType, util::{NoDebug, ProtoObjRef},
+    gl_enums::ShaderType, util::{NoDebug, ProtoObjRef},
 };
 use objc2_foundation::NSString;
 use objc2_metal::{MTLDevice, MTLFunction, MTLLibrary};
@@ -152,9 +152,9 @@ impl Program {
     #[inline]
     fn get_stage_binding(&mut self, stage: ShaderType) -> &mut ProgramStageBinding {
         match stage {
-            crate::enums::ShaderType::FragmentShader => &mut self.fragment_shaders,
-            crate::enums::ShaderType::VertexShader => &mut self.vertex_shaders,
-            crate::enums::ShaderType::ComputeShader => &mut self.compute_shaders,
+            crate::gl_enums::ShaderType::FragmentShader => &mut self.fragment_shaders,
+            crate::gl_enums::ShaderType::VertexShader => &mut self.vertex_shaders,
+            crate::gl_enums::ShaderType::ComputeShader => &mut self.compute_shaders,
             _ => unreachable!(),
         }
     }

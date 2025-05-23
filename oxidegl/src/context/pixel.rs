@@ -10,7 +10,7 @@ use half::f16;
 
 use crate::{
     context::debug::{gl_trace, gl_warn},
-    enums::{InternalFormat, PixelFormat, PixelType},
+    gl_enums::{InternalFormat, PixelFormat, PixelType},
 };
 mod internal_formats;
 trait ChannelType {}
@@ -401,9 +401,6 @@ impl GlPixelTypeFormat {
     }
     /// Returns the `InternalFormat` that matches this type format pair, if any. No ABI compatability guarantees are made about the format of this [`GlPixelTypeFormat`] and the returned [`InternalFormat`].
     pub(crate) fn equivalent_internal_format(self) -> Option<InternalFormat> {
-        
-        
-
         gl_trace!(
             "attempting to lower (type {:?}, fmt {:?}) tuple to a metal pixel format",
             self.ty,

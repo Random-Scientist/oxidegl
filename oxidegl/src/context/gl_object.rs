@@ -5,10 +5,8 @@ use objc2_foundation::NSString;
 
 use crate::{
     context::debug::gl_err,
-    dispatch::{
-        conversions::{GlDstType, SrcType},
-        gl_types::{GLboolean, GLsizei, GLuint},
-    },
+    conversions::{GlDstType, SrcType},
+    gl_types::{GLboolean, GLsizei, GLuint},
     util::{debug_unreachable, trimmed_type_name},
 };
 

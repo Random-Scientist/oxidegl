@@ -4,11 +4,9 @@ use objc2_metal::MTLVertexFormat;
 
 use crate::{
     context::{debug::gl_debug, error::gl_assert},
-    dispatch::{
-        conversions::sizei,
-        gl_types::{GLintptr, GLsizei, GLuint, GLvoid},
-    },
-    enums::VertexAttribType,
+    conversions::sizei,
+    gl_enums::VertexAttribType,
+    gl_types::{GLintptr, GLsizei, GLuint, GLvoid},
 };
 
 use super::{
@@ -100,7 +98,10 @@ impl Vao {
 
         let mut bindingindex = idx;
         for (name, (offset, stride)) in buffers.zip(offsets.zip(strides)) {
-            gl_debug!("bound {name:?} to {:?} at binding index {bindingindex} with offset {offset} and stride {stride}", self.name);
+            gl_debug!(
+                "bound {name:?} to {:?} at binding index {bindingindex} with offset {offset} and stride {stride}",
+                self.name
+            );
             let r = self.get_binding_mut(bindingindex)?;
             r.buf = name;
             r.offset = offset as usize;
@@ -135,7 +136,9 @@ impl Vao {
         Ok(())
     }
     pub(crate) fn binding_divisor(&mut self, binding_index: u32, divisor: u32) -> GlFallible {
-        gl_debug!("setting vertex attribute binding divisor at buffer binding index {binding_index} to {divisor}");
+        gl_debug!(
+            "setting vertex attribute binding divisor at buffer binding index {binding_index} to {divisor}"
+        );
         self.get_binding_mut(binding_index)?.divisor = NonZeroU32::new(divisor);
         Ok(())
     }

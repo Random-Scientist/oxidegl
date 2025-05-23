@@ -1,4 +1,4 @@
-use std::{cell::Cell, fmt::Debug, num::NonZeroU32};
+use std::{cell::Cell, fmt::Debug, num::NonZeroU32, ptr, slice};
 
 use objc2::rc::Retained;
 use objc2_metal::{
@@ -7,15 +7,20 @@ use objc2_metal::{
 };
 
 use crate::{
-    dispatch::conversions::{GLenumExt, SrcType},
-    enums::{
-        DepthFunction, InternalFormat, SamplerParameter, TextureMagFilter, TextureMinFilter,
-        TextureSwizzle, TextureTarget, TextureWrapMode,
+    context::error::GlError,
+    conversions::{GLenumExt, SrcType},
+    gl_enums::{
+        DepthFunction, GL_COMPARE_REF_TO_TEXTURE, GL_NONE, InternalFormat, SamplerParameter,
+        TextureMagFilter, TextureMinFilter, TextureSwizzle, TextureTarget, TextureWrapMode,
     },
     util::ProtoObjRef,
 };
 
-use super::{debug::gl_err, error::GlFallible, gl_object::ObjectName};
+use super::{
+    debug::gl_err,
+    error::{GlFallible, gl_assert},
+    gl_object::ObjectName,
+};
 
 /// * named: name is reserved, object is considered uninitialized
 /// * bound: object is initialized to default state, has no storage
@@ -96,18 +101,18 @@ pub(crate) enum Anisotropy {
 }
 
 impl Anisotropy {
-    fn from_float(val: f32) -> Option<Self> {
+    fn from_float(val: f32) -> GlFallible<Self> {
         // Next floating point value from 2.0
         const VAL: f32 = 2.0_f32.next_up();
         match val {
-            1.0..2.0 => Some(Self::NoAnisotropic),
+            1.0..2.0 => Ok(Self::NoAnisotropic),
             #[expect(
                 clippy::cast_possible_truncation,
                 clippy::cast_sign_loss,
-                reason = "cast will not truncate due to range of pattern"
+                reason = "cast will not truncate due to clamp"
             )]
-            VAL..=16.0 => Some(Self::Samples(val.floor() as u8)),
-            _ => None,
+            VAL.. => Ok(Self::Samples(val.floor().clamp(2.0, 16.0) as u8)),
+            _ => Err(GlError::InvalidValue.e()),
         }
     }
 }
@@ -116,9 +121,10 @@ impl Anisotropy {
 /// Note: must call [`SamplerParams::mark_dirty`] after modifying values in this struct
 pub struct SamplerParams {
     /// Border color for border wrap mode
-    pub(crate) border_color: [f32; 4],
+    pub(crate) border_color: MTLSamplerBorderColor,
     /// Depth comparison mode if depth comparison is enabled
-    pub(crate) depth_compare: Option<DepthFunction>,
+    pub(crate) compare_ref_to_texture: bool,
+    pub(crate) compare_func: DepthFunction,
     /// Magnification filter
     pub(crate) mag_filter: TextureMagFilter,
     /// Minification filter and mipmap filter for mipmapped sampling
@@ -134,7 +140,39 @@ pub struct SamplerParams {
     descriptor_cache: CloneOptionCell<Retained<MTLSamplerDescriptor>>,
 }
 
+trait ToBorderColor {
+    fn to_float(self) -> f64;
+}
+impl ToBorderColor for f32 {
+    fn to_float(self) -> f64 {
+        f64::from(self)
+    }
+}
+
 impl SamplerParams {
+    unsafe fn sampler_param_i(
+        &mut self,
+        pname: SamplerParameter,
+        params: *const (impl ToBorderColor + SrcType<f32> + SrcType<i32> + SrcType<u32>),
+    ) -> GlFallible {
+        gl_assert!(
+            params.is_aligned() && !params.is_null(),
+            InvalidValue,
+            "bad params pointer in sampler params call"
+        );
+        match pname {
+            SamplerParameter::TextureBorderColor => {
+                self.set_border_color(
+                    // Safety: if `pname` is `TextureBorderColor` caller ensures this pointer points to an array of 4 4-byte values of either integer or floating point type
+                    unsafe { slice::from_raw_parts(params, 4).first_chunk::<4>().unwrap() }
+                        .map(ToBorderColor::to_float),
+                );
+                Ok(())
+            }
+            // Safety: if `pname` is not `TextureBorderColor` caller ensures this pointer points to a 4-byte value that is valid of either integer or floating point type
+            pname => self.sampler_param(pname, unsafe { ptr::read(params) }),
+        }
+    }
     fn sampler_param(
         &mut self,
         pname: SamplerParameter,
@@ -156,19 +194,45 @@ impl SamplerParams {
             SamplerParameter::TextureWrapR => {
                 self.wrap_mode_r = param.try_into_enum()?;
             }
-            SamplerParameter::TextureMinLod => todo!(),
-            SamplerParameter::TextureMaxLod => todo!(),
-            SamplerParameter::TextureLodBias => todo!(),
-            SamplerParameter::TextureCompareMode => todo!(),
-            SamplerParameter::TextureCompareFunc => todo!(),
-            SamplerParameter::TextureMaxAnisotropy => todo!(),
-            SamplerParameter::TextureBorderColor => {
-                unreachable!()
+            SamplerParameter::TextureMinLod => {
+                self.min_lod = param.convert();
             }
+            SamplerParameter::TextureMaxLod => {
+                self.max_lod = param.convert();
+            }
+            SamplerParameter::TextureLodBias => {
+                self.lod_bias = param.convert();
+            }
+            SamplerParameter::TextureCompareMode => {
+                self.compare_ref_to_texture = match param.convert() {
+                    GL_NONE => false,
+                    GL_COMPARE_REF_TO_TEXTURE => true,
+                    _ => return Err(GlError::InvalidEnum.e()),
+                }
+            }
+            SamplerParameter::TextureCompareFunc => {
+                self.compare_func = param.try_into_enum()?;
+            }
+            SamplerParameter::TextureMaxAnisotropy => {
+                self.max_anisotropy = Anisotropy::from_float(param.convert())?;
+            }
+            SamplerParameter::TextureBorderColor => return Err(GlError::InvalidEnum.e()),
         }
         Ok(())
     }
-
+    fn set_border_color(&mut self, vals: [f64; 4]) {
+        self.border_color = match vals {
+            [0.0, 0.0, 0.0, v] => match v {
+                1.0 => MTLSamplerBorderColor::OpaqueBlack,
+                _ => MTLSamplerBorderColor::TransparentBlack,
+            },
+            [1.0, 1.0, 1.0, 1.0] => MTLSamplerBorderColor::OpaqueWhite,
+            _ => {
+                gl_err!(ty: Error, "unsupported texture border color used, defaulting to opaque white");
+                MTLSamplerBorderColor::OpaqueWhite
+            }
+        };
+    }
     fn sampler_desc(&self) -> Retained<MTLSamplerDescriptor> {
         if let Some(d) = self.descriptor_cache.clone_out() {
             return d;
@@ -177,21 +241,10 @@ impl SamplerParams {
         if [self.wrap_mode_r, self.wrap_mode_s, self.wrap_mode_t]
             .contains(&TextureWrapMode::ClampToBorder)
         {
-            let border_color = match self.border_color {
-                [0.0, 0.0, 0.0, v] => match v {
-                    1.0 => MTLSamplerBorderColor::OpaqueBlack,
-                    _ => MTLSamplerBorderColor::TransparentBlack,
-                },
-                [1.0, 1.0, 1.0, 1.0] => MTLSamplerBorderColor::OpaqueWhite,
-                _ => {
-                    gl_err!(ty: Error, "unsupported texture border color used, defaulting to opaque white");
-                    MTLSamplerBorderColor::OpaqueWhite
-                }
-            };
-            desc.setBorderColor(border_color);
+            desc.setBorderColor(self.border_color);
         }
-        if let Some(depth_compare_func) = self.depth_compare {
-            desc.setCompareFunction(depth_compare_func.into());
+        if self.compare_ref_to_texture {
+            desc.setCompareFunction(self.compare_func.into());
         }
         desc.setMagFilter(self.mag_filter.into());
         if let Anisotropy::Samples(n) = self.max_anisotropy {
@@ -213,8 +266,7 @@ impl SamplerParams {
 impl Default for SamplerParams {
     fn default() -> Self {
         Self {
-            border_color: [0.0; 4],
-            depth_compare: None,
+            border_color: MTLSamplerBorderColor::TransparentBlack,
             mag_filter: TextureMagFilter::Linear,
             min_filter: TextureMinFilter::NearestMipmapLinear,
             lod_bias: 0.0,
@@ -225,6 +277,8 @@ impl Default for SamplerParams {
             wrap_mode_t: TextureWrapMode::Repeat,
             wrap_mode_r: TextureWrapMode::Repeat,
             descriptor_cache: CloneOptionCell::new(None),
+            compare_ref_to_texture: false,
+            compare_func: DepthFunction::Lequal,
         }
     }
 }

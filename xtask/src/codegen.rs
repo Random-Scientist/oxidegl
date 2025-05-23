@@ -17,11 +17,11 @@ pub const CONTEXT_MOD_PATH: &str = "crate::context::";
 pub const CONTEXT_STRUCT_NAME: &str = "Context";
 pub const CONTEXT_STRUCT_PATH: &str = concatcp!(CONTEXT_MOD_PATH, CONTEXT_STRUCT_NAME);
 pub const CONTEXT_USE: &str = concatcp!("use ", CONTEXT_STRUCT_PATH, ";");
-pub const WITH_CTX_USE: &str = concatcp!("use ", CONTEXT_MOD_PATH, "with_ctx_mut", ";");
-pub const TYPES_USE: &str = "use crate::dispatch::gl_types::*;";
-pub const ENUM_UTILS_USE: &str = "use crate::dispatch::conversions::GLenumExt;";
+pub const WITH_CTX_USE: &str = "use crate::with_ctx_mut";
+pub const TYPES_USE: &str = "use crate::gl_types::*;";
+pub const ENUM_UTILS_USE: &str = "use crate::conversions::GLenumExt;";
 
-pub const ENUMS_PATH: &str = "crate::enums::";
+pub const ENUMS_PATH: &str = "crate::gl_enums::";
 
 #[derive(Clone, Copy, Debug)]
 struct GLVersion {
@@ -491,11 +491,15 @@ pub fn get_vals<'a>(
     Ok((funcs, enums, new_map))
 }
 pub fn write_dispatch_impl<T: Write>(w: &mut T, v: &[FnCollection<'_>]) -> Result<()> {
-    writeln!(w, "// GL Commands")?;
-    writeln!(
-        w,
-        "{TYPES_USE}\n{WITH_CTX_USE}\n{ENUM_UTILS_USE}\nuse {CONTEXT_MOD_PATH}error::GlResult;\n"
-    )?;
+    const DISPATCH_PREFIX: &str = r"
+        // GL Commands
+        use crate::context::with_ctx_mut;
+        use oxidegl::context::error::GlResult;
+        use oxidegl::conversions::GLenumExt;
+        use oxidegl::gl_types::*;
+
+    ";
+    writeln!(w, "{}", DISPATCH_PREFIX)?;
     for item in v {
         for cmd in item.entries.iter() {
             let GLAPIEntry::Command {
@@ -594,10 +598,12 @@ pub fn write_placeholder_impl<T: Write>(w: &mut T, v: &[FnCollection<'_>]) -> Re
         })
         .collect::<Vec<String>>()
         .join(",");
-    writeln!(
-        w,
-        "\n{CONTEXT_USE}\n{TYPES_USE}\nuse {ENUMS_PATH}{{{enum_uses}}};\nuse {CONTEXT_MOD_PATH}error::GlFallible;\n"
-    )?;
+    const PLACEHOLDER_PREFIX: &str = r"
+        use crate::context::Context;
+        use crate::context::error::GlFallible;
+        
+    ";
+    writeln!(w, "{PLACEHOLDER_PREFIX} use {ENUMS_PATH}{{{enum_uses}}};\n")?;
     for item in v {
         match item.entries.len() {
             0 => continue,
@@ -676,7 +682,7 @@ fn print_placeholder_fn<'a>(name: &'a str, ret_type: GLTypes, params: &[Paramete
     if params.is_empty() {
         // function cannot be unsafe if it has no parameters
         return format!(
-            "pub(crate) fn {}(&mut self){} {}",
+            "pub fn {}(&mut self){} {}",
             name,
             ret_type.fallible_rust_ret_type(),
             body
@@ -745,14 +751,18 @@ fn print_dispatch_fn<'a>(name: &'a str, ret_type: GLTypes, params: &[Parameter<'
         .join(", ");
     let body = format!(
         "{{\n
-            crate::context::debug::gl_trace!(\"{name} called, parameters: {params_trace} \", {params_string});
+            ::log::trace!(\"{name} called, parameters: {params_trace} \", {params_string});
             with_ctx_mut(|mut state|{}{} state.oxide{}({}){}{})\n}}",
-        if shim_is_fallible {"GlResult::normalize("} else {""},
+        if shim_is_fallible {
+            "GlResult::normalize("
+        } else {
+            ""
+        },
         if is_unsafe { " unsafe {" } else { "" },
         snake_case_name,
         paramnl,
         if is_unsafe { " }" } else { "" },
-        if shim_is_fallible { ")"} else {""}
+        if shim_is_fallible { ")" } else { "" }
     );
 
     if params.is_empty() {

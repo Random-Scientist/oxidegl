@@ -1,6 +1,6 @@
 use ahash::{HashMap, HashMapExt, HashSet, HashSetExt};
 use flexi_logger::Logger;
-use log::{logger, Level, Record, RecordBuilder};
+use log::{Level, Record, RecordBuilder, logger};
 use objc2::AllocAnyThread;
 use objc2_foundation::NSString;
 use std::{
@@ -8,7 +8,7 @@ use std::{
     cell::Cell,
     collections::VecDeque,
     env,
-    ffi::{c_char, c_void, CStr, CString},
+    ffi::{CStr, CString, c_char, c_void},
     fmt::Arguments,
     mem::{self, MaybeUninit},
     pin::Pin,
@@ -17,13 +17,13 @@ use std::{
 };
 //TODO fallible implementations for these commands
 use crate::{
-    dispatch::gl_types::{GLchar, GLsizei, GLDEBUGPROC},
-    enums::{DebugSeverity, DebugSource, DebugType},
+    gl_enums::{DebugSeverity, DebugSource, DebugType},
+    gl_types::{GLDEBUGPROC, GLchar, GLsizei},
 };
 
 use super::{
-    gl_object::{NamedObject, ObjectName},
     Context,
+    gl_object::{NamedObject, ObjectName},
 };
 
 thread_local! {
@@ -61,10 +61,10 @@ where
 }
 
 impl Context {
-    pub(crate) fn install_debug_state(&mut self) {
+    pub fn made_current(&mut self) {
         DEBUG_STATE.replace(self.gl_state.debug_state_holder.0.take());
     }
-    pub(crate) fn uninstall_debug_state(&mut self) {
+    pub fn made_not_current(&mut self) {
         self.gl_state.debug_state_holder.0 = DEBUG_STATE.take();
     }
 }
@@ -92,7 +92,7 @@ pub(crate) struct DebugLogMessage {
 }
 
 #[derive(Debug)]
-pub(crate) struct DebugState {
+pub struct DebugState {
     messages: VecDeque<DebugLogMessage>,
     debug_groups: Vec<DebugGroup>,
     pub(crate) callback: GLDEBUGPROC,
@@ -308,7 +308,8 @@ impl DebugState {
             v.message.to_str().expect("message wasn't valid UTF-8!")
         ));
     }
-    pub(crate) fn log_impl(id: u32, gl_src: DebugSource, gl_ty: DebugType, rec: &Record) {
+    /// __NOT PART OF PUBLIC API__
+    pub fn log_impl(id: u32, gl_src: DebugSource, gl_ty: DebugType, rec: &Record) {
         let meta = DebugMessageMeta {
             src: gl_src,
             ty: gl_ty,
@@ -324,7 +325,7 @@ impl DebugState {
         };
         let mut state = Some(s);
         if rec.args().as_str().is_some() {
-            // skip storeback if we know no Debug impls will be invoked
+            // skip storeback if we can prove no Debug::fmt impls are invoked
             state.as_mut().unwrap().log_internal(rec, meta);
         } else {
             Self::log_internal_with_storeback(&mut state, rec, meta);
@@ -578,7 +579,7 @@ pub(crate) fn init_logger() {
 #[allow(unused)]
 pub(crate) use macros::{gl_debug, gl_err, gl_info, gl_log, gl_trace, gl_warn};
 
-pub(crate) mod macros {
+pub mod macros {
 
     /// Root of the developer-facing `OxideGL` logging infrastructure.
     ///
@@ -836,7 +837,7 @@ pub(crate) mod macros {
         $(
             $( #[doc = $doc:expr] )+
             $lvl:ident => macro_rules! $name:ident
-        ),+ 
+        ),+
         $(,)?
     ) => (
         $(
@@ -856,6 +857,7 @@ pub(crate) mod macros {
                     $_ crate::context::debug::__logging_private::gl_log! {level: $lvl, $_($_rest)+ }
                 );
             }
+
             pub(crate) use $name;
         )+
     )}
@@ -875,12 +877,12 @@ pub(crate) mod macros {
 }
 
 #[doc(hidden)]
-pub(crate) mod __logging_private {
+pub mod __logging_private {
     pub(crate) use crate::context::debug::macros::gl_log;
-    pub use crate::enums::DebugSource;
-    pub use crate::enums::DebugType;
+    pub use crate::gl_enums::DebugSource;
+    pub use crate::gl_enums::DebugType;
 
-    pub(crate) use super::DebugState;
+    pub use super::DebugState;
     pub use core::file;
     pub use core::format_args;
     pub use core::line;
@@ -924,11 +926,7 @@ pub(crate) mod __logging_private {
         }
     }
     const fn min_usize(a: usize, b: usize) -> usize {
-        if a < b {
-            a
-        } else {
-            b
-        }
+        if a < b { a } else { b }
     }
     /// Returns: 1 if a > b, 0 if a = b, -1 if a < b
     const fn compare_strings(a: &str, b: &str) -> i32 {

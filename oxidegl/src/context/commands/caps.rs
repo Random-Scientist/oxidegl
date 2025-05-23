@@ -1,7 +1,7 @@
 use crate::{
     context::{Context, platform::Dirty, state::Capabilities},
-    dispatch::gl_types::GLuint,
-    enums::EnableCap,
+    gl_enums::EnableCap,
+    gl_types::GLuint,
 };
 
 /// ### Parameters

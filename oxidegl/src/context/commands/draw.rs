@@ -2,8 +2,8 @@ use objc2_metal::{MTLPrimitiveType, MTLRenderCommandEncoder};
 
 use crate::{
     context::Context,
-    dispatch::gl_types::{GLint, GLsizei, GLuint, GLvoid},
-    enums::{DrawElementsType, PrimitiveType},
+    gl_enums::{DrawElementsType, PrimitiveType},
+    gl_types::{GLint, GLsizei, GLuint, GLvoid},
 };
 
 impl Context {
