@@ -1,17 +1,15 @@
 use crate::{
     context::{
+        Context,
         debug::{gl_debug, gl_trace},
         error::{GlError, GlFallible},
         gl_object::{NamedObjectList, ObjectName},
         program::Program,
         shader::{GlslShaderInternal, Shader, ShaderInternal},
-        Context,
     },
-    dispatch::{
-        conversions::sizei,
-        gl_types::{GLchar, GLint, GLsizei, GLuint},
-    },
-    enums::{ShaderParameterName, ShaderType},
+    conversions::sizei,
+    gl_enums::{ShaderParameterName, ShaderType},
+    gl_types::{GLchar, GLint, GLsizei, GLuint},
 };
 
 impl Context {

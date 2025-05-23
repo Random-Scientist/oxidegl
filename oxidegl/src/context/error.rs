@@ -3,11 +3,11 @@ use std::{convert::Infallible, hint::unreachable_unchecked, mem, panic::Location
 
 use crate::{
     context::debug::gl_err,
-    dispatch::gl_types::{GLboolean, GLenum, GLint, GLsync},
-    enums::{
+    gl_enums::{
         ErrorCode, GL_INVALID_ENUM, GL_INVALID_FRAMEBUFFER_OPERATION, GL_INVALID_OPERATION,
         GL_INVALID_VALUE, GL_OUT_OF_MEMORY, GL_STACK_OVERFLOW, GL_STACK_UNDERFLOW,
     },
+    gl_types::{GLboolean, GLenum, GLint, GLsync},
 };
 #[expect(clippy::derivable_impls, reason = "avoid modifying generated code")]
 impl Default for ErrorCode {
@@ -86,7 +86,7 @@ impl From<GlError> for GlFallibleError {
     }
 }
 /// Result of a possibly fallible GL command
-pub(crate) trait GlResult<T, E>: Sized {
+pub trait GlResult<T, E>: Sized {
     /// Convert this possibly-fallible value into a `Result<T, Self::Error>`
     fn into_result(self) -> Result<T, E>;
     /// Normalize this possibly-fallible value into a `Result<T, GlErrorInternal>`.
@@ -134,7 +134,7 @@ impl From<GlFallibleError> for ErrorCode {
 pub type GlFallible<T = ()> = Result<T, GlFallibleError>;
 
 /// Trait that declares the (constant) value to be returned when a GL command that returns a value of type T fails
-pub(crate) trait GetErrorReturnValue<T> {
+pub trait GetErrorReturnValue<T> {
     #[inline]
     fn get() -> T {
         Self::VAL

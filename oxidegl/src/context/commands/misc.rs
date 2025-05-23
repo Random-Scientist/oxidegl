@@ -5,8 +5,8 @@ use crate::{
         error::{GlFallible, gl_assert},
         state::PixelAlignedRect,
     },
-    dispatch::gl_types::{GLenum, GLfloat, GLint, GLsizei, GLuint},
-    enums::ErrorCode,
+    gl_enums::ErrorCode,
+    gl_types::{GLenum, GLfloat, GLint, GLsizei, GLuint},
     util::run_if_changed,
 };
 
@@ -280,7 +280,7 @@ impl Context {
     /// effect on the GL state or frame buffer contents. If the generating command
     /// returns a value, it returns 0. If [**glGetError**](crate::context::Context::oxidegl_get_error)
     /// itself generates an error, it returns 0.
-    pub(crate) fn oxidegl_get_error(&mut self) -> GLenum {
+    pub fn oxidegl_get_error(&mut self) -> GLenum {
         let r = self.gl_state.error;
         self.gl_state.error = ErrorCode::NoError;
         r.into()

@@ -25,7 +25,9 @@ use crate::{
         state::{Capabilities, StencilFaceState},
     },
     device_properties::MetalProperties,
-    enums::{DepthFunction, DrawBufferMode, ShaderType, StencilFunction, StencilOp, TriangleFace},
+    gl_enums::{
+        DepthFunction, DrawBufferMode, ShaderType, StencilFunction, StencilOp, TriangleFace,
+    },
     util::{ProtoObjRef, bitflag_bits},
 };
 
@@ -239,7 +241,7 @@ impl PlatformState {
         self.view = Some(view.clone());
         self.layer.setFrame(view.frame());
         self.layer.setContentsScale(backing_scale_factor);
-        // ensure the view is layer-backed
+        // Tell the OS this view is layer-backed
         view.setWantsLayer(true);
         // set the backing layer
         unsafe { view.setLayer(Some(&self.layer)) };
@@ -903,7 +905,15 @@ impl PlatformState {
         mtl_vertex_desc
     }
 }
-
+impl Context {
+    pub fn swap_buffers(&mut self) {
+        let Context {
+            gl_state: state,
+            platform_state: platform,
+        } = &mut *self;
+        platform.swap_buffers(state);
+    }
+}
 impl From<DepthFunction> for MTLCompareFunction {
     fn from(value: DepthFunction) -> Self {
         // 1:1 correspondance between depthfunc and MTLCompareFunction after an offsetting subtraction
@@ -968,7 +978,7 @@ impl From<TriangleFace> for MTLCullMode {
     fn from(value: TriangleFace) -> Self {
         match value {
             TriangleFace::Front => Self::Front,
-            //FIXME this is incorrect. This should cull all faces but not lines. This will be a fun™ behavior to emulate with transform feedback
+            //FIXME this is incorrect. This should cull all faces but not lines. This will be a fun™ behavior to emulate
             TriangleFace::FrontAndBack => Self::None,
             TriangleFace::Back => Self::Back,
         }

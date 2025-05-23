@@ -1,20 +1,18 @@
 use crate::{
     context::{
+        Context,
         commands::buffer::Buffer,
         debug::{gl_warn, with_debug_state, with_debug_state_mut},
-        error::{gl_assert, GlFallible},
+        error::{GlFallible, gl_assert},
         framebuffer::Framebuffer,
         gl_object::ObjectName,
         program::Program,
         shader::Shader,
         vao::Vao,
-        Context,
     },
-    dispatch::{
-        conversions::sizei,
-        gl_types::{GLboolean, GLchar, GLsizei, GLuint, GLvoid, GLDEBUGPROC},
-    },
-    enums::{DebugSeverity, DebugSource, DebugType, GetPointervPName, ObjectIdentifier},
+    conversions::sizei,
+    gl_enums::{DebugSeverity, DebugSource, DebugType, GetPointervPName, ObjectIdentifier},
+    gl_types::{GLDEBUGPROC, GLboolean, GLchar, GLsizei, GLuint, GLvoid},
 };
 use core::slice;
 use std::{
@@ -61,7 +59,7 @@ impl Context {
     ///
     /// ### Associated Gets
     /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_LABEL_LENGTH`](crate::enums::GL_MAX_LABEL_LENGTH).
-    pub(crate) unsafe fn oxidegl_object_label(
+    pub unsafe fn oxidegl_object_label(
         &mut self,
         identifier: ObjectIdentifier,
         name: GLuint,
@@ -131,7 +129,7 @@ impl Context {
     ///
     /// ### Associated Gets
     /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_LABEL_LENGTH`](crate::enums::GL_MAX_LABEL_LENGTH).
-    pub(crate) unsafe fn oxidegl_object_ptr_label(
+    pub unsafe fn oxidegl_object_ptr_label(
         &mut self,
         ptr: *const GLvoid,
         length: GLsizei,
@@ -183,7 +181,7 @@ impl Context {
     ///
     /// ### Associated Gets
     /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_LABEL_LENGTH`](crate::enums::GL_MAX_LABEL_LENGTH).
-    pub(crate) unsafe fn oxidegl_get_object_label(
+    pub unsafe fn oxidegl_get_object_label(
         &mut self,
         identifier: ObjectIdentifier,
         name: GLuint,
@@ -308,7 +306,7 @@ impl Context {
     ///
     /// ### Associated Gets
     /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_LABEL_LENGTH`](crate::enums::GL_MAX_LABEL_LENGTH).
-    pub(crate) unsafe fn oxidegl_get_object_ptr_label(
+    pub unsafe fn oxidegl_get_object_ptr_label(
         &mut self,
         ptr: *const GLvoid,
         buf_size: GLsizei,
@@ -349,7 +347,7 @@ impl Context {
     /// available in the compatibility profile for all GL versions, and accepts
     /// additional queries. However, these reference pages document only the core
     /// profile.
-    pub(crate) unsafe fn oxidegl_get_pointerv(
+    pub unsafe fn oxidegl_get_pointerv(
         &mut self,
         pname: GetPointervPName,
         params: *mut *mut GLvoid,
@@ -399,7 +397,7 @@ impl Context {
     /// in the client's address space. In such cases, the callback function may
     /// not be invoked and the user should retrieve debug messages from the context's
     /// debug message log by calling [**glGetDebugMessageLog**](crate::context::Context::oxidegl_get_debug_message_log).
-    pub(crate) unsafe fn oxidegl_debug_message_callback(
+    pub unsafe fn oxidegl_debug_message_callback(
         &mut self,
         callback: GLDEBUGPROC,
         user_param: *const GLvoid,
@@ -497,7 +495,7 @@ impl Context {
     /// [`GL_DEBUG_TYPE_POP_GROUP`](crate::enums::GL_DEBUG_TYPE_POP_GROUP), and
     /// [`GL_DEBUG_SEVERITY_NOTIFICATION`](crate::enums::GL_DEBUG_SEVERITY_NOTIFICATION)
     /// are available only if the GL version is 4.3 or higher.
-    pub(crate) unsafe fn oxidegl_debug_message_control(
+    pub unsafe fn oxidegl_debug_message_control(
         &mut self,
         source: DebugSource,
         r#type: DebugType,
@@ -568,7 +566,7 @@ impl Context {
     /// [`GL_DEBUG_TYPE_POP_GROUP`](crate::enums::GL_DEBUG_TYPE_POP_GROUP), and
     /// [`GL_DEBUG_SEVERITY_NOTIFICATION`](crate::enums::GL_DEBUG_SEVERITY_NOTIFICATION)
     /// are available only if the GL version is 4.3 or higher.
-    pub(crate) unsafe fn oxidegl_debug_message_insert(
+    pub unsafe fn oxidegl_debug_message_insert(
         &mut self,
         source: DebugSource,
         r#type: DebugType,
@@ -656,7 +654,7 @@ impl Context {
     /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_DEBUG_MESSAGE_LENGTH`](crate::enums::GL_MAX_DEBUG_MESSAGE_LENGTH)
     ///
     /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_DEBUG_LOGGED_MESSAGES`](crate::enums::GL_MAX_DEBUG_LOGGED_MESSAGES)
-    pub(crate) unsafe fn oxidegl_get_debug_message_log(
+    pub unsafe fn oxidegl_get_debug_message_log(
         &mut self,
         count: GLuint,
         buf_size: GLsizei,

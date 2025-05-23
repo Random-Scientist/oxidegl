@@ -3,13 +3,13 @@ use crate::context::{
     framebuffer::MAX_COLOR_ATTACHMENTS,
 };
 #[allow(clippy::wildcard_imports)]
-use crate::dispatch::gl_types::*;
+use crate::gl_types::*;
 
 #[allow(clippy::enum_glob_use)]
 use crate::{
     context::Context,
-    dispatch::conversions::{GlDstType, GlGetItem, GlGetItemSliceExt, MaybeIndex, NoIndex},
-    enums::GetPName::{self, *},
+    conversions::{GlDstType, GlGetItem, GlGetItemSliceExt, MaybeIndex, NoIndex},
+    gl_enums::GetPName::{self, *},
 };
 /// ### Parameters
 /// `pname`
@@ -1514,7 +1514,7 @@ impl Context {
         macro_rules! subst {
             ( $pref:ident { $( $middle:ident ),+ } $tail:ident ) => {
                 $( concat_idents::concat_idents!(enum_path = $pref, $middle, $tail, {
-                    crate::enums::GetPName::enum_path
+                    crate::gl_enums::GetPName::enum_path
                 } ) )|+
             };
         }
@@ -2095,8 +2095,8 @@ pub mod get_string {
     use log::debug;
 
     use crate::context::Context;
-    use crate::dispatch::gl_types::{GLubyte, GLuint};
-    use crate::enums::StringName;
+    use crate::gl_enums::StringName;
+    use crate::gl_types::{GLubyte, GLuint};
     impl Context {
         const COMMIT_HASH: &'static str = env!("OXIDEGL_COMMIT_HASH");
         pub const VERSION_INFO: &'static str = {
@@ -2126,14 +2126,10 @@ pub mod get_string {
                 StringName::Extensions => FAKEEXT.as_ptr().cast(),
             }
         }
-        pub(crate) fn oxidegl_get_string(&mut self, name: StringName) -> *const GLubyte {
+        pub fn oxidegl_get_string(&mut self, name: StringName) -> *const GLubyte {
             Self::get_string(name)
         }
-        pub(crate) fn oxidegl_get_stringi(
-            &mut self,
-            name: StringName,
-            index: GLuint,
-        ) -> *const GLubyte {
+        pub fn oxidegl_get_stringi(&mut self, name: StringName, index: GLuint) -> *const GLubyte {
             Self::get_string(name)
         }
     }

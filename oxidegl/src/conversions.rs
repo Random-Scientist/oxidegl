@@ -6,10 +6,10 @@ use crate::{
         error::{GlError, GlFallible},
         gl_object::{NamedObject, ObjectName},
     },
+    gl_types::{GLenum, GLsizei},
     util::trimmed_type_name,
 };
 
-use super::gl_types::{GLenum, GLsizei};
 use core::fmt::Debug;
 
 pub(crate) fn check_sizei_inner(val: GLsizei) -> Result<u32, GlError> {
@@ -17,10 +17,10 @@ pub(crate) fn check_sizei_inner(val: GLsizei) -> Result<u32, GlError> {
 }
 macro_rules! sizei {
     ($i:ident) => {
-        let $i = crate::dispatch::conversions::check_sizei_inner($i)?;
+        let $i = crate::conversions::check_sizei_inner($i)?;
     };
     ($i:ident, $new:ident) => {
-        let $new = crate::dispatch::conversions::check_sizei_inner($i)?;
+        let $new = crate::conversions::check_sizei_inner($i)?;
     };
 }
 pub(crate) use sizei;
@@ -31,7 +31,7 @@ pub(crate) trait GlEnumGroup: Sized {
     unsafe fn from_enum_noerr(val: GLenum) -> Self;
 }
 /// Helper trait to convert from "raw" [`GLenums`](crate::dispatch::gl_types::GLenum) to wrappers around subsets of those that are valid for certain functions
-pub(crate) trait GLenumExt<T> {
+pub trait GLenumExt<T> {
     fn try_into_enum(self) -> GlFallible<T>;
     unsafe fn into_enum(self) -> T;
 }

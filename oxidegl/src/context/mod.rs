@@ -1,6 +1,6 @@
 use self::error::GetErrorReturnValue;
 use self::state::GLState;
-use crate::enums::ErrorCode;
+use crate::gl_enums::ErrorCode;
 use debug::gl_trace;
 use likely_stable::if_likely;
 use objc2::rc::Retained;
@@ -21,10 +21,10 @@ use std::ptr::NonNull;
     clippy::similar_names,
     clippy::missing_safety_doc
 )]
-pub(crate) mod commands;
+pub mod commands;
 
-pub(crate) mod debug;
-pub(crate) mod error;
+pub mod debug;
+pub mod error;
 pub(crate) mod framebuffer;
 pub(crate) mod pixel;
 pub(crate) mod program;
@@ -48,11 +48,14 @@ pub struct Context {
 
 impl Context {
     #[must_use]
-    pub(crate) fn new() -> Self {
+    pub fn new() -> Self {
         Self {
             gl_state: GLState::default(),
             platform_state: PlatformState::new(MTLPixelFormat::BGRA8Unorm_sRGB, None, None),
         }
+    }
+    pub fn set_error(&mut self, error: ErrorCode) {
+        self.gl_state.error = error;
     }
     pub fn set_view(&mut self, view: &Retained<NSView>) {
         let backing_scale_factor = view.window().map_or(1.0, |w| w.backingScaleFactor());

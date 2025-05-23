@@ -313,7 +313,7 @@ fn write_informaltable<'a>(node: &'a Node<'a, '_>, builder: &mut MarkdownDocComm
     let row = thead
         .children()
         .filter(|n| n.has_children())
-        .last()
+        .next_back()
         .unwrap();
     builder.write_line_header();
     builder.backing_string.push('|');

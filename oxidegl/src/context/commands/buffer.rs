@@ -11,14 +11,12 @@ use crate::{
         error::{GlError, GlFallible, gl_assert},
         gl_object::{LateInit, NamedObject, ObjectName},
     },
-    dispatch::{
-        conversions::{MaybeIndex, NoIndex},
-        gl_types::{GLboolean, GLintptr, GLsizei, GLsizeiptr, GLuint, GLvoid},
-    },
-    enums::{
+    conversions::{MaybeIndex, NoIndex},
+    gl_enums::{
         BufferAccess, BufferStorageMask, BufferStorageTarget, BufferTarget, BufferUsage,
         MapBufferAccessMask,
     },
+    gl_types::{GLboolean, GLintptr, GLsizei, GLsizeiptr, GLuint, GLvoid},
     util::{ProtoObjRef, debug_unreachable},
 };
 //TODO move logical components out of this file, should be ffi only
@@ -48,7 +46,7 @@ impl Context {
     ///
     /// ### Associated Gets
     /// [**glIsBuffer**](crate::context::Context::oxidegl_is_buffer)
-    pub(crate) unsafe fn oxidegl_gen_buffers(&mut self, n: GLsizei, buffers: *mut GLuint) {
+    pub unsafe fn oxidegl_gen_buffers(&mut self, n: GLsizei, buffers: *mut GLuint) {
         // Safety: Caller ensures validity
         unsafe { self.gl_state.buffer_list.gen_obj(n, buffers) }
     }
@@ -67,7 +65,7 @@ impl Context {
     /// returns `n` previously unused buffer names in `buffers`, each representing
     /// a new buffer object initialized as if it had been bound to an unspecified
     /// target.
-    pub(crate) unsafe fn oxidegl_create_buffers(&mut self, n: GLsizei, buffers: *mut GLuint) {
+    pub unsafe fn oxidegl_create_buffers(&mut self, n: GLsizei, buffers: *mut GLuint) {
         // Safety: Caller ensures validity
         unsafe {
             self.gl_state
@@ -256,11 +254,7 @@ impl Context {
     /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_TRANSFORM_FEEDBACK_BUFFER_BINDING`](crate::enums::GL_TRANSFORM_FEEDBACK_BUFFER_BINDING)
     ///
     /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_UNIFORM_BUFFER_BINDING`](crate::enums::GL_UNIFORM_BUFFER_BINDING)
-    pub(crate) fn oxidegl_bind_buffer(
-        &mut self,
-        target: BufferTarget,
-        buffer: GLuint,
-    ) -> GlFallible {
+    pub fn oxidegl_bind_buffer(&mut self, target: BufferTarget, buffer: GLuint) -> GlFallible {
         self.bind_buffer_internal(ObjectName::try_from_raw(buffer).ok(), target, NoIndex)
     }
     /// ### Parameters
@@ -299,7 +293,7 @@ impl Context {
     ///
     /// The [`GL_SHADER_STORAGE_BUFFER`](crate::enums::GL_SHADER_STORAGE_BUFFER)
     /// target is available only if the GL version is 4.3 or greater.
-    pub(crate) fn oxidegl_bind_buffer_base(
+    pub fn oxidegl_bind_buffer_base(
         &mut self,
         target: BufferTarget,
         index: GLuint,
@@ -352,7 +346,7 @@ impl Context {
     ///
     /// The [`GL_SHADER_STORAGE_BUFFER`](crate::enums::GL_SHADER_STORAGE_BUFFER)
     /// target is available only if the GL version is 4.3 or greater.
-    pub(crate) fn oxidegl_bind_buffer_range(
+    pub fn oxidegl_bind_buffer_range(
         &mut self,
         target: BufferTarget,
         index: GLuint,
@@ -402,7 +396,7 @@ impl Context {
     /// ### Notes
     /// [**glBindBuffersBase**](crate::context::Context::oxidegl_bind_buffers_base)
     /// is available only if the GL version is 4.4 or higher.
-    pub(crate) unsafe fn oxidegl_bind_buffers_base(
+    pub unsafe fn oxidegl_bind_buffers_base(
         &mut self,
         target: BufferTarget,
         first: GLuint,
@@ -464,7 +458,7 @@ impl Context {
     /// ### Notes
     /// [**glBindBuffersBase**](crate::context::Context::oxidegl_bind_buffers_base)
     /// is available only if the GL version is 4.4 or higher.
-    pub(crate) unsafe fn oxidegl_bind_buffers_range(
+    pub unsafe fn oxidegl_bind_buffers_range(
         &mut self,
         target: BufferTarget,
         first: GLuint,
@@ -490,7 +484,7 @@ impl Context {
     /// A name returned by [**glGenBuffers**](crate::context::Context::oxidegl_gen_buffers),
     /// but not yet associated with a buffer object by calling [**glBindBuffer**](crate::context::Context::oxidegl_bind_buffer),
     /// is not the name of a buffer object.
-    pub(crate) fn oxidegl_is_buffer(&mut self, buffer: GLuint) -> GLboolean {
+    pub fn oxidegl_is_buffer(&mut self, buffer: GLuint) -> GLboolean {
         self.gl_state.buffer_list.is_obj(buffer)
     }
     /// ### Parameters
@@ -516,7 +510,7 @@ impl Context {
     ///
     /// ### Associated Gets
     /// [**glIsBuffer**](crate::context::Context::oxidegl_is_buffer)
-    pub(crate) unsafe fn oxidegl_delete_buffers(&mut self, n: GLsizei, buffers: *const GLuint) {
+    pub unsafe fn oxidegl_delete_buffers(&mut self, n: GLsizei, buffers: *const GLuint) {
         // Safety: Caller ensures validity
         unsafe {
             self.gl_state.buffer_list.delete_objects(n, buffers);
@@ -674,7 +668,7 @@ impl Context {
 /// [**glGetBufferParameter**](crate::context::Context::oxidegl_get_buffer_parameter)
 /// with argument [`GL_BUFFER_SIZE`](crate::enums::GL_BUFFER_SIZE) or [`GL_BUFFER_USAGE`](crate::enums::GL_BUFFER_USAGE)
 impl Context {
-    pub(crate) unsafe fn oxidegl_buffer_storage(
+    pub unsafe fn oxidegl_buffer_storage(
         &mut self,
         target: BufferStorageTarget,
         size: GLsizeiptr,
@@ -691,7 +685,7 @@ impl Context {
         // Safety: Caller ensures data pointer is correctly initialized
         unsafe { self.buffer_storage_internal(binding, size, data, flags) }
     }
-    pub(crate) unsafe fn oxidegl_named_buffer_storage(
+    pub unsafe fn oxidegl_named_buffer_storage(
         &mut self,
         buffer: GLuint,
         size: GLsizeiptr,
@@ -852,19 +846,19 @@ impl Context {
 ///   Note that binding a buffer does not immediately allocate it. Buffers are bound via [glBindBuffer](Context::oxidegl_bind_buffer), or created by glCreateBuffers
 /// * Allocated: in this state the buffer has been fully initialized and is ready for use by the GL. Reached by [glBufferStorage](Context::oxidegl_buffer_storage)
 pub(crate) struct Buffer {
-    pub(crate) name: ObjectName<Self>,
-    pub(crate) size: usize,
-    pub(crate) usage: BufferUsage,
-    pub(crate) access: BufferAccess,
-    pub(crate) access_flags: MapBufferAccessMask,
-    pub(crate) immutable_storage: bool,
-    pub(crate) storage_flags: BufferStorageMask,
-    pub(crate) allocation: Option<RealizedBufferInternal>,
+    pub name: ObjectName<Self>,
+    pub size: usize,
+    pub usage: BufferUsage,
+    pub access: BufferAccess,
+    pub access_flags: MapBufferAccessMask,
+    pub immutable_storage: bool,
+    pub storage_flags: BufferStorageMask,
+    pub allocation: Option<RealizedBufferInternal>,
 }
 #[derive(Debug)]
 pub(crate) struct RealizedBufferInternal {
-    pub(crate) mapping: Option<MappingInfo>,
-    pub(crate) mtl: ProtoObjRef<dyn MTLBuffer>,
+    pub mapping: Option<MappingInfo>,
+    pub mtl: ProtoObjRef<dyn MTLBuffer>,
 }
 impl Buffer {
     // fn get_best_storage_mode_for_access_hint(access: BufferAccess, usage_hint: BufferUsage) -> MTLStorageMode {
@@ -908,11 +902,11 @@ impl Buffer {
 /// Specifies the location of a buffer that has been mapped to client memory
 pub struct MappingInfo {
     /// Pointer to the mapped location in system memory
-    pub(crate) ptr: NonNull<c_void>,
+    pub ptr: NonNull<c_void>,
     /// Offset from the start of the buffer to the start of the mapped region
-    pub(crate) ptr_offset: usize,
+    pub ptr_offset: usize,
     /// Length of the region of the buffer which has been mapped
-    pub(crate) len: usize,
+    pub len: usize,
 }
 
 impl NamedObject for Buffer {

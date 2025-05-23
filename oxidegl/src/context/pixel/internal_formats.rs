@@ -2,7 +2,7 @@ use super::{
     ConvertPixel, Depth, NormalizedIntChannel, RgColorFormat, RgbaColorFormat, SingleChannelFormat,
     Stencil,
 };
-use crate::enums::InternalFormat;
+use crate::gl_enums::InternalFormat;
 use half::f16;
 use objc2_metal::MTLPixelFormat;
 

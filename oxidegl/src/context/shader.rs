@@ -1,6 +1,6 @@
 use std::{fmt::Debug, mem};
 
-use crate::{enums::ShaderType, util::NoDebug};
+use crate::{gl_enums::ShaderType, util::NoDebug};
 use glslang::{
     Compiler as GlslangCompiler, CompilerOptions, Shader as GlslLangShader, ShaderInput,
     ShaderMessage, ShaderSource, ShaderStage, SourceLanguage, Target,

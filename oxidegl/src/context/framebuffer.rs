@@ -1,7 +1,7 @@
 use objc2_metal::MTLTexture;
 
 use crate::{
-    enums::{DrawBufferMode, TextureTarget},
+    gl_enums::{DrawBufferMode, TextureTarget},
     util::ProtoObjRef,
 };
 

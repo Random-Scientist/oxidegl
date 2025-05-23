@@ -2,21 +2,19 @@
 name = "oxidegl"
 version = "0.0.1"
 edition = "2024"
-[lib]
-crate-type = ["cdylib"]
 
 
 [dependencies]
 # MacOS deps
 
 # Objective C Base
-objc2 = "0.6.0"
+objc2 = { workspace = true }
 
 # Need to speak Metal for... well... doing graphics
 objc2-metal = { version = "0.3.0" }
 
-# Need to speak Cocoa to interact with windows and layers
-objc2-app-kit = { default-features = false, version = "0.3.0", features = [
+# Need to speak Cocoa/AppKit to interact with windows and layers
+objc2-app-kit = { workspace = true, features = [
     "std",
     "objc2-core-foundation",
     "NSView",
@@ -25,7 +23,7 @@ objc2-app-kit = { default-features = false, version = "0.3.0", features = [
     "objc2-quartz-core",
 ] }
 
-# Need to speak CoreAnimation for CAMetalLayer
+# Need to speak CoreAnimation for CA(Metal)Layer
 objc2-quartz-core = { default-features = false, version = "0.3.0", features = [
     "std",
     "objc2-core-foundation",
@@ -34,10 +32,7 @@ objc2-quartz-core = { default-features = false, version = "0.3.0", features = [
     "CALayer",
 ] }
 # needed for MainThreadMarker/`is_main_thread` and ProcessInfo to get the MacOS version
-objc2-foundation = { default-features = false, version = "0.3.0", features = [
-    "std",
-    "NSProcessInfo",
-] }
+objc2-foundation = { workspace = true }
 
 # Need access to raw mach vm_allocate for [MTLDevice newBufferWithBytesNoCopy]
 # mach2 = { git = "https://github.com/JohnTitor/mach2/" }
@@ -48,7 +43,7 @@ objc2-foundation = { default-features = false, version = "0.3.0", features = [
 strum_macros = "0.27.1"
 
 # Logging
-log = "0.4.21"
+log = { workspace = true }
 flexi_logger = "0.30.1"
 
 # Bitflags for GL Bitmasks
@@ -60,10 +55,6 @@ concat-idents = "1.1.5"
 # Used for const str/[u8] appending for commit hash/version constants
 constcat = "0.6.0"
 
-# Used for crimes (nsgl_shim)
-ctor = { version = "0.4.1", optional = true }
-core-foundation-sys = { version = "0.8.7", optional = true }
-libc = { version = "0.2.158", optional = true }
 
 # SPIR-V -> MSL conversion
 spirv-cross2 = { version = "0.4.4", default-features = false, features = [
@@ -83,7 +74,6 @@ deterministic-hash = "1.0.1"
 
 # Expose max log level features
 [features]
-default = ["nsgl_shim"]
 max_log_trace = ["log/max_level_trace"]
 max_log_debug = ["log/max_level_debug"]
 max_log_info = ["log/max_level_info"]
@@ -91,5 +81,4 @@ max_log_warn = ["log/max_level_warn"]
 max_log_error = ["log/max_level_error"]
 max_log_off = ["log/max_level_off"]
 
-nsgl_shim = ["dep:ctor", "dep:core-foundation-sys", "dep:libc"]
 unsound_noerror = []

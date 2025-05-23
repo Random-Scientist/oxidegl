@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["oxidegl", "xtask"]
+members = ["oxidegl", "oxidegl_c", "oxidegl_shim", "xtask"]
 
 [profile.release]
 codegen-units = 1
@@ -9,7 +9,19 @@ panic = "abort"
 debug = true
 
 [profile.dev]
+debug = "line-tables-only"
 codegen-units = 512
 # lto = "thin"
 panic = "abort"
 incremental = true
+
+[workspace.dependencies]
+objc2-app-kit = { default-features = false, version = "0.3.1" }
+objc2 = "0.6.1"
+log = "0.4.21"
+likely_stable = "0.1.2"
+
+objc2-foundation = { default-features = false, version = "0.3.0", features = [
+    "std",
+    "NSProcessInfo",
+] }
