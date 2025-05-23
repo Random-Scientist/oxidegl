@@ -1,3 +1,5 @@
+// FIXME remove when implemented
+#![allow(unused)]
 use super::{
     ConvertPixel, Depth, NormalizedIntChannel, RgColorFormat, RgbaColorFormat, SingleChannelFormat,
     Stencil,

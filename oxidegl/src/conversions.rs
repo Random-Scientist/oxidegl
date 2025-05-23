@@ -33,6 +33,8 @@ pub(crate) trait GlEnumGroup: Sized {
 /// Helper trait to convert from "raw" [`GLenums`](crate::dispatch::gl_types::GLenum) to wrappers around subsets of those that are valid for certain functions
 pub trait GLenumExt<T> {
     fn try_into_enum(self) -> GlFallible<T>;
+    /// # Safety
+    /// caller ensures value of this [`GLenum`] is valid for T
     unsafe fn into_enum(self) -> T;
 }
 
@@ -43,6 +45,7 @@ where
 {
     #[inline]
     unsafe fn into_enum(self) -> T {
+        // Safety: Caller
         unsafe { T::from_enum_noerr(self.convert()) }
     }
     #[inline]
@@ -186,6 +189,7 @@ impl<T, Dst: GlDstType> GlGetItemSliceExt<Dst> for [T] {
         ptr: *mut Dst,
         map: F,
     ) {
+        // Safety: Caller
         unsafe { map(&self[idx.get()]).write_out(ptr) }
     }
 
@@ -193,6 +197,7 @@ impl<T, Dst: GlDstType> GlGetItemSliceExt<Dst> for [T] {
     where
         Self::SliceItem: GlGetItem<Dst>,
     {
+        // Safety: Caller
         unsafe { self[idx.get()].write_out(ptr) };
     }
 }
