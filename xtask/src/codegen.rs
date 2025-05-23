@@ -492,14 +492,15 @@ pub fn get_vals<'a>(
 }
 pub fn write_dispatch_impl<T: Write>(w: &mut T, v: &[FnCollection<'_>]) -> Result<()> {
     const DISPATCH_PREFIX: &str = r"
-        // GL Commands
+        // GENERATED CODE. DO NOT MODIFY
+        // GL Command C ABI Shims
+
         use crate::context::with_ctx_mut;
         use oxidegl::context::error::GlResult;
         use oxidegl::conversions::GLenumExt;
         use oxidegl::gl_types::*;
-
     ";
-    writeln!(w, "{}", DISPATCH_PREFIX)?;
+    writeln!(w, "{DISPATCH_PREFIX}")?;
     for item in v {
         for cmd in item.entries.iter() {
             let GLAPIEntry::Command {
@@ -524,9 +525,14 @@ pub fn write_enum_impl<T: Write>(
     v: &[GLAPIEntry<'_>],
     groups: &HashMap<Box<str>, EnumGroup<'_>>,
 ) -> Result<()> {
-    writeln!(w, "{TYPES_USE}")?;
-    writeln!(w, "{ENUM_UTILS_USE}")?;
-    writeln!(w, "use ::bitflags::bitflags;")?;
+    const ENUMS_PREFIX: &str = r"
+    // GENERATED CODE. DO NOT MODIFY
+    // GL enums
+    use crate::conversions::{GLenumExt, GlDstType, GlEnumGroup, SrcType};
+    #[allow(clippy::wildcard_imports)]
+    use crate::gl_types::*;
+    use bitflags::bitflags;";
+    writeln!(w, "{ENUMS_PREFIX}")?;
     for item in v {
         if let GLAPIEntry::Enum { name, value, .. } = item {
             writeln!(w, "{}", print_rust_enum_entry(name, *value))?;
@@ -599,10 +605,12 @@ pub fn write_placeholder_impl<T: Write>(w: &mut T, v: &[FnCollection<'_>]) -> Re
         .collect::<Vec<String>>()
         .join(",");
     const PLACEHOLDER_PREFIX: &str = r"
+        // GENERATED CODE. DO NOT MODIFY
+        // Unimplemented GL Commands
+
         use crate::context::Context;
         use crate::context::error::GlFallible;
-        
-    ";
+        use crate::gl_types::*;";
     writeln!(w, "{PLACEHOLDER_PREFIX} use {ENUMS_PATH}{{{enum_uses}}};\n")?;
     for item in v {
         match item.entries.len() {

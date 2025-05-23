@@ -136,7 +136,7 @@ pub type GlFallible<T = ()> = Result<T, GlFallibleError>;
 /// Trait that declares the (constant) value to be returned when a GL command that returns a value of type T fails
 pub trait GetErrorReturnValue<T> {
     #[inline]
-    fn get() -> T {
+    #[must_use] fn get() -> T {
         Self::VAL
     }
     const VAL: T;

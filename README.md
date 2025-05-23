@@ -5,8 +5,8 @@ An open-source OpenGL 4.6 Core implementation atop Apple's Metal API, written in
  * `oxidegl`: main Rust crate. Contains the implementations of all GL commands and the Context struct. Compiles to a Rust library.
  * `oxidegl_c`: Depends on the main `oxidegl` crate and provides C ABI shims for all of the GL commands, as well as implementing a basic C interface for context creation. Compiles to a C dylib.
  * `oxidegl_shim`: Depends on `oxidegl_c` and `oxidegl`, uses shenanigans to replace the system NSGL/CGL implementation with oxidegl from a static constructor. Compiles to a C dylib.
- * `xtask`: Contains various utilities for working with oxidegl and its GLFW fork, as well as code generation scripts for various parts of the GL
- * `oxidegl-glfw`: fork of glfw which adds support for oxidegl via `oxidegl_c`
+ * `xtask`: Contains various utilities for working with oxidegl and its GLFW fork, as well as code generation scripts for various parts of the GL.
+ * `oxidegl-glfw`: fork of glfw which adds support for oxidegl via `oxidegl_c`.
 
 ## Building/XTasks
 To get a full list of OxideGL `xtask` subcommands, run `cargo xtask --help` anywhere in this repository. 
