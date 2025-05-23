@@ -605,7 +605,7 @@ impl PlatformState {
     ) -> ProtoObjRef<dyn MTLRenderCommandEncoder> {
         let desc = unsafe { MTLRenderPassDescriptor::new() };
 
-        if let Some(_) = state.framebuffer_binding {
+        if state.framebuffer_binding.is_some() {
             // user-defined FBO
             todo!()
         } else {
