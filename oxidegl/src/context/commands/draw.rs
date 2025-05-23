@@ -61,6 +61,7 @@ impl Context {
             clippy::cast_sign_loss,
             reason = "OpenGL is a state of the art 3D graphics API"
         )]
+        // Safety: todo
         unsafe {
             platform_state
                 .current_render_encoder()

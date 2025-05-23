@@ -53,7 +53,7 @@ pub(crate) struct GLState {
     pub(crate) program_binding: Option<ObjectName<Program>>,
 
     /// List of framebuffer object states
-    pub(crate) framebufer_list: NamedObjectList<Framebuffer>,
+    pub(crate) framebuffer_list: NamedObjectList<Framebuffer>,
     /// The current framebuffer to render to (None: default FB)
     pub(crate) framebuffer_binding: Option<ObjectName<Framebuffer>>,
     /// draw buffer/attachment tracking for the default framebuffer

@@ -18,6 +18,7 @@ impl Default for ErrorCode {
 const ERR_OFFSET: u32 = 1279;
 #[repr(u8)]
 #[expect(clippy::cast_possible_truncation, reason = "manually checked consts")]
+#[allow(unused)]
 #[derive(Clone, Copy, Debug)]
 // shrink this value to be byte-sized for dubious reasons
 pub(crate) enum GlError {
@@ -136,7 +137,8 @@ pub type GlFallible<T = ()> = Result<T, GlFallibleError>;
 /// Trait that declares the (constant) value to be returned when a GL command that returns a value of type T fails
 pub trait GetErrorReturnValue<T> {
     #[inline]
-    #[must_use] fn get() -> T {
+    #[must_use]
+    fn get() -> T {
         Self::VAL
     }
     const VAL: T;

@@ -1,16 +1,9 @@
-use self::error::GetErrorReturnValue;
-use self::state::GLState;
 use crate::gl_enums::ErrorCode;
-use debug::gl_trace;
-use likely_stable::if_likely;
 use objc2::rc::Retained;
 use objc2_app_kit::NSView;
 use objc2_metal::MTLPixelFormat;
 use platform::PlatformState;
-use std::cell::Cell;
-use std::panic;
-use std::pin::Pin;
-use std::ptr::NonNull;
+use state::GLState;
 
 #[allow(
     dead_code,
@@ -36,9 +29,6 @@ pub(crate) mod vao;
 pub(crate) mod gl_object;
 pub(crate) mod platform;
 
-thread_local! {
-    pub(crate) static CTX: Cell<Option<NonNull<Context>>> = const { Cell::new(None) };
-}
 #[derive(Debug)]
 #[repr(C)]
 pub struct Context {
@@ -73,47 +63,5 @@ impl Context {
 impl Default for Context {
     fn default() -> Self {
         Self::new()
-    }
-}
-
-#[inline]
-#[expect(unused_mut, unused_variables, reason = "lint bug")]
-pub(crate) fn with_ctx_mut<
-    Ret,
-    Err: GetErrorReturnValue<Ret> + Into<ErrorCode>,
-    Res: crate::context::error::GlResult<Ret, Err>,
-    Func: for<'a> Fn(Pin<&'a mut Context>) -> Res,
->(
-    f: Func,
-) -> Ret {
-    // optimizer hint for the Some(ptr) case
-    if_likely! {
-        // take the current context pointer
-        // this effectively takes a single-threaded "lock" on the context which protects against
-        // the user doing Weird Stuff and running multiple GL commands simultaneously
-        // (i.e. by calling a GL command from the debug callback)
-
-        let Some(ptr) = CTX.take() => {
-            // need to reassign due to macro jank
-            let mut ptr = ptr;
-            // Safety: we are the exclusive accessor of ptr due to its thread locality and the fact that we called `take` on it previously
-            // wrap the context reference in a pin to ensure it is not moved out of
-            let mut p = Pin::new(unsafe { ptr.as_mut() });
-            let ret = match f(p).into_result() {
-                Ok(ret) => ret,
-                Err(e) => {
-                    gl_trace!(ty: Error, "command execution failed");
-                    // Safety: f consumes p, the only other exclusive reference to this context, prior to the evaluation of this match arm,
-                    // meaning we are free to create another one to write the error out with
-                    unsafe { ptr.as_mut() }.gl_state.error = e.into();
-                    // Return the default value for the type
-                    <Err as GetErrorReturnValue<Ret>>::get()
-                }
-            };
-            CTX.set(Some(ptr));
-            ret
-        } else {
-            panic!("no context set!");
-        }
     }
 }
