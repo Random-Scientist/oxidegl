@@ -1,11 +1,11 @@
 use std::{
-    fs::{copy, create_dir, create_dir_all, read_dir, remove_file},
+    fs::{copy, create_dir, create_dir_all, exists, read_dir, remove_file},
     path::{Path, PathBuf},
     process::{self, exit, Command, Stdio},
     sync::{Arc, OnceLock},
 };
 
-use anyhow::{bail, Context, Result};
+use anyhow::{anyhow, bail, Result};
 use clap::{Args, Subcommand};
 use dashmap::DashSet;
 use enum_dispatch::enum_dispatch;
@@ -97,9 +97,6 @@ pub struct BuildOxideGL {
     /// Build OxideGL targetting the current CPU's featureset instead of the more conservative default
     #[arg(short = 'n', long, default_value_t = false)]
     target_cpu_native: bool,
-    /// Maximum logging level to compile OxideGL with (valid options are: "off", "error", "warn", "info", "debug", and "trace")
-    #[arg(short, long, default_value = "trace")]
-    logging_level: String,
     /// Install the compiled binary to /usr/local/lib, replacing the current one if it exists.
     #[arg(short, long, default_value_t = false)]
     install: bool,
@@ -109,10 +106,14 @@ pub struct BuildOxideGL {
     /// rust target triple to build OxideGL for
     #[arg(short, long)]
     target: Option<String>,
-    // Whether to compile with the -Z threads argument set to 8. Requires a nightly toolchain installed on the target platform
+    /// Whether to compile with the -Z threads argument set to 8. Requires a nightly toolchain installed on the target platform
     #[arg(short, long)]
     parallel: bool,
+    /// Which project component to build. (by directory name e.g. `--component oxidegl_c` or `-c oxidegl_shim`)
+    #[arg(short, long, default_value = "oxidegl")]
+    component: String,
 }
+
 impl TaskTrait for BuildOxideGL {
     fn dependencies(&self) -> Option<Box<[Task]>> {
         if self.universal {
@@ -139,34 +140,58 @@ impl TaskTrait for BuildOxideGL {
     }
 
     fn perform(&self) -> Result<()> {
+        let component = &*self.component;
+        if component == "oxidegl" && self.install {
+            bail!(
+                "cannot install oxidegl on its own (it only provides Rust symbols in a static rlib). Try installing the C bindings or shim libraries instead"
+            );
+        }
+        if !read_dir(format!("./{component}")).is_ok_and(|mut v| {
+            v.any(|a| a.is_ok_and(|v| v.file_name().eq_ignore_ascii_case("cargo.toml")))
+        }) {
+            bail!("component directory does not contain a cargo manifest");
+        }
         let debug_release = if self.release { "release" } else { "debug" };
         if self.universal {
             println!("merging universal binary");
             let univ_path = format!("target/darwin-universal/{debug_release}");
-            let x86_binary = format!("target/x86_64-apple-darwin/{debug_release}/liboxidegl.dylib");
+
+            let x86_binary =
+                format!("target/x86_64-apple-darwin/{debug_release}/lib{component}.dylib");
             let aarch_binary =
-                format!("target/aarch64-apple-darwin/{debug_release}/liboxidegl.dylib");
+                format!("target/aarch64-apple-darwin/{debug_release}/lib{component}.dylib");
             create_dir_all(&univ_path)?;
-            let bin_path = format!("{univ_path}/liboxidegl.dylib");
+            let bin_path = format!("{univ_path}/lib{component}.dylib");
+            if exists(&bin_path)? {
+                remove_file(&bin_path)?;
+            }
             let _c = Command::new("lipo")
                 .args(["-create", "-output", &bin_path, &x86_binary, &aarch_binary])
                 .output()
-                .ok()
-                .and_then(|v| if v.status.success() { Some(v) } else { None })
-                .context("running lipo command")?;
+                .map_err(Into::into)
+                .and_then(|v| {
+                    if v.status.success() {
+                        Ok(v)
+                    } else {
+                        Err(anyhow!("running lipo command"))
+                    }
+                })?;
             if self.install {
-                let _ = remove_file("/usr/local/lib/liboxidegl.dylib");
-                copy(bin_path, "/usr/local/lib/liboxidegl.dylib")?;
-                println!("Installed OxideGL to /usr/local/lib/liboxidegl.dylib");
+                let ip = format!("/usr/local/lib/{component}.dylib");
+                if exists(&ip)? {
+                    remove_file(&ip)?;
+                }
+                copy(bin_path, &ip)?;
+                println!("Installed OxideGL to {ip}");
             }
             return Ok(());
         }
         println!(
-            "Building OxideGL for architecture {}",
+            "Building OxideGL component {component} for architecture {}",
             self.target.as_deref().unwrap_or("default")
         );
         let mut c = Command::new("cargo");
-        c.current_dir("oxidegl");
+        c.current_dir(component);
         if self.parallel {
             c.arg("+nightly");
         }
@@ -186,7 +211,6 @@ impl TaskTrait for BuildOxideGL {
             c.env("OXIDEGL_RELEASE", "1");
         }
         //c.env("CARGO_TARGET_DIR", "/tmp/oxidegl-target/");
-        c.args(["--features", &format!("max_log_{}", self.logging_level)]);
         if self.debug_assertions {
             c.args(["--config", "build-override.debug-assertions=true"]);
         }
@@ -206,12 +230,15 @@ impl TaskTrait for BuildOxideGL {
         }
 
         if self.install {
-            let _ = remove_file("/usr/local/lib/liboxidegl.dylib");
+            let ip = format!("/usr/local/lib/lib{component}.dylib");
+            if exists(&ip)? {
+                remove_file(&ip)?;
+            }
             copy(
-                format!("target/{}/liboxidegl.dylib", target_subpath),
-                "/usr/local/lib/liboxidegl.dylib",
+                format!("target/{}/lib{component}.dylib", target_subpath),
+                &ip,
             )?;
-            println!("Installed OxideGL to /usr/local/lib/liboxidegl.dylib");
+            println!("Installed OxideGL component {component} to {ip}");
         }
         Ok(())
     }
@@ -396,16 +423,14 @@ stub_arg!(CargoFix);
 impl TaskTrait for CargoFix {
     fn perform(&self) -> Result<()> {
         std::process::Command::new("cargo")
-            .current_dir("oxidegl")
             .args(["fix", "--allow-dirty"])
             .spawn()?
-            .try_wait()?;
+            .wait()?;
         std::process::Command::new("cargo")
-            .current_dir("oxidegl")
             .arg("clippy")
             .args(["--fix", "--allow-dirty"])
             .spawn()?
-            .try_wait()?;
+            .wait()?;
         Ok(())
     }
 }
