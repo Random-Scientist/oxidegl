@@ -357,6 +357,7 @@ unsafe extern "C" fn CFBundleGetFunctionPointerForNameOverride(
         }
     }
 }
+//TODO interpose CGL. We currently intercept CGL function lookups (via the dlopen override) but not CGL platform API functions e.g. CGLCreateContext
 
 #[repr(C)]
 struct DyldInterposeTuple {

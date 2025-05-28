@@ -41,6 +41,8 @@ f:glDebugMessageCallback
 f:glDebugMessageControl
 f:glDebugMessageInsert
 f:glGetDebugMessageLog
+f:glPushDebugScope
+f:glPopDebugScope
 
 // some draws
 f:glDrawArrays

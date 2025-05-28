@@ -482,7 +482,9 @@ pub fn get_vals<'a>(
                 {
                     let g2: &str = group;
                     if new_map.contains_key(g2) {
-                        param.parameter_type = GLTypes::EnumWrapped(g2.to_string());
+                        param
+                            .parameter_type
+                            .replace_pointee_or_self(GLTypes::EnumWrapped(g2.to_string()));
                     }
                 }
             }
@@ -593,7 +595,7 @@ pub fn write_placeholder_impl<T: Write>(w: &mut T, v: &[FnCollection<'_>]) -> Re
             params.iter()
         })
         .filter_map(|p| {
-            let GLTypes::EnumWrapped(ref s) = p.parameter_type else {
+            let GLTypes::EnumWrapped(ref s) = p.parameter_type.get_pointee_or_self() else {
                 return None;
             };
             if seen.insert(s) {
@@ -738,6 +740,8 @@ fn print_dispatch_fn<'a>(name: &'a str, ret_type: GLTypes, params: &[Parameter<'
             if let GLTypes::EnumWrapped(_) = p.parameter_type {
                 shim_is_fallible = true;
                 format!("{pname}.try_into_enum()?, ")
+            } else if let GLTypes::EnumWrapped(_) = p.parameter_type.get_pointee_or_self() {
+                format!("{pname}.cast(), ")
             } else {
                 format!("{pname}, ")
             }
@@ -789,8 +793,10 @@ fn print_dispatch_fn<'a>(name: &'a str, ret_type: GLTypes, params: &[Parameter<'
             "ref" => "r#ref",
             s => s,
         };
-        if let GLTypes::EnumWrapped(_) = param.parameter_type {
-            param.parameter_type = GLTypes::GLenum;
+        if let GLTypes::EnumWrapped(_) = param.parameter_type.get_pointee_or_self() {
+            param
+                .parameter_type
+                .replace_pointee_or_self(GLTypes::GLenum);
         };
 
         str = format!("{}{}: {}", str, na, param.parameter_type.rust_type());
@@ -967,6 +973,30 @@ pub enum GLTypes {
 impl GLTypes {
     fn bo(self) -> Box<Self> {
         Box::new(self)
+    }
+    fn replace_pointee_or_self(&mut self, inner: GLTypes) {
+        let mut next = self;
+        loop {
+            next = match next {
+                Self::PtrTo(r) | Self::ConstPtrTo(r) => &mut **r,
+                _ => {
+                    break;
+                }
+            }
+        }
+        *next = inner;
+    }
+    fn get_pointee_or_self(&self) -> &GLTypes {
+        let mut next = self;
+        loop {
+            next = match next {
+                Self::PtrTo(r) | Self::ConstPtrTo(r) => &**r,
+                _ => {
+                    break;
+                }
+            }
+        }
+        next
     }
     fn from_c_type_str(type_str: &str) -> Self {
         // massive brain c type parser right here

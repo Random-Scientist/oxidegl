@@ -121,7 +121,6 @@ macro_rules! decl_simple_formats {
             impl<C, T: $(ChannelSource<$chan, Channel: ConvertChannel<C>> +)+ Copy> ConvertPixel<$fmt_name<C>> for T {
 
                 #[inline]
-
                 fn convert_pixel(self) -> $fmt_name<C> {
                     const __INDICES: [usize; const { [ $( $idx ),+ ].len() }] = [ $( $idx ),+ ];
                     const __ARR_LEN: usize = const { const_arr_max( &__INDICES ) + 1 };
@@ -132,6 +131,7 @@ macro_rules! decl_simple_formats {
                         uninit[$idx].write(<Self as ChannelSource<$chan>>::channel(self).convert_channel());
                     )+
                     $fmt_name {
+                        // Safety: transmute from [MaybeUninit<T>] to [T] ok if all values are initialized
                         colors: unsafe { crate::util::transmute_unchecked(uninit) },
                     }
                 }
@@ -383,9 +383,6 @@ fn convert_dispatch_test(buf: *const u8, fmt: GlPixelTypeFormat, dst: InternalFo
         PixelType::UnsignedInt10F11F11FRev => todo!(),
     }
 }
-
-#[derive(Debug, Clone, Copy, Eq, PartialEq)]
-pub(crate) struct BinaryCompatibleFormat(InternalFormat);
 
 #[derive(Debug, Copy, Clone)]
 /// A combination of a [`PixelType`] and a [`PixelFormat`], used to specify input and output formats.
