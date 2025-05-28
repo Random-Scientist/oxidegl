@@ -1,12 +1,13 @@
+// GENERATED CODE. DO NOT MODIFY
+// Unimplemented GL Commands
+
 use crate::context::Context;
 use crate::context::error::GlFallible;
-use crate::gl_types::*;
-
 use crate::gl_enums::{
     AtomicCounterBufferPName, AttributeType, BlendEquationModeEXT, BlendingFactor,
     BlitFramebufferFilter, Buffer, BufferAccess, BufferPName, BufferStorageTarget, BufferTarget,
     BufferUsage, ClampColorMode, ClearBufferMask, ClipControlDepth, ClipControlOrigin, ColorBuffer,
-    ConditionalRenderMode, CopyBufferSubDataTarget, CopyImageSubDataTarget, DebugSource,
+    ConditionalRenderMode, CopyBufferSubDataTarget, CopyImageSubDataTarget,
     DepthFunction, DrawBufferMode, DrawElementsType, EnableCap, FramebufferAttachment,
     FramebufferAttachmentParameterName, FramebufferParameterName, FramebufferTarget,
     FrontFaceDirection, GetFramebufferParameter, GetTextureParameter, HintMode, HintTarget,
@@ -22,6 +23,7 @@ use crate::gl_enums::{
     VertexAttribEnum, VertexAttribPointerType, VertexAttribProperty, VertexBufferObjectUsage,
     VertexProvokingMode,
 };
+use crate::gl_types::*;
 
 /// ### Parameters
 /// `id`
@@ -2757,14 +2759,18 @@ impl Context {
 /// *i* where ** indicates the number of the draw buffer whose value is to
 /// be queried.
 impl Context {
-    pub fn oxidegl_draw_buffers(&mut self, n: GLsizei, bufs: DrawBufferMode) -> GlFallible {
+    pub unsafe fn oxidegl_draw_buffers(
+        &mut self,
+        n: GLsizei,
+        bufs: *const DrawBufferMode,
+    ) -> GlFallible {
         panic!("command oxidegl_draw_buffers not yet implemented");
     }
-    pub fn oxidegl_named_framebuffer_draw_buffers(
+    pub unsafe fn oxidegl_named_framebuffer_draw_buffers(
         &mut self,
         framebuffer: GLuint,
         n: GLsizei,
-        bufs: ColorBuffer,
+        bufs: *const ColorBuffer,
     ) -> GlFallible {
         panic!("command oxidegl_named_framebuffer_draw_buffers not yet implemented");
     }
@@ -6144,19 +6150,19 @@ impl Context {
 /// ### Associated Gets
 /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_COLOR_ATTACHMENTS`](crate::gl_enums::GL_MAX_COLOR_ATTACHMENTS)
 impl Context {
-    pub fn oxidegl_invalidate_framebuffer(
+    pub unsafe fn oxidegl_invalidate_framebuffer(
         &mut self,
         target: FramebufferTarget,
         num_attachments: GLsizei,
-        attachments: InvalidateFramebufferAttachment,
+        attachments: *const InvalidateFramebufferAttachment,
     ) -> GlFallible {
         panic!("command oxidegl_invalidate_framebuffer not yet implemented");
     }
-    pub fn oxidegl_invalidate_named_framebuffer_data(
+    pub unsafe fn oxidegl_invalidate_named_framebuffer_data(
         &mut self,
         framebuffer: GLuint,
         num_attachments: GLsizei,
-        attachments: FramebufferAttachment,
+        attachments: *const FramebufferAttachment,
     ) -> GlFallible {
         panic!("command oxidegl_invalidate_named_framebuffer_data not yet implemented");
     }
@@ -6250,11 +6256,11 @@ impl Context {
 /// ### Associated Gets
 /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_COLOR_ATTACHMENTS`](crate::gl_enums::GL_MAX_COLOR_ATTACHMENTS)
 impl Context {
-    pub fn oxidegl_invalidate_sub_framebuffer(
+    pub unsafe fn oxidegl_invalidate_sub_framebuffer(
         &mut self,
         target: FramebufferTarget,
         num_attachments: GLsizei,
-        attachments: InvalidateFramebufferAttachment,
+        attachments: *const InvalidateFramebufferAttachment,
         x: GLint,
         y: GLint,
         width: GLsizei,
@@ -6262,11 +6268,11 @@ impl Context {
     ) -> GlFallible {
         panic!("command oxidegl_invalidate_sub_framebuffer not yet implemented");
     }
-    pub fn oxidegl_invalidate_named_framebuffer_sub_data(
+    pub unsafe fn oxidegl_invalidate_named_framebuffer_sub_data(
         &mut self,
         framebuffer: GLuint,
         num_attachments: GLsizei,
-        attachments: FramebufferAttachment,
+        attachments: *const FramebufferAttachment,
         x: GLint,
         y: GLint,
         width: GLsizei,
@@ -14842,7 +14848,7 @@ impl Context {
         buf_size: GLsizei,
         length: *mut GLsizei,
         size: *mut GLint,
-        r#type: AttributeType,
+        r#type: *mut AttributeType,
         name: *mut GLchar,
     ) -> GlFallible {
         panic!("command oxidegl_get_active_attrib not yet implemented");
@@ -15298,7 +15304,7 @@ impl Context {
         buf_size: GLsizei,
         length: *mut GLsizei,
         size: *mut GLint,
-        r#type: UniformType,
+        r#type: *mut UniformType,
         name: *mut GLchar,
     ) -> GlFallible {
         panic!("command oxidegl_get_active_uniform not yet implemented");
@@ -16675,7 +16681,7 @@ impl Context {
         program_interface: ProgramInterface,
         index: GLuint,
         prop_count: GLsizei,
-        props: ProgramResourceProperty,
+        props: *const ProgramResourceProperty,
         count: GLsizei,
         length: *mut GLsizei,
         params: *mut GLint,
@@ -17721,7 +17727,7 @@ impl Context {
         buf_size: GLsizei,
         length: *mut GLsizei,
         size: *mut GLsizei,
-        r#type: AttributeType,
+        r#type: *mut AttributeType,
         name: *mut GLchar,
     ) -> GlFallible {
         panic!("command oxidegl_get_transform_feedback_varying not yet implemented");
@@ -19294,49 +19300,6 @@ impl Context {
     /// is available only if the GL version is 3.2 or greater.
     pub fn oxidegl_provoking_vertex(&mut self, mode: VertexProvokingMode) -> GlFallible {
         panic!("command oxidegl_provoking_vertex not yet implemented");
-    }
-    /// ### Parameters
-    /// `source`
-    ///
-    /// > The source of the debug message.
-    ///
-    /// `id`
-    ///
-    /// > The identifier of the message.
-    ///
-    /// `length`
-    ///
-    /// > The length of the message to be sent to the debug output stream.
-    ///
-    /// `message`
-    ///
-    /// > The a string containing the message to be sent to the debug output stream.
-    ///
-    /// ### Description
-    /// [**glPushDebugGroup**](crate::context::Context::oxidegl_push_debug_group)
-    /// pushes a debug group described by the string `message` into the command
-    /// stream. The value of `id` specifies the ID of messages generated. The parameter
-    /// `length` contains the number of characters in `message`. If `length` is
-    /// negative, it is implied that `message` contains a null terminated string.
-    /// The message has the specified `source` and `id`, the `type` [`GL_DEBUG_TYPE_PUSH_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_PUSH_GROUP),
-    /// and `severity` [`GL_DEBUG_SEVERITY_NOTIFICATION`](crate::gl_enums::GL_DEBUG_SEVERITY_NOTIFICATION).
-    /// The GL will put a new debug group on top of the debug group stack which
-    /// inherits the control of the volume of debug output of the debug group previously
-    /// residing on the top of the debug group stack. Because debug groups are
-    /// strictly hierarchical, any additional control of the debug output volume
-    /// will only apply within the active debug group and the debug groups pushed
-    /// on top of the active debug group.
-    ///
-    /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_DEBUG_MESSAGE_LENGTH`](crate::gl_enums::GL_MAX_DEBUG_MESSAGE_LENGTH).
-    pub unsafe fn oxidegl_push_debug_group(
-        &mut self,
-        source: DebugSource,
-        id: GLuint,
-        length: GLsizei,
-        message: *const GLchar,
-    ) -> GlFallible {
-        panic!("command oxidegl_push_debug_group not yet implemented");
     }
     /// ### Parameters
     /// `id`

@@ -1,4 +1,6 @@
-// GL Commands
+// GENERATED CODE. DO NOT MODIFY
+// GL Command C ABI Shims
+
 use crate::context::with_ctx_mut;
 use oxidegl::context::error::GlResult;
 use oxidegl::conversions::GLenumExt;
@@ -2466,30 +2468,28 @@ unsafe extern "C" fn glNamedFramebufferDrawBuffer(framebuffer: GLuint, buf: GLen
     })
 }
 #[unsafe(no_mangle)]
-unsafe extern "C" fn glDrawBuffers(n: GLsizei, bufs: GLenum) {
+unsafe extern "C" fn glDrawBuffers(n: GLsizei, bufs: *const GLenum) {
     ::log::trace!(
         "glDrawBuffers called, parameters: n: {:?}, bufs: {:?} ",
         n,
         bufs
     );
-    with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_draw_buffers(n, bufs.try_into_enum()?))
-    })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_draw_buffers(n, bufs.cast()) })
 }
 #[unsafe(no_mangle)]
-unsafe extern "C" fn glNamedFramebufferDrawBuffers(framebuffer: GLuint, n: GLsizei, bufs: GLenum) {
+unsafe extern "C" fn glNamedFramebufferDrawBuffers(
+    framebuffer: GLuint,
+    n: GLsizei,
+    bufs: *const GLenum,
+) {
     ::log::trace!(
         "glNamedFramebufferDrawBuffers called, parameters: framebuffer: {:?}, n: {:?}, bufs: {:?} ",
         framebuffer,
         n,
         bufs
     );
-    with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_named_framebuffer_draw_buffers(
-            framebuffer,
-            n,
-            bufs.try_into_enum()?,
-        ))
+    with_ctx_mut(|mut state| unsafe {
+        state.oxidegl_named_framebuffer_draw_buffers(framebuffer, n, bufs.cast())
     })
 }
 #[unsafe(no_mangle)]
@@ -3460,7 +3460,7 @@ unsafe extern "C" fn glGetActiveAttrib(
     bufSize: GLsizei,
     length: *mut GLsizei,
     size: *mut GLint,
-    r#type: GLenum,
+    r#type: *mut GLenum,
     name: *mut GLchar,
 ) {
     ::log::trace!(
@@ -3473,18 +3473,8 @@ unsafe extern "C" fn glGetActiveAttrib(
         r#type,
         name
     );
-    with_ctx_mut(|mut state| {
-        GlResult::normalize(unsafe {
-            state.oxidegl_get_active_attrib(
-                program,
-                index,
-                bufSize,
-                length,
-                size,
-                r#type.try_into_enum()?,
-                name,
-            )
-        })
+    with_ctx_mut(|mut state| unsafe {
+        state.oxidegl_get_active_attrib(program, index, bufSize, length, size, r#type.cast(), name)
     })
 }
 #[unsafe(no_mangle)]
@@ -3584,7 +3574,7 @@ unsafe extern "C" fn glGetActiveUniform(
     bufSize: GLsizei,
     length: *mut GLsizei,
     size: *mut GLint,
-    r#type: GLenum,
+    r#type: *mut GLenum,
     name: *mut GLchar,
 ) {
     ::log::trace!(
@@ -3597,18 +3587,8 @@ unsafe extern "C" fn glGetActiveUniform(
         r#type,
         name
     );
-    with_ctx_mut(|mut state| {
-        GlResult::normalize(unsafe {
-            state.oxidegl_get_active_uniform(
-                program,
-                index,
-                bufSize,
-                length,
-                size,
-                r#type.try_into_enum()?,
-                name,
-            )
-        })
+    with_ctx_mut(|mut state| unsafe {
+        state.oxidegl_get_active_uniform(program, index, bufSize, length, size, r#type.cast(), name)
     })
 }
 #[unsafe(no_mangle)]
@@ -3965,10 +3945,10 @@ unsafe extern "C" fn glGetCompressedTextureSubImage(
 unsafe extern "C" fn glGetDebugMessageLog(
     count: GLuint,
     bufSize: GLsizei,
-    sources: GLenum,
-    types: GLenum,
+    sources: *mut GLenum,
+    types: *mut GLenum,
     ids: *mut GLuint,
-    severities: GLenum,
+    severities: *mut GLenum,
     lengths: *mut GLsizei,
     messageLog: *mut GLchar,
 ) -> GLuint {
@@ -3983,19 +3963,17 @@ unsafe extern "C" fn glGetDebugMessageLog(
         lengths,
         messageLog
     );
-    with_ctx_mut(|mut state| {
-        GlResult::normalize(unsafe {
-            state.oxidegl_get_debug_message_log(
-                count,
-                bufSize,
-                sources.try_into_enum()?,
-                types.try_into_enum()?,
-                ids,
-                severities.try_into_enum()?,
-                lengths,
-                messageLog,
-            )
-        })
+    with_ctx_mut(|mut state| unsafe {
+        state.oxidegl_get_debug_message_log(
+            count,
+            bufSize,
+            sources.cast(),
+            types.cast(),
+            ids,
+            severities.cast(),
+            lengths,
+            messageLog,
+        )
     })
 }
 #[unsafe(no_mangle)]
@@ -4358,7 +4336,7 @@ unsafe extern "C" fn glGetProgramResourceiv(
     programInterface: GLenum,
     index: GLuint,
     propCount: GLsizei,
-    props: GLenum,
+    props: *const GLenum,
     count: GLsizei,
     length: *mut GLsizei,
     params: *mut GLint,
@@ -4381,7 +4359,7 @@ unsafe extern "C" fn glGetProgramResourceiv(
                 programInterface.try_into_enum()?,
                 index,
                 propCount,
-                props.try_into_enum()?,
+                props.cast(),
                 count,
                 length,
                 params,
@@ -5383,7 +5361,7 @@ unsafe extern "C" fn glGetTransformFeedbackVarying(
     bufSize: GLsizei,
     length: *mut GLsizei,
     size: *mut GLsizei,
-    r#type: GLenum,
+    r#type: *mut GLenum,
     name: *mut GLchar,
 ) {
     ::log::trace!(
@@ -5396,18 +5374,16 @@ unsafe extern "C" fn glGetTransformFeedbackVarying(
         r#type,
         name
     );
-    with_ctx_mut(|mut state| {
-        GlResult::normalize(unsafe {
-            state.oxidegl_get_transform_feedback_varying(
-                program,
-                index,
-                bufSize,
-                length,
-                size,
-                r#type.try_into_enum()?,
-                name,
-            )
-        })
+    with_ctx_mut(|mut state| unsafe {
+        state.oxidegl_get_transform_feedback_varying(
+            program,
+            index,
+            bufSize,
+            length,
+            size,
+            r#type.cast(),
+            name,
+        )
     })
 }
 #[unsafe(no_mangle)]
@@ -5772,7 +5748,7 @@ unsafe extern "C" fn glInvalidateBufferSubData(
 unsafe extern "C" fn glInvalidateFramebuffer(
     target: GLenum,
     numAttachments: GLsizei,
-    attachments: GLenum,
+    attachments: *const GLenum,
 ) {
     ::log::trace!(
         "glInvalidateFramebuffer called, parameters: target: {:?}, numAttachments: {:?}, attachments: {:?} ",
@@ -5781,18 +5757,20 @@ unsafe extern "C" fn glInvalidateFramebuffer(
         attachments
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_invalidate_framebuffer(
-            target.try_into_enum()?,
-            numAttachments,
-            attachments.try_into_enum()?,
-        ))
+        GlResult::normalize(unsafe {
+            state.oxidegl_invalidate_framebuffer(
+                target.try_into_enum()?,
+                numAttachments,
+                attachments.cast(),
+            )
+        })
     })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glInvalidateNamedFramebufferData(
     framebuffer: GLuint,
     numAttachments: GLsizei,
-    attachments: GLenum,
+    attachments: *const GLenum,
 ) {
     ::log::trace!(
         "glInvalidateNamedFramebufferData called, parameters: framebuffer: {:?}, numAttachments: {:?}, attachments: {:?} ",
@@ -5800,19 +5778,19 @@ unsafe extern "C" fn glInvalidateNamedFramebufferData(
         numAttachments,
         attachments
     );
-    with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_invalidate_named_framebuffer_data(
+    with_ctx_mut(|mut state| unsafe {
+        state.oxidegl_invalidate_named_framebuffer_data(
             framebuffer,
             numAttachments,
-            attachments.try_into_enum()?,
-        ))
+            attachments.cast(),
+        )
     })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glInvalidateSubFramebuffer(
     target: GLenum,
     numAttachments: GLsizei,
-    attachments: GLenum,
+    attachments: *const GLenum,
     x: GLint,
     y: GLint,
     width: GLsizei,
@@ -5829,22 +5807,24 @@ unsafe extern "C" fn glInvalidateSubFramebuffer(
         height
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_invalidate_sub_framebuffer(
-            target.try_into_enum()?,
-            numAttachments,
-            attachments.try_into_enum()?,
-            x,
-            y,
-            width,
-            height,
-        ))
+        GlResult::normalize(unsafe {
+            state.oxidegl_invalidate_sub_framebuffer(
+                target.try_into_enum()?,
+                numAttachments,
+                attachments.cast(),
+                x,
+                y,
+                width,
+                height,
+            )
+        })
     })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glInvalidateNamedFramebufferSubData(
     framebuffer: GLuint,
     numAttachments: GLsizei,
-    attachments: GLenum,
+    attachments: *const GLenum,
     x: GLint,
     y: GLint,
     width: GLsizei,
@@ -5860,16 +5840,16 @@ unsafe extern "C" fn glInvalidateNamedFramebufferSubData(
         width,
         height
     );
-    with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_invalidate_named_framebuffer_sub_data(
+    with_ctx_mut(|mut state| unsafe {
+        state.oxidegl_invalidate_named_framebuffer_sub_data(
             framebuffer,
             numAttachments,
-            attachments.try_into_enum()?,
+            attachments.cast(),
             x,
             y,
             width,
             height,
-        ))
+        )
     })
 }
 #[unsafe(no_mangle)]

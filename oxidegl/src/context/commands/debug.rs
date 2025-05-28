@@ -658,13 +658,68 @@ impl Context {
         &mut self,
         count: GLuint,
         buf_size: GLsizei,
-        sources: DebugSource,
-        types: DebugType,
+        sources: *mut DebugSource,
+        types: *mut DebugType,
         ids: *mut GLuint,
-        severities: DebugSeverity,
+        severities: *mut DebugSeverity,
         lengths: *mut GLsizei,
         message_log: *mut GLchar,
     ) -> GlFallible<GLuint> {
-        panic!("command oxidegl_get_debug_message_log not yet implemented");
+        Ok(with_debug_state_mut(|mut state| unsafe {
+            state.get_log_message(
+                count,
+                buf_size,
+                sources,
+                types,
+                ids,
+                severities,
+                lengths,
+                message_log,
+            )
+        })
+        .expect("no debug state present, failed to get message log"))
+    }
+    /// ### Parameters
+    /// `source`
+    ///
+    /// > The source of the debug message.
+    ///
+    /// `id`
+    ///
+    /// > The identifier of the message.
+    ///
+    /// `length`
+    ///
+    /// > The length of the message to be sent to the debug output stream.
+    ///
+    /// `message`
+    ///
+    /// > The a string containing the message to be sent to the debug output stream.
+    ///
+    /// ### Description
+    /// [**glPushDebugGroup**](crate::context::Context::oxidegl_push_debug_group)
+    /// pushes a debug group described by the string `message` into the command
+    /// stream. The value of `id` specifies the ID of messages generated. The parameter
+    /// `length` contains the number of characters in `message`. If `length` is
+    /// negative, it is implied that `message` contains a null terminated string.
+    /// The message has the specified `source` and `id`, the `type` [`GL_DEBUG_TYPE_PUSH_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_PUSH_GROUP),
+    /// and `severity` [`GL_DEBUG_SEVERITY_NOTIFICATION`](crate::gl_enums::GL_DEBUG_SEVERITY_NOTIFICATION).
+    /// The GL will put a new debug group on top of the debug group stack which
+    /// inherits the control of the volume of debug output of the debug group previously
+    /// residing on the top of the debug group stack. Because debug groups are
+    /// strictly hierarchical, any additional control of the debug output volume
+    /// will only apply within the active debug group and the debug groups pushed
+    /// on top of the active debug group.
+    ///
+    /// ### Associated Gets
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_DEBUG_MESSAGE_LENGTH`](crate::gl_enums::GL_MAX_DEBUG_MESSAGE_LENGTH).
+    pub unsafe fn oxidegl_push_debug_group(
+        &mut self,
+        source: DebugSource,
+        id: GLuint,
+        length: GLsizei,
+        message: *const GLchar,
+    ) -> GlFallible {
+        panic!("command oxidegl_push_debug_group not yet implemented");
     }
 }
