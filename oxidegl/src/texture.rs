@@ -7,8 +7,8 @@ use objc2_metal::{
 };
 
 use crate::{
-    context::error::GlError,
     conversions::{GLenumExt, SrcType},
+    error::GlError,
     gl_enums::{
         DepthFunction, GL_COMPARE_REF_TO_TEXTURE, GL_NONE, InternalFormat, SamplerParameter,
         TextureMagFilter, TextureMinFilter, TextureSwizzle, TextureTarget, TextureWrapMode,

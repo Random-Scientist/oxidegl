@@ -14,7 +14,30 @@ use std::sync::Once;
 use context::Context;
 use log::info;
 
+#[allow(
+    dead_code,
+    unused_variables,
+    clippy::wildcard_imports,
+    clippy::too_many_arguments,
+    clippy::unused_self,
+    clippy::similar_names,
+    clippy::missing_safety_doc
+)]
+pub mod commands;
 pub mod context;
+
+pub mod debug;
+pub mod error;
+pub(crate) mod framebuffer;
+pub(crate) mod pixel;
+pub(crate) mod program;
+pub(crate) mod shader;
+pub(crate) mod texture;
+pub(crate) mod vao;
+
+pub(crate) mod gl_object;
+
+pub(crate) mod render;
 
 #[allow(
     clippy::cast_lossless,
@@ -44,7 +67,7 @@ pub unsafe fn debug_init() {
         info!("OxideGL {}", Context::VERSION_INFO);
         #[cfg(debug_assertions)]
         // Safety: We pray that we aren't racing with anyone else's code writing env vars.
-        // This isn't *too* bad because we're running on the main thread, which is where
+        // This isn't *too* bad because we're likely running on the main thread, which is where
         // a majority of the writes occur in practice.
         unsafe {
             use std::env::set_var;

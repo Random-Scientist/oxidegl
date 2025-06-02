@@ -1,49 +1,47 @@
 use crate::{
-    context::{
-        Context,
-        debug::{gl_debug, gl_trace},
-        error::{GlError, GlFallible},
-        gl_object::{NamedObjectList, ObjectName},
-        program::Program,
-        shader::{GlslShaderInternal, Shader, ShaderInternal},
-    },
+    context::Context,
     conversions::sizei,
+    debug::{gl_debug, gl_trace},
+    error::{GlError, GlFallible},
     gl_enums::{ShaderParameterName, ShaderType},
+    gl_object::{NamedObjectList, ObjectName},
     gl_types::{GLchar, GLint, GLsizei, GLuint},
+    program::Program,
+    shader::{GlslShaderInternal, Shader, ShaderInternal},
 };
 
 impl Context {
     /// ### Parameters
     /// `shaderType`
     ///
-    /// > Specifies the type of shader to be created. Must be one of [`GL_COMPUTE_SHADER`](crate::enums::GL_COMPUTE_SHADER),
-    /// > [`GL_VERTEX_SHADER`](crate::enums::GL_VERTEX_SHADER), [`GL_TESS_CONTROL_SHADER`](crate::enums::GL_TESS_CONTROL_SHADER),
-    /// > [`GL_TESS_EVALUATION_SHADER`](crate::enums::GL_TESS_EVALUATION_SHADER),
-    /// > [`GL_GEOMETRY_SHADER`](crate::enums::GL_GEOMETRY_SHADER), or [`GL_FRAGMENT_SHADER`](crate::enums::GL_FRAGMENT_SHADER).
+    /// > Specifies the type of shader to be created. Must be one of [`GL_COMPUTE_SHADER`](crate::gl_enums::GL_COMPUTE_SHADER),
+    /// > [`GL_VERTEX_SHADER`](crate::gl_enums::GL_VERTEX_SHADER), [`GL_TESS_CONTROL_SHADER`](crate::gl_enums::GL_TESS_CONTROL_SHADER),
+    /// > [`GL_TESS_EVALUATION_SHADER`](crate::gl_enums::GL_TESS_EVALUATION_SHADER),
+    /// > [`GL_GEOMETRY_SHADER`](crate::gl_enums::GL_GEOMETRY_SHADER), or [`GL_FRAGMENT_SHADER`](crate::gl_enums::GL_FRAGMENT_SHADER).
     ///
     /// ### Description
     /// [**glCreateShader**](crate::context::Context::oxidegl_create_shader) creates
     /// an empty shader object and returns a non-zero value by which it can be
     /// referenced. A shader object is used to maintain the source code strings
     /// that define a shader. `shaderType` indicates the type of shader to be created.
-    /// Five types of shader are supported. A shader of type [`GL_COMPUTE_SHADER`](crate::enums::GL_COMPUTE_SHADER)
+    /// Five types of shader are supported. A shader of type [`GL_COMPUTE_SHADER`](crate::gl_enums::GL_COMPUTE_SHADER)
     /// is a shader that is intended to run on the programmable compute processor.
-    /// A shader of type [`GL_VERTEX_SHADER`](crate::enums::GL_VERTEX_SHADER) is
+    /// A shader of type [`GL_VERTEX_SHADER`](crate::gl_enums::GL_VERTEX_SHADER) is
     /// a shader that is intended to run on the programmable vertex processor.
-    /// A shader of type [`GL_TESS_CONTROL_SHADER`](crate::enums::GL_TESS_CONTROL_SHADER)
+    /// A shader of type [`GL_TESS_CONTROL_SHADER`](crate::gl_enums::GL_TESS_CONTROL_SHADER)
     /// is a shader that is intended to run on the programmable tessellation processor
-    /// in the control stage. A shader of type [`GL_TESS_EVALUATION_SHADER`](crate::enums::GL_TESS_EVALUATION_SHADER)
+    /// in the control stage. A shader of type [`GL_TESS_EVALUATION_SHADER`](crate::gl_enums::GL_TESS_EVALUATION_SHADER)
     /// is a shader that is intended to run on the programmable tessellation processor
-    /// in the evaluation stage. A shader of type [`GL_GEOMETRY_SHADER`](crate::enums::GL_GEOMETRY_SHADER)
+    /// in the evaluation stage. A shader of type [`GL_GEOMETRY_SHADER`](crate::gl_enums::GL_GEOMETRY_SHADER)
     /// is a shader that is intended to run on the programmable geometry processor.
-    /// A shader of type [`GL_FRAGMENT_SHADER`](crate::enums::GL_FRAGMENT_SHADER)
+    /// A shader of type [`GL_FRAGMENT_SHADER`](crate::gl_enums::GL_FRAGMENT_SHADER)
     /// is a shader that is intended to run on the programmable fragment processor.
     ///
-    /// When created, a shader object's [`GL_SHADER_TYPE`](crate::enums::GL_SHADER_TYPE)
-    /// parameter is set to either [`GL_COMPUTE_SHADER`](crate::enums::GL_COMPUTE_SHADER),
-    /// [`GL_VERTEX_SHADER`](crate::enums::GL_VERTEX_SHADER), [`GL_TESS_CONTROL_SHADER`](crate::enums::GL_TESS_CONTROL_SHADER),
-    /// [`GL_TESS_EVALUATION_SHADER`](crate::enums::GL_TESS_EVALUATION_SHADER),
-    /// [`GL_GEOMETRY_SHADER`](crate::enums::GL_GEOMETRY_SHADER) or [`GL_FRAGMENT_SHADER`](crate::enums::GL_FRAGMENT_SHADER),
+    /// When created, a shader object's [`GL_SHADER_TYPE`](crate::gl_enums::GL_SHADER_TYPE)
+    /// parameter is set to either [`GL_COMPUTE_SHADER`](crate::gl_enums::GL_COMPUTE_SHADER),
+    /// [`GL_VERTEX_SHADER`](crate::gl_enums::GL_VERTEX_SHADER), [`GL_TESS_CONTROL_SHADER`](crate::gl_enums::GL_TESS_CONTROL_SHADER),
+    /// [`GL_TESS_EVALUATION_SHADER`](crate::gl_enums::GL_TESS_EVALUATION_SHADER),
+    /// [`GL_GEOMETRY_SHADER`](crate::gl_enums::GL_GEOMETRY_SHADER) or [`GL_FRAGMENT_SHADER`](crate::gl_enums::GL_FRAGMENT_SHADER),
     /// depending on the value of `shaderType`.
     ///
     /// ### Notes
@@ -56,7 +54,7 @@ impl Context {
     /// Applications are responsible for providing the synchronization across API
     /// calls when objects are accessed from different execution threads.
     ///
-    /// [`GL_COMPUTE_SHADER`](crate::enums::GL_COMPUTE_SHADER) is available only
+    /// [`GL_COMPUTE_SHADER`](crate::gl_enums::GL_COMPUTE_SHADER) is available only
     /// if the GL version is 4.3 or higher.
     ///
     /// ### Associated Gets
@@ -99,8 +97,8 @@ impl Context {
     /// the source code in `shader` to the source code in the array of strings
     /// specified by `string`. Any source code previously stored in the shader
     /// object is completely replaced. The number of strings in the array is specified
-    /// by `count`. If `length` is [`NULL`](crate::enums::NULL), each string is
-    /// assumed to be null terminated. If `length` is a value other than [`NULL`](crate::enums::NULL),
+    /// by `count`. If `length` is [`NULL`](crate::gl_enums::NULL), each string is
+    /// assumed to be null terminated. If `length` is a value other than [`NULL`](crate::gl_enums::NULL),
     /// it points to an array containing a string length for each of the corresponding
     /// elements of `string`. Each element in the `length` array may contain the
     /// length of the corresponding string (the null character is not counted as
@@ -115,7 +113,7 @@ impl Context {
     ///
     /// ### Associated Gets
     /// [**glGetShader**](crate::context::Context::oxidegl_get_shader) with arguments
-    /// `shader` and [`GL_SHADER_SOURCE_LENGTH`](crate::enums::GL_SHADER_SOURCE_LENGTH)
+    /// `shader` and [`GL_SHADER_SOURCE_LENGTH`](crate::gl_enums::GL_SHADER_SOURCE_LENGTH)
     ///
     /// [**glGetShaderSource**](crate::context::Context::oxidegl_get_shader_source)
     /// with argument `shader`
@@ -178,10 +176,10 @@ impl Context {
     /// specified by `shader`.
     ///
     /// The compilation status will be stored as part of the shader object's state.
-    /// This value will be set to [`GL_TRUE`](crate::enums::GL_TRUE) if the shader
-    /// was compiled without errors and is ready for use, and [`GL_FALSE`](crate::enums::GL_FALSE)
+    /// This value will be set to [`GL_TRUE`](crate::gl_enums::GL_TRUE) if the shader
+    /// was compiled without errors and is ready for use, and [`GL_FALSE`](crate::gl_enums::GL_FALSE)
     /// otherwise. It can be queried by calling [**glGetShader**](crate::context::Context::oxidegl_get_shader)
-    /// with arguments `shader` and [`GL_COMPILE_STATUS`](crate::enums::GL_COMPILE_STATUS).
+    /// with arguments `shader` and [`GL_COMPILE_STATUS`](crate::gl_enums::GL_COMPILE_STATUS).
     ///
     /// Compilation of a shader can fail for a number of reasons as specified by
     /// the OpenGL Shading Language Specification. Whether or not the compilation
@@ -193,7 +191,7 @@ impl Context {
     /// with argument `shader`
     ///
     /// [**glGetShader**](crate::context::Context::oxidegl_get_shader) with arguments
-    /// `shader` and [`GL_COMPILE_STATUS`](crate::enums::GL_COMPILE_STATUS)
+    /// `shader` and [`GL_COMPILE_STATUS`](crate::gl_enums::GL_COMPILE_STATUS)
     ///
     /// [**glIsShader**](crate::context::Context::oxidegl_is_shader)
     pub fn oxidegl_compile_shader(&mut self, shader: GLuint) -> GlFallible {
@@ -207,9 +205,9 @@ impl Context {
     ///
     /// `pname`
     ///
-    /// > Specifies the object parameter. Accepted symbolic names are [`GL_SHADER_TYPE`](crate::enums::GL_SHADER_TYPE),
-    /// > [`GL_DELETE_STATUS`](crate::enums::GL_DELETE_STATUS), [`GL_COMPILE_STATUS`](crate::enums::GL_COMPILE_STATUS),
-    /// > [`GL_INFO_LOG_LENGTH`](crate::enums::GL_INFO_LOG_LENGTH), [`GL_SHADER_SOURCE_LENGTH`](crate::enums::GL_SHADER_SOURCE_LENGTH).
+    /// > Specifies the object parameter. Accepted symbolic names are [`GL_SHADER_TYPE`](crate::gl_enums::GL_SHADER_TYPE),
+    /// > [`GL_DELETE_STATUS`](crate::gl_enums::GL_DELETE_STATUS), [`GL_COMPILE_STATUS`](crate::gl_enums::GL_COMPILE_STATUS),
+    /// > [`GL_INFO_LOG_LENGTH`](crate::gl_enums::GL_INFO_LOG_LENGTH), [`GL_SHADER_SOURCE_LENGTH`](crate::gl_enums::GL_SHADER_SOURCE_LENGTH).
     ///
     /// `params`
     ///
@@ -220,32 +218,32 @@ impl Context {
     /// in `params` the value of a parameter for a specific shader object. The
     /// following parameters are defined:
     ///
-    /// [`GL_SHADER_TYPE`](crate::enums::GL_SHADER_TYPE)
+    /// [`GL_SHADER_TYPE`](crate::gl_enums::GL_SHADER_TYPE)
     ///
-    /// > `params` returns [`GL_VERTEX_SHADER`](crate::enums::GL_VERTEX_SHADER) if
-    /// > `shader` is a vertex shader object, [`GL_GEOMETRY_SHADER`](crate::enums::GL_GEOMETRY_SHADER)
-    /// > if `shader` is a geometry shader object, and [`GL_FRAGMENT_SHADER`](crate::enums::GL_FRAGMENT_SHADER)
+    /// > `params` returns [`GL_VERTEX_SHADER`](crate::gl_enums::GL_VERTEX_SHADER) if
+    /// > `shader` is a vertex shader object, [`GL_GEOMETRY_SHADER`](crate::gl_enums::GL_GEOMETRY_SHADER)
+    /// > if `shader` is a geometry shader object, and [`GL_FRAGMENT_SHADER`](crate::gl_enums::GL_FRAGMENT_SHADER)
     /// > if `shader` is a fragment shader object.
     ///
-    /// [`GL_DELETE_STATUS`](crate::enums::GL_DELETE_STATUS)
+    /// [`GL_DELETE_STATUS`](crate::gl_enums::GL_DELETE_STATUS)
     ///
-    /// > `params` returns [`GL_TRUE`](crate::enums::GL_TRUE) if `shader` is currently
-    /// > flagged for deletion, and [`GL_FALSE`](crate::enums::GL_FALSE) otherwise.
+    /// > `params` returns [`GL_TRUE`](crate::gl_enums::GL_TRUE) if `shader` is currently
+    /// > flagged for deletion, and [`GL_FALSE`](crate::gl_enums::GL_FALSE) otherwise.
     ///
-    /// [`GL_COMPILE_STATUS`](crate::enums::GL_COMPILE_STATUS)
+    /// [`GL_COMPILE_STATUS`](crate::gl_enums::GL_COMPILE_STATUS)
     ///
-    /// > `params` returns [`GL_TRUE`](crate::enums::GL_TRUE) if the last compile
-    /// > operation on `shader` was successful, and [`GL_FALSE`](crate::enums::GL_FALSE)
+    /// > `params` returns [`GL_TRUE`](crate::gl_enums::GL_TRUE) if the last compile
+    /// > operation on `shader` was successful, and [`GL_FALSE`](crate::gl_enums::GL_FALSE)
     /// > otherwise.
     ///
-    /// [`GL_INFO_LOG_LENGTH`](crate::enums::GL_INFO_LOG_LENGTH)
+    /// [`GL_INFO_LOG_LENGTH`](crate::gl_enums::GL_INFO_LOG_LENGTH)
     ///
     /// > `params` returns the number of characters in the information log for `shader`
     /// > including the null termination character (i.e., the size of the character
     /// > buffer required to store the information log). If `shader` has no information
     /// > log, a value of 0 is returned.
     ///
-    /// [`GL_SHADER_SOURCE_LENGTH`](crate::enums::GL_SHADER_SOURCE_LENGTH)
+    /// [`GL_SHADER_SOURCE_LENGTH`](crate::gl_enums::GL_SHADER_SOURCE_LENGTH)
     ///
     /// > `params` returns the length of the concatenation of the source strings
     /// > that make up the shader source for the `shader`, including the null termination
@@ -306,14 +304,14 @@ impl Context {
     /// value of 0 for `shader` will be silently ignored.
     ///
     /// To determine whether an object has been flagged for deletion, call [**glGetShader**](crate::context::Context::oxidegl_get_shader)
-    /// with arguments `shader` and [`GL_DELETE_STATUS`](crate::enums::GL_DELETE_STATUS).
+    /// with arguments `shader` and [`GL_DELETE_STATUS`](crate::gl_enums::GL_DELETE_STATUS).
     ///
     /// ### Associated Gets
     /// [**glGetAttachedShaders**](crate::context::Context::oxidegl_get_attached_shaders)
     /// with the program object to be queried
     ///
     /// [**glGetShader**](crate::context::Context::oxidegl_get_shader) with arguments
-    /// `shader` and [`GL_DELETE_STATUS`](crate::enums::GL_DELETE_STATUS)
+    /// `shader` and [`GL_DELETE_STATUS`](crate::gl_enums::GL_DELETE_STATUS)
     ///
     /// [**glIsShader**](crate::context::Context::oxidegl_is_shader)
     pub fn oxidegl_delete_shader(&mut self, shader: GLuint) {

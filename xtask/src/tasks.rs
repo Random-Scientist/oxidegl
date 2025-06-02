@@ -110,7 +110,7 @@ pub struct BuildOxideGL {
     #[arg(short, long)]
     parallel: bool,
     /// Which project component to build. (by directory name e.g. `--component oxidegl_c` or `-c oxidegl_shim`)
-    #[arg(short, long, default_value = "oxidegl")]
+    #[arg(short, long, default_value = "oxidegl_c")]
     component: String,
 }
 

@@ -2,13 +2,13 @@
 // Unimplemented GL Commands
 
 use crate::context::Context;
-use crate::context::error::GlFallible;
+use crate::error::GlFallible;
 use crate::gl_enums::{
     AtomicCounterBufferPName, AttributeType, BlendEquationModeEXT, BlendingFactor,
     BlitFramebufferFilter, Buffer, BufferAccess, BufferPName, BufferStorageTarget, BufferTarget,
     BufferUsage, ClampColorMode, ClearBufferMask, ClipControlDepth, ClipControlOrigin, ColorBuffer,
-    ConditionalRenderMode, CopyBufferSubDataTarget, CopyImageSubDataTarget,
-    DepthFunction, DrawBufferMode, DrawElementsType, EnableCap, FramebufferAttachment,
+    ConditionalRenderMode, CopyBufferSubDataTarget, CopyImageSubDataTarget, DepthFunction,
+    DrawBufferMode, DrawElementsType, EnableCap, FramebufferAttachment,
     FramebufferAttachmentParameterName, FramebufferParameterName, FramebufferTarget,
     FrontFaceDirection, GetFramebufferParameter, GetTextureParameter, HintMode, HintTarget,
     InternalFormat, InternalFormatPName, InvalidateFramebufferAttachment, LogicOp,
@@ -19092,24 +19092,6 @@ impl Context {
     /// or [`GL_POLYGON_OFFSET_UNITS`](crate::gl_enums::GL_POLYGON_OFFSET_UNITS).
     pub fn oxidegl_polygon_offset(&mut self, factor: GLfloat, units: GLfloat) -> GlFallible {
         panic!("command oxidegl_polygon_offset not yet implemented");
-    }
-    /// ### Description
-    /// [**glPopDebugGroup**](crate::context::Context::oxidegl_pop_debug_group)
-    /// pops the active debug group. After popping a debug group, the GL will also
-    /// generate a debug output message describing its cause based on the `message`
-    /// string, the source `source`, and an ID `id` submitted to the corresponding
-    /// [**glPushDebugGroup**](crate::context::Context::oxidegl_push_debug_group)
-    /// command. [`GL_DEBUG_TYPE_PUSH_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_PUSH_GROUP)
-    /// and [`GL_DEBUG_TYPE_POP_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_POP_GROUP)
-    /// share a single namespace for message `id`. `severity` has the value [`GL_DEBUG_SEVERITY_NOTIFICATION`](crate::gl_enums::GL_DEBUG_SEVERITY_NOTIFICATION).
-    /// The `type` has the value [`GL_DEBUG_TYPE_POP_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_POP_GROUP).
-    /// Popping a debug group restores the debug output volume control of the
-    /// parent debug group.
-    ///
-    /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_DEBUG_MESSAGE_LENGTH`](crate::gl_enums::GL_MAX_DEBUG_MESSAGE_LENGTH).
-    pub fn oxidegl_pop_debug_group(&mut self) -> GlFallible {
-        panic!("command oxidegl_pop_debug_group not yet implemented");
     }
     /// ### Parameters
     /// `index`

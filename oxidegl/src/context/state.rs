@@ -13,7 +13,7 @@ use crate::{
     util::bitflag_bits,
 };
 
-use super::{
+use crate::{
     commands::buffer::Buffer,
     debug::DebugState,
     framebuffer::{DrawBuffers, Framebuffer, MAX_COLOR_ATTACHMENTS},

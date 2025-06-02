@@ -9,7 +9,7 @@ use std::{marker::PhantomData, mem::MaybeUninit};
 use half::f16;
 
 use crate::{
-    context::debug::{gl_trace, gl_warn},
+    debug::{gl_trace, gl_warn},
     gl_enums::{InternalFormat, PixelFormat, PixelType},
 };
 mod internal_formats;

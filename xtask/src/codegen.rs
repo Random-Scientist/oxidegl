@@ -498,8 +498,8 @@ pub fn write_dispatch_impl<T: Write>(w: &mut T, v: &[FnCollection<'_>]) -> Resul
         // GL Command C ABI Shims
 
         use crate::context::with_ctx_mut;
-        use oxidegl::context::error::GlResult;
         use oxidegl::conversions::GLenumExt;
+        use oxidegl::error::GlResult;
         use oxidegl::gl_types::*;
     ";
     writeln!(w, "{DISPATCH_PREFIX}")?;
@@ -611,7 +611,7 @@ pub fn write_placeholder_impl<T: Write>(w: &mut T, v: &[FnCollection<'_>]) -> Re
         // Unimplemented GL Commands
 
         use crate::context::Context;
-        use crate::context::error::GlFallible;
+        use crate::error::GlFallible;
         use crate::gl_types::*;";
     writeln!(w, "{PLACEHOLDER_PREFIX} use {ENUMS_PATH}{{{enum_uses}}};\n")?;
     for item in v {

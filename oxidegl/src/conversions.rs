@@ -1,11 +1,9 @@
 use core::ptr;
 
 use crate::{
-    context::{
-        debug::gl_err,
-        error::{GlError, GlFallible},
-        gl_object::{NamedObject, ObjectName},
-    },
+    debug::gl_err,
+    error::{GlError, GlFallible},
+    gl_object::{NamedObject, ObjectName},
     gl_types::{GLenum, GLsizei},
     util::trimmed_type_name,
 };

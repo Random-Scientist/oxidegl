@@ -128,15 +128,16 @@ int main() {
     // input
     // -----
     processInput(window);
-
+    glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 10, -1, "Test Group 1");
+    glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 10, -1, "Test Group 2");
     // render
     // ------
     glClearColor(1.0f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-
+    glPopDebugGroup();
     glBindVertexArray(hctVAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
-
+    glPopDebugGroup();
     // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved
     // etc.)
     // -------------------------------------------------------------------------------

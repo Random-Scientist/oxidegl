@@ -111,7 +111,11 @@ impl MetalProperties {
             } else {
                 31
             },
-            apple7_8_supports_bc: device.supportsBCTextureCompression(),
+            apple7_8_supports_bc: if families.contains(Families::APPLE7 | Families::APPLE8) {
+                device.supportsBCTextureCompression()
+            } else {
+                false
+            },
         }
     }
     fn get_texture_caps(&self, format: MTLPixelFormat) -> Option<TextureCaps> {

@@ -1,5 +1,6 @@
-use std::{ffi::c_void, ptr::NonNull};
+use std::{env, ffi::c_void, ptr::NonNull};
 
+use flexi_logger::Logger;
 use log::{debug, trace};
 use objc2::rc::Retained;
 use objc2_app_kit::NSView;
@@ -68,8 +69,19 @@ pub fn box_ctx(ctx: Context) -> NonNull<Context> {
 /// # Safety
 /// This needs to be run as early as possible (ideally before the program spawns a thread other than the main thread)
 pub unsafe extern "C" fn oxidegl_platform_init() {
+    init_logger();
     unsafe {
         oxidegl::debug_init();
+    }
+}
+pub(crate) fn init_logger() {
+    if !env::var("OXIDEGL_LOG_TO_STDOUT").is_ok_and(|v| v == "0") {
+        Logger::try_with_env_or_str("none, oxidegl=trace")
+            .unwrap()
+            .log_to_stdout()
+            .start()
+            .unwrap();
+        log::trace!("OxideGL stdout logger initialized");
     }
 }
 

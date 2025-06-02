@@ -4,17 +4,15 @@ use std::iter;
 use log::trace;
 
 use crate::{
-    context::{
-        Context,
-        commands::buffer::Buffer,
-        error::{GlError, GlFallible, gl_assert},
-        gl_object::ObjectName,
-        vao::{IntegralCastBehavior, Vao},
-    },
+    commands::buffer::Buffer,
+    context::Context,
     conversions::{CurrentBinding, MaybeObjectName, sizei},
+    error::{GlError, GlFallible, gl_assert},
     gl_enums::{VertexAttribIType, VertexAttribPointerType, VertexAttribType},
+    gl_object::ObjectName,
     gl_types::{GLboolean, GLenum, GLint, GLintptr, GLsizei, GLuint, GLvoid},
     util::run_if_changed,
+    vao::{IntegralCastBehavior, Vao},
 };
 
 //TODO glGetVertexAttribiv
@@ -63,9 +61,9 @@ impl Context {
 ///
 /// `normalized`
 ///
-/// > Specifies whether fixed-point data values should be normalized( [`GL_TRUE`](crate::enums::GL_TRUE))
-/// > or converted directly as fixed-point values( [`GL_FALSE`](crate::enums::GL_FALSE))
-/// > when they are accessed. This parameter is ignored if `type` is [`GL_FIXED`](crate::enums::GL_FIXED).
+/// > Specifies whether fixed-point data values should be normalized( [`GL_TRUE`](crate::gl_enums::GL_TRUE))
+/// > or converted directly as fixed-point values( [`GL_FALSE`](crate::gl_enums::GL_FALSE))
+/// > when they are accessed. This parameter is ignored if `type` is [`GL_FIXED`](crate::gl_enums::GL_FIXED).
 ///
 /// `relativeoffset`
 ///
@@ -82,19 +80,19 @@ impl Context {
 /// operate on the bound vertex array object, whereas the last three ones modify
 /// the state of a vertex array object with ID `vaobj`. `attribindex` specifies
 /// the index of the generic vertex attribute array whose data layout is being
-/// described, and must be less than the value of [`GL_MAX_VERTEX_ATTRIBS`](crate::enums::GL_MAX_VERTEX_ATTRIBS).
+/// described, and must be less than the value of [`GL_MAX_VERTEX_ATTRIBS`](crate::gl_enums::GL_MAX_VERTEX_ATTRIBS).
 ///
 /// `size` determines the number of components per vertex are allocated to
 /// the specified attribute and must be 1, 2, 3, 4, or `type` indicates the
-/// type of the data. If `type` is one of [`GL_BYTE`](crate::enums::GL_BYTE),
-/// [`GL_SHORT`](crate::enums::GL_SHORT), [`GL_INT`](crate::enums::GL_INT),
-/// [`GL_FIXED`](crate::enums::GL_FIXED), [`GL_FLOAT`](crate::enums::GL_FLOAT),
-/// [`GL_HALF_FLOAT`](crate::enums::GL_HALF_FLOAT), and [`GL_DOUBLE`](crate::enums::GL_DOUBLE)
-/// indicate types [`GL_UNSIGNED_BYTE`](crate::enums::GL_UNSIGNED_BYTE), [`GL_UNSIGNED_SHORT`](crate::enums::GL_UNSIGNED_SHORT),
-/// and [`GL_UNSIGNED_INT`](crate::enums::GL_UNSIGNED_INT) indicate types
-/// [`GL_INT_2_10_10_10_REV`](crate::enums::GL_INT_2_10_10_10_REV) and [`GL_UNSIGNED_INT_2_10_10_10_REV`](crate::enums::GL_UNSIGNED_INT_2_10_10_10_REV)
+/// type of the data. If `type` is one of [`GL_BYTE`](crate::gl_enums::GL_BYTE),
+/// [`GL_SHORT`](crate::gl_enums::GL_SHORT), [`GL_INT`](crate::gl_enums::GL_INT),
+/// [`GL_FIXED`](crate::gl_enums::GL_FIXED), [`GL_FLOAT`](crate::gl_enums::GL_FLOAT),
+/// [`GL_HALF_FLOAT`](crate::gl_enums::GL_HALF_FLOAT), and [`GL_DOUBLE`](crate::gl_enums::GL_DOUBLE)
+/// indicate types [`GL_UNSIGNED_BYTE`](crate::gl_enums::GL_UNSIGNED_BYTE), [`GL_UNSIGNED_SHORT`](crate::gl_enums::GL_UNSIGNED_SHORT),
+/// and [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT) indicate types
+/// [`GL_INT_2_10_10_10_REV`](crate::gl_enums::GL_INT_2_10_10_10_REV) and [`GL_UNSIGNED_INT_2_10_10_10_REV`](crate::gl_enums::GL_UNSIGNED_INT_2_10_10_10_REV)
 /// indicating respectively four signed or unsigned elements packed into a
-/// single [`GL_UNSIGNED_INT_10F_11F_11F_REV`](crate::enums::GL_UNSIGNED_INT_10F_11F_11F_REV)
+/// single [`GL_UNSIGNED_INT_10F_11F_11F_REV`](crate::gl_enums::GL_UNSIGNED_INT_10F_11F_11F_REV)
 /// indicating three floating point values packed into a single
 ///
 /// [**glVertexAttribLFormat**](crate::context::Context::oxidegl_vertex_attrib_l_format)
@@ -102,18 +100,18 @@ impl Context {
 /// is used to specify layout for data associated with a generic attribute
 /// variable declared as 64-bit double precision components. For [**glVertexAttribLFormat**](crate::context::Context::oxidegl_vertex_attrib_l_format)
 /// and [**glVertexArrayAttribLFormat**](crate::context::Context::oxidegl_vertex_array_attrib_l_format),
-/// `type` must be [`GL_DOUBLE`](crate::enums::GL_DOUBLE). In contrast to [**glVertexAttribFormat**](crate::context::Context::oxidegl_vertex_attrib_format)
+/// `type` must be [`GL_DOUBLE`](crate::gl_enums::GL_DOUBLE). In contrast to [**glVertexAttribFormat**](crate::context::Context::oxidegl_vertex_attrib_format)
 /// or [**glVertexArrayAttribFormat**](crate::context::Context::oxidegl_vertex_array_attrib_format),
-/// which will cause data declared as [`GL_DOUBLE`](crate::enums::GL_DOUBLE)
+/// which will cause data declared as [`GL_DOUBLE`](crate::gl_enums::GL_DOUBLE)
 /// to be converted to 32-bit representation, [**glVertexAttribLFormat**](crate::context::Context::oxidegl_vertex_attrib_l_format)
 /// and [**glVertexArrayAttribLFormat**](crate::context::Context::oxidegl_vertex_array_attrib_l_format)
 /// cause such data to be left in its natural, 64-bit representation.
 ///
 /// For [**glVertexAttribFormat**](crate::context::Context::oxidegl_vertex_attrib_format)
 /// and [**glVertexArrayAttribFormat**](crate::context::Context::oxidegl_vertex_array_attrib_format),
-/// if `normalized` is [`GL_TRUE`](crate::enums::GL_TRUE), then integer data
+/// if `normalized` is [`GL_TRUE`](crate::gl_enums::GL_TRUE), then integer data
 /// is normalized to the range \[-1, 1\] or \[0, 1\] if it is signed or unsigned,
-/// respectively. If `normalized` is [`GL_FALSE`](crate::enums::GL_FALSE) then
+/// respectively. If `normalized` is [`GL_FALSE`](crate::gl_enums::GL_FALSE) then
 /// integer data is directly converted to floating point.
 ///
 /// `relativeoffset` is the offset, measured in basic machine units of the
@@ -135,15 +133,15 @@ impl Context {
 /// integers.
 ///
 /// ### Notes
-/// [`GL_UNSIGNED_INT_10F_11F_11F_REV`](crate::enums::GL_UNSIGNED_INT_10F_11F_11F_REV)
+/// [`GL_UNSIGNED_INT_10F_11F_11F_REV`](crate::gl_enums::GL_UNSIGNED_INT_10F_11F_11F_REV)
 /// is accepted for `type` only if the GL version is 4.4 or higher.
 ///
 /// ### Associated Gets
-/// [**glGet**](crate::context::Context::oxidegl_get) with arguments [`GL_MAX_VERTEX_ATTRIB_BINDINGS`](crate::enums::GL_MAX_VERTEX_ATTRIB_BINDINGS),
-/// or [`GL_MAX_VERTEX_ATTRIB_RELATIVE_OFFSET`](crate::enums::GL_MAX_VERTEX_ATTRIB_RELATIVE_OFFSET).
+/// [**glGet**](crate::context::Context::oxidegl_get) with arguments [`GL_MAX_VERTEX_ATTRIB_BINDINGS`](crate::gl_enums::GL_MAX_VERTEX_ATTRIB_BINDINGS),
+/// or [`GL_MAX_VERTEX_ATTRIB_RELATIVE_OFFSET`](crate::gl_enums::GL_MAX_VERTEX_ATTRIB_RELATIVE_OFFSET).
 ///
 /// [**glGetVertexAttrib**](crate::context::Context::oxidegl_get_vertex_attrib)
-/// with argument [`GL_VERTEX_ATTRIB_RELATIVE_OFFSET`](crate::enums::GL_VERTEX_ATTRIB_RELATIVE_OFFSET).
+/// with argument [`GL_VERTEX_ATTRIB_RELATIVE_OFFSET`](crate::gl_enums::GL_VERTEX_ATTRIB_RELATIVE_OFFSET).
 impl Context {
     #[allow(clippy::cast_sign_loss)]
     pub fn oxidegl_vertex_attrib_format(
@@ -271,7 +269,7 @@ impl Context {
 /// named `vaobj`, for which the binding should be modified. `offset` and `stride`
 /// specify the offset of the first element within the buffer and the distance
 /// between elements within the buffer, respectively, and are both measured
-/// in basic machine units. `bindingindex` must be less than the value of [`GL_MAX_VERTEX_ATTRIB_BINDINGS`](crate::enums::GL_MAX_VERTEX_ATTRIB_BINDINGS).
+/// in basic machine units. `bindingindex` must be less than the value of [`GL_MAX_VERTEX_ATTRIB_BINDINGS`](crate::gl_enums::GL_MAX_VERTEX_ATTRIB_BINDINGS).
 /// `offset` and `stride` must be greater than or equal to zero. If `buffer`
 /// is zero, then any buffer currently bound to the specified binding point
 /// is unbound.
@@ -283,7 +281,7 @@ impl Context {
 /// is then attached to the specified `bindingindex` of the vertex array object.
 ///
 /// ### Associated Gets
-/// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_VERTEX_ATTRIB_BINDINGS`](crate::enums::GL_MAX_VERTEX_ATTRIB_BINDINGS).
+/// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_VERTEX_ATTRIB_BINDINGS`](crate::gl_enums::GL_MAX_VERTEX_ATTRIB_BINDINGS).
 impl Context {
     pub fn oxidegl_bind_vertex_buffer(
         &mut self,
@@ -566,14 +564,14 @@ impl Context {
     ///
     /// ### Description
     /// [**glIsVertexArray**](crate::context::Context::oxidegl_is_vertex_array)
-    /// returns [`GL_TRUE`](crate::enums::GL_TRUE) if `array` is currently the
+    /// returns [`GL_TRUE`](crate::gl_enums::GL_TRUE) if `array` is currently the
     /// name of a vertex array object. If `array` is zero, or if `array` is not
     /// the name of a vertex array object, or if an error occurs, [**glIsVertexArray**](crate::context::Context::oxidegl_is_vertex_array)
-    /// returns [`GL_FALSE`](crate::enums::GL_FALSE). If `array` is a name returned
+    /// returns [`GL_FALSE`](crate::gl_enums::GL_FALSE). If `array` is a name returned
     /// by [**glGenVertexArrays**](crate::context::Context::oxidegl_gen_vertex_arrays),
     /// by that has not yet been bound through a call to [**glBindVertexArray**](crate::context::Context::oxidegl_bind_vertex_array),
     /// then the name is not a vertex array object and [**glIsVertexArray**](crate::context::Context::oxidegl_is_vertex_array)
-    /// returns [`GL_FALSE`](crate::enums::GL_FALSE).
+    /// returns [`GL_FALSE`](crate::gl_enums::GL_FALSE).
     pub fn oxidegl_is_vertex_array(&mut self, array: GLuint) -> GLboolean {
         self.gl_state.vao_list.is_obj(array)
     }
@@ -637,13 +635,13 @@ impl Context {
 /// or [**glMultiDrawArrays**](crate::context::Context::oxidegl_multi_draw_arrays).
 ///
 /// ### Associated Gets
-/// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_VERTEX_ATTRIBS`](crate::enums::GL_MAX_VERTEX_ATTRIBS)
+/// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_VERTEX_ATTRIBS`](crate::gl_enums::GL_MAX_VERTEX_ATTRIBS)
 ///
 /// [**glGetVertexAttrib**](crate::context::Context::oxidegl_get_vertex_attrib)
-/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_ENABLED`](crate::enums::GL_VERTEX_ATTRIB_ARRAY_ENABLED)
+/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_ENABLED`](crate::gl_enums::GL_VERTEX_ATTRIB_ARRAY_ENABLED)
 ///
 /// [**glGetVertexAttribPointerv**](crate::context::Context::oxidegl_get_vertex_attrib_pointerv)
-/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_POINTER`](crate::enums::GL_VERTEX_ATTRIB_ARRAY_POINTER)
+/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_POINTER`](crate::gl_enums::GL_VERTEX_ATTRIB_ARRAY_POINTER)
 impl Context {
     pub fn oxidegl_disable_vertex_attrib_array(&mut self, index: GLuint) -> GlFallible {
         self.get_vao(CurrentBinding)?
@@ -692,12 +690,12 @@ impl Context {
 /// the vertex array object affected is that currently bound. For [**glVertexArrayAttribBinding**](crate::context::Context::oxidegl_vertex_array_attrib_binding),
 /// `vaobj` is the name of the vertex array object.
 ///
-/// `attribindex` must be less than the value of [`GL_MAX_VERTEX_ATTRIBS`](crate::enums::GL_MAX_VERTEX_ATTRIBS)
-/// and `bindingindex` must be less than the value of [`GL_MAX_VERTEX_ATTRIB_BINDINGS`](crate::enums::GL_MAX_VERTEX_ATTRIB_BINDINGS).
+/// `attribindex` must be less than the value of [`GL_MAX_VERTEX_ATTRIBS`](crate::gl_enums::GL_MAX_VERTEX_ATTRIBS)
+/// and `bindingindex` must be less than the value of [`GL_MAX_VERTEX_ATTRIB_BINDINGS`](crate::gl_enums::GL_MAX_VERTEX_ATTRIB_BINDINGS).
 ///
 /// ### Associated Gets
-/// [**glGet**](crate::context::Context::oxidegl_get) with arguments [`GL_MAX_VERTEX_ATTRIB_BINDINGS`](crate::enums::GL_MAX_VERTEX_ATTRIB_BINDINGS),
-/// [`GL_VERTEX_BINDING_DIVISOR`](crate::enums::GL_VERTEX_BINDING_DIVISOR).
+/// [**glGet**](crate::context::Context::oxidegl_get) with arguments [`GL_MAX_VERTEX_ATTRIB_BINDINGS`](crate::gl_enums::GL_MAX_VERTEX_ATTRIB_BINDINGS),
+/// [`GL_VERTEX_BINDING_DIVISOR`](crate::gl_enums::GL_VERTEX_BINDING_DIVISOR).
 impl Context {
     pub fn oxidegl_vertex_attrib_binding(
         &mut self,
@@ -747,8 +745,8 @@ impl Context {
 /// updates state of the vertex array object with ID `vaobj`.
 ///
 /// ### Associated Gets
-/// [**glGet**](crate::context::Context::oxidegl_get) with arguments [`GL_MAX_VERTEX_ATTRIB_BINDINGS`](crate::enums::GL_MAX_VERTEX_ATTRIB_BINDINGS),
-/// [`GL_VERTEX_BINDING_DIVISOR`](crate::enums::GL_VERTEX_BINDING_DIVISOR).
+/// [**glGet**](crate::context::Context::oxidegl_get) with arguments [`GL_MAX_VERTEX_ATTRIB_BINDINGS`](crate::gl_enums::GL_MAX_VERTEX_ATTRIB_BINDINGS),
+/// [`GL_VERTEX_BINDING_DIVISOR`](crate::gl_enums::GL_VERTEX_BINDING_DIVISOR).
 impl Context {
     pub fn oxidegl_vertex_binding_divisor(
         &mut self,
@@ -776,32 +774,32 @@ impl Context {
 /// `size`
 ///
 /// > Specifies the number of components per generic vertex attribute. Must be
-/// > 1, 2, 3, 4. Additionally, the symbolic constant [`GL_BGRA`](crate::enums::GL_BGRA)
+/// > 1, 2, 3, 4. Additionally, the symbolic constant [`GL_BGRA`](crate::gl_enums::GL_BGRA)
 /// > is accepted by [**glVertexAttribPointer**](crate::context::Context::oxidegl_vertex_attrib_pointer).
 /// > The initial value is 4.
 ///
 /// `type`
 ///
 /// > Specifies the data type of each component in the array. The symbolic constants
-/// > [`GL_BYTE`](crate::enums::GL_BYTE), [`GL_UNSIGNED_BYTE`](crate::enums::GL_UNSIGNED_BYTE),
-/// > [`GL_SHORT`](crate::enums::GL_SHORT), [`GL_UNSIGNED_SHORT`](crate::enums::GL_UNSIGNED_SHORT),
-/// > [`GL_INT`](crate::enums::GL_INT), and [`GL_UNSIGNED_INT`](crate::enums::GL_UNSIGNED_INT)
+/// > [`GL_BYTE`](crate::gl_enums::GL_BYTE), [`GL_UNSIGNED_BYTE`](crate::gl_enums::GL_UNSIGNED_BYTE),
+/// > [`GL_SHORT`](crate::gl_enums::GL_SHORT), [`GL_UNSIGNED_SHORT`](crate::gl_enums::GL_UNSIGNED_SHORT),
+/// > [`GL_INT`](crate::gl_enums::GL_INT), and [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT)
 /// > are accepted by [**glVertexAttribPointer**](crate::context::Context::oxidegl_vertex_attrib_pointer)
 /// > and [**glVertexAttribIPointer**](crate::context::Context::oxidegl_vertex_attrib_i_pointer).
-/// > Additionally [`GL_HALF_FLOAT`](crate::enums::GL_HALF_FLOAT), [`GL_FLOAT`](crate::enums::GL_FLOAT),
-/// > [`GL_DOUBLE`](crate::enums::GL_DOUBLE), [`GL_FIXED`](crate::enums::GL_FIXED),
-/// > [`GL_INT_2_10_10_10_REV`](crate::enums::GL_INT_2_10_10_10_REV), [`GL_UNSIGNED_INT_2_10_10_10_REV`](crate::enums::GL_UNSIGNED_INT_2_10_10_10_REV)
-/// > and [`GL_UNSIGNED_INT_10F_11F_11F_REV`](crate::enums::GL_UNSIGNED_INT_10F_11F_11F_REV)
+/// > Additionally [`GL_HALF_FLOAT`](crate::gl_enums::GL_HALF_FLOAT), [`GL_FLOAT`](crate::gl_enums::GL_FLOAT),
+/// > [`GL_DOUBLE`](crate::gl_enums::GL_DOUBLE), [`GL_FIXED`](crate::gl_enums::GL_FIXED),
+/// > [`GL_INT_2_10_10_10_REV`](crate::gl_enums::GL_INT_2_10_10_10_REV), [`GL_UNSIGNED_INT_2_10_10_10_REV`](crate::gl_enums::GL_UNSIGNED_INT_2_10_10_10_REV)
+/// > and [`GL_UNSIGNED_INT_10F_11F_11F_REV`](crate::gl_enums::GL_UNSIGNED_INT_10F_11F_11F_REV)
 /// > are accepted by [**glVertexAttribPointer**](crate::context::Context::oxidegl_vertex_attrib_pointer).
-/// > [`GL_DOUBLE`](crate::enums::GL_DOUBLE) is also accepted by [**glVertexAttribLPointer**](crate::context::Context::oxidegl_vertex_attrib_l_pointer)
+/// > [`GL_DOUBLE`](crate::gl_enums::GL_DOUBLE) is also accepted by [**glVertexAttribLPointer**](crate::context::Context::oxidegl_vertex_attrib_l_pointer)
 /// > and is the only token accepted by the `type` parameter for that function.
-/// > The initial value is [`GL_FLOAT`](crate::enums::GL_FLOAT).
+/// > The initial value is [`GL_FLOAT`](crate::gl_enums::GL_FLOAT).
 ///
 /// `normalized`
 ///
 /// > For [**glVertexAttribPointer**](crate::context::Context::oxidegl_vertex_attrib_pointer),
-/// > specifies whether fixed-point data values should be normalized( [`GL_TRUE`](crate::enums::GL_TRUE))
-/// > or converted directly as fixed-point values( [`GL_FALSE`](crate::enums::GL_FALSE))
+/// > specifies whether fixed-point data values should be normalized( [`GL_TRUE`](crate::gl_enums::GL_TRUE))
+/// > or converted directly as fixed-point values( [`GL_FALSE`](crate::gl_enums::GL_FALSE))
 /// > when they are accessed.
 ///
 /// `stride`
@@ -813,7 +811,7 @@ impl Context {
 /// `pointer`
 ///
 /// > Specifies a offset of the first component of the first generic vertex attribute
-/// > in the array in the data store of the buffer currently bound to the [`GL_ARRAY_BUFFER`](crate::enums::GL_ARRAY_BUFFER)
+/// > in the array in the data store of the buffer currently bound to the [`GL_ARRAY_BUFFER`](crate::gl_enums::GL_ARRAY_BUFFER)
 /// > target. The initial value is 0.
 ///
 /// ### Description
@@ -822,36 +820,36 @@ impl Context {
 /// and [**glVertexAttribLPointer**](crate::context::Context::oxidegl_vertex_attrib_l_pointer)
 /// specify the location and data format of the array of generic vertex attributes
 /// at index `index` to use when rendering. `size` specifies the number of
-/// components per attribute and must be 1, 2, 3, 4, or [`GL_BGRA`](crate::enums::GL_BGRA).
+/// components per attribute and must be 1, 2, 3, 4, or [`GL_BGRA`](crate::gl_enums::GL_BGRA).
 /// `type` specifies the data type of each component, and `stride` specifies
 /// the byte stride from one attribute to the next, allowing vertices and attributes
 /// to be packed into a single array or stored in separate arrays.
 ///
 /// For [**glVertexAttribPointer**](crate::context::Context::oxidegl_vertex_attrib_pointer),
-/// if `normalized` is set to [`GL_TRUE`](crate::enums::GL_TRUE), it indicates
+/// if `normalized` is set to [`GL_TRUE`](crate::gl_enums::GL_TRUE), it indicates
 /// that values stored in an integer format are to be mapped to the range \[-1,1\]
 /// (for signed values) or \[0,1\] (for unsigned values) when they are accessed
 /// and converted to floating point. Otherwise, values will be converted to
 /// floats directly without normalization.
 ///
 /// For [**glVertexAttribIPointer**](crate::context::Context::oxidegl_vertex_attrib_i_pointer),
-/// only the integer types [`GL_BYTE`](crate::enums::GL_BYTE), [`GL_UNSIGNED_BYTE`](crate::enums::GL_UNSIGNED_BYTE),
-/// [`GL_SHORT`](crate::enums::GL_SHORT), [`GL_UNSIGNED_SHORT`](crate::enums::GL_UNSIGNED_SHORT),
-/// [`GL_INT`](crate::enums::GL_INT), [`GL_UNSIGNED_INT`](crate::enums::GL_UNSIGNED_INT)
+/// only the integer types [`GL_BYTE`](crate::gl_enums::GL_BYTE), [`GL_UNSIGNED_BYTE`](crate::gl_enums::GL_UNSIGNED_BYTE),
+/// [`GL_SHORT`](crate::gl_enums::GL_SHORT), [`GL_UNSIGNED_SHORT`](crate::gl_enums::GL_UNSIGNED_SHORT),
+/// [`GL_INT`](crate::gl_enums::GL_INT), [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT)
 /// are accepted. Values are always left as integer values.
 ///
 /// [**glVertexAttribLPointer**](crate::context::Context::oxidegl_vertex_attrib_l_pointer)
 /// specifies state for a generic vertex attribute array associated with a
 /// shader attribute variable declared with 64-bit double precision components.
-/// `type` must be [`GL_DOUBLE`](crate::enums::GL_DOUBLE). `index`, `size`,
+/// `type` must be [`GL_DOUBLE`](crate::gl_enums::GL_DOUBLE). `index`, `size`,
 /// and `stride` behave as described for [**glVertexAttribPointer**](crate::context::Context::oxidegl_vertex_attrib_pointer)
 /// and [**glVertexAttribIPointer**](crate::context::Context::oxidegl_vertex_attrib_i_pointer).
 ///
-/// If `pointer` is not [`GL_ARRAY_BUFFER`](crate::enums::GL_ARRAY_BUFFER)
+/// If `pointer` is not [`GL_ARRAY_BUFFER`](crate::gl_enums::GL_ARRAY_BUFFER)
 /// target (see [**glBindBuffer**](crate::context::Context::oxidegl_bind_buffer)
 /// ), otherwise an error is generated. `pointer` is treated as a byte offset
-/// into the buffer object's data store. The buffer object binding( [`GL_ARRAY_BUFFER_BINDING`](crate::enums::GL_ARRAY_BUFFER_BINDING))
-/// is saved as generic vertex attribute array state( [`GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING`](crate::enums::GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING))
+/// into the buffer object's data store. The buffer object binding( [`GL_ARRAY_BUFFER_BINDING`](crate::gl_enums::GL_ARRAY_BUFFER_BINDING))
+/// is saved as generic vertex attribute array state( [`GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING`](crate::gl_enums::GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING))
 /// for index `index`.
 ///
 /// When a generic vertex attribute array is specified, `size`, `type`, `normalized`,
@@ -874,34 +872,34 @@ impl Context {
 /// or [**glMultiDrawElements**](crate::context::Context::oxidegl_multi_draw_elements)
 /// is called.
 ///
-/// [`GL_UNSIGNED_INT_10F_11F_11F_REV`](crate::enums::GL_UNSIGNED_INT_10F_11F_11F_REV)
+/// [`GL_UNSIGNED_INT_10F_11F_11F_REV`](crate::gl_enums::GL_UNSIGNED_INT_10F_11F_11F_REV)
 /// is accepted for `type` only if the GL version is 4.4 or higher.
 ///
 /// ### Associated Gets
-/// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_VERTEX_ATTRIBS`](crate::enums::GL_MAX_VERTEX_ATTRIBS)
+/// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_VERTEX_ATTRIBS`](crate::gl_enums::GL_MAX_VERTEX_ATTRIBS)
 ///
 /// [**glGetVertexAttrib**](crate::context::Context::oxidegl_get_vertex_attrib)
-/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_ENABLED`](crate::enums::GL_VERTEX_ATTRIB_ARRAY_ENABLED)
+/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_ENABLED`](crate::gl_enums::GL_VERTEX_ATTRIB_ARRAY_ENABLED)
 ///
 /// [**glGetVertexAttrib**](crate::context::Context::oxidegl_get_vertex_attrib)
-/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_SIZE`](crate::enums::GL_VERTEX_ATTRIB_ARRAY_SIZE)
+/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_SIZE`](crate::gl_enums::GL_VERTEX_ATTRIB_ARRAY_SIZE)
 ///
 /// [**glGetVertexAttrib**](crate::context::Context::oxidegl_get_vertex_attrib)
-/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_TYPE`](crate::enums::GL_VERTEX_ATTRIB_ARRAY_TYPE)
+/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_TYPE`](crate::gl_enums::GL_VERTEX_ATTRIB_ARRAY_TYPE)
 ///
 /// [**glGetVertexAttrib**](crate::context::Context::oxidegl_get_vertex_attrib)
-/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_NORMALIZED`](crate::enums::GL_VERTEX_ATTRIB_ARRAY_NORMALIZED)
+/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_NORMALIZED`](crate::gl_enums::GL_VERTEX_ATTRIB_ARRAY_NORMALIZED)
 ///
 /// [**glGetVertexAttrib**](crate::context::Context::oxidegl_get_vertex_attrib)
-/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_STRIDE`](crate::enums::GL_VERTEX_ATTRIB_ARRAY_STRIDE)
+/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_STRIDE`](crate::gl_enums::GL_VERTEX_ATTRIB_ARRAY_STRIDE)
 ///
 /// [**glGetVertexAttrib**](crate::context::Context::oxidegl_get_vertex_attrib)
-/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING`](crate::enums::GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING)
+/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING`](crate::gl_enums::GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING)
 ///
-/// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_ARRAY_BUFFER_BINDING`](crate::enums::GL_ARRAY_BUFFER_BINDING)
+/// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_ARRAY_BUFFER_BINDING`](crate::gl_enums::GL_ARRAY_BUFFER_BINDING)
 ///
 /// [**glGetVertexAttribPointerv**](crate::context::Context::oxidegl_get_vertex_attrib_pointerv)
-/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_POINTER`](crate::enums::GL_VERTEX_ATTRIB_ARRAY_POINTER)
+/// with arguments `index` and [`GL_VERTEX_ATTRIB_ARRAY_POINTER`](crate::gl_enums::GL_VERTEX_ATTRIB_ARRAY_POINTER)
 ///
 ///
 // thank god there's no DSA version of this shite

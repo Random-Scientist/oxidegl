@@ -1,5 +1,4 @@
 use ahash::{HashMap, HashMapExt, HashSet, HashSetExt};
-use flexi_logger::Logger;
 use log::{Level, Record, RecordBuilder, logger};
 use objc2::AllocAnyThread;
 use objc2_foundation::NSString;
@@ -94,14 +93,14 @@ pub(crate) struct DebugLogMessage {
 #[derive(Debug)]
 pub struct DebugState {
     messages: VecDeque<DebugLogMessage>,
-    debug_groups: Vec<DebugGroup>,
+    pub(crate) debug_groups: Vec<DebugGroup>,
     pub(crate) callback: GLDEBUGPROC,
     pub(crate) debug_labels: HashMap<any::TypeId, HashMap<u32, Box<CStr>>>,
     pub(crate) user_param_ptr: *mut c_void,
 }
 #[derive(Debug, Clone)]
-pub struct DebugGroup {
-    message: Box<CStr>,
+pub(crate) struct DebugGroup {
+    pub(crate) message: Box<CStr>,
     id: u32,
     src: DebugSource,
     filter: HashMap<u32, HashMap<u32, DisabledMessages>>,
@@ -170,8 +169,8 @@ impl DebugState {
                     vacant_entry.insert(DisabledMessages::empty())
                 }
             };
-            // Safety: caller ensures count and ids are valid to construct a slice of uint from
             #[allow(clippy::cast_sign_loss, clippy::cast_possible_truncation)]
+            // Safety: caller ensures count and ids are valid to construct a slice of uint from
             for i in unsafe { slice::from_raw_parts(ids, count as usize) } {
                 if enable {
                     disable.disabled_ids.remove(i);
@@ -309,6 +308,7 @@ impl DebugState {
         ));
     }
     /// __NOT PART OF PUBLIC API__
+    #[doc(hidden)]
     pub fn log_impl(id: u32, gl_src: DebugSource, gl_ty: DebugType, rec: &Record) {
         let meta = DebugMessageMeta {
             src: gl_src,
@@ -367,8 +367,9 @@ impl DebugState {
         // get it back to use afterwards
         *this_opt = DEBUG_STATE.replace(prev);
 
-        let this = this_opt.as_mut().unwrap();
         bytes.push(0);
+
+        let this = this_opt.as_mut().unwrap();
         let msg = CString::from_vec_with_nul(bytes)
             .expect("failed to convert log message to C string!")
             .into_boxed_c_str();
@@ -566,16 +567,6 @@ const DEBUG_SOURCES: [u32; 6] = unsafe {
     ])
 };
 
-pub(crate) fn init_logger() {
-    if !env::var("OXIDEGL_LOG_TO_STDOUT").is_ok_and(|v| v == "0") {
-        Logger::try_with_env_or_str("none, oxidegl=trace")
-            .unwrap()
-            .log_to_stdout()
-            .start()
-            .unwrap();
-        log::trace!("OxideGL stdout logger initialized");
-    }
-}
 #[allow(unused)]
 pub(crate) use macros::{gl_debug, gl_err, gl_info, gl_log, gl_trace, gl_warn};
 
@@ -647,7 +638,7 @@ pub mod macros {
                 const ID: u32 = $id;
                 mod ns_src_lvl {
                     #![allow(unused_imports)]
-                    use $crate::context::debug::__logging_private as log_impl;
+                    use $crate::debug::__logging_private as log_impl;
 
                     use log_impl::Level::*;
                     pub(super) const LEVEL: log_impl::Level = $level;
@@ -663,7 +654,7 @@ pub mod macros {
                 }
                 mod ns_type {
                     #![allow(unused_imports)]
-                    use $crate::context::debug::__logging_private as log_impl;
+                    use $crate::debug::__logging_private as log_impl;
                     use log_impl::DebugType::DebugTypeOther as None;
                     use log_impl::DebugType::DebugTypeDeprecatedBehavior as DeprecatedBehavior;
                     use log_impl::DebugType::DebugTypeError as Error;
@@ -680,33 +671,33 @@ pub mod macros {
                 // Also so the format argument expressions are evaluated in the outer scope instead
                 // of within imp (which would break many argument expressions that are valid with log! and the like)
                 #[inline]
-                fn imp(args: $crate::context::debug::__logging_private::Arguments) {
-                    let record = $crate::context::debug::__logging_private::Record::builder()
+                fn imp(args: $crate::debug::__logging_private::Arguments) {
+                    let record = $crate::debug::__logging_private::Record::builder()
                         .args(args)
                         .target(TARGET)
                         .level(ns_src_lvl::LEVEL)
                         .module_path_static(Some(
-                            $crate::context::debug::__logging_private::module_path!()
+                            $crate::debug::__logging_private::module_path!()
                         ))
-                        .file_static(Some($crate::context::debug::__logging_private::file!()))
-                        .line(Some($crate::context::debug::__logging_private::line!()))
+                        .file_static(Some($crate::debug::__logging_private::file!()))
+                        .line(Some($crate::debug::__logging_private::line!()))
                         .build();
-                    $crate::context::debug::__logging_private::DebugState::log_impl(ID, ns_src_lvl::SOURCE, ns_type::TYPE, &record);
+                    $crate::debug::__logging_private::DebugState::log_impl(ID, ns_src_lvl::SOURCE, ns_type::TYPE, &record);
                 }
-                imp($crate::context::debug::__logging_private::format_args!($($rest)+));
+                imp($crate::debug::__logging_private::format_args!($($rest)+));
             }
         };
         // gl_log!(src: Api, ty: UndefinedBehavior, Level::Warn, target: "asdf", "this is an {} warning", "OxideGL")
         (src: $src:ident, ty: $ty:ident, level: $level:expr, target: $target:expr, $($rest:tt)+) => {
             let _: () = {
                 const TARGET: &str = $target;
-                const ID: u32 = $crate::context::debug::__logging_private::make_message_id(
-                    $crate::context::debug::__logging_private::file!(),
-                    $crate::context::debug::__logging_private::line!()
+                const ID: u32 = $crate::debug::__logging_private::make_message_id(
+                    $crate::debug::__logging_private::file!(),
+                    $crate::debug::__logging_private::line!()
                 );
                 mod ns_src_lvl {
                     #![allow(unused_imports)]
-                    use $crate::context::debug::__logging_private as log_impl;
+                    use $crate::debug::__logging_private as log_impl;
 
                     use log_impl::Level::*;
                     pub(super) const LEVEL: log_impl::Level = $level;
@@ -722,7 +713,7 @@ pub mod macros {
                 }
                 mod ns_type {
                     #![allow(unused_imports)]
-                    use $crate::context::debug::__logging_private as log_impl;
+                    use $crate::debug::__logging_private as log_impl;
                     use log_impl::DebugType::DebugTypeOther as None;
                     use log_impl::DebugType::DebugTypeDeprecatedBehavior as DeprecatedBehavior;
                     use log_impl::DebugType::DebugTypeError as Error;
@@ -739,33 +730,33 @@ pub mod macros {
                 // Also so the format argument expressions are evaluated in the outer scope instead
                 // of within imp (which would break many argument expressions that are valid with log! and the like)
                 #[inline]
-                fn imp(args: $crate::context::debug::__logging_private::Arguments) {
-                    let record = $crate::context::debug::__logging_private::Record::builder()
+                fn imp(args: $crate::debug::__logging_private::Arguments) {
+                    let record = $crate::debug::__logging_private::Record::builder()
                         .args(args)
                         .target(TARGET)
                         .level(ns_src_lvl::LEVEL)
                         .module_path_static(Some(
-                            $crate::context::debug::__logging_private::module_path!()
+                            $crate::debug::__logging_private::module_path!()
                         ))
-                        .file_static(Some($crate::context::debug::__logging_private::file!()))
-                        .line(Some($crate::context::debug::__logging_private::line!()))
+                        .file_static(Some($crate::debug::__logging_private::file!()))
+                        .line(Some($crate::debug::__logging_private::line!()))
                         .build();
-                    $crate::context::debug::__logging_private::DebugState::log_impl(ID, ns_src_lvl::SOURCE, ns_type::TYPE, &record);
+                    $crate::debug::__logging_private::DebugState::log_impl(ID, ns_src_lvl::SOURCE, ns_type::TYPE, &record);
                 }
-                imp($crate::context::debug::__logging_private::format_args!($($rest)+));
+                imp($crate::debug::__logging_private::format_args!($($rest)+));
             };
         };
         // gl_log!(src: Api, ty: UndefinedBehavior, Level::Warn, "this is an {} warning", "OxideGL");
         (src: $src:ident, ty: $ty:ident, level: $level:expr, $($rest:tt)+) => {
             let _: () = {
-                const TARGET: &str = $crate::context::debug::__logging_private::module_path!();
-                const ID: u32 = $crate::context::debug::__logging_private::make_message_id(
-                    $crate::context::debug::__logging_private::file!(),
-                    $crate::context::debug::__logging_private::line!()
+                const TARGET: &str = $crate::debug::__logging_private::module_path!();
+                const ID: u32 = $crate::debug::__logging_private::make_message_id(
+                    $crate::debug::__logging_private::file!(),
+                    $crate::debug::__logging_private::line!()
                 );
                 mod ns_src_lvl {
                     #![allow(unused_imports)]
-                    use $crate::context::debug::__logging_private as log_impl;
+                    use $crate::debug::__logging_private as log_impl;
 
                     use log_impl::Level::*;
                     pub(super) const LEVEL: log_impl::Level = $level;
@@ -781,7 +772,7 @@ pub mod macros {
                 }
                 mod ns_type {
                     #![allow(unused_imports)]
-                    use $crate::context::debug::__logging_private as log_impl;
+                    use $crate::debug::__logging_private as log_impl;
                     use log_impl::DebugType::DebugTypeOther as None;
                     use log_impl::DebugType::DebugTypeDeprecatedBehavior as DeprecatedBehavior;
                     use log_impl::DebugType::DebugTypeError as Error;
@@ -798,36 +789,36 @@ pub mod macros {
                 // Also so the format argument expressions are evaluated in the outer scope instead
                 // of within imp (which would break many argument expressions that are valid with log! and the like)
                 #[inline]
-                fn imp(args: $crate::context::debug::__logging_private::Arguments) {
-                    let record = $crate::context::debug::__logging_private::Record::builder()
+                fn imp(args: $crate::debug::__logging_private::Arguments) {
+                    let record = $crate::debug::__logging_private::Record::builder()
                         .args(args)
                         .target(TARGET)
                         .level(ns_src_lvl::LEVEL)
                         .module_path_static(Some(
-                            $crate::context::debug::__logging_private::module_path!()
+                            $crate::debug::__logging_private::module_path!()
                         ))
-                        .file_static(Some($crate::context::debug::__logging_private::file!()))
-                        .line(Some($crate::context::debug::__logging_private::line!()))
+                        .file_static(Some($crate::debug::__logging_private::file!()))
+                        .line(Some($crate::debug::__logging_private::line!()))
                         .build();
-                    $crate::context::debug::__logging_private::DebugState::log_impl(ID, ns_src_lvl::SOURCE, ns_type::TYPE, &record);
+                    $crate::debug::__logging_private::DebugState::log_impl(ID, ns_src_lvl::SOURCE, ns_type::TYPE, &record);
                 }
-                imp($crate::context::debug::__logging_private::format_args!($($rest)+));
+                imp($crate::debug::__logging_private::format_args!($($rest)+));
             };
         };
         // gl_log!(ty: UndefinedBehavior, level: Info, target: "test", "this is a message from {}", "the OxideGL logger!");
         // gl_log!(ty: UndefinedBehavior, level: Info, "this is a message from {}", "the OxideGL logger!");
         (ty: $ty:ident, level: $level:expr, $($rest:tt)+) => {
-            $crate::context::debug::__logging_private::gl_log!(src: None, ty: $ty, level: $level, $($rest)+);
+            $crate::debug::__logging_private::gl_log!(src: None, ty: $ty, level: $level, $($rest)+);
         };
         // gl_log!(src: Api, level: Info, target: "test", "this is a message from {}", "the OxideGL logger!");
         // gl_log!(src: Api, level: Info, "this is a message from {}", "the OxideGL logger!");
         (src: $src:ident, level: $level:expr, $($rest:tt)+) => {
-            $crate::context::debug::__logging_private::gl_log!(src: $src, ty: None, level: $level, $($rest)+);
+            $crate::debug::__logging_private::gl_log!(src: $src, ty: None, level: $level, $($rest)+);
         };
         // gl_log!(level: Info, target: "test", "this is a message from {}", "the OxideGL logger!");
         // gl_log!(level: Info, "this is a message from {}", "the OxideGL logger!");
         (level: $level:expr, $($rest:tt)+) => {
-            $crate::context::debug::__logging_private::gl_log!(src: None, ty: None, level: $level, $($rest)+);
+            $crate::debug::__logging_private::gl_log!(src: None, ty: None, level: $level, $($rest)+);
         };
     }
     pub(crate) use gl_log;
@@ -845,16 +836,16 @@ pub mod macros {
             #[allow(unused)]
             macro_rules! $name {
                 ( src: $_src:ident, ty: $_ty:ident, $_($_rest:tt)+ ) => (
-                    $_ crate::context::debug::__logging_private::gl_log! { src: $_src, ty: $_ty, level: $lvl, $_($_rest)+ }
+                    $_ crate::debug::__logging_private::gl_log! { src: $_src, ty: $_ty, level: $lvl, $_($_rest)+ }
                 );
                 ( ty: $_ty:ident, $_($_rest:tt)+ ) => (
-                    $_ crate::context::debug::__logging_private::gl_log! { ty: $_ty, level: $lvl, $_($_rest)+ }
+                    $_ crate::debug::__logging_private::gl_log! { ty: $_ty, level: $lvl, $_($_rest)+ }
                 );
                 ( src: $_src:ident, $_($_rest:tt)+ ) => (
-                    $_ crate::context::debug::__logging_private::gl_log! { src: $_src, level: $lvl, $_($_rest)+ }
+                    $_ crate::debug::__logging_private::gl_log! { src: $_src, level: $lvl, $_($_rest)+ }
                 );
                 ( $_($_rest:tt)+ ) => (
-                    $_ crate::context::debug::__logging_private::gl_log! {level: $lvl, $_($_rest)+ }
+                    $_ crate::debug::__logging_private::gl_log! {level: $lvl, $_($_rest)+ }
                 );
             }
 
@@ -878,7 +869,7 @@ pub mod macros {
 
 #[doc(hidden)]
 pub mod __logging_private {
-    pub(crate) use crate::context::debug::macros::gl_log;
+    pub(crate) use crate::debug::macros::gl_log;
     pub use crate::gl_enums::DebugSource;
     pub use crate::gl_enums::DebugType;
 

@@ -4,8 +4,8 @@ use objc2::rc::Retained;
 use objc2_foundation::NSString;
 
 use crate::{
-    context::debug::gl_err,
     conversions::{GlDstType, SrcType},
+    debug::gl_err,
     gl_types::{GLboolean, GLsizei, GLuint},
     util::{debug_unreachable, trimmed_type_name},
 };

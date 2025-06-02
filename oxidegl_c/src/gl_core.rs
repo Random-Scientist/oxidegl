@@ -2,8 +2,8 @@
 // GL Command C ABI Shims
 
 use crate::context::with_ctx_mut;
-use oxidegl::context::error::GlResult;
 use oxidegl::conversions::GLenumExt;
+use oxidegl::error::GlResult;
 use oxidegl::gl_types::*;
 
 #[unsafe(no_mangle)]
