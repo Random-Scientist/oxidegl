@@ -4,7 +4,7 @@ use ahash::{HashMap, HashMapExt, HashSet, HashSetExt};
 use log::{info, trace};
 use objc2::rc::Retained;
 use objc2_app_kit::NSView;
-use objc2_foundation::{NSString, ns_string};
+use objc2_foundation::{NSCopying, NSString, ns_string};
 use objc2_metal::{
     MTLBlitCommandEncoder, MTLColorWriteMask, MTLCommandBuffer, MTLCommandBufferDescriptor,
     MTLCommandBufferErrorOption, MTLCommandEncoder, MTLCommandQueue, MTLCompareFunction,
@@ -20,28 +20,24 @@ use objc2_metal::{
 use objc2_quartz_core::{CAMetalDrawable, CAMetalLayer, kCAFilterNearest};
 
 use crate::{
+    commands::buffer::Buffer,
     context::{
-        debug::{gl_debug, gl_trace},
-        state::{Capabilities, StencilFaceState},
+        Context,
+        state::{Capabilities, ColorWriteMask, DrawbufferBlendState, GLState, StencilFaceState},
     },
+    debug::{gl_debug, gl_trace},
     device_properties::MetalProperties,
+    framebuffer::InternalDrawable,
     gl_enums::{
         DepthFunction, DrawBufferMode, ShaderType, StencilFunction, StencilOp, TriangleFace,
     },
+    gl_object::{NamedObject, ObjectName},
+    program::LinkedStage,
     util::{ProtoObjRef, bitflag_bits},
 };
 
-use super::{
-    Context,
-    commands::buffer::Buffer,
-    framebuffer::InternalDrawable,
-    gl_object::{NamedObject, ObjectName},
-    program::LinkedStage,
-    state::{ColorWriteMask, DrawbufferBlendState, GLState},
-};
-
 #[derive(Debug)]
-pub struct PlatformState {
+pub struct Renderer {
     /// dirty components
     pub(crate) dirty_state: Dirty,
 
@@ -105,6 +101,8 @@ pub struct PlatformState {
 
     /// Stencil buffer format of the default framebuffer
     pub(crate) stencil_format: Option<MTLPixelFormat>,
+
+    pub(crate) debug_group_stack: Vec<Retained<NSString>>,
 }
 #[derive(Default, Debug, Clone)]
 pub struct InternalDrawables {
@@ -236,7 +234,7 @@ impl<const MAX_ENTRIES: usize, T: NamedObject + 'static> ResourceMap<T, MAX_ENTR
 }
 
 #[allow(clippy::undocumented_unsafe_blocks)]
-impl PlatformState {
+impl Renderer {
     pub(crate) fn set_view(&mut self, view: &Retained<NSView>, backing_scale_factor: f64) {
         self.view = Some(view.clone());
         self.layer.setFrame(view.frame());
@@ -260,6 +258,21 @@ impl PlatformState {
         }
         self.current_command_buffer().commit();
         self.command_buffer = None;
+    }
+    pub(crate) fn push_debug_group(&mut self, group_name: &NSString) {
+        // Try to push the group at encoder granularity if we can first
+        if let Some(ref enc) = self.render_encoder {
+            enc.pushDebugGroup(group_name);
+        }
+        self.current_command_buffer().pushDebugGroup(group_name);
+        self.debug_group_stack.push(group_name.copy());
+    }
+    pub(crate) fn pop_debug_group(&mut self) {
+        if let Some(ref enc) = self.render_encoder {
+            enc.popDebugGroup();
+        }
+        self.current_command_buffer().popDebugGroup();
+        let _ = self.debug_group_stack.pop();
     }
     pub(crate) fn new(
         pixel_format: MTLPixelFormat,
@@ -311,6 +324,8 @@ impl PlatformState {
             pixel_format,
             depth_format,
             stencil_format,
+
+            debug_group_stack: Vec::new(),
         }
     }
     #[inline]
@@ -343,10 +358,14 @@ impl PlatformState {
     #[inline]
     fn current_command_buffer(&mut self) -> &ProtoObjRef<dyn MTLCommandBuffer> {
         self.command_buffer.get_or_insert_with(|| {
-            Self::new_command_buffer(
+            let cb = Self::new_command_buffer(
                 &self.queue,
                 Some(ns_string!("OxideGL render command buffer")),
-            )
+            );
+            for group in self.debug_group_stack.iter() {
+                cb.pushDebugGroup(&**group);
+            }
+            cb
         })
     }
     #[inline]
@@ -417,19 +436,23 @@ impl PlatformState {
             self.render_encoder = Some(self.build_render_encoder(state));
             self.dirty_state.unset(Dirty::NEW_RENDER_ENCODER);
         }
-        // this code path is taken if we have a new encoder and need to finish initializing it, or if we just need to update the dynamic state of the current encoder
+        // we have a new encoder and need to finish initializing it, or if we just need to update the dynamic state of the current encoder
         if all_dirty.any_set(Dirty::UPDATE_RENDER_ENCODER | Dirty::NEW_RENDER_ENCODER) {
             self.update_encoder(state);
             self.dirty_state.unset(Dirty::UPDATE_RENDER_ENCODER);
         }
+        // need to regenerate pipeline
         if all_dirty.any_set(Dirty::NEW_RENDER_PIPELINE) {
             gl_trace!("generating new render pipeline state");
             self.render_pipeline_state = Some(self.build_render_pipeline_state(state));
             self.dirty_state.unset(Dirty::NEW_RENDER_PIPELINE);
         }
-        let ps = self.render_pipeline_state.as_ref().unwrap();
-        let enc = self.render_encoder.as_ref().unwrap();
-        enc.setRenderPipelineState(ps);
+        // If the encoder or pipeline is new, we need to attach the pipeline to the encoder
+        if all_dirty.any_set(Dirty::NEW_RENDER_PIPELINE | Dirty::NEW_RENDER_ENCODER) {
+            let ps = self.render_pipeline_state.as_ref().unwrap();
+            let enc = self.render_encoder.as_ref().unwrap();
+            enc.setRenderPipelineState(ps);
+        }
     }
     //preconditions: buffer maps built, renderable program present
     pub(crate) fn build_render_pipeline_state(
@@ -545,15 +568,12 @@ impl PlatformState {
         );
 
         // TODO scissor test
-        #[expect(
-            clippy::cast_lossless,
-            reason = "pixel aligned rect values are always 32 bits, and as such are exactly representable as f64"
-        )]
+
         enc.setViewport(MTLViewport {
-            originX: state.viewport.x as f64,
-            originY: state.viewport.y as f64,
-            width: state.viewport.width as f64,
-            height: state.viewport.height as f64,
+            originX: state.viewport.x.into(),
+            originY: state.viewport.y.into(),
+            width: state.viewport.width.into(),
+            height: state.viewport.height.into(),
             // TODO: depth range
             znear: 0.0,
             zfar: 1.0,
@@ -682,6 +702,9 @@ impl PlatformState {
             .expect("failed to create new render command encoder");
         #[cfg(debug_assertions)]
         enc.setLabel(Some(ns_string!("OxideGL render encoder")));
+        for group in self.debug_group_stack.iter() {
+            enc.pushDebugGroup(&**group);
+        }
         enc
     }
     #[inline]

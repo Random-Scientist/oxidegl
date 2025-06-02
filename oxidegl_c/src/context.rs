@@ -3,10 +3,8 @@ use std::{cell::Cell, pin::Pin, ptr::NonNull};
 use likely_stable::if_likely;
 use log::trace;
 use oxidegl::{
-    context::{
-        Context,
-        error::{GetErrorReturnValue, GlResult},
-    },
+    context::Context,
+    error::{GetErrorReturnValue, GlResult},
     gl_enums::ErrorCode,
 };
 
@@ -45,7 +43,7 @@ pub fn with_ctx_mut<
                     // meaning we are free to create another one to write the error out with
                     unsafe { ptr.as_mut() }.set_error(e.into());
                     // Return the default value for the type
-                    <Err as oxidegl::context::error::GetErrorReturnValue<Ret>>::get()
+                    <Err as oxidegl::error::GetErrorReturnValue<Ret>>::get()
                 }
             };
             CTX.set(Some(ptr));

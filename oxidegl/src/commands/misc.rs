@@ -1,10 +1,7 @@
 use crate::{
-    context::{
-        Context,
-        debug::gl_debug,
-        error::{GlFallible, gl_assert},
-        state::PixelAlignedRect,
-    },
+    context::{Context, state::PixelAlignedRect},
+    debug::gl_debug,
+    error::{GlFallible, gl_assert},
     gl_enums::ErrorCode,
     gl_types::{GLenum, GLfloat, GLint, GLsizei, GLuint},
     util::run_if_changed,
@@ -36,7 +33,7 @@ impl Context {
     ///
     /// To enable and disable the scissor test, call [**glEnable**](crate::context::Context::oxidegl_enable)
     /// and [**glDisable**](crate::context::Context::oxidegl_disable) with argument
-    /// [`GL_SCISSOR_TEST`](crate::enums::GL_SCISSOR_TEST). The test is initially
+    /// [`GL_SCISSOR_TEST`](crate::gl_enums::GL_SCISSOR_TEST). The test is initially
     /// disabled. While the test is enabled, only pixels that lie within the scissor
     /// box can be modified by drawing commands. Window coordinates have integer
     /// values at the shared corners of frame buffer pixels.
@@ -45,10 +42,10 @@ impl Context {
     /// the entire window.
     ///
     /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_SCISSOR_BOX`](crate::enums::GL_SCISSOR_BOX)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_SCISSOR_BOX`](crate::gl_enums::GL_SCISSOR_BOX)
     ///
     /// [**glIsEnabled**](crate::context::Context::oxidegl_is_enabled) with argument
-    /// [`GL_SCISSOR_TEST`](crate::enums::GL_SCISSOR_TEST)
+    /// [`GL_SCISSOR_TEST`](crate::gl_enums::GL_SCISSOR_TEST)
     pub fn oxidegl_scissor(&mut self, x: GLint, y: GLint, width: GLsizei, height: GLsizei) {
         panic!("command oxidegl_scissor not yet implemented");
     }
@@ -72,15 +69,15 @@ impl Context {
     /// defines rectangles, called scissor boxes, in window coordinates for each
     /// viewport. `first` specifies the index of the first scissor box to modify
     /// and `count` specifies the number of scissor boxes to modify. `first` must
-    /// be less than the value of [`GL_MAX_VIEWPORTS`](crate::enums::GL_MAX_VIEWPORTS),
-    /// and `first`+ `count` must be less than or equal to the value of [`GL_MAX_VIEWPORTS`](crate::enums::GL_MAX_VIEWPORTS).
+    /// be less than the value of [`GL_MAX_VIEWPORTS`](crate::gl_enums::GL_MAX_VIEWPORTS),
+    /// and `first`+ `count` must be less than or equal to the value of [`GL_MAX_VIEWPORTS`](crate::gl_enums::GL_MAX_VIEWPORTS).
     /// `v` specifies the address of an array containing integers specifying the
     /// lower left corner of the scissor boxes, and the width and height of the
     /// scissor boxes, in that order.
     ///
     /// To enable and disable the scissor test, call [**glEnable**](crate::context::Context::oxidegl_enable)
     /// and [**glDisable**](crate::context::Context::oxidegl_disable) with argument
-    /// [`GL_SCISSOR_TEST`](crate::enums::GL_SCISSOR_TEST). The test is initially
+    /// [`GL_SCISSOR_TEST`](crate::gl_enums::GL_SCISSOR_TEST). The test is initially
     /// disabled for all viewports. While the test is enabled, only pixels that
     /// lie within the scissor box can be modified by drawing commands. Window
     /// coordinates have integer values at the shared corners of frame buffer pixels.
@@ -89,10 +86,10 @@ impl Context {
     /// the entire window.
     ///
     /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_SCISSOR_BOX`](crate::enums::GL_SCISSOR_BOX)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_SCISSOR_BOX`](crate::gl_enums::GL_SCISSOR_BOX)
     ///
     /// [**glIsEnabled**](crate::context::Context::oxidegl_is_enabled) with argument
-    /// [`GL_SCISSOR_TEST`](crate::enums::GL_SCISSOR_TEST)
+    /// [`GL_SCISSOR_TEST`](crate::gl_enums::GL_SCISSOR_TEST)
     pub unsafe fn oxidegl_scissor_arrayv(
         &mut self,
         first: GLuint,
@@ -128,12 +125,12 @@ impl Context {
     ///
     /// Viewport width and height are silently clamped to a range that depends
     /// on the implementation. To query this range, call [**glGet**](crate::context::Context::oxidegl_get)
-    /// with argument [`GL_MAX_VIEWPORT_DIMS`](crate::enums::GL_MAX_VIEWPORT_DIMS).
+    /// with argument [`GL_MAX_VIEWPORT_DIMS`](crate::gl_enums::GL_MAX_VIEWPORT_DIMS).
     ///
     /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_VIEWPORT`](crate::enums::GL_VIEWPORT)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_VIEWPORT`](crate::gl_enums::GL_VIEWPORT)
     ///
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_VIEWPORT_DIMS`](crate::enums::GL_MAX_VIEWPORT_DIMS)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_VIEWPORT_DIMS`](crate::gl_enums::GL_MAX_VIEWPORT_DIMS)
     #[expect(clippy::cast_sign_loss)]
     pub fn oxidegl_viewport(
         &mut self,
@@ -172,8 +169,8 @@ impl Context {
     /// specifies the parameters for multiple viewports simulataneously. `first`
     /// specifies the index of the first viewport to modify and `count` specifies
     /// the number of viewports to modify. `first` must be less than the value
-    /// of [`GL_MAX_VIEWPORTS`](crate::enums::GL_MAX_VIEWPORTS), and `first`+ `count`
-    /// must be less than or equal to the value of [`GL_MAX_VIEWPORTS`](crate::enums::GL_MAX_VIEWPORTS).
+    /// of [`GL_MAX_VIEWPORTS`](crate::gl_enums::GL_MAX_VIEWPORTS), and `first`+ `count`
+    /// must be less than or equal to the value of [`GL_MAX_VIEWPORTS`](crate::gl_enums::GL_MAX_VIEWPORTS).
     /// Viewports whose indices lie outside the range \[ `first`, `first`+ `count`)
     /// are not modified. `v` contains the address of an array of floating point
     /// values specifying the left( `[inlineq]` `[inlineq]` `[inlineq]` `[inlineq]`
@@ -184,23 +181,23 @@ impl Context {
     ///
     /// The location of the viewport's bottom left corner, given by( `[inlineq]`
     /// `[inlineq]` `[inlineq]` `[inlineq]` [**glGet**](crate::context::Context::oxidegl_get)
-    /// with argument [`GL_VIEWPORT_BOUNDS_RANGE`](crate::enums::GL_VIEWPORT_BOUNDS_RANGE).
+    /// with argument [`GL_VIEWPORT_BOUNDS_RANGE`](crate::gl_enums::GL_VIEWPORT_BOUNDS_RANGE).
     /// Viewport width and height are silently clamped to a range that depends
     /// on the implementation. To query this range, call [**glGet**](crate::context::Context::oxidegl_get)
-    /// with argument [`GL_MAX_VIEWPORT_DIMS`](crate::enums::GL_MAX_VIEWPORT_DIMS).
+    /// with argument [`GL_MAX_VIEWPORT_DIMS`](crate::gl_enums::GL_MAX_VIEWPORT_DIMS).
     ///
     /// The precision with which the GL interprets the floating point viewport
     /// bounds is implementation-dependent and may be determined by querying the
-    /// impementation-defined constant [`GL_VIEWPORT_SUBPIXEL_BITS`](crate::enums::GL_VIEWPORT_SUBPIXEL_BITS).
+    /// impementation-defined constant [`GL_VIEWPORT_SUBPIXEL_BITS`](crate::gl_enums::GL_VIEWPORT_SUBPIXEL_BITS).
     ///
     /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_VIEWPORT`](crate::enums::GL_VIEWPORT)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_VIEWPORT`](crate::gl_enums::GL_VIEWPORT)
     ///
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_VIEWPORT_DIMS`](crate::enums::GL_MAX_VIEWPORT_DIMS)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_VIEWPORT_DIMS`](crate::gl_enums::GL_MAX_VIEWPORT_DIMS)
     ///
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_VIEWPORT_BOUNDS_RANGE`](crate::enums::GL_VIEWPORT_BOUNDS_RANGE)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_VIEWPORT_BOUNDS_RANGE`](crate::gl_enums::GL_VIEWPORT_BOUNDS_RANGE)
     ///
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_VIEWPORT_SUBPIXEL_BITS`](crate::enums::GL_VIEWPORT_SUBPIXEL_BITS)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_VIEWPORT_SUBPIXEL_BITS`](crate::gl_enums::GL_VIEWPORT_SUBPIXEL_BITS)
     pub unsafe fn oxidegl_viewport_arrayv(
         &mut self,
         first: GLuint,
@@ -214,68 +211,68 @@ impl Context {
     /// value of the error flag. Each detectable error is assigned a numeric code
     /// and symbolic name. When an error occurs, the error flag is set to the appropriate
     /// error code value. No other errors are recorded until [**glGetError**](crate::context::Context::oxidegl_get_error)
-    /// is called, the error code is returned, and the flag is reset to [`GL_NO_ERROR`](crate::enums::GL_NO_ERROR).
+    /// is called, the error code is returned, and the flag is reset to [`GL_NO_ERROR`](crate::gl_enums::GL_NO_ERROR).
     /// If a call to [**glGetError**](crate::context::Context::oxidegl_get_error)
-    /// returns [`GL_NO_ERROR`](crate::enums::GL_NO_ERROR), there has been no detectable
+    /// returns [`GL_NO_ERROR`](crate::gl_enums::GL_NO_ERROR), there has been no detectable
     /// error since the last call to [**glGetError**](crate::context::Context::oxidegl_get_error),
     /// or since the GL was initialized.
     ///
     /// To allow for distributed implementations, there may be several error flags.
     /// If any single error flag has recorded an error, the value of that flag
-    /// is returned and that flag is reset to [`GL_NO_ERROR`](crate::enums::GL_NO_ERROR)
+    /// is returned and that flag is reset to [`GL_NO_ERROR`](crate::gl_enums::GL_NO_ERROR)
     /// when [**glGetError**](crate::context::Context::oxidegl_get_error) is called.
     /// If more than one flag has recorded an error, [**glGetError**](crate::context::Context::oxidegl_get_error)
     /// returns and clears an arbitrary error flag value. Thus, [**glGetError**](crate::context::Context::oxidegl_get_error)
-    /// should always be called in a loop, until it returns [`GL_NO_ERROR`](crate::enums::GL_NO_ERROR),
+    /// should always be called in a loop, until it returns [`GL_NO_ERROR`](crate::gl_enums::GL_NO_ERROR),
     /// if all error flags are to be reset.
     ///
-    /// Initially, all error flags are set to [`GL_NO_ERROR`](crate::enums::GL_NO_ERROR).
+    /// Initially, all error flags are set to [`GL_NO_ERROR`](crate::gl_enums::GL_NO_ERROR).
     ///
     /// The following errors are currently defined:
     ///
-    /// [`GL_NO_ERROR`](crate::enums::GL_NO_ERROR)
+    /// [`GL_NO_ERROR`](crate::gl_enums::GL_NO_ERROR)
     ///
     /// > No error has been recorded. The value of this symbolic constant is guaranteed
     /// > to be 0.
     ///
-    /// [`GL_INVALID_ENUM`](crate::enums::GL_INVALID_ENUM)
+    /// [`GL_INVALID_ENUM`](crate::gl_enums::GL_INVALID_ENUM)
     ///
     /// > An unacceptable value is specified for an enumerated argument. The offending
     /// > command is ignored and has no other side effect than to set the error flag.
     ///
-    /// [`GL_INVALID_VALUE`](crate::enums::GL_INVALID_VALUE)
+    /// [`GL_INVALID_VALUE`](crate::gl_enums::GL_INVALID_VALUE)
     ///
     /// > A numeric argument is out of range. The offending command is ignored and
     /// > has no other side effect than to set the error flag.
     ///
-    /// [`GL_INVALID_OPERATION`](crate::enums::GL_INVALID_OPERATION)
+    /// [`GL_INVALID_OPERATION`](crate::gl_enums::GL_INVALID_OPERATION)
     ///
     /// > The specified operation is not allowed in the current state. The offending
     /// > command is ignored and has no other side effect than to set the error flag.
     ///
-    /// [`GL_INVALID_FRAMEBUFFER_OPERATION`](crate::enums::GL_INVALID_FRAMEBUFFER_OPERATION)
+    /// [`GL_INVALID_FRAMEBUFFER_OPERATION`](crate::gl_enums::GL_INVALID_FRAMEBUFFER_OPERATION)
     ///
     /// > The framebuffer object is not complete. The offending command is ignored
     /// > and has no other side effect than to set the error flag.
     ///
-    /// [`GL_OUT_OF_MEMORY`](crate::enums::GL_OUT_OF_MEMORY)
+    /// [`GL_OUT_OF_MEMORY`](crate::gl_enums::GL_OUT_OF_MEMORY)
     ///
     /// > There is not enough memory left to execute the command. The state of the
     /// > GL is undefined, except for the state of the error flags, after this error
     /// > is recorded.
     ///
-    /// [`GL_STACK_UNDERFLOW`](crate::enums::GL_STACK_UNDERFLOW)
+    /// [`GL_STACK_UNDERFLOW`](crate::gl_enums::GL_STACK_UNDERFLOW)
     ///
     /// > An attempt has been made to perform an operation that would cause an internal
     /// > stack to underflow.
     ///
-    /// [`GL_STACK_OVERFLOW`](crate::enums::GL_STACK_OVERFLOW)
+    /// [`GL_STACK_OVERFLOW`](crate::gl_enums::GL_STACK_OVERFLOW)
     ///
     /// > An attempt has been made to perform an operation that would cause an internal
     /// > stack to overflow.
     ///
     /// When an error flag is set, results of a GL operation are undefined only
-    /// if [`GL_OUT_OF_MEMORY`](crate::enums::GL_OUT_OF_MEMORY) has occurred. In
+    /// if [`GL_OUT_OF_MEMORY`](crate::gl_enums::GL_OUT_OF_MEMORY) has occurred. In
     /// all other cases, the command generating the error is ignored and has no
     /// effect on the GL state or frame buffer contents. If the generating command
     /// returns a value, it returns 0. If [**glGetError**](crate::context::Context::oxidegl_get_error)

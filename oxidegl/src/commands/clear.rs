@@ -10,8 +10,8 @@ impl Context {
     /// `mask`
     ///
     /// > Bitwise OR of masks that indicate the buffers to be cleared. The three
-    /// > masks are [`GL_COLOR_BUFFER_BIT`](crate::enums::GL_COLOR_BUFFER_BIT), [`GL_DEPTH_BUFFER_BIT`](crate::enums::GL_DEPTH_BUFFER_BIT),
-    /// > and [`GL_STENCIL_BUFFER_BIT`](crate::enums::GL_STENCIL_BUFFER_BIT).
+    /// > masks are [`GL_COLOR_BUFFER_BIT`](crate::gl_enums::GL_COLOR_BUFFER_BIT), [`GL_DEPTH_BUFFER_BIT`](crate::gl_enums::GL_DEPTH_BUFFER_BIT),
+    /// > and [`GL_STENCIL_BUFFER_BIT`](crate::gl_enums::GL_STENCIL_BUFFER_BIT).
     ///
     /// ### Description
     /// [**glClear**](crate::context::Context::oxidegl_clear) sets the bitplane
@@ -32,15 +32,15 @@ impl Context {
     ///
     /// The values are as follows:
     ///
-    /// [`GL_COLOR_BUFFER_BIT`](crate::enums::GL_COLOR_BUFFER_BIT)
+    /// [`GL_COLOR_BUFFER_BIT`](crate::gl_enums::GL_COLOR_BUFFER_BIT)
     ///
     /// > Indicates the buffers currently enabled for color writing.
     ///
-    /// [`GL_DEPTH_BUFFER_BIT`](crate::enums::GL_DEPTH_BUFFER_BIT)
+    /// [`GL_DEPTH_BUFFER_BIT`](crate::gl_enums::GL_DEPTH_BUFFER_BIT)
     ///
     /// > Indicates the depth buffer.
     ///
-    /// [`GL_STENCIL_BUFFER_BIT`](crate::enums::GL_STENCIL_BUFFER_BIT)
+    /// [`GL_STENCIL_BUFFER_BIT`](crate::gl_enums::GL_STENCIL_BUFFER_BIT)
     ///
     /// > Indicates the stencil buffer.
     ///
@@ -52,11 +52,11 @@ impl Context {
     /// directed at that buffer has no effect.
     ///
     /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_DEPTH_CLEAR_VALUE`](crate::enums::GL_DEPTH_CLEAR_VALUE)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_DEPTH_CLEAR_VALUE`](crate::gl_enums::GL_DEPTH_CLEAR_VALUE)
     ///
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_COLOR_CLEAR_VALUE`](crate::enums::GL_COLOR_CLEAR_VALUE)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_COLOR_CLEAR_VALUE`](crate::gl_enums::GL_COLOR_CLEAR_VALUE)
     ///
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_STENCIL_CLEAR_VALUE`](crate::enums::GL_STENCIL_CLEAR_VALUE)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_STENCIL_CLEAR_VALUE`](crate::gl_enums::GL_STENCIL_CLEAR_VALUE)
     pub fn oxidegl_clear(&mut self, mask: ClearBufferMask) {
         run_if_changed!(self.gl_state.clear_values.mask;= mask => self.new_encoder());
     }
@@ -86,7 +86,7 @@ impl Context {
     /// page.
     ///
     /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_COLOR_CLEAR_VALUE`](crate::enums::GL_COLOR_CLEAR_VALUE)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_COLOR_CLEAR_VALUE`](crate::gl_enums::GL_COLOR_CLEAR_VALUE)
     pub fn oxidegl_clear_color(
         &mut self,
         red: GLfloat,
@@ -108,9 +108,9 @@ impl Context {
     /// to clear the stencil buffer. `s` is masked with `[inlineq]` `[inlineq]`
     ///
     /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_STENCIL_CLEAR_VALUE`](crate::enums::GL_STENCIL_CLEAR_VALUE)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_STENCIL_CLEAR_VALUE`](crate::gl_enums::GL_STENCIL_CLEAR_VALUE)
     ///
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_STENCIL_BITS`](crate::enums::GL_STENCIL_BITS)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_STENCIL_BITS`](crate::gl_enums::GL_STENCIL_BITS)
     #[expect(
         clippy::cast_sign_loss,
         reason = "we want a bitcast anyways, the numeric value doesnt matter all that much"
@@ -140,7 +140,7 @@ impl Context {
 /// the [**removedTypes**](crate::context::Context::oxideremoved_types) page.
 ///
 /// ### Associated Gets
-/// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_DEPTH_CLEAR_VALUE`](crate::enums::GL_DEPTH_CLEAR_VALUE)
+/// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_DEPTH_CLEAR_VALUE`](crate::gl_enums::GL_DEPTH_CLEAR_VALUE)
 #[expect(
     clippy::float_cmp,
     reason = "if someone sets NaN as the depth buffer clear value they have bigger problems"

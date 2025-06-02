@@ -638,6 +638,7 @@ dependencies = [
 name = "oxidegl_c"
 version = "0.1.0"
 dependencies = [
+ "flexi_logger",
  "likely_stable",
  "log",
  "objc2",

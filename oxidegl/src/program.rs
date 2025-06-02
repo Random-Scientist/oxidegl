@@ -5,10 +5,9 @@ use glslang::Compiler as GlslLangCompiler;
 use objc2::{rc::Retained, AllocAnyThread};
 //use naga::back::msl::{Options, PipelineOptions};
 use crate::{
-    context::{
+
         debug::{gl_debug, gl_trace, with_debug_state},
         shader::ShaderInternal,
-    },
     gl_enums::ShaderType, util::{NoDebug, ProtoObjRef},
 };
 use objc2_foundation::NSString;

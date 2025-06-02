@@ -10,13 +10,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY) and [`GL_PATCHES`](crate::enums::GL_PATCHES)
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY) and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES)
     /// > are accepted.
     ///
     /// `first`
@@ -46,9 +46,9 @@ impl Context {
     /// returns. Attributes that aren't modified remain well defined.
     ///
     /// ### Notes
-    /// [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY), [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY),
-    /// [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY)
-    /// and [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY) are
+    /// [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY), [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY),
+    /// [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY)
+    /// and [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY) are
     /// available only if the GL version is 3.2 or greater.
     pub fn oxidegl_draw_arrays(&mut self, mode: PrimitiveType, first: GLint, count: GLsizei) {
         //FIXME hack, move to module
@@ -76,13 +76,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY), and [`GL_PATCHES`](crate::enums::GL_PATCHES)
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY), and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES)
     /// > are accepted.
     ///
     /// `indirect`
@@ -100,7 +100,7 @@ impl Context {
     /// The parameters addressed by `indirect` are packed into a structure that
     /// takes the form (in C):
     ///
-    /// If a buffer is bound to the [`GL_DRAW_INDIRECT_BUFFER`](crate::enums::GL_DRAW_INDIRECT_BUFFER)
+    /// If a buffer is bound to the [`GL_DRAW_INDIRECT_BUFFER`](crate::gl_enums::GL_DRAW_INDIRECT_BUFFER)
     /// binding at the time of a call to [**glDrawArraysIndirect**](crate::context::Context::oxidegl_draw_arrays_indirect),
     /// `indirect` is interpreted as an offset, in basic machine units, into that
     /// buffer and the parameter data is read from the buffer rather than from
@@ -130,13 +130,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES)
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY), [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY)
-    /// > and [`GL_PATCHES`](crate::enums::GL_PATCHES) are accepted.
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES)
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY), [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY)
+    /// > and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES) are accepted.
     ///
     /// `first`
     ///
@@ -157,7 +157,7 @@ impl Context {
     /// except that `instancecount` instances of the range of elements are executed
     /// and the value of the internal counter `instanceID` advances for each iteration.
     /// `instanceID` is an internal 32-bit integer counter that may be read by
-    /// a vertex shader as [`gl_InstanceID`](crate::enums::gl_InstanceID).
+    /// a vertex shader as [`gl_InstanceID`](crate::gl_enums::gl_InstanceID).
     ///
     /// [**glDrawArraysInstanced**](crate::context::Context::oxidegl_draw_arrays_instanced)
     /// has the same effect as:
@@ -173,13 +173,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES)
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY), [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY)
-    /// > and [`GL_PATCHES`](crate::enums::GL_PATCHES) are accepted.
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES)
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY), [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY)
+    /// > and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES) are accepted.
     ///
     /// `first`
     ///
@@ -204,7 +204,7 @@ impl Context {
     /// except that `instancecount` instances of the range of elements are executed
     /// and the value of the internal counter `instanceID` advances for each iteration.
     /// `instanceID` is an internal 32-bit integer counter that may be read by
-    /// a vertex shader as [`gl_InstanceID`](crate::enums::gl_InstanceID).
+    /// a vertex shader as [`gl_InstanceID`](crate::gl_enums::gl_InstanceID).
     ///
     /// [**glDrawArraysInstancedBaseInstance**](crate::context::Context::oxidegl_draw_arrays_instanced_base_instance)
     /// has the same effect as:
@@ -214,7 +214,7 @@ impl Context {
     /// Instanced vertex attributes supply per-instance vertex data to the vertex
     /// shader. The index of the vertex fetched from the enabled instanced vertex
     /// attribute arrays is calculated as: `[inlineq]` `baseinstance` does not
-    /// affect the shader-visible value of [`gl_InstanceID`](crate::enums::gl_InstanceID).
+    /// affect the shader-visible value of [`gl_InstanceID`](crate::gl_enums::gl_InstanceID).
     pub fn oxidegl_draw_arrays_instanced_base_instance(
         &mut self,
         mode: PrimitiveType,
@@ -228,13 +228,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY) and [`GL_PATCHES`](crate::enums::GL_PATCHES)
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY) and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES)
     /// > are accepted.
     ///
     /// `count`
@@ -243,8 +243,8 @@ impl Context {
     ///
     /// `type`
     ///
-    /// > Specifies the type of the values in `indices`. Must be one of [`GL_UNSIGNED_BYTE`](crate::enums::GL_UNSIGNED_BYTE),
-    /// > [`GL_UNSIGNED_SHORT`](crate::enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::enums::GL_UNSIGNED_INT).
+    /// > Specifies the type of the values in `indices`. Must be one of [`GL_UNSIGNED_BYTE`](crate::gl_enums::GL_UNSIGNED_BYTE),
+    /// > [`GL_UNSIGNED_SHORT`](crate::gl_enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT).
     ///
     /// `indices`
     ///
@@ -269,9 +269,9 @@ impl Context {
     /// returns. Attributes that aren't modified maintain their previous values.
     ///
     /// ### Notes
-    /// [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY), [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY),
-    /// [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY)
-    /// and [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY) are
+    /// [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY), [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY),
+    /// [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY)
+    /// and [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY) are
     /// available only if the GL version is 3.2 or greater.
     pub unsafe fn oxidegl_draw_elements(
         &mut self,
@@ -285,13 +285,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY), [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY)
-    /// > and [`GL_PATCHES`](crate::enums::GL_PATCHES) are accepted.
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY), [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY)
+    /// > and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES) are accepted.
     ///
     /// `count`
     ///
@@ -299,8 +299,8 @@ impl Context {
     ///
     /// `type`
     ///
-    /// > Specifies the type of the values in indices. Must be one of [`GL_UNSIGNED_BYTE`](crate::enums::GL_UNSIGNED_BYTE),
-    /// > [`GL_UNSIGNED_SHORT`](crate::enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::enums::GL_UNSIGNED_INT).
+    /// > Specifies the type of the values in indices. Must be one of [`GL_UNSIGNED_BYTE`](crate::gl_enums::GL_UNSIGNED_BYTE),
+    /// > [`GL_UNSIGNED_SHORT`](crate::gl_enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT).
     ///
     /// `indices`
     ///
@@ -337,18 +337,18 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY), and [`GL_PATCHES`](crate::enums::GL_PATCHES)
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY), and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES)
     /// > are accepted.
     ///
     /// `type`
     ///
-    /// > Specifies the type of data in the buffer bound to the [`GL_ELEMENT_ARRAY_BUFFER`](crate::enums::GL_ELEMENT_ARRAY_BUFFER)
+    /// > Specifies the type of data in the buffer bound to the [`GL_ELEMENT_ARRAY_BUFFER`](crate::gl_enums::GL_ELEMENT_ARRAY_BUFFER)
     /// > binding.
     ///
     /// `indirect`
@@ -370,14 +370,14 @@ impl Context {
     /// is equivalent to:
     ///
     ///
-    /// If a buffer is bound to the [`GL_DRAW_INDIRECT_BUFFER`](crate::enums::GL_DRAW_INDIRECT_BUFFER)
+    /// If a buffer is bound to the [`GL_DRAW_INDIRECT_BUFFER`](crate::gl_enums::GL_DRAW_INDIRECT_BUFFER)
     /// binding at the time of a call to [**glDrawElementsIndirect**](crate::context::Context::oxidegl_draw_elements_indirect),
     /// `indirect` is interpreted as an offset, in basic machine units, into that
     /// buffer and the parameter data is read from the buffer rather than from
     /// client memory.
     ///
     /// Note that indices stored in client memory are not supported. If no buffer
-    /// is bound to the [`GL_ELEMENT_ARRAY_BUFFER`](crate::enums::GL_ELEMENT_ARRAY_BUFFER)
+    /// is bound to the [`GL_ELEMENT_ARRAY_BUFFER`](crate::gl_enums::GL_ELEMENT_ARRAY_BUFFER)
     /// binding, an error will be generated.
     ///
     /// The results of the operation are undefined if the
@@ -403,13 +403,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY) and [`GL_PATCHES`](crate::enums::GL_PATCHES)
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY) and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES)
     /// > are accepted.
     ///
     /// `count`
@@ -418,8 +418,8 @@ impl Context {
     ///
     /// `type`
     ///
-    /// > Specifies the type of the values in `indices`. Must be one of [`GL_UNSIGNED_BYTE`](crate::enums::GL_UNSIGNED_BYTE),
-    /// > [`GL_UNSIGNED_SHORT`](crate::enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::enums::GL_UNSIGNED_INT).
+    /// > Specifies the type of the values in `indices`. Must be one of [`GL_UNSIGNED_BYTE`](crate::gl_enums::GL_UNSIGNED_BYTE),
+    /// > [`GL_UNSIGNED_SHORT`](crate::gl_enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT).
     ///
     /// `indices`
     ///
@@ -436,7 +436,7 @@ impl Context {
     /// except that `instancecount` instances of the set of elements are executed
     /// and the value of the internal counter `instanceID` advances for each iteration.
     /// `instanceID` is an internal 32-bit integer counter that may be read by
-    /// a vertex shader as [`gl_InstanceID`](crate::enums::gl_InstanceID).
+    /// a vertex shader as [`gl_InstanceID`](crate::gl_enums::gl_InstanceID).
     ///
     /// [**glDrawElementsInstanced**](crate::context::Context::oxidegl_draw_elements_instanced)
     /// has the same effect as:
@@ -445,9 +445,9 @@ impl Context {
     /// [**glDrawElementsInstanced**](crate::context::Context::oxidegl_draw_elements_instanced)
     /// is available only if the GL version is 3.1 or greater.
     ///
-    /// [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY), [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY),
-    /// [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY)
-    /// and [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY) are
+    /// [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY), [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY),
+    /// [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY)
+    /// and [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY) are
     /// available only if the GL version is 3.2 or greater.
     pub unsafe fn oxidegl_draw_elements_instanced(
         &mut self,
@@ -462,13 +462,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY) and [`GL_PATCHES`](crate::enums::GL_PATCHES)
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY) and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES)
     /// > are accepted.
     ///
     /// `count`
@@ -477,8 +477,8 @@ impl Context {
     ///
     /// `type`
     ///
-    /// > Specifies the type of the values in `indices`. Must be one of [`GL_UNSIGNED_BYTE`](crate::enums::GL_UNSIGNED_BYTE),
-    /// > [`GL_UNSIGNED_SHORT`](crate::enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::enums::GL_UNSIGNED_INT).
+    /// > Specifies the type of the values in `indices`. Must be one of [`GL_UNSIGNED_BYTE`](crate::gl_enums::GL_UNSIGNED_BYTE),
+    /// > [`GL_UNSIGNED_SHORT`](crate::gl_enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT).
     ///
     /// `indices`
     ///
@@ -499,7 +499,7 @@ impl Context {
     /// except that `instancecount` instances of the set of elements are executed
     /// and the value of the internal counter `instanceID` advances for each iteration.
     /// `instanceID` is an internal 32-bit integer counter that may be read by
-    /// a vertex shader as [`gl_InstanceID`](crate::enums::gl_InstanceID).
+    /// a vertex shader as [`gl_InstanceID`](crate::gl_enums::gl_InstanceID).
     ///
     /// [**glDrawElementsInstancedBaseInstance**](crate::context::Context::oxidegl_draw_elements_instanced_base_instance)
     /// has the same effect as:
@@ -509,15 +509,15 @@ impl Context {
     /// Instanced vertex attributes supply per-instance vertex data to the vertex
     /// shader. The index of the vertex fetched from the enabled instanced vertex
     /// attribute arrays is calculated as `[inlineq]` `baseinstance` does not affect
-    /// the shader-visible value of [`gl_InstanceID`](crate::enums::gl_InstanceID).
+    /// the shader-visible value of [`gl_InstanceID`](crate::gl_enums::gl_InstanceID).
     ///
     /// ### Notes
     /// [**glDrawElementsInstancedBaseInstance**](crate::context::Context::oxidegl_draw_elements_instanced_base_instance)
     /// is available only if the GL version is 4.2 or greater.
     ///
-    /// [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY), [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY),
-    /// [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY)
-    /// and [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY) are
+    /// [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY), [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY),
+    /// [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY)
+    /// and [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY) are
     /// available only if the GL version is 3.2 or greater.
     pub unsafe fn oxidegl_draw_elements_instanced_base_instance(
         &mut self,
@@ -533,13 +533,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY), [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY)
-    /// > and [`GL_PATCHES`](crate::enums::GL_PATCHES) are accepted.
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY), [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY)
+    /// > and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES) are accepted.
     ///
     /// `count`
     ///
@@ -547,8 +547,8 @@ impl Context {
     ///
     /// `type`
     ///
-    /// > Specifies the type of the values in indices. Must be one of [`GL_UNSIGNED_BYTE`](crate::enums::GL_UNSIGNED_BYTE),
-    /// > [`GL_UNSIGNED_SHORT`](crate::enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::enums::GL_UNSIGNED_INT).
+    /// > Specifies the type of the values in indices. Must be one of [`GL_UNSIGNED_BYTE`](crate::gl_enums::GL_UNSIGNED_BYTE),
+    /// > [`GL_UNSIGNED_SHORT`](crate::gl_enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT).
     ///
     /// `indices`
     ///
@@ -591,13 +591,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY), [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY)
-    /// > and [`GL_PATCHES`](crate::enums::GL_PATCHES) are accepted.
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY), [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY)
+    /// > and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES) are accepted.
     ///
     /// `count`
     ///
@@ -605,8 +605,8 @@ impl Context {
     ///
     /// `type`
     ///
-    /// > Specifies the type of the values in indices. Must be one of [`GL_UNSIGNED_BYTE`](crate::enums::GL_UNSIGNED_BYTE),
-    /// > [`GL_UNSIGNED_SHORT`](crate::enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::enums::GL_UNSIGNED_INT).
+    /// > Specifies the type of the values in indices. Must be one of [`GL_UNSIGNED_BYTE`](crate::gl_enums::GL_UNSIGNED_BYTE),
+    /// > [`GL_UNSIGNED_SHORT`](crate::gl_enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT).
     ///
     /// `indices`
     ///
@@ -641,7 +641,7 @@ impl Context {
     /// Instanced vertex attributes supply per-instance vertex data to the vertex
     /// shader. The index of the vertex fetched from the enabled instanced vertex
     /// attribute arrays is calculated as `[inlineq]` `baseinstance` does not affect
-    /// the shader-visible value of [`gl_InstanceID`](crate::enums::gl_InstanceID).
+    /// the shader-visible value of [`gl_InstanceID`](crate::gl_enums::gl_InstanceID).
     ///
     /// ### Notes
     /// [**glDrawElementsInstancedBaseVertex**](crate::context::Context::oxidegl_draw_elements_instanced_base_vertex)
@@ -663,13 +663,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY) and [`GL_PATCHES`](crate::enums::GL_PATCHES)
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY) and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES)
     /// > are accepted.
     ///
     /// `start`
@@ -686,8 +686,8 @@ impl Context {
     ///
     /// `type`
     ///
-    /// > Specifies the type of the values in `indices`. Must be one of [`GL_UNSIGNED_BYTE`](crate::enums::GL_UNSIGNED_BYTE),
-    /// > [`GL_UNSIGNED_SHORT`](crate::enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::enums::GL_UNSIGNED_INT).
+    /// > Specifies the type of the values in `indices`. Must be one of [`GL_UNSIGNED_BYTE`](crate::gl_enums::GL_UNSIGNED_BYTE),
+    /// > [`GL_UNSIGNED_SHORT`](crate::gl_enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT).
     ///
     /// `indices`
     ///
@@ -702,10 +702,10 @@ impl Context {
     ///
     /// Implementations denote recommended maximum amounts of vertex and index
     /// data, which may be queried by calling [**glGet**](crate::context::Context::oxidegl_get)
-    /// with argument [`GL_MAX_ELEMENTS_VERTICES`](crate::enums::GL_MAX_ELEMENTS_VERTICES)
-    /// and [`GL_MAX_ELEMENTS_INDICES`](crate::enums::GL_MAX_ELEMENTS_INDICES).
-    /// If `[inlineq]` [`GL_MAX_ELEMENTS_VERTICES`](crate::enums::GL_MAX_ELEMENTS_VERTICES),
-    /// or if `count` is greater than the value of [`GL_MAX_ELEMENTS_INDICES`](crate::enums::GL_MAX_ELEMENTS_INDICES),
+    /// with argument [`GL_MAX_ELEMENTS_VERTICES`](crate::gl_enums::GL_MAX_ELEMENTS_VERTICES)
+    /// and [`GL_MAX_ELEMENTS_INDICES`](crate::gl_enums::GL_MAX_ELEMENTS_INDICES).
+    /// If `[inlineq]` [`GL_MAX_ELEMENTS_VERTICES`](crate::gl_enums::GL_MAX_ELEMENTS_VERTICES),
+    /// or if `count` is greater than the value of [`GL_MAX_ELEMENTS_INDICES`](crate::gl_enums::GL_MAX_ELEMENTS_INDICES),
     /// then the call may operate at reduced performance. There is no requirement
     /// that all vertices in the range `[inlineq]`
     ///
@@ -720,15 +720,15 @@ impl Context {
     /// returns. Attributes that aren't modified maintain their previous values.
     ///
     /// ### Notes
-    /// [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY), [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY),
-    /// [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY)
-    /// and [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY) are
+    /// [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY), [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY),
+    /// [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY)
+    /// and [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY) are
     /// available only if the GL version is 3.2 or greater.
     ///
     /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_ELEMENTS_VERTICES`](crate::enums::GL_MAX_ELEMENTS_VERTICES)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_ELEMENTS_VERTICES`](crate::gl_enums::GL_MAX_ELEMENTS_VERTICES)
     ///
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_ELEMENTS_INDICES`](crate::enums::GL_MAX_ELEMENTS_INDICES)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_ELEMENTS_INDICES`](crate::gl_enums::GL_MAX_ELEMENTS_INDICES)
     pub unsafe fn oxidegl_draw_range_elements(
         &mut self,
         mode: PrimitiveType,
@@ -743,13 +743,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY), [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY)
-    /// > and [`GL_PATCHES`](crate::enums::GL_PATCHES) are accepted.
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY), [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY)
+    /// > and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES) are accepted.
     ///
     /// `start`
     ///
@@ -765,8 +765,8 @@ impl Context {
     ///
     /// `type`
     ///
-    /// > Specifies the type of the values in indices. Must be one of [`GL_UNSIGNED_BYTE`](crate::enums::GL_UNSIGNED_BYTE),
-    /// > [`GL_UNSIGNED_SHORT`](crate::enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::enums::GL_UNSIGNED_INT).
+    /// > Specifies the type of the values in indices. Must be one of [`GL_UNSIGNED_BYTE`](crate::gl_enums::GL_UNSIGNED_BYTE),
+    /// > [`GL_UNSIGNED_SHORT`](crate::gl_enums::GL_UNSIGNED_SHORT), or [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT).
     ///
     /// `indices`
     ///
@@ -806,13 +806,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY), and [`GL_PATCHES`](crate::enums::GL_PATCHES)
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY), and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES)
     /// > are accepted.
     ///
     /// `id`
@@ -834,13 +834,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY), and [`GL_PATCHES`](crate::enums::GL_PATCHES)
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY), and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES)
     /// > are accepted.
     ///
     /// `id`
@@ -877,13 +877,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY), and [`GL_PATCHES`](crate::enums::GL_PATCHES)
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY), and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES)
     /// > are accepted.
     ///
     /// `id`
@@ -920,13 +920,13 @@ impl Context {
     /// ### Parameters
     /// `mode`
     ///
-    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::enums::GL_POINTS),
-    /// > [`GL_LINE_STRIP`](crate::enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::enums::GL_LINE_LOOP),
-    /// > [`GL_LINES`](crate::enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::enums::GL_LINE_STRIP_ADJACENCY),
-    /// > [`GL_LINES_ADJACENCY`](crate::enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::enums::GL_TRIANGLE_STRIP),
-    /// > [`GL_TRIANGLE_FAN`](crate::enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::enums::GL_TRIANGLES),
-    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::enums::GL_TRIANGLE_STRIP_ADJACENCY),
-    /// > [`GL_TRIANGLES_ADJACENCY`](crate::enums::GL_TRIANGLES_ADJACENCY), and [`GL_PATCHES`](crate::enums::GL_PATCHES)
+    /// > Specifies what kind of primitives to render. Symbolic constants [`GL_POINTS`](crate::gl_enums::GL_POINTS),
+    /// > [`GL_LINE_STRIP`](crate::gl_enums::GL_LINE_STRIP), [`GL_LINE_LOOP`](crate::gl_enums::GL_LINE_LOOP),
+    /// > [`GL_LINES`](crate::gl_enums::GL_LINES), [`GL_LINE_STRIP_ADJACENCY`](crate::gl_enums::GL_LINE_STRIP_ADJACENCY),
+    /// > [`GL_LINES_ADJACENCY`](crate::gl_enums::GL_LINES_ADJACENCY), [`GL_TRIANGLE_STRIP`](crate::gl_enums::GL_TRIANGLE_STRIP),
+    /// > [`GL_TRIANGLE_FAN`](crate::gl_enums::GL_TRIANGLE_FAN), [`GL_TRIANGLES`](crate::gl_enums::GL_TRIANGLES),
+    /// > [`GL_TRIANGLE_STRIP_ADJACENCY`](crate::gl_enums::GL_TRIANGLE_STRIP_ADJACENCY),
+    /// > [`GL_TRIANGLES_ADJACENCY`](crate::gl_enums::GL_TRIANGLES_ADJACENCY), and [`GL_PATCHES`](crate::gl_enums::GL_PATCHES)
     /// > are accepted.
     ///
     /// `id`

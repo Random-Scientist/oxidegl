@@ -1,21 +1,23 @@
+use objc2_foundation::{NSString, NSStringEncodingDetectionAllowLossyKey};
+use objc2_metal::MTLCommandBuffer;
+
 use crate::{
-    context::{
-        Context,
-        commands::buffer::Buffer,
-        debug::{gl_warn, with_debug_state, with_debug_state_mut},
-        error::{GlFallible, gl_assert},
-        framebuffer::Framebuffer,
-        gl_object::ObjectName,
-        program::Program,
-        shader::Shader,
-        vao::Vao,
-    },
+    commands::buffer::Buffer,
+    context::Context,
     conversions::sizei,
+    debug::{gl_warn, with_debug_state, with_debug_state_mut},
+    error::{GlFallible, gl_assert},
+    framebuffer::Framebuffer,
     gl_enums::{DebugSeverity, DebugSource, DebugType, GetPointervPName, ObjectIdentifier},
+    gl_object::ObjectName,
     gl_types::{GLDEBUGPROC, GLboolean, GLchar, GLsizei, GLuint, GLvoid},
+    program::Program,
+    shader::Shader,
+    vao::Vao,
 };
 use core::slice;
 use std::{
+    cell::Cell,
     ffi::{CStr, CString},
     mem::MaybeUninit,
     ptr,
@@ -42,12 +44,12 @@ impl Context {
     /// ### Description
     /// [**glObjectLabel**](crate::context::Context::oxidegl_object_label) labels
     /// the object identified by `name` within the namespace given by `identifier`.
-    /// `identifier` must be one of [`GL_BUFFER`](crate::enums::GL_BUFFER), [`GL_SHADER`](crate::enums::GL_SHADER),
-    /// [`GL_PROGRAM`](crate::enums::GL_PROGRAM), [`GL_VERTEX_ARRAY`](crate::enums::GL_VERTEX_ARRAY),
-    /// [`GL_QUERY`](crate::enums::GL_QUERY), [`GL_PROGRAM_PIPELINE`](crate::enums::GL_PROGRAM_PIPELINE),
-    /// [`GL_TRANSFORM_FEEDBACK`](crate::enums::GL_TRANSFORM_FEEDBACK), [`GL_SAMPLER`](crate::enums::GL_SAMPLER),
-    /// [`GL_TEXTURE`](crate::enums::GL_TEXTURE), [`GL_RENDERBUFFER`](crate::enums::GL_RENDERBUFFER),
-    /// [`GL_FRAMEBUFFER`](crate::enums::GL_FRAMEBUFFER), to indicate the namespace
+    /// `identifier` must be one of [`GL_BUFFER`](crate::gl_enums::GL_BUFFER), [`GL_SHADER`](crate::gl_enums::GL_SHADER),
+    /// [`GL_PROGRAM`](crate::gl_enums::GL_PROGRAM), [`GL_VERTEX_ARRAY`](crate::gl_enums::GL_VERTEX_ARRAY),
+    /// [`GL_QUERY`](crate::gl_enums::GL_QUERY), [`GL_PROGRAM_PIPELINE`](crate::gl_enums::GL_PROGRAM_PIPELINE),
+    /// [`GL_TRANSFORM_FEEDBACK`](crate::gl_enums::GL_TRANSFORM_FEEDBACK), [`GL_SAMPLER`](crate::gl_enums::GL_SAMPLER),
+    /// [`GL_TEXTURE`](crate::gl_enums::GL_TEXTURE), [`GL_RENDERBUFFER`](crate::gl_enums::GL_RENDERBUFFER),
+    /// [`GL_FRAMEBUFFER`](crate::gl_enums::GL_FRAMEBUFFER), to indicate the namespace
     /// containing the names of buffers, shaders, programs, vertex array objects,
     /// query objects, program pipelines, transform feedback objects, samplers,
     /// textures, renderbuffers and frame buffers, respectively.
@@ -58,7 +60,7 @@ impl Context {
     /// is NULL, any debug label is effectively removed from the object.
     ///
     /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_LABEL_LENGTH`](crate::enums::GL_MAX_LABEL_LENGTH).
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_LABEL_LENGTH`](crate::gl_enums::GL_MAX_LABEL_LENGTH).
     pub unsafe fn oxidegl_object_label(
         &mut self,
         identifier: ObjectIdentifier,
@@ -128,7 +130,7 @@ impl Context {
     /// is NULL, any debug label is effectively removed from the object.
     ///
     /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_LABEL_LENGTH`](crate::enums::GL_MAX_LABEL_LENGTH).
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_LABEL_LENGTH`](crate::gl_enums::GL_MAX_LABEL_LENGTH).
     pub unsafe fn oxidegl_object_ptr_label(
         &mut self,
         ptr: *const GLvoid,
@@ -162,12 +164,12 @@ impl Context {
     /// ### Description
     /// [**glGetObjectLabel**](crate::context::Context::oxidegl_get_object_label)
     /// retrieves the label of the object identified by `name` within the namespace
-    /// given by `identifier`. `identifier` must be one of [`GL_BUFFER`](crate::enums::GL_BUFFER),
-    /// [`GL_SHADER`](crate::enums::GL_SHADER), [`GL_PROGRAM`](crate::enums::GL_PROGRAM),
-    /// [`GL_VERTEX_ARRAY`](crate::enums::GL_VERTEX_ARRAY), [`GL_QUERY`](crate::enums::GL_QUERY),
-    /// [`GL_PROGRAM_PIPELINE`](crate::enums::GL_PROGRAM_PIPELINE), [`GL_TRANSFORM_FEEDBACK`](crate::enums::GL_TRANSFORM_FEEDBACK),
-    /// [`GL_SAMPLER`](crate::enums::GL_SAMPLER), [`GL_TEXTURE`](crate::enums::GL_TEXTURE),
-    /// [`GL_RENDERBUFFER`](crate::enums::GL_RENDERBUFFER), [`GL_FRAMEBUFFER`](crate::enums::GL_FRAMEBUFFER),
+    /// given by `identifier`. `identifier` must be one of [`GL_BUFFER`](crate::gl_enums::GL_BUFFER),
+    /// [`GL_SHADER`](crate::gl_enums::GL_SHADER), [`GL_PROGRAM`](crate::gl_enums::GL_PROGRAM),
+    /// [`GL_VERTEX_ARRAY`](crate::gl_enums::GL_VERTEX_ARRAY), [`GL_QUERY`](crate::gl_enums::GL_QUERY),
+    /// [`GL_PROGRAM_PIPELINE`](crate::gl_enums::GL_PROGRAM_PIPELINE), [`GL_TRANSFORM_FEEDBACK`](crate::gl_enums::GL_TRANSFORM_FEEDBACK),
+    /// [`GL_SAMPLER`](crate::gl_enums::GL_SAMPLER), [`GL_TEXTURE`](crate::gl_enums::GL_TEXTURE),
+    /// [`GL_RENDERBUFFER`](crate::gl_enums::GL_RENDERBUFFER), [`GL_FRAMEBUFFER`](crate::gl_enums::GL_FRAMEBUFFER),
     /// to indicate the namespace containing the names of buffers, shaders, programs,
     /// vertex array objects, query objects, program pipelines, transform feedback
     /// objects, samplers, textures, renderbuffers and frame buffers, respectively.
@@ -180,7 +182,7 @@ impl Context {
     /// if `bufSize` is zero then no data is written to `label`.
     ///
     /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_LABEL_LENGTH`](crate::enums::GL_MAX_LABEL_LENGTH).
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_LABEL_LENGTH`](crate::gl_enums::GL_MAX_LABEL_LENGTH).
     pub unsafe fn oxidegl_get_object_label(
         &mut self,
         identifier: ObjectIdentifier,
@@ -305,7 +307,7 @@ impl Context {
     /// if `bufSize` is zero then no data is written to `label`.
     ///
     /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_LABEL_LENGTH`](crate::enums::GL_MAX_LABEL_LENGTH).
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_LABEL_LENGTH`](crate::gl_enums::GL_MAX_LABEL_LENGTH).
     pub unsafe fn oxidegl_get_object_ptr_label(
         &mut self,
         ptr: *const GLvoid,
@@ -318,8 +320,8 @@ impl Context {
     /// ### Parameters
     /// `pname`
     ///
-    /// > Specifies the pointer to be returned. Must be one of [`GL_DEBUG_CALLBACK_FUNCTION`](crate::enums::GL_DEBUG_CALLBACK_FUNCTION)
-    /// > or [`GL_DEBUG_CALLBACK_USER_PARAM`](crate::enums::GL_DEBUG_CALLBACK_USER_PARAM).
+    /// > Specifies the pointer to be returned. Must be one of [`GL_DEBUG_CALLBACK_FUNCTION`](crate::gl_enums::GL_DEBUG_CALLBACK_FUNCTION)
+    /// > or [`GL_DEBUG_CALLBACK_USER_PARAM`](crate::gl_enums::GL_DEBUG_CALLBACK_USER_PARAM).
     ///
     /// `params`
     ///
@@ -331,12 +333,12 @@ impl Context {
     /// `params` is a pointer to a location in which to place the returned data.
     /// The parameters that may be queried include:
     ///
-    /// [`GL_DEBUG_CALLBACK_FUNCTION`](crate::enums::GL_DEBUG_CALLBACK_FUNCTION)
+    /// [`GL_DEBUG_CALLBACK_FUNCTION`](crate::gl_enums::GL_DEBUG_CALLBACK_FUNCTION)
     ///
     /// > Returns the current callback function set with the `callback` argument
     /// > of [**glDebugMessageCallback**](crate::context::Context::oxidegl_debug_message_callback).
     ///
-    /// [`GL_DEBUG_CALLBACK_USER_PARAM`](crate::enums::GL_DEBUG_CALLBACK_USER_PARAM)
+    /// [`GL_DEBUG_CALLBACK_USER_PARAM`](crate::gl_enums::GL_DEBUG_CALLBACK_USER_PARAM)
     ///
     /// > Returns the user parameter to the current callback function set with the
     /// > `userParam` argument of [**glDebugMessageCallback**](crate::context::Context::oxidegl_debug_message_callback).
@@ -440,48 +442,48 @@ impl Context {
     /// The parameters `source`, `type` and `severity` form a filter to select
     /// messages from the pool of potential messages generated by the GL.
     ///
-    /// `source` may be [`GL_DEBUG_SOURCE_API`](crate::enums::GL_DEBUG_SOURCE_API),
-    /// [`GL_DEBUG_SOURCE_WINDOW_SYSTEM_`](crate::enums::GL_DEBUG_SOURCE_WINDOW_SYSTEM_),
-    /// [`GL_DEBUG_SOURCE_SHADER_COMPILER`](crate::enums::GL_DEBUG_SOURCE_SHADER_COMPILER),
-    /// [`GL_DEBUG_SOURCE_THIRD_PARTY`](crate::enums::GL_DEBUG_SOURCE_THIRD_PARTY),
-    /// [`GL_DEBUG_SOURCE_APPLICATION`](crate::enums::GL_DEBUG_SOURCE_APPLICATION),
-    /// [`GL_DEBUG_SOURCE_OTHER`](crate::enums::GL_DEBUG_SOURCE_OTHER) to select
+    /// `source` may be [`GL_DEBUG_SOURCE_API`](crate::gl_enums::GL_DEBUG_SOURCE_API),
+    /// [`GL_DEBUG_SOURCE_WINDOW_SYSTEM`](crate::gl_enums::GL_DEBUG_SOURCE_WINDOW_SYSTEM),
+    /// [`GL_DEBUG_SOURCE_SHADER_COMPILER`](crate::gl_enums::GL_DEBUG_SOURCE_SHADER_COMPILER),
+    /// [`GL_DEBUG_SOURCE_THIRD_PARTY`](crate::gl_enums::GL_DEBUG_SOURCE_THIRD_PARTY),
+    /// [`GL_DEBUG_SOURCE_APPLICATION`](crate::gl_enums::GL_DEBUG_SOURCE_APPLICATION),
+    /// [`GL_DEBUG_SOURCE_OTHER`](crate::gl_enums::GL_DEBUG_SOURCE_OTHER) to select
     /// messages generated by usage of the GL API, the window system, the shader
     /// compiler, third party tools or libraries, explicitly by the application
-    /// or by some other source, respectively. It may also take the value [`GL_DONT_CARE`](crate::enums::GL_DONT_CARE).
-    /// If `source` is not [`GL_DONT_CARE`](crate::enums::GL_DONT_CARE) then only
+    /// or by some other source, respectively. It may also take the value [`GL_DONT_CARE`](crate::gl_enums::GL_DONT_CARE).
+    /// If `source` is not [`GL_DONT_CARE`](crate::gl_enums::GL_DONT_CARE) then only
     /// messages whose source matches `source` will be referenced.
     ///
-    /// `type` may be one of [`GL_DEBUG_TYPE_ERROR`](crate::enums::GL_DEBUG_TYPE_ERROR),
-    /// [`GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR`](crate::enums::GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR),
-    /// [`GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR`](crate::enums::GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR),
-    /// [`GL_DEBUG_TYPE_PORTABILITY`](crate::enums::GL_DEBUG_TYPE_PORTABILITY),
-    /// [`GL_DEBUG_TYPE_PERFORMANCE`](crate::enums::GL_DEBUG_TYPE_PERFORMANCE),
-    /// [`GL_DEBUG_TYPE_MARKER`](crate::enums::GL_DEBUG_TYPE_MARKER), [`GL_DEBUG_TYPE_PUSH_GROUP`](crate::enums::GL_DEBUG_TYPE_PUSH_GROUP),
-    /// [`GL_DEBUG_TYPE_POP_GROUP`](crate::enums::GL_DEBUG_TYPE_POP_GROUP), or
-    /// [`GL_DEBUG_TYPE_OTHER`](crate::enums::GL_DEBUG_TYPE_OTHER) to indicate
+    /// `type` may be one of [`GL_DEBUG_TYPE_ERROR`](crate::gl_enums::GL_DEBUG_TYPE_ERROR),
+    /// [`GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR`](crate::gl_enums::GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR),
+    /// [`GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR`](crate::gl_enums::GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR),
+    /// [`GL_DEBUG_TYPE_PORTABILITY`](crate::gl_enums::GL_DEBUG_TYPE_PORTABILITY),
+    /// [`GL_DEBUG_TYPE_PERFORMANCE`](crate::gl_enums::GL_DEBUG_TYPE_PERFORMANCE),
+    /// [`GL_DEBUG_TYPE_MARKER`](crate::gl_enums::GL_DEBUG_TYPE_MARKER), [`GL_DEBUG_TYPE_PUSH_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_PUSH_GROUP),
+    /// [`GL_DEBUG_TYPE_POP_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_POP_GROUP), or
+    /// [`GL_DEBUG_TYPE_OTHER`](crate::gl_enums::GL_DEBUG_TYPE_OTHER) to indicate
     /// the type of messages describing GL errors, attempted use of deprecated
     /// features, triggering of undefined behavior, portability issues, performance
     /// notifications, markers, group push and pop events, and other types of messages,
-    /// respectively. It may also take the value [`GL_DONT_CARE`](crate::enums::GL_DONT_CARE).
-    /// If `type` is not [`GL_DONT_CARE`](crate::enums::GL_DONT_CARE) then only
+    /// respectively. It may also take the value [`GL_DONT_CARE`](crate::gl_enums::GL_DONT_CARE).
+    /// If `type` is not [`GL_DONT_CARE`](crate::gl_enums::GL_DONT_CARE) then only
     /// messages whose type matches `type` will be referenced.
     ///
-    /// `severity` may be one of [`GL_DEBUG_SEVERITY_LOW`](crate::enums::GL_DEBUG_SEVERITY_LOW),
-    /// [`GL_DEBUG_SEVERITY_MEDIUM`](crate::enums::GL_DEBUG_SEVERITY_MEDIUM), or
-    /// [`GL_DEBUG_SEVERITY_HIGH`](crate::enums::GL_DEBUG_SEVERITY_HIGH) to select
-    /// messages of low, medium or high severity messages or to [`GL_DEBUG_SEVERITY_NOTIFICATION`](crate::enums::GL_DEBUG_SEVERITY_NOTIFICATION)
-    /// for notifications. It may also take the value [`GL_DONT_CARE`](crate::enums::GL_DONT_CARE).
-    /// If `severity` is not [`GL_DONT_CARE`](crate::enums::GL_DONT_CARE) then
+    /// `severity` may be one of [`GL_DEBUG_SEVERITY_LOW`](crate::gl_enums::GL_DEBUG_SEVERITY_LOW),
+    /// [`GL_DEBUG_SEVERITY_MEDIUM`](crate::gl_enums::GL_DEBUG_SEVERITY_MEDIUM), or
+    /// [`GL_DEBUG_SEVERITY_HIGH`](crate::gl_enums::GL_DEBUG_SEVERITY_HIGH) to select
+    /// messages of low, medium or high severity messages or to [`GL_DEBUG_SEVERITY_NOTIFICATION`](crate::gl_enums::GL_DEBUG_SEVERITY_NOTIFICATION)
+    /// for notifications. It may also take the value [`GL_DONT_CARE`](crate::gl_enums::GL_DONT_CARE).
+    /// If `severity` is not [`GL_DONT_CARE`](crate::gl_enums::GL_DONT_CARE) then
     /// only messages whose severity matches `severity` will be referenced.
     ///
     /// `ids` contains a list of `count` message identifiers to select specific
     /// messages from the pool of available messages. If `count` is zero then the
     /// value of `ids` is ignored. Otherwise, only messages appearing in this list
-    /// are selected. In this case, `source` and `type` may not be [`GL_DONT_CARE`](crate::enums::GL_DONT_CARE)
-    /// and `severity` must be [`GL_DONT_CARE`](crate::enums::GL_DONT_CARE).
+    /// are selected. In this case, `source` and `type` may not be [`GL_DONT_CARE`](crate::gl_enums::GL_DONT_CARE)
+    /// and `severity` must be [`GL_DONT_CARE`](crate::gl_enums::GL_DONT_CARE).
     ///
-    /// If `enabled` is [`GL_TRUE`](crate::enums::GL_TRUE) then messages that match
+    /// If `enabled` is [`GL_TRUE`](crate::gl_enums::GL_TRUE) then messages that match
     /// the filter formed by `source`, `type`, `severity` and `ids` are enabled.
     /// Otherwise, those messages are disabled.
     ///
@@ -491,9 +493,9 @@ impl Context {
     /// debug context. In particular, a valid implementation of the debug message
     /// queue in a non-debug context may produce no messages at all.
     ///
-    /// [`GL_DEBUG_TYPE_MARKER`](crate::enums::GL_DEBUG_TYPE_MARKER), [`GL_DEBUG_TYPE_PUSH_GROUP`](crate::enums::GL_DEBUG_TYPE_PUSH_GROUP),
-    /// [`GL_DEBUG_TYPE_POP_GROUP`](crate::enums::GL_DEBUG_TYPE_POP_GROUP), and
-    /// [`GL_DEBUG_SEVERITY_NOTIFICATION`](crate::enums::GL_DEBUG_SEVERITY_NOTIFICATION)
+    /// [`GL_DEBUG_TYPE_MARKER`](crate::gl_enums::GL_DEBUG_TYPE_MARKER), [`GL_DEBUG_TYPE_PUSH_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_PUSH_GROUP),
+    /// [`GL_DEBUG_TYPE_POP_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_POP_GROUP), and
+    /// [`GL_DEBUG_SEVERITY_NOTIFICATION`](crate::gl_enums::GL_DEBUG_SEVERITY_NOTIFICATION)
     /// are available only if the GL version is 4.3 or higher.
     pub unsafe fn oxidegl_debug_message_control(
         &mut self,
@@ -538,20 +540,20 @@ impl Context {
     /// ### Description
     /// [**glDebugMessageInsert**](crate::context::Context::oxidegl_debug_message_insert)
     /// inserts a user-supplied message into the debug output queue. `source` specifies
-    /// the source that will be used to classify the message and must be [`GL_DEBUG_SOURCE_APPLICATION`](crate::enums::GL_DEBUG_SOURCE_APPLICATION)
-    /// or [`GL_DEBUG_SOURCE_THIRD_PARTY`](crate::enums::GL_DEBUG_SOURCE_THIRD_PARTY).
+    /// the source that will be used to classify the message and must be [`GL_DEBUG_SOURCE_APPLICATION`](crate::gl_enums::GL_DEBUG_SOURCE_APPLICATION)
+    /// or [`GL_DEBUG_SOURCE_THIRD_PARTY`](crate::gl_enums::GL_DEBUG_SOURCE_THIRD_PARTY).
     /// All other sources are reserved for use by the GL implementation. `type`
-    /// indicates the type of the message to be inserted and may be one of [`GL_DEBUG_TYPE_ERROR`](crate::enums::GL_DEBUG_TYPE_ERROR),
-    /// [`GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR`](crate::enums::GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR),
-    /// [`GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR`](crate::enums::GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR),
-    /// [`GL_DEBUG_TYPE_PORTABILITY`](crate::enums::GL_DEBUG_TYPE_PORTABILITY),
-    /// [`GL_DEBUG_TYPE_PERFORMANCE`](crate::enums::GL_DEBUG_TYPE_PERFORMANCE),
-    /// [`GL_DEBUG_TYPE_MARKER`](crate::enums::GL_DEBUG_TYPE_MARKER), [`GL_DEBUG_TYPE_PUSH_GROUP`](crate::enums::GL_DEBUG_TYPE_PUSH_GROUP),
-    /// [`GL_DEBUG_TYPE_POP_GROUP`](crate::enums::GL_DEBUG_TYPE_POP_GROUP), or
-    /// [`GL_DEBUG_TYPE_OTHER`](crate::enums::GL_DEBUG_TYPE_OTHER). `severity`
-    /// indicates the severity of the message and may be [`GL_DEBUG_SEVERITY_LOW`](crate::enums::GL_DEBUG_SEVERITY_LOW),
-    /// [`GL_DEBUG_SEVERITY_MEDIUM`](crate::enums::GL_DEBUG_SEVERITY_MEDIUM), [`GL_DEBUG_SEVERITY_HIGH`](crate::enums::GL_DEBUG_SEVERITY_HIGH)
-    /// or [`GL_DEBUG_SEVERITY_NOTIFICATION`](crate::enums::GL_DEBUG_SEVERITY_NOTIFICATION).
+    /// indicates the type of the message to be inserted and may be one of [`GL_DEBUG_TYPE_ERROR`](crate::gl_enums::GL_DEBUG_TYPE_ERROR),
+    /// [`GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR`](crate::gl_enums::GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR),
+    /// [`GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR`](crate::gl_enums::GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR),
+    /// [`GL_DEBUG_TYPE_PORTABILITY`](crate::gl_enums::GL_DEBUG_TYPE_PORTABILITY),
+    /// [`GL_DEBUG_TYPE_PERFORMANCE`](crate::gl_enums::GL_DEBUG_TYPE_PERFORMANCE),
+    /// [`GL_DEBUG_TYPE_MARKER`](crate::gl_enums::GL_DEBUG_TYPE_MARKER), [`GL_DEBUG_TYPE_PUSH_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_PUSH_GROUP),
+    /// [`GL_DEBUG_TYPE_POP_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_POP_GROUP), or
+    /// [`GL_DEBUG_TYPE_OTHER`](crate::gl_enums::GL_DEBUG_TYPE_OTHER). `severity`
+    /// indicates the severity of the message and may be [`GL_DEBUG_SEVERITY_LOW`](crate::gl_enums::GL_DEBUG_SEVERITY_LOW),
+    /// [`GL_DEBUG_SEVERITY_MEDIUM`](crate::gl_enums::GL_DEBUG_SEVERITY_MEDIUM), [`GL_DEBUG_SEVERITY_HIGH`](crate::gl_enums::GL_DEBUG_SEVERITY_HIGH)
+    /// or [`GL_DEBUG_SEVERITY_NOTIFICATION`](crate::gl_enums::GL_DEBUG_SEVERITY_NOTIFICATION).
     /// `id` is available for application defined use and may be any value. This
     /// value will be recorded and used to identify the message.
     ///
@@ -559,12 +561,12 @@ impl Context {
     /// address is given in `message`. If `length` is negative then `message` is
     /// treated as a null-terminated string. The length of the message, whether
     /// specified explicitly or implicitly, must be less than or equal to the implementation
-    /// defined constant [`GL_MAX_DEBUG_MESSAGE_LENGTH`](crate::enums::GL_MAX_DEBUG_MESSAGE_LENGTH).
+    /// defined constant [`GL_MAX_DEBUG_MESSAGE_LENGTH`](crate::gl_enums::GL_MAX_DEBUG_MESSAGE_LENGTH).
     ///
     /// ### Notes
-    /// [`GL_DEBUG_TYPE_MARKER`](crate::enums::GL_DEBUG_TYPE_MARKER), [`GL_DEBUG_TYPE_PUSH_GROUP`](crate::enums::GL_DEBUG_TYPE_PUSH_GROUP),
-    /// [`GL_DEBUG_TYPE_POP_GROUP`](crate::enums::GL_DEBUG_TYPE_POP_GROUP), and
-    /// [`GL_DEBUG_SEVERITY_NOTIFICATION`](crate::enums::GL_DEBUG_SEVERITY_NOTIFICATION)
+    /// [`GL_DEBUG_TYPE_MARKER`](crate::gl_enums::GL_DEBUG_TYPE_MARKER), [`GL_DEBUG_TYPE_PUSH_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_PUSH_GROUP),
+    /// [`GL_DEBUG_TYPE_POP_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_POP_GROUP), and
+    /// [`GL_DEBUG_SEVERITY_NOTIFICATION`](crate::gl_enums::GL_DEBUG_SEVERITY_NOTIFICATION)
     /// are available only if the GL version is 4.3 or higher.
     pub unsafe fn oxidegl_debug_message_insert(
         &mut self,
@@ -647,13 +649,13 @@ impl Context {
     /// queue in a non-debug context may produce no messages at all.
     ///
     /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_DEBUG_LOGGED_MESSAGES`](crate::enums::GL_DEBUG_LOGGED_MESSAGES)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_DEBUG_LOGGED_MESSAGES`](crate::gl_enums::GL_DEBUG_LOGGED_MESSAGES)
     ///
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_DEBUG_NEXT_LOGGED_MESSAGE_LENGTH`](crate::enums::GL_DEBUG_NEXT_LOGGED_MESSAGE_LENGTH)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_DEBUG_NEXT_LOGGED_MESSAGE_LENGTH`](crate::gl_enums::GL_DEBUG_NEXT_LOGGED_MESSAGE_LENGTH)
     ///
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_DEBUG_MESSAGE_LENGTH`](crate::enums::GL_MAX_DEBUG_MESSAGE_LENGTH)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_DEBUG_MESSAGE_LENGTH`](crate::gl_enums::GL_MAX_DEBUG_MESSAGE_LENGTH)
     ///
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_DEBUG_LOGGED_MESSAGES`](crate::enums::GL_MAX_DEBUG_LOGGED_MESSAGES)
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_DEBUG_LOGGED_MESSAGES`](crate::gl_enums::GL_MAX_DEBUG_LOGGED_MESSAGES)
     pub unsafe fn oxidegl_get_debug_message_log(
         &mut self,
         count: GLuint,
@@ -720,6 +722,41 @@ impl Context {
         length: GLsizei,
         message: *const GLchar,
     ) -> GlFallible {
-        panic!("command oxidegl_push_debug_group not yet implemented");
+        //Safety: caller
+        with_debug_state_mut(|mut state| unsafe {
+            state.push_debug_group(source, id, length, message);
+        })
+        .expect("no debug state");
+
+        let s = with_debug_state_mut(|s| s.debug_groups.last().unwrap().message.clone())
+            .expect("no debug state");
+
+        self.platform_state.push_debug_group(&NSString::from_str(
+            s.to_str().expect("non utf-8 debug group name"),
+        ));
+        Ok(())
+    }
+    /// ### Description
+    /// [**glPopDebugGroup**](crate::context::Context::oxidegl_pop_debug_group)
+    /// pops the active debug group. After popping a debug group, the GL will also
+    /// generate a debug output message describing its cause based on the `message`
+    /// string, the source `source`, and an ID `id` submitted to the corresponding
+    /// [**glPushDebugGroup**](crate::context::Context::oxidegl_push_debug_group)
+    /// command. [`GL_DEBUG_TYPE_PUSH_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_PUSH_GROUP)
+    /// and [`GL_DEBUG_TYPE_POP_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_POP_GROUP)
+    /// share a single namespace for message `id`. `severity` has the value [`GL_DEBUG_SEVERITY_NOTIFICATION`](crate::gl_enums::GL_DEBUG_SEVERITY_NOTIFICATION).
+    /// The `type` has the value [`GL_DEBUG_TYPE_POP_GROUP`](crate::gl_enums::GL_DEBUG_TYPE_POP_GROUP).
+    /// Popping a debug group restores the debug output volume control of the
+    /// parent debug group.
+    ///
+    /// ### Associated Gets
+    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_DEBUG_MESSAGE_LENGTH`](crate::gl_enums::GL_MAX_DEBUG_MESSAGE_LENGTH).
+    pub fn oxidegl_pop_debug_group(&mut self) -> GlFallible {
+        with_debug_state_mut(|mut state| unsafe {
+            state.pop_debug_group();
+        })
+        .expect("no debug state");
+        self.platform_state.pop_debug_group();
+        Ok(())
     }
 }

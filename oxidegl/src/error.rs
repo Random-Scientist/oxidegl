@@ -2,7 +2,7 @@
 use std::{convert::Infallible, hint::unreachable_unchecked, mem, panic::Location, ptr};
 
 use crate::{
-    context::debug::gl_err,
+    debug::gl_err,
     gl_enums::{
         ErrorCode, GL_INVALID_ENUM, GL_INVALID_FRAMEBUFFER_OPERATION, GL_INVALID_OPERATION,
         GL_INVALID_VALUE, GL_OUT_OF_MEMORY, GL_STACK_OVERFLOW, GL_STACK_UNDERFLOW,
@@ -177,14 +177,14 @@ impl<T: Sized> GetErrorReturnValue<T> for Infallible {
 macro_rules! gl_assert {
     ( $test:expr, $errno:ident ) => {
         if !($test) {
-            crate::context::debug::gl_err!(src: Api, ty: Error, ::std::concat!(::std::stringify!($errno), " caused by failiure of assertion \"", ::std::stringify!($test), "\""));
-            return ::std::result::Result::Err(crate::context::error::GlError::$errno.e());
+            crate::debug::gl_err!(src: Api, ty: Error, ::std::concat!(::std::stringify!($errno), " caused by failiure of assertion \"", ::std::stringify!($test), "\""));
+            return ::std::result::Result::Err(crate::error::GlError::$errno.e());
         }
     };
     ( $test:expr, $errno:ident, $($msg:tt)* ) => {
         if !($test) {
-            crate::context::debug::gl_err!(src: Api, ty: Error, ::std::concat!(::std::stringify!($errno), " caused by failiure of assertion \"", ::std::stringify!($test), "\": {}"), ::std::format!($($msg)*) );
-            return ::std::result::Result::Err(crate::context::error::GlError::$errno.e());
+            crate::debug::gl_err!(src: Api, ty: Error, ::std::concat!(::std::stringify!($errno), " caused by failiure of assertion \"", ::std::stringify!($test), "\": {}"), ::std::format!($($msg)*) );
+            return ::std::result::Result::Err(crate::error::GlError::$errno.e());
         }
     };
 }

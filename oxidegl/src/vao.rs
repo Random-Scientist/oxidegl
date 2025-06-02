@@ -3,8 +3,9 @@ use std::{array, num::NonZeroU32};
 use objc2_metal::MTLVertexFormat;
 
 use crate::{
-    context::{debug::gl_debug, error::gl_assert},
     conversions::sizei,
+    debug::gl_debug,
+    error::gl_assert,
     gl_enums::VertexAttribType,
     gl_types::{GLintptr, GLsizei, GLuint, GLvoid},
 };

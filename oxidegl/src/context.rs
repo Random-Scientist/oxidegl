@@ -1,39 +1,15 @@
-use crate::gl_enums::ErrorCode;
+use crate::{gl_enums::ErrorCode, render::Renderer};
 use objc2::rc::Retained;
 use objc2_app_kit::NSView;
 use objc2_metal::MTLPixelFormat;
-use platform::PlatformState;
 use state::GLState;
 
-#[allow(
-    dead_code,
-    unused_variables,
-    clippy::wildcard_imports,
-    clippy::too_many_arguments,
-    clippy::unused_self,
-    clippy::similar_names,
-    clippy::missing_safety_doc
-)]
-pub mod commands;
-
-pub mod debug;
-pub mod error;
-pub(crate) mod framebuffer;
-pub(crate) mod pixel;
-pub(crate) mod program;
-pub(crate) mod shader;
 pub(crate) mod state;
-pub(crate) mod texture;
-pub(crate) mod vao;
-
-pub(crate) mod gl_object;
-pub(crate) mod platform;
-
 #[derive(Debug)]
 #[repr(C)]
 pub struct Context {
     pub(crate) gl_state: GLState,
-    pub(crate) platform_state: PlatformState,
+    pub(crate) platform_state: Renderer,
 }
 
 impl Context {
@@ -41,7 +17,7 @@ impl Context {
     pub fn new() -> Self {
         Self {
             gl_state: GLState::default(),
-            platform_state: PlatformState::new(MTLPixelFormat::BGRA8Unorm_sRGB, None, None),
+            platform_state: Renderer::new(MTLPixelFormat::BGRA8Unorm_sRGB, None, None),
         }
     }
     pub fn set_error(&mut self, error: ErrorCode) {
