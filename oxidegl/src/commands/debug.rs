@@ -731,7 +731,7 @@ impl Context {
         let s = with_debug_state_mut(|s| s.debug_groups.last().unwrap().message.clone())
             .expect("no debug state");
 
-        self.platform_state.push_debug_group(&NSString::from_str(
+        self.renderer.push_debug_group(&NSString::from_str(
             s.to_str().expect("non utf-8 debug group name"),
         ));
         Ok(())
@@ -756,7 +756,7 @@ impl Context {
             state.pop_debug_group();
         })
         .expect("no debug state");
-        self.platform_state.pop_debug_group();
+        self.renderer.pop_debug_group();
         Ok(())
     }
 }

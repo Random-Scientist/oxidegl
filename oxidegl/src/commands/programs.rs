@@ -267,7 +267,7 @@ impl Context {
             .gl_state
             .program_list
             .get_program_raw_mut(&self.gl_state.shader_list, program)?;
-        program.link(&mut self.gl_state.shader_list, &self.platform_state.device);
+        program.link(&mut self.gl_state.shader_list, &self.renderer.device);
         Ok(())
     }
     /// ### Parameters

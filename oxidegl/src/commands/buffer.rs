@@ -744,13 +744,13 @@ impl Context {
         if let Some(ptr) = maybe_ptr {
             // Safety: caller ensures pointer validity, and that the slice implicitly formed by (data, size) is correctly initialized
             buffer = unsafe {
-                self.platform_state
+                self.renderer
                     .device
                     .newBufferWithBytes_length_options(ptr, size, options)
             };
         } else {
             buffer = self
-                .platform_state
+                .renderer
                 .device
                 .newBufferWithLength_options(size, options);
         }

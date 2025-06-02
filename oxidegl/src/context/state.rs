@@ -24,7 +24,7 @@ use crate::{
 };
 
 #[derive(Debug, Default)]
-pub(crate) struct GLState {
+pub(crate) struct GlState {
     // Static/immutable properties, mostly for glGet. Should probably be turned into constants
     pub(crate) characteristics: Characteristics,
     /// Tracks whether a given GL capability is active or not
