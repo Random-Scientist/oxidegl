@@ -315,7 +315,7 @@ impl Context {
             EnableCap::DebugOutput => todo!(),
         };
         if self.gl_state.caps.set_to(state, bit.1) {
-            self.platform_state.dirty_state.set_bits(bit.0);
+            self.renderer.dirty_state.set_bits(bit.0);
         }
     }
     fn set_indexed_cap_internal(&mut self, cap: EnableCap, state: bool, index: u32) {

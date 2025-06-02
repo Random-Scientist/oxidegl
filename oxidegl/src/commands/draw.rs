@@ -54,7 +54,7 @@ impl Context {
         //FIXME hack, move to module
         let Context {
             gl_state: state,
-            platform_state,
+            renderer: platform_state,
         } = self;
         platform_state.update_state(state, true);
         #[expect(

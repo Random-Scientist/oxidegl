@@ -23,7 +23,7 @@ use crate::{
     commands::buffer::Buffer,
     context::{
         Context,
-        state::{Capabilities, ColorWriteMask, DrawbufferBlendState, GLState, StencilFaceState},
+        state::{Capabilities, ColorWriteMask, DrawbufferBlendState, GlState, StencilFaceState},
     },
     debug::{gl_debug, gl_trace},
     device_properties::MetalProperties,
@@ -145,25 +145,23 @@ impl Context {
     #[inline]
     pub(crate) fn new_encoder(&mut self) {
         // need to update the new encoder after creation
-        self.platform_state
+        self.renderer
             .dirty_state
             .set_bits(Dirty::NEW_RENDER_ENCODER);
     }
     #[inline]
     pub(crate) fn update_encoder(&mut self) {
-        self.platform_state
+        self.renderer
             .dirty_state
             .set_bits(Dirty::UPDATE_RENDER_ENCODER);
     }
     #[inline]
     pub(crate) fn remap_buffers(&mut self) {
-        self.platform_state
-            .dirty_state
-            .set_bits(Dirty::REMAP_BUFFERS);
+        self.renderer.dirty_state.set_bits(Dirty::REMAP_BUFFERS);
     }
     #[inline]
     pub(crate) fn new_pipeline(&mut self) {
-        self.platform_state
+        self.renderer
             .dirty_state
             .set_bits(Dirty::NEW_RENDER_PIPELINE);
     }
@@ -246,7 +244,7 @@ impl Renderer {
 
         trace!("injected layer {:?} into NSView", &self.layer);
     }
-    pub(crate) fn swap_buffers(&mut self, state: &mut GLState) {
+    pub(crate) fn swap_buffers(&mut self, state: &mut GlState) {
         self.update_state(state, false);
 
         self.end_encoding();
@@ -406,7 +404,7 @@ impl Renderer {
 
     /// Core function of OpenGL state machine emulation. "steps" the state forward,
     /// reintegrating all of the state that has been made dirty since the last step
-    pub(crate) fn update_state(&mut self, state: &mut GLState, is_draw_command: bool) {
+    pub(crate) fn update_state(&mut self, state: &mut GlState, is_draw_command: bool) {
         // if we don't currently have an encoder, make sure we make a new one
         // (in case there are no state changes that mark it dirty over the course of a frame)
         if self.render_encoder.is_none() {
@@ -457,7 +455,7 @@ impl Renderer {
     //preconditions: buffer maps built, renderable program present
     pub(crate) fn build_render_pipeline_state(
         &mut self,
-        state: &mut GLState,
+        state: &mut GlState,
     ) -> ProtoObjRef<dyn MTLRenderPipelineState> {
         let desc = MTLRenderPipelineDescriptor::new();
         #[cfg(debug_assertions)]
@@ -505,7 +503,7 @@ impl Renderer {
         // TODO clear state, depth test config, scissor box
     }
     // precondition: buffers mapped
-    fn update_encoder(&mut self, state: &mut GLState) {
+    fn update_encoder(&mut self, state: &mut GlState) {
         fn stencil_descriptor_for_stencil_state(
             state: &StencilFaceState,
             writemask: u32,
@@ -579,7 +577,7 @@ impl Renderer {
             zfar: 1.0,
         });
     }
-    fn bind_buffers_to_render_encoder(&mut self, state: &mut GLState) {
+    fn bind_buffers_to_render_encoder(&mut self, state: &mut GlState) {
         let enc = self.render_encoder.as_ref().unwrap();
         for (&buf, &binding) in &self.vertex_buffer_map.inner {
             let buf_obj = state.buffer_list.get(buf);
@@ -621,7 +619,7 @@ impl Renderer {
     //preconditions: view set on context
     pub(crate) fn build_render_encoder(
         &mut self,
-        state: &mut GLState,
+        state: &mut GlState,
     ) -> ProtoObjRef<dyn MTLRenderCommandEncoder> {
         let desc = unsafe { MTLRenderPassDescriptor::new() };
 
@@ -785,7 +783,7 @@ impl Renderer {
             .expect("failed to create drawable texture")
     }
     #[inline]
-    pub(crate) fn linked_stage(state: &GLState, shader_type: ShaderType) -> Option<&LinkedStage> {
+    pub(crate) fn linked_stage(state: &GlState, shader_type: ShaderType) -> Option<&LinkedStage> {
         //TODO: handle program pipelines
         let program = state
             .program_list
@@ -807,7 +805,7 @@ impl Renderer {
     }
 
     /// precondition: has program
-    pub(crate) fn remap_buffer_arguments(&mut self, state: &mut GLState) {
+    pub(crate) fn remap_buffer_arguments(&mut self, state: &mut GlState) {
         if let (Some(vert), Some(vao)) = (
             Self::linked_stage(state, ShaderType::VertexShader),
             state.vao_binding.and_then(|v| state.vao_list.get_opt(v)),
@@ -837,7 +835,7 @@ impl Renderer {
     #[inline]
     // TODO cache this info inside of LinkedShaderStage
     fn stage_pinned_buffers(
-        state: &GLState,
+        state: &GlState,
         shader_stage: &LinkedStage,
     ) -> Vec<(ObjectName<Buffer>, u8)> {
         let mut v = Vec::new();
@@ -882,7 +880,7 @@ impl Renderer {
     /// precondition: Buffer maps built, VAO present
     pub(crate) fn build_vertex_descriptor(
         &mut self,
-        state: &mut GLState,
+        state: &mut GlState,
     ) -> Retained<MTLVertexDescriptor> {
         gl_trace!("generating Metal vertex descriptor from GL VAO state");
         let vao = state.vao_list.get(state.vao_binding.unwrap());
@@ -932,7 +930,7 @@ impl Context {
     pub fn swap_buffers(&mut self) {
         let Context {
             gl_state: state,
-            platform_state: platform,
+            renderer: platform,
         } = &mut *self;
         platform.swap_buffers(state);
     }
