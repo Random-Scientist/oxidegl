@@ -6,7 +6,6 @@ use std::{
     any,
     cell::Cell,
     collections::VecDeque,
-    env,
     ffi::{CStr, CString, c_char, c_void},
     fmt::Arguments,
     mem::{self, MaybeUninit},

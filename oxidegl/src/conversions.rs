@@ -28,7 +28,7 @@ pub(crate) trait GlEnumGroup: Sized {
     fn from_enum(val: GLenum) -> Option<Self>;
     unsafe fn from_enum_noerr(val: GLenum) -> Self;
 }
-/// Helper trait to convert from "raw" [`GLenums`](crate::dispatch::gl_types::GLenum) to wrappers around subsets of those that are valid for certain functions
+/// Helper trait to convert from "raw" [`GLenums`](crate::gl_types::GLenum) to wrappers around subsets of those that are valid for certain functions
 pub trait GLenumExt<T> {
     fn try_into_enum(self) -> GlFallible<T>;
     /// # Safety

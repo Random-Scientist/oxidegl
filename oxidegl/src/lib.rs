@@ -15,7 +15,6 @@ use context::Context;
 use log::info;
 
 #[allow(
-    dead_code,
     unused_variables,
     clippy::wildcard_imports,
     clippy::too_many_arguments,

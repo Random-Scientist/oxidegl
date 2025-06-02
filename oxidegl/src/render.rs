@@ -360,8 +360,8 @@ impl Renderer {
                 &self.queue,
                 Some(ns_string!("OxideGL render command buffer")),
             );
-            for group in self.debug_group_stack.iter() {
-                cb.pushDebugGroup(&**group);
+            for group in &self.debug_group_stack {
+                cb.pushDebugGroup(group);
             }
             cb
         })
@@ -700,8 +700,8 @@ impl Renderer {
             .expect("failed to create new render command encoder");
         #[cfg(debug_assertions)]
         enc.setLabel(Some(ns_string!("OxideGL render encoder")));
-        for group in self.debug_group_stack.iter() {
-            enc.pushDebugGroup(&**group);
+        for group in &self.debug_group_stack {
+            enc.pushDebugGroup(group);
         }
         enc
     }

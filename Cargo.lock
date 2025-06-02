@@ -620,7 +620,6 @@ dependencies = [
  "concat-idents",
  "constcat",
  "deterministic-hash",
- "flexi_logger",
  "glslang",
  "half",
  "likely_stable",
