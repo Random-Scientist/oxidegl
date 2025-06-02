@@ -1,5 +1,4 @@
-use objc2_foundation::{NSString, NSStringEncodingDetectionAllowLossyKey};
-use objc2_metal::MTLCommandBuffer;
+use objc2_foundation::NSString;
 
 use crate::{
     commands::buffer::Buffer,
@@ -17,7 +16,6 @@ use crate::{
 };
 use core::slice;
 use std::{
-    cell::Cell,
     ffi::{CStr, CString},
     mem::MaybeUninit,
     ptr,

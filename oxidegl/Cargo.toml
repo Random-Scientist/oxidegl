@@ -44,7 +44,6 @@ strum_macros = "0.27.1"
 
 # Logging
 log = { workspace = true }
-flexi_logger = "0.30.1"
 
 # Bitflags for GL Bitmasks
 bitflags = "2.6.0"
