@@ -4,9 +4,14 @@ use super::{
     ConvertPixel, Depth, NormalizedIntChannel, RgColorFormat, RgbaColorFormat, SingleChannelFormat,
     Stencil,
 };
-use crate::gl_enums::InternalFormat;
+use crate::{
+    gl_enums::InternalFormat,
+    pixel::{ChannelSource, ChannelType},
+};
 use half::f16;
 use objc2_metal::MTLPixelFormat;
+
+//meow
 
 pub(crate) trait InternalFormatInfo {
     /// The underlying [`MTLPixelFormat`] used to represent this [`InternalFormat`].
@@ -15,12 +20,35 @@ pub(crate) trait InternalFormatInfo {
     fn view_class() -> Option<TextureViewClass>;
     fn id() -> InternalFormat;
 }
+trait WrappedFormat {
+    type Inner;
+    fn from_inner(inner: Self::Inner) -> Self;
+    fn into_inner(self) -> Self::Inner;
+}
+impl<T: WrappedFormat<Inner = InnerTy>, InnerTy, S: ConvertPixel<InnerTy>> ConvertPixel<T> for S {
+    #[inline]
+    fn convert_pixel(self) -> T {
+        T::from_inner(self.convert_pixel())
+    }
+}
+impl<T: WrappedFormat<Inner = InnerTy> + Copy, InnerTy, Ctype: ChannelType, Cfmt>
+    ChannelSource<Ctype> for T
+where
+    InnerTy: ChannelSource<Ctype, Channel = Cfmt>,
+{
+    type Channel = Cfmt;
+    #[inline]
+    fn channel(self) -> Self::Channel {
+        self.into_inner().channel()
+    }
+}
 
 macro_rules! decl_internal_formats {
     (
         unsafe {
             $(
                 #[mtl_format = $mtl_format:ident]
+                $( #[forward = $convertpixeltrait:ident] )?
                 repr( $( $body:tt )* ) {
                     $(
                         $( #[doc = $doc:expr] )*
@@ -28,7 +56,6 @@ macro_rules! decl_internal_formats {
                         $( #[not_copyable $_mark:vis] )?
                         format struct $format:ident;
                     )+
-
                 }
             )+
         }
@@ -40,9 +67,34 @@ macro_rules! decl_internal_formats {
                     #[allow(non_camel_case_types)]
                     #[derive(Clone, Copy, Debug)]
                     pub(crate) struct fmt_name( $( $body )* );
+                    impl WrappedFormat for fmt_name {
+                        type Inner = $( $body )*;
+                        #[inline]
+                        fn from_inner(inner: Self::Inner) -> Self {
+                            Self(inner)
+                        }
+                        #[inline]
+                        fn into_inner(self) -> Self::Inner {
+                            self.0
+                        }
+                    }
                 }
 
             }
+
+            // $(
+            //     ::concat_idents::concat_idents! {
+            //         fmt_name = Mtl, $mtl_format {
+
+            //             impl<T: $convertpixeltrait< <fmt_name as FormatWithInnerType>::Inner> > $convertpixeltrait<fmt_name> for T {
+            //                 fn convert_pixel(self) -> fmt_name {
+            //                     fmt_name(self.convert_pixel())
+            //                 }
+            //             }
+            //         }
+            //     }
+            // )?
+
             $(
                 ::concat_idents::concat_idents! {
                     fmt_name = Mtl, $mtl_format {
@@ -50,6 +102,17 @@ macro_rules! decl_internal_formats {
                         #[repr(transparent)]
                         #[derive(Clone, Copy, Debug)]
                         pub(crate) struct $format( fmt_name );
+                        impl WrappedFormat for $format {
+                            type Inner = fmt_name;
+                            #[inline]
+                            fn from_inner(inner: Self::Inner) -> Self {
+                                Self(inner)
+                            }
+                            #[inline]
+                            fn into_inner(self) -> Self::Inner {
+                                self.0
+                            }
+                        }
                     }
                 }
                 impl InternalFormatInfo for $format {
@@ -69,6 +132,18 @@ macro_rules! decl_internal_formats {
                     }
                 }
             )+
+
+            // $(
+            //     $(
+            //         impl<T: $convertpixeltrait< <$format as FormatWithInnerType>::Inner> > $convertpixeltrait<$format> for T {
+            //             fn convert_pixel(self) -> $format {
+            //                 $format(self.convert_pixel())
+            //             }
+            //         }
+            //     )?
+            // )+
+
+
         )+
         impl InternalFormat {
             fn mtl_tex_format(self) -> MTLPixelFormat {
@@ -127,12 +202,27 @@ macro_rules! decl_internal_formats {
         None
     };
 }
+#[test]
+fn test() {
+    let rgba8 = RgbaColorFormat {
+        colors: [
+            NormalizedIntChannel(50u8),
+            NormalizedIntChannel(100u8),
+            NormalizedIntChannel(0u8),
+            NormalizedIntChannel(0u8),
+        ],
+    };
+    let rg32: Rg32f = rgba8.convert_pixel();
+    dbg!(rg32);
+}
+// TODO abi check macros that perform basic ABI sanity checks on the metal wrapper structs (we already have `unsafe` to signify that the layouts are user defined but a little more safety wouldn't hurt)
 
 decl_internal_formats! {
     unsafe {
         // Red
         // 8bit
         #[mtl_format = R8Unorm]
+        #[forward = ConvertPixel]
         repr(SingleChannelFormat<NormalizedIntChannel<u8>, super::Red>) {
             #[view_class = Bits8]
             format struct R8;

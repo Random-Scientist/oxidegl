@@ -13,6 +13,7 @@ use crate::{
     gl_enums::{InternalFormat, PixelFormat, PixelType},
 };
 mod internal_formats;
+
 trait ChannelType {}
 macro_rules! decl_channels {
     ($($i:ident),+) => {
@@ -47,6 +48,7 @@ impl<T> ConvertChannel<T> for T {
         self
     }
 }
+// TODO better on_unimplemented diagnostic
 trait ConvertPixel<T> {
     fn convert_pixel(self) -> T;
 }
@@ -132,6 +134,7 @@ macro_rules! decl_simple_formats {
                     )+
                     $fmt_name {
                         // Safety: transmute from [MaybeUninit<T>] to [T] ok if all values are initialized
+                        // justification TODO
                         colors: unsafe { crate::util::transmute_unchecked(uninit) },
                     }
                 }
