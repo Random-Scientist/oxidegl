@@ -38,7 +38,7 @@ use crate::{
 
 #[derive(Debug)]
 pub struct Renderer {
-    /// dirty components
+    /// Tracks invalidation (caused by GL state changes) of the various pieces of Metal rendering state
     pub(crate) dirty_state: Dirty,
 
     /// the `NSView` this context is associated with
@@ -170,7 +170,7 @@ const MTL_MAX_ARGUMENT_BINDINGS: usize = 31;
 
 /// Utility that maps currently active object names to their location in the relevant Metal shader parameter table
 #[derive(Debug)]
-pub(crate) struct ResourceMap<T: NamedObject, const MAX_ENTRIES: usize = 32> {
+pub(crate) struct ResourceMap<T: NamedObject, const MAX_ENTRIES: usize = 31> {
     inner: HashMap<ObjectName<T>, u32>,
     buf: HashSet<u32>,
     #[cfg(debug_assertions)]
@@ -210,7 +210,7 @@ impl<const MAX_ENTRIES: usize, T: NamedObject + 'static> ResourceMap<T, MAX_ENTR
         let mut ctr = MAX_ENTRIES as u32 - 1;
         assert!(
             pinned_resources.len() + include_resources.len() <= MAX_ENTRIES,
-            "OxideGL exceeded the maximum number of Metal buffer binding points ({MAX_ENTRIES})"
+            "OxideGL exceeded the maximum number of Metal binding points ({MAX_ENTRIES})"
         );
         for res in include_resources.iter().copied() {
             loop {
@@ -279,9 +279,10 @@ impl Renderer {
     ) -> Self {
         let device = MTLCreateSystemDefaultDevice().unwrap();
 
-        let layer = unsafe { CAMetalLayer::new() };
+        let layer;
 
         unsafe {
+            layer = CAMetalLayer::new();
             layer.setPixelFormat(pixel_format);
             layer.setDevice(Some(&device));
             layer.setFramebufferOnly(false);
@@ -411,8 +412,9 @@ impl Renderer {
             self.dirty_state
                 .set_bits(Dirty::NEW_RENDER_ENCODER | Dirty::UPDATE_RENDER_ENCODER);
         }
-
+        // all of the operations to be carried out this step
         let all_dirty = self.dirty_state;
+
         // if there is no VAO, we still need to update render encoder state for some commands like glClear but not do any further work
         if state.vao_binding.is_none() {
             if is_draw_command {
@@ -424,18 +426,20 @@ impl Renderer {
             }
         }
 
+        // need to materialize a new render encoder
         if all_dirty.any_set(Dirty::REMAP_BUFFERS) {
             self.remap_buffer_arguments(state);
         }
 
-        if all_dirty.any_set(Dirty::NEW_RENDER_ENCODER) || self.render_encoder.is_none() {
+        // need to materialize a new render encoder
+        if all_dirty.any_set(Dirty::NEW_RENDER_ENCODER) {
             gl_trace!("generating new render command encoder");
             self.end_encoding();
             self.render_encoder = Some(self.build_render_encoder(state));
             self.dirty_state.unset(Dirty::NEW_RENDER_ENCODER);
         }
-        // we have a new encoder and need to finish initializing it, or if we just need to update the dynamic state of the current encoder
-        if all_dirty.any_set(Dirty::UPDATE_RENDER_ENCODER | Dirty::NEW_RENDER_ENCODER) {
+        // need to update the dynamic state of the current encoder (it's either been invalidated or is blank (i.e. the encoder is brand new))
+        if all_dirty.any_set(Dirty::UPDATE_RENDER_ENCODER) {
             self.update_encoder(state);
             self.dirty_state.unset(Dirty::UPDATE_RENDER_ENCODER);
         }
@@ -486,7 +490,7 @@ impl Renderer {
             if state.caps.is_any_enabled(Capabilities::DEPTH_TEST) {
                 desc.setDepthAttachmentPixelFormat(
                     self.depth_format
-                    .expect("Tried to use depth test on the default framebuffer without specifying a depth format during context creation!")
+                    .expect("Tried to use depth test on the default framebuffer without specifying a depth format during context creation")
                 );
             }
             //TODO depth/stencil attachment formats
@@ -592,6 +596,19 @@ impl Renderer {
                 };
             }
         }
+        for (&buf, &binding) in &self.fragment_buffer_map.inner {
+            let buf_obj = state.buffer_list.get(buf);
+            gl_trace!("binding {buf:?} to metal argument table index {binding}");
+            if let Some(alloc) = buf_obj.allocation.as_ref() {
+                unsafe {
+                    enc.setFragmentBuffer_offset_atIndex(
+                        Some(&alloc.mtl),
+                        *self.vertex_buffer_offsets.get(&buf).unwrap(),
+                        binding as usize,
+                    );
+                };
+            }
+        }
     }
     #[expect(
         clippy::cast_possible_truncation,
@@ -601,8 +618,10 @@ impl Renderer {
     #[inline]
     // "guesstimate," it can still get out of sync with the actual size of the current drawable
     pub(crate) fn target_defaultfb_dims(&mut self) -> (u32, u32) {
-        // reproduce the calculation done by the CAMetalLayer when generating the next drawable size
+        // reproduce the calculation done by the CAMetalLayer when generating the next drawable size.
         // (from https://developer.apple.com/documentation/quartzcore/cametallayer/1478174-drawablesize)
+        // We don't read [Layer drawableSize] directly because it proxies a field on the actual drawable
+        // and is 0 if the layer hasn't materialized a drawable yet.
         let size = self.layer.bounds().size;
         let scale = self.layer.contentsScale();
         let size = (size.width * scale, size.height * scale);
@@ -830,7 +849,6 @@ impl Renderer {
         }
     }
 
-    // broadcast panic location up into calling functions for easier debugging
     #[track_caller]
     #[inline]
     // TODO cache this info inside of LinkedShaderStage
