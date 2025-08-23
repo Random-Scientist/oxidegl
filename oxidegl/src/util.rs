@@ -1,4 +1,5 @@
 pub type ProtoObjRef<T> = Retained<ProtocolObject<T>>;
+use std::cell::Cell;
 use std::fmt::Debug;
 #[must_use]
 /// Prints the trimmed type name (e.g. with all paths removed). May not work correctly in all cases (likely breaks for local structs, futures, closures etc)
@@ -92,10 +93,9 @@ macro_rules! bitflag_bits {
     }
 }
 
+pub(crate) use bitflag_bits;
 use std::mem::ManuallyDrop;
 use std::ops::{Deref, DerefMut};
-
-pub(crate) use bitflag_bits;
 
 /// [`unreachable!`](unreachable!), but it reduces to [`core::hint::unreachable_unchecked()`] in builds without debug assertions.
 macro_rules! debug_unreachable {
@@ -138,4 +138,41 @@ pub(crate) const unsafe fn transmute_unchecked<Src, Dst>(value: Src) -> Dst {
         }
         .dst
     })
+}
+pub(crate) struct CloneOptionCell<T> {
+    inner: Cell<Option<T>>,
+}
+impl<T: Clone> Clone for CloneOptionCell<T> {
+    fn clone(&self) -> Self {
+        let v = self.inner.take();
+        self.inner.set(v.clone());
+        Self {
+            inner: Cell::new(v),
+        }
+    }
+}
+impl<T: Clone + Debug> Debug for CloneOptionCell<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("CloneOptionCell")
+            .field("inner", &self.clone_out())
+            .finish()
+    }
+}
+impl<T> CloneOptionCell<T> {
+    pub(crate) fn clone_out(&self) -> Option<T>
+    where
+        T: Clone,
+    {
+        let out = self.inner.take();
+        self.inner.set(out.clone());
+        out
+    }
+    pub(crate) fn set(&self, val: Option<T>) {
+        self.inner.set(val);
+    }
+    pub(crate) fn new(val: Option<T>) -> Self {
+        Self {
+            inner: Cell::new(val),
+        }
+    }
 }

@@ -189,3 +189,17 @@ macro_rules! gl_assert {
     };
 }
 pub(crate) use gl_assert;
+
+/// Example
+/// ```rs
+/// error!(InvalidEnum, "this is {}", "an error")
+/// ```
+macro_rules! error {
+    ($errno:ident, $( $rest:tt )*) => {
+        {
+            crate::debug::gl_err!(src: Api, ty: Error, $( $rest )* );
+            return ::std::result::Result::Err(crate::error::GlError::$errno.e());
+        }
+    }
+}
+pub(crate) use error;

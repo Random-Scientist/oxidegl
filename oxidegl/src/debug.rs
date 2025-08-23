@@ -416,6 +416,7 @@ impl DebugState {
         buf: *mut GLchar,
     ) -> u32 {
         #[inline]
+        #[allow(clippy::mut_from_ref)]
         unsafe fn nullable_slice_mut<T: Sized>(
             // borrow ptr to infer a sane lifetime on the returned slice
             ptr: &*mut T,
@@ -632,6 +633,7 @@ pub mod macros {
 
         // gl_log!(id: 2, src: Api, ty: UndefinedBehavior, Level::Warn, target: "asdf", "this is an {} warning", "OxideGL")
         (id: $id:expr, src: $src:ident, ty: $ty:ident, level: $level:expr, target: $target:expr, $($rest:tt)+) => {
+            #[allow(unused)]
             let _: () = {
                 const TARGET: &str = $target;
                 const ID: u32 = $id;
@@ -688,6 +690,7 @@ pub mod macros {
         };
         // gl_log!(src: Api, ty: UndefinedBehavior, Level::Warn, target: "asdf", "this is an {} warning", "OxideGL")
         (src: $src:ident, ty: $ty:ident, level: $level:expr, target: $target:expr, $($rest:tt)+) => {
+            #[allow(unused)]
             let _: () = {
                 const TARGET: &str = $target;
                 const ID: u32 = $crate::debug::__logging_private::make_message_id(
@@ -747,6 +750,7 @@ pub mod macros {
         };
         // gl_log!(src: Api, ty: UndefinedBehavior, Level::Warn, "this is an {} warning", "OxideGL");
         (src: $src:ident, ty: $ty:ident, level: $level:expr, $($rest:tt)+) => {
+            #[allow(unused)]
             let _: () = {
                 const TARGET: &str = $crate::debug::__logging_private::module_path!();
                 const ID: u32 = $crate::debug::__logging_private::make_message_id(
@@ -902,7 +906,7 @@ pub mod __logging_private {
             let mut high = self.keys.len() - 1;
 
             while low <= high {
-                let mid = (low + high) / 2;
+                let mid = usize::midpoint(low, high);
                 if compare_strings(self.keys[mid], key) == 0 {
                     return Some(self.vals[mid]);
                 } else if compare_strings(key, self.keys[mid]) == -1 {

@@ -4,21 +4,32 @@
 //!
 //!
 //!
-use std::{marker::PhantomData, mem::MaybeUninit};
+use std::{
+    any::TypeId,
+    borrow::Cow,
+    marker::PhantomData,
+    mem::{self, MaybeUninit},
+    num::NonZeroU32,
+    ptr, slice,
+};
 
+use bytemuck::{BoxBytes, Pod, Zeroable, box_bytes_of, cast_mut};
 use half::f16;
+use strum_macros::FromRepr;
 
 use crate::{
     debug::{gl_trace, gl_warn},
+    error::{GlFallible, gl_assert},
     gl_enums::{InternalFormat, PixelFormat, PixelType},
+    pixel::internal_formats::{ConvertibleToInternalFormat, DepthComponent, InternalFormatInfo},
 };
 mod internal_formats;
 
-trait ChannelType {}
+trait ChannelType: Copy + 'static {}
 macro_rules! decl_channels {
     ($($i:ident),+) => {
         $(
-            #[derive(Clone, Copy, Debug)]
+            #[derive(Clone, Copy, Debug, )]
             enum $i {}
             impl ChannelType for $i {}
         )+
@@ -48,30 +59,118 @@ impl<T> ConvertChannel<T> for T {
         self
     }
 }
+
 // TODO better on_unimplemented diagnostic
-trait ConvertPixel<T> {
+trait ConvertPixel<T>: Sized {
     fn convert_pixel(self) -> T;
 }
 /// Represents the default value for this channel according to the OpenGL pixel interchange specification
 struct DefaultChannelValue<Ctype>(PhantomData<Ctype>);
 impl<T> DefaultChannelValue<T> {
-    fn new() -> Self {
+    const fn new() -> Self {
         Self(PhantomData)
+    }
+}
+// stencil should never get a default channel value
+impl<Int: GlIntegerType> ConvertChannel<Int> for DefaultChannelValue<Stencil> {
+    fn convert_channel(self) -> Int {
+        unreachable!()
+    }
+}
+// depth should never get a default channel value
+impl ConvertChannel<f32> for DefaultChannelValue<Depth> {
+    fn convert_channel(self) -> f32 {
+        unreachable!()
+    }
+}
+impl ConvertChannel<f32> for DefaultChannelValue<Alpha> {
+    fn convert_channel(self) -> f32 {
+        1.0
+    }
+}
+impl ConvertChannel<f16> for DefaultChannelValue<Alpha> {
+    fn convert_channel(self) -> f16 {
+        f16::from_f32(1.0)
+    }
+}
+trait IsRgb {}
+impl IsRgb for Red {}
+impl IsRgb for Green {}
+impl IsRgb for Blue {}
+impl<Itype: GlIntegerType> ConvertChannel<NormalizedIntChannel<Itype>>
+    for DefaultChannelValue<Alpha>
+{
+    fn convert_channel(self) -> NormalizedIntChannel<Itype> {
+        NormalizedIntChannel(Itype::from_bits(Itype::MAX_BITS))
+    }
+}
+impl<Itype: GlIntegerType> ConvertChannel<Itype> for DefaultChannelValue<Alpha> {
+    fn convert_channel(self) -> Itype {
+        Itype::from_bits(1)
+    }
+}
+impl<Itype: GlIntegerType, C: IsRgb> ConvertChannel<NormalizedIntChannel<Itype>>
+    for DefaultChannelValue<C>
+{
+    fn convert_channel(self) -> NormalizedIntChannel<Itype> {
+        NormalizedIntChannel(Itype::from_bits(0))
+    }
+}
+impl<Itype: GlIntegerType, C: IsRgb> ConvertChannel<Itype> for DefaultChannelValue<C> {
+    fn convert_channel(self) -> Itype {
+        Itype::from_bits(0)
+    }
+}
+impl<C: IsRgb> ConvertChannel<f32> for DefaultChannelValue<C> {
+    fn convert_channel(self) -> f32 {
+        1.0
+    }
+}
+impl<C: IsRgb> ConvertChannel<f16> for DefaultChannelValue<C> {
+    fn convert_channel(self) -> f16 {
+        f16::from_f32(1.0)
+    }
+}
+
+trait AlignInfo: Sized {
+    const CHANNEL_ALIGN: Option<GlAlignment> = None;
+    const SHOULD_SWAP_BYTES: bool = const { matches!(Self::SIZE, 1 | 2 | 4) };
+    const CHECK_ALIGN: () = {
+        if let Some(a) = Self::CHANNEL_ALIGN {
+            assert!(align_of::<Self>() == a as u8 as usize);
+        }
+    };
+    const SIZE: usize = size_of::<Self>();
+}
+impl GlAlignment {
+    const fn from_size(size: usize) -> Option<Self> {
+        match size {
+            1 => Some(GlAlignment::One),
+            2 => Some(GlAlignment::Two),
+            4 => Some(GlAlignment::Four),
+            8 => Some(GlAlignment::Eight),
+            _ => None,
+        }
     }
 }
 
 macro_rules! channelsource_default {
     (
-        default impl $(  ($($imp:tt)*) )? ChannelSource<$ty:ty> for $struct:ty {}
+        $(
+            default impl $(  ($($imp:tt)*) )? ChannelSource<$ty:ty> for $struct:ty {}
+        )+
     ) => {
-        impl$(<$($imp)*>)? ChannelSource<$ty> for $struct {
-            type Channel = DefaultChannelValue<$ty>;
-            fn channel(self) -> Self::Channel {
-                DefaultChannelValue::new()
+        $(
+            impl$(<$($imp)*>)? $crate::pixel::ChannelSource<$ty> for $struct {
+                type Channel = $crate::pixel::DefaultChannelValue<$ty>;
+                fn channel(self) -> Self::Channel {
+                    $crate::pixel::DefaultChannelValue::new()
+                }
             }
-        }
+        )+
     };
 }
+pub(crate) use channelsource_default;
 const fn const_arr_max<const N: usize>(arr: &[usize; N]) -> usize {
     let mut g = 0;
     let mut index = 0;
@@ -115,12 +214,14 @@ macro_rules! decl_simple_formats {
     ) => {
         $(
             $( #[doc = $doc] )*
-            #[derive(Debug, Clone, Copy)]
-            #[repr(C)]
+            #[derive(Debug, Clone, Copy, Zeroable)]
+            #[repr(transparent)]
             $vis struct $fmt_name<T> {
                 colors: [T; const { const_arr_max( &[ $( $idx ),+ ] ) + 1 }]
             }
-            impl<C, T: $(ChannelSource<$chan, Channel: ConvertChannel<C>> +)+ Copy> ConvertPixel<$fmt_name<C>> for T {
+            // Safety: format is repr(transparent) over [T; N], which is guaranteed not to introduce padding (if T is Pod, T also contains no padding)
+            unsafe impl<T: Pod> Pod for $fmt_name<T> {}
+            impl<C, T: $(ChannelSource<$chan, Channel: ConvertChannel<C>> +)+ Pod> ConvertPixel<$fmt_name<C>> for T {
 
                 #[inline]
                 fn convert_pixel(self) -> $fmt_name<C> {
@@ -139,6 +240,9 @@ macro_rules! decl_simple_formats {
                     }
                 }
             }
+            impl<C> AlignInfo for $fmt_name<C> {
+                const CHANNEL_ALIGN: Option<GlAlignment> = GlAlignment::from_size(::std::mem::size_of::<C>());
+            }
             $(
                 impl<T: Copy> ChannelSource<$chan> for $fmt_name<T> {
                     type Channel = T;
@@ -150,7 +254,7 @@ macro_rules! decl_simple_formats {
             )+
             $(
                 channelsource_default! {
-                    default impl(T: Copy) ChannelSource<$dty> for $fmt_name<T> {}
+                    default impl(T: Pod) ChannelSource<$dty> for $fmt_name<T> {}
                 }
             )+
         )+
@@ -166,10 +270,16 @@ decl_simple_formats! {
 }
 
 #[derive(Debug, Clone, Copy)]
+#[repr(transparent)]
 struct SingleChannelFormat<T, Ctype: ChannelType> {
     value: T,
     phantom: PhantomData<Ctype>,
 }
+// Safety: struct is repr(transparent) over T, if T is Pod, so is SingleChannelFormat<T, _>
+unsafe impl<T: Pod, U: ChannelType> Pod for SingleChannelFormat<T, U> {}
+// Safety: struct is repr(transparent) over T, if T is Zeroable, so is SingleChannelFormat<T, _>
+unsafe impl<T: Zeroable, U: ChannelType> Zeroable for SingleChannelFormat<T, U> {}
+
 impl<T, U: ChannelType> SingleChannelFormat<T, U> {
     fn new(value: T) -> Self {
         Self {
@@ -198,6 +308,9 @@ macro_rules! impl_single_color {
                 self.value
             }
         }
+        impl<T> AlignInfo for SingleChannelFormat<T, $t> {
+            const CHANNEL_ALIGN: Option<GlAlignment> = GlAlignment::from_size(::std::mem::size_of::<T>());
+        }
         impl_single_color! {
             $t $(, $prety )*  | $( $postty,)*
         }
@@ -219,17 +332,27 @@ impl<Ctype: ChannelType, Cs: ConvertChannel<C>, C, T: ChannelSource<Ctype, Chann
 }
 
 #[repr(transparent)]
-#[derive(Clone, Copy, Debug)]
-struct NormalizedIntChannel<Int: GlIntegerType + Copy>(Int);
+#[derive(Clone, Copy, Debug, Pod, Zeroable)]
+struct NormalizedIntChannel<Int: GlIntegerType>(Int);
 
-impl<Int: GlIntegerType + Copy> ConvertChannel<f16> for NormalizedIntChannel<Int> {
+impl<Int: GlIntegerType> ConvertChannel<f16> for NormalizedIntChannel<Int> {
     fn convert_channel(self) -> f16 {
         f16::from_f32(self.0.normalized_to_float())
     }
 }
-impl<Int: GlIntegerType + Copy> ConvertChannel<f32> for NormalizedIntChannel<Int> {
+impl<Int: GlIntegerType> ConvertChannel<f32> for NormalizedIntChannel<Int> {
     fn convert_channel(self) -> f32 {
         self.0.normalized_to_float()
+    }
+}
+impl<Int: GlIntegerType> ConvertChannel<f16> for Int {
+    fn convert_channel(self) -> f16 {
+        f16::from_f32(self.as_float())
+    }
+}
+impl<Int: GlIntegerType> ConvertChannel<f32> for Int {
+    fn convert_channel(self) -> f32 {
+        self.as_float()
     }
 }
 
@@ -241,15 +364,17 @@ trait GlIntegerType: Sized + Copy {
     const BITWIDTH: u8;
     /// power of two to divide by when normalizing this value into a float
     const NORMALIZATION_FACTOR: u8 = Self::BITWIDTH - Self::SIGNED as u8;
+    const MAX_BITS: u32;
     /// Interprets this integer as a normalized fixed-point float according the the GL spec, returning the closest 32 bit floating point value to the normalized result
     fn normalized_to_float(self) -> f32;
+    fn as_float(self) -> f32;
     /// Creates an instance of this number from a u32, truncating the most significant bits to size
     fn from_bits(bits: u32) -> Self;
     /// bitcasts this number into (the low bits of) a u32
     fn to_bits(self) -> u32;
 }
 
-fn convert_normalized_int<IntInitial: GlIntegerType + Copy, IntFinal: GlIntegerType + Copy>(
+fn convert_normalized_int<IntInitial: GlIntegerType, IntFinal: GlIntegerType>(
     val: NormalizedIntChannel<IntInitial>,
 ) -> NormalizedIntChannel<IntFinal> {
     let mut int: u32 = val.0.to_bits();
@@ -271,11 +396,16 @@ macro_rules! impl_gl_integer {
             impl GlIntegerType for $t {
                 const SIGNED: bool = $signed;
                 const BITWIDTH: u8 = $width;
+                const MAX_BITS: u32 = <$t>::MAX as u32;
                 #[allow(clippy::cast_possible_truncation)]
                 fn normalized_to_float(self) -> f32 {
                     let f1 = <$ftype>::from(self);
                     let factor = <$ftype>::from(2u8).powi(i32::from(Self::NORMALIZATION_FACTOR) );
                     (f1 / factor) as f32
+                }
+                #[allow(clippy::cast_possible_truncation)]
+                fn as_float(self) -> f32 {
+                    <$ftype>::from(self) as f32
                 }
                 fn from_bits(bits: u32) -> Self {
                     const { assert!((Self::BITWIDTH / 8) as usize <= 4, "Bad GlInteger implementation") }
@@ -285,6 +415,16 @@ macro_rules! impl_gl_integer {
                 #[allow(clippy::cast_possible_truncation, clippy::cast_lossless, clippy::cast_sign_loss, reason = "truncation is desired here")]
                 fn to_bits(self) -> u32 {
                     self as u32
+                }
+            }
+            impl ConvertChannel<NormalizedIntChannel<$t>> for $t {
+                fn convert_channel(self) -> NormalizedIntChannel<$t> {
+                    NormalizedIntChannel(self)
+                }
+            }
+            impl ConvertChannel<$t> for NormalizedIntChannel<$t> {
+                fn convert_channel(self) -> $t {
+                    self.0
                 }
             }
         )+
@@ -299,11 +439,43 @@ macro_rules! impl_gl_integer {
                     convert_normalized_int::<$t, $prety>(self)
                 }
             }
+            impl ConvertChannel<$t> for $prety {
+                fn convert_channel(self) -> $t {
+                    $t::from_bits(self.to_bits())
+                }
+            }
+            impl ConvertChannel<$t> for NormalizedIntChannel<$prety> {
+                fn convert_channel(self) -> $t {
+                    self.0.convert_channel()
+                }
+            }
+            impl ConvertChannel<NormalizedIntChannel<$t>> for $prety {
+                fn convert_channel(self) -> NormalizedIntChannel<$t> {
+                    let val: $t = self.convert_channel();
+                    NormalizedIntChannel(val)
+                }
+            }
         )*
         $(
             impl ConvertChannel<NormalizedIntChannel<$postty>> for NormalizedIntChannel<$t> {
                 fn convert_channel(self) -> NormalizedIntChannel<$postty> {
                     convert_normalized_int::<$t, $postty>(self)
+                }
+            }
+            impl ConvertChannel<$t> for $postty {
+                fn convert_channel(self) -> $t {
+                    $t::from_bits(self.to_bits())
+                }
+            }
+            impl ConvertChannel<$t> for NormalizedIntChannel<$postty> {
+                fn convert_channel(self) -> $t {
+                    self.0.convert_channel()
+                }
+            }
+            impl ConvertChannel<NormalizedIntChannel<$t>> for $postty {
+                fn convert_channel(self) -> NormalizedIntChannel<$t> {
+                    let val: $t = self.convert_channel();
+                    NormalizedIntChannel(val)
                 }
             }
         )*
@@ -321,23 +493,364 @@ impl_gl_integer! {
     (i16, true, 16, f32),
     (i32, true, 32, f64)
 }
-
-unsafe fn convert_pixel_array<T: Copy + ConvertPixel<Out>, Out: Copy>(
+#[derive(Debug, Default, Clone, Copy)]
+struct PackUnpackState {
     swap_bytes: bool,
-    buf: &[T],
-) -> Box<[Out]> {
-    let mut out = Vec::with_capacity(buf.len());
-    for i in buf.iter().copied() {
-        out.push(i.convert_pixel());
-    }
-    out.into_boxed_slice()
+    lsb_first: bool,
+
+    image_height: u32,
+    skip_images: u32,
+    row_length: Option<u32>,
+    skip_rows: u32,
+    skip_pixels: u32,
+
+    alignment: GlAlignment,
+
+    compressed_block_width: u32,
+    compressed_block_height: u32,
+    compressed_block_depth: u32,
+    compressed_block_size: u32,
 }
-//fn internal_format_ispatch<T>(pix_buf: )
-fn convert_dispatch_test(buf: *const u8, fmt: GlPixelTypeFormat, dst: InternalFormat) {
+
+struct PixelBuf<'a> {
+    width: u32,
+    height: u32,
+    format: InternalFormat,
+    buf: MaybeBorrowedBuf<'a>,
+}
+
+enum MaybeBorrowedBuf<'a> {
+    Borrowed(&'a [u8]),
+    Owned(BoxBytes),
+}
+
+impl<'a> From<&'a [u8]> for MaybeBorrowedBuf<'a> {
+    fn from(value: &'a [u8]) -> Self {
+        Self::Borrowed(value)
+    }
+}
+impl<T: Pod> From<Vec<T>> for MaybeBorrowedBuf<'static> {
+    fn from(value: Vec<T>) -> Self {
+        Self::Owned(box_bytes_of(value.into_boxed_slice()))
+    }
+}
+#[derive(Clone, Copy)]
+struct UnsizedBuf<'a> {
+    ptr: *const u8,
+    _boo: PhantomData<&'a ()>,
+}
+
+#[repr(u8)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, FromRepr, Default)]
+enum GlAlignment {
+    One = 1,
+    Two = 2,
+    #[default]
+    Four = 4,
+    Eight = 8,
+}
+impl PackUnpackState {
+    pub(crate) unsafe fn src_fmt_buf_to_internal<'buf>(
+        &self,
+        in_buf: UnsizedBuf<'buf>,
+        src: GlPixelTypeFormat,
+        dst: InternalFormat,
+        width: u32,
+        height: u32,
+        proxy: bool,
+    ) -> GlFallible<Option<PixelBuf<'buf>>> {
+        use NormalizedIntChannel as NI;
+        use SingleChannelFormat as SC;
+        macro_rules! convert_from {
+            ($with_ty:ty) => {
+                // SAFETY: caller
+                unsafe { self.convert_from::<$with_ty>(in_buf, dst, width, height, proxy) }
+            };
+        }
+        match src.ty {
+            PixelType::Byte => match src.fmt {
+                PixelFormat::DepthComponent => convert_from!(SC<NI<i8>, Depth>),
+                PixelFormat::Red => convert_from!(SC<NI<i8>, Red>),
+                PixelFormat::Green => convert_from!(SC<NI<i8>, Green>),
+                PixelFormat::Blue => convert_from!(SC<NI<i8>, Blue>),
+                PixelFormat::Alpha => {
+                    convert_from!(SC<NI<i8>, Alpha>)
+                }
+                PixelFormat::Rg => convert_from!(RgColorFormat<NI<i8>>),
+                PixelFormat::Rgb => convert_from!(RgbColorFormat<NI<i8>>),
+                PixelFormat::Rgba => convert_from!(RgbaColorFormat<NI<i8>>),
+                PixelFormat::Bgr => convert_from!(BgrColorFormat<NI<i8>>),
+                PixelFormat::Bgra => convert_from!(BgraColorFormat<NI<i8>>),
+                PixelFormat::RedInteger => convert_from!(SC<i8, Red>),
+                PixelFormat::GreenInteger => convert_from!(SC<i8, Green>),
+                PixelFormat::BlueInteger => convert_from!(SC<i8, Blue>),
+                PixelFormat::RgInteger => convert_from!(RgColorFormat<i8>),
+                PixelFormat::RgbInteger => convert_from!(RgbColorFormat<i8>),
+                PixelFormat::RgbaInteger => convert_from!(RgbaColorFormat<i8>),
+                PixelFormat::BgrInteger => convert_from!(BgrColorFormat<i8>),
+                PixelFormat::BgraInteger => convert_from!(BgraColorFormat<i8>),
+                _ => unreachable!(),
+            },
+            PixelType::UnsignedByte => todo!(),
+            PixelType::Short => todo!(),
+            PixelType::UnsignedShort => todo!(),
+            PixelType::Int => todo!(),
+            PixelType::UnsignedInt => todo!(),
+            PixelType::Float => todo!(),
+            PixelType::UnsignedByte332 => todo!(),
+            PixelType::UnsignedShort4444 => todo!(),
+            PixelType::UnsignedShort5551 => todo!(),
+            PixelType::UnsignedInt8888 => todo!(),
+            PixelType::UnsignedInt1010102 => todo!(),
+            PixelType::UnsignedByte233Rev => todo!(),
+            PixelType::UnsignedShort565 => todo!(),
+            PixelType::UnsignedShort565Rev => todo!(),
+            PixelType::UnsignedShort4444Rev => todo!(),
+            PixelType::UnsignedShort1555Rev => todo!(),
+            PixelType::UnsignedInt8888Rev => todo!(),
+            PixelType::UnsignedInt2101010Rev => todo!(),
+            PixelType::UnsignedInt5999Rev => todo!(),
+            PixelType::Float32UnsignedInt248Rev => todo!(),
+            PixelType::UnsignedInt248 => todo!(),
+            PixelType::HalfFloat => todo!(),
+            PixelType::UnsignedInt10F11F11FRev => todo!(),
+        }
+    }
+    unsafe fn convert_from<'buf, ReprIn: ConvertibleToInternalFormat + AlignInfo + Pod>(
+        &self,
+        in_buf: UnsizedBuf<'buf>,
+        dst: InternalFormat,
+        width: u32,
+        height: u32,
+        proxy: bool,
+    ) -> GlFallible<Option<PixelBuf<'buf>>> {
+        macro_rules! dispatch_over {
+            (
+                $(
+                    $val:ident
+                ),+
+            ) => {
+                match dst {
+                    $(
+                        // SAFETY: caller
+                        InternalFormat::$val => unsafe { self.convert_inner::<ReprIn, internal_formats::$val>(in_buf, width, height, proxy) }
+                    ),+
+                }
+            };
+        }
+        dispatch_over! {
+            DepthComponent,
+            Red,
+            Rgb,
+            Rgba,
+            R3G3B2,
+            Rgb4,
+            Rgb5,
+            Rgb8,
+            Rgb10,
+            Rgb12,
+            Rgb16,
+            Rgba2,
+            Rgba4,
+            Rgb5A1,
+            Rgba8,
+            Rgb10A2,
+            Rgba12,
+            Rgba16,
+            CompressedRgb,
+            CompressedRgba,
+            DepthComponent16,
+            DepthComponent24,
+            DepthComponent32,
+            Srgb,
+            Srgb8,
+            SrgbAlpha,
+            Srgb8Alpha8,
+            CompressedSrgb,
+            CompressedSrgbAlpha,
+            CompressedRed,
+            CompressedRg,
+            Rgba32f,
+            Rgb32f,
+            Rgba16f,
+            Rgb16f,
+            R11fG11fB10f,
+            Rgb9E5,
+            Rgba32ui,
+            Rgb32ui,
+            Rgba16ui,
+            Rgb16ui,
+            Rgba8ui,
+            Rgb8ui,
+            Rgba32i,
+            Rgb32i,
+            Rgba16i,
+            Rgb16i,
+            Rgba8i,
+            Rgb8i,
+            DepthComponent32f,
+            Depth32fStencil8,
+            DepthStencil,
+            Depth24Stencil8,
+            StencilIndex1,
+            StencilIndex4,
+            StencilIndex16,
+            CompressedRedRgtc1,
+            CompressedSignedRedRgtc1,
+            CompressedRgRgtc2,
+            CompressedSignedRgRgtc2,
+            Rg,
+            R8,
+            R16,
+            Rg8,
+            Rg16,
+            R16f,
+            R32f,
+            Rg16f,
+            Rg32f,
+            R8i,
+            R8ui,
+            R16i,
+            R16ui,
+            R32i,
+            R32ui,
+            Rg8i,
+            Rg8ui,
+            Rg16i,
+            Rg16ui,
+            Rg32i,
+            Rg32ui,
+            R8Snorm,
+            Rg8Snorm,
+            Rgb8Snorm,
+            Rgba8Snorm,
+            R16Snorm,
+            Rg16Snorm,
+            Rgb16Snorm,
+            Rgba16Snorm,
+            Rgb10A2ui,
+            Rgb565,
+            CompressedRgbaBptcUnorm,
+            CompressedSrgbAlphaBptcUnorm,
+            CompressedRgbBptcSignedFloat,
+            CompressedRgbBptcUnsignedFloat,
+            CompressedRgb8Etc2,
+            CompressedSrgb8Etc2,
+            CompressedRgb8PunchthroughAlpha1Etc2,
+            CompressedSrgb8PunchthroughAlpha1Etc2,
+            CompressedRgba8Etc2Eac,
+            CompressedSrgb8Alpha8Etc2Eac,
+            CompressedR11Eac,
+            CompressedSignedR11Eac,
+            CompressedRg11Eac,
+            CompressedSignedRg11Eac,
+            StencilIndex,
+            StencilIndex8
+        }
+    }
+    unsafe fn convert_inner<
+        'buf,
+        T: ConvertPixel<U> + AlignInfo + Pod,
+        U: InternalFormatInfo + Pod,
+    >(
+        &self,
+        in_buf: UnsizedBuf<'buf>,
+        width: u32,
+        height: u32,
+        proxy: bool,
+    ) -> GlFallible<Option<PixelBuf<'buf>>> {
+        let () = T::CHECK_ALIGN;
+        gl_assert!(U::copyable(), InvalidOperation);
+
+        let pixels_per_row = self.row_length.unwrap_or(width);
+        let pixel_size = size_of::<T>();
+        // See Eqns. 8.1, 8.2, GL Core Spec v4.6
+
+        // value corresponds to `n * l * s`
+        let mut groups_per_row = pixels_per_row as usize;
+
+        // Eq. 8.2, inherent_align = `s`, self.alignment = `a`
+        if let Some(inherent_align) = T::CHANNEL_ALIGN {
+            // Only Some "If the number of bits per element is [] 1, 2, 4, or 8 times the number of bits in a GL `ubyte`"
+            if (inherent_align as u8) < (self.alignment as u8) {
+                // bottom branch of Eqn. 8.2
+                groups_per_row =
+                    (groups_per_row * pixel_size).div_ceil(self.alignment as u8 as usize);
+                // one of: 1/1, 2/1, 2/2, 4/1, 4/2, 4/4, 8/1, 8/2, 8/4, 8/8, result will always be exact
+                groups_per_row *=
+                    usize::from(self.alignment as u8) / usize::from(inherent_align as u8);
+            }
+        }
+
+        let skip_pixel_offset = self.skip_pixels as usize;
+        let initial_offset = groups_per_row * self.skip_rows as usize + skip_pixel_offset;
+        let do_swap = self.swap_bytes && T::SHOULD_SWAP_BYTES;
+
+        let base = in_buf.ptr.cast::<T>();
+
+        if proxy {
+            return Ok(None);
+        }
+
+        // If we don't need to perform a conversion or trimming, just reborrow the buffer with the correct length
+        if skip_pixel_offset == 0
+            && pixels_per_row as usize == groups_per_row
+            && !do_swap
+            && U::repr_typeid() == TypeId::of::<T>()
+        {
+            // Safety: T: Pod
+            let bytes = unsafe {
+                slice::from_raw_parts(
+                    // Safety: caller ensures buffer actually contains all of the pixels they say it does
+                    base.cast::<u8>().add(initial_offset),
+                    height as usize * groups_per_row * pixel_size,
+                )
+            };
+            return Ok(Some(PixelBuf {
+                width: pixels_per_row,
+                height,
+                format: U::id(),
+                buf: bytes.into(),
+            }));
+        }
+        let mut v: Vec<U> = Vec::with_capacity((pixels_per_row * height) as usize);
+        for row in 0..height {
+            // Safety: caller ensures buffer actually contains all of the pixels they say it does
+            let mut ptr = unsafe { base.add(row as usize * groups_per_row + skip_pixel_offset) };
+            let needs_unaligned = base.is_aligned();
+            for _ in 0..pixels_per_row {
+                let mut pixel = unsafe {
+                    match needs_unaligned {
+                        true => ptr::read_unaligned(ptr),
+                        false => ptr::read(ptr),
+                    }
+                };
+                if do_swap {
+                    // Safety: T: Pod
+                    unsafe {
+                        slice::from_raw_parts_mut(ptr::from_mut(&mut pixel).cast::<u8>(), T::SIZE)
+                    }
+                    .reverse();
+                }
+                // Safety: caller ensures buffer actually contains all of the pixels they say it does
+                unsafe { ptr = ptr.add(1) };
+                v.push(pixel.convert_pixel());
+            }
+        }
+        Ok(Some(PixelBuf {
+            width: pixels_per_row,
+            height,
+            format: U::id(),
+            buf: v.into(),
+        }))
+    }
+}
+
+fn convert_dispatch_test(buf: *const u8, src_fmt: GlPixelTypeFormat, dst: InternalFormat) {
     // special type handling
-    match fmt.ty {
+    match src_fmt.ty {
         // "normal" pixel types
-        PixelType::Byte => match fmt.fmt {
+        PixelType::Byte => match src_fmt.fmt {
             PixelFormat::DepthComponent => todo!(),
             PixelFormat::Red => todo!(),
             PixelFormat::Green => todo!(),

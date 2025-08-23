@@ -8,12 +8,12 @@ use objc2_metal::{
 
 use crate::{
     conversions::{GLenumExt, SrcType},
-    error::GlError,
+    error::{GlError, error},
     gl_enums::{
         DepthFunction, GL_COMPARE_REF_TO_TEXTURE, GL_NONE, InternalFormat, SamplerParameter,
         TextureMagFilter, TextureMinFilter, TextureSwizzle, TextureTarget, TextureWrapMode,
     },
-    util::ProtoObjRef,
+    util::{CloneOptionCell, ProtoObjRef},
 };
 
 use super::{
@@ -207,7 +207,10 @@ impl SamplerParams {
                 self.compare_ref_to_texture = match param.convert() {
                     GL_NONE => false,
                     GL_COMPARE_REF_TO_TEXTURE => true,
-                    _ => return Err(GlError::InvalidEnum.e()),
+                    _ => error!(
+                        InvalidEnum,
+                        "TextureCompareMode should have been either NONE or COMPARE_REF_TO_TEXTURE"
+                    ),
                 }
             }
             SamplerParameter::TextureCompareFunc => {
@@ -216,7 +219,10 @@ impl SamplerParams {
             SamplerParameter::TextureMaxAnisotropy => {
                 self.max_anisotropy = Anisotropy::from_float(param.convert())?;
             }
-            SamplerParameter::TextureBorderColor => return Err(GlError::InvalidEnum.e()),
+            SamplerParameter::TextureBorderColor => error!(
+                InvalidEnum,
+                "TextureBorderColor can only be retrieved by samplerparami"
+            ),
         }
         Ok(())
     }
@@ -322,44 +328,6 @@ impl From<TextureMinFilter> for (MTLSamplerMinMagFilter, MTLSamplerMipFilter) {
             TextureMinFilter::LinearMipmapNearest => (MinMag::Linear, Mip::Nearest),
             TextureMinFilter::NearestMipmapLinear => (MinMag::Nearest, Mip::Linear),
             TextureMinFilter::LinearMipmapLinear => (MinMag::Linear, Mip::Linear),
-        }
-    }
-}
-
-struct CloneOptionCell<T> {
-    inner: Cell<Option<T>>,
-}
-impl<T: Clone> Clone for CloneOptionCell<T> {
-    fn clone(&self) -> Self {
-        let v = self.inner.take();
-        self.inner.set(v.clone());
-        Self {
-            inner: Cell::new(v),
-        }
-    }
-}
-impl<T: Clone + Debug> Debug for CloneOptionCell<T> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("CloneOptionCell")
-            .field("inner", &self.clone_out())
-            .finish()
-    }
-}
-impl<T> CloneOptionCell<T> {
-    fn clone_out(&self) -> Option<T>
-    where
-        T: Clone,
-    {
-        let out = self.inner.take();
-        self.inner.set(out.clone());
-        out
-    }
-    fn set(&self, val: Option<T>) {
-        self.inner.set(val);
-    }
-    fn new(val: Option<T>) -> Self {
-        Self {
-            inner: Cell::new(val),
         }
     }
 }

@@ -6,20 +6,25 @@ use super::{
 };
 use crate::{
     gl_enums::InternalFormat,
-    pixel::{ChannelSource, ChannelType},
+    pixel::{ChannelSource, ChannelType, ConvertChannel, channelsource_default},
 };
+use bytemuck::{Pod, Zeroable};
 use half::f16;
 use objc2_metal::MTLPixelFormat;
+use std::any::TypeId;
+use std::marker::PhantomData;
 
-//meow
+// meow
 
-pub(crate) trait InternalFormatInfo {
+pub(crate) trait InternalFormatInfo: Copy {
     /// The underlying [`MTLPixelFormat`] used to represent this [`InternalFormat`].
     fn mtl_tex_format() -> MTLPixelFormat;
     fn copyable() -> bool;
     fn view_class() -> Option<TextureViewClass>;
     fn id() -> InternalFormat;
+    fn repr_typeid() -> TypeId;
 }
+
 trait WrappedFormat {
     type Inner;
     fn from_inner(inner: Self::Inner) -> Self;
@@ -48,7 +53,6 @@ macro_rules! decl_internal_formats {
         unsafe {
             $(
                 #[mtl_format = $mtl_format:ident]
-                $( #[forward = $convertpixeltrait:ident] )?
                 repr( $( $body:tt )* ) {
                     $(
                         $( #[doc = $doc:expr] )*
@@ -61,11 +65,11 @@ macro_rules! decl_internal_formats {
         }
     ) => {
         $(
-
             ::concat_idents::concat_idents! {
                 fmt_name = Mtl, $mtl_format {
                     #[allow(non_camel_case_types)]
-                    #[derive(Clone, Copy, Debug)]
+                    #[derive(Clone, Copy, Debug, ::bytemuck::Pod, ::bytemuck::Zeroable)]
+                    #[repr(transparent)]
                     pub(crate) struct fmt_name( $( $body )* );
                     impl WrappedFormat for fmt_name {
                         type Inner = $( $body )*;
@@ -82,25 +86,12 @@ macro_rules! decl_internal_formats {
 
             }
 
-            // $(
-            //     ::concat_idents::concat_idents! {
-            //         fmt_name = Mtl, $mtl_format {
-
-            //             impl<T: $convertpixeltrait< <fmt_name as FormatWithInnerType>::Inner> > $convertpixeltrait<fmt_name> for T {
-            //                 fn convert_pixel(self) -> fmt_name {
-            //                     fmt_name(self.convert_pixel())
-            //                 }
-            //             }
-            //         }
-            //     }
-            // )?
-
             $(
                 ::concat_idents::concat_idents! {
                     fmt_name = Mtl, $mtl_format {
                         $( #[doc = $doc] )*
                         #[repr(transparent)]
-                        #[derive(Clone, Copy, Debug)]
+                        #[derive(Clone, Copy, Debug, ::bytemuck::Pod, ::bytemuck::Zeroable)]
                         pub(crate) struct $format( fmt_name );
                         impl WrappedFormat for $format {
                             type Inner = fmt_name;
@@ -113,6 +104,7 @@ macro_rules! decl_internal_formats {
                                 self.0
                             }
                         }
+
                     }
                 }
                 impl InternalFormatInfo for $format {
@@ -130,23 +122,15 @@ macro_rules! decl_internal_formats {
                     fn id() -> InternalFormat {
                         InternalFormat::$format
                     }
+                    #[inline]
+                    fn repr_typeid() -> TypeId {
+                        TypeId::of::<<<$format as WrappedFormat>::Inner as WrappedFormat>::Inner>()
+                    }
                 }
             )+
-
-            // $(
-            //     $(
-            //         impl<T: $convertpixeltrait< <$format as FormatWithInnerType>::Inner> > $convertpixeltrait<$format> for T {
-            //             fn convert_pixel(self) -> $format {
-            //                 $format(self.convert_pixel())
-            //             }
-            //         }
-            //     )?
-            // )+
-
-
         )+
         impl InternalFormat {
-            fn mtl_tex_format(self) -> MTLPixelFormat {
+            pub(crate) fn mtl_tex_format(self) -> MTLPixelFormat {
                 match self {
                     $(
                         $(
@@ -156,7 +140,7 @@ macro_rules! decl_internal_formats {
                     _ => panic!("unsupported format {self:#?}")
                 }
             }
-            fn copyable(self) -> bool {
+            pub(crate) fn copyable(self) -> bool {
                 match self {
                     $(
                         $(
@@ -166,7 +150,7 @@ macro_rules! decl_internal_formats {
                     _ => panic!("unsupported format {self:#?}")
                 }
             }
-            fn view_class(self) -> Option<TextureViewClass> {
+            pub(crate) fn view_class(self) -> Option<TextureViewClass> {
                 match self {
                     $(
                         $(
@@ -177,8 +161,8 @@ macro_rules! decl_internal_formats {
                 }
             }
         }
-        trait ConvertibleToInternalFormat: $( $(ConvertPixel<$format> + )+ )+ Copy {}
-        impl<T: $( $(ConvertPixel<$format> + )+ )+ Copy> ConvertibleToInternalFormat for T {}
+        pub(crate) trait ConvertibleToInternalFormat: $( $(ConvertPixel<$format> + )+ )+ Copy + 'static {}
+        impl<T: $( $(ConvertPixel<$format> + )+ )+ Copy + 'static> ConvertibleToInternalFormat for T {}
     };
     // helpers
     (
@@ -204,25 +188,34 @@ macro_rules! decl_internal_formats {
 }
 #[test]
 fn test() {
-    let rgba8 = RgbaColorFormat {
+    let v = Rgba8i(MtlRGBA8Sint(RgbaColorFormat {
+        colors: [1, 2, 3, 4],
+    }));
+    let c: u8 = 1i8.convert_channel();
+    let r: R8 = v.convert_pixel();
+    let r: SingleChannelFormat<NormalizedIntChannel<u8>, super::Red> = RgbaColorFormat {
+        colors: [1i8, 2, 3, 4],
+    }
+    .convert_pixel();
+
+    let rgba8 = Rgba8(MtlRGBA8Unorm(RgbaColorFormat {
         colors: [
             NormalizedIntChannel(50u8),
             NormalizedIntChannel(100u8),
             NormalizedIntChannel(0u8),
             NormalizedIntChannel(0u8),
         ],
-    };
-    let rg32: Rg32f = rgba8.convert_pixel();
+    }));
+    let rg32: RgColorFormat<f16> = rgba8.convert_pixel();
     dbg!(rg32);
 }
-// TODO abi check macros that perform basic ABI sanity checks on the metal wrapper structs (we already have `unsafe` to signify that the layouts are user defined but a little more safety wouldn't hurt)
+// TODO abi check macro helper that perform basic ABI sanity checks on the metal wrapper structs (we already have `unsafe` to signify that the layouts are user defined but a little more safety wouldn't hurt)
 
 decl_internal_formats! {
     unsafe {
         // Red
         // 8bit
         #[mtl_format = R8Unorm]
-        #[forward = ConvertPixel]
         repr(SingleChannelFormat<NormalizedIntChannel<u8>, super::Red>) {
             #[view_class = Bits8]
             format struct R8;
@@ -386,14 +379,15 @@ decl_internal_formats! {
         // rgb and rgba
         // 4 bit
         #[mtl_format = ABGR4Unorm]
-        repr(u16) {
+        repr(ReprABGR4) {
             format struct Rgb4;
             #[view_class = Bits16]
             format struct Rgba4;
         }
         // 5 bit
         #[mtl_format = A1BGR5Unorm]
-        repr(u16) {
+        // repr(u16) {
+            repr(Unimplemented) {
             format struct Rgb5;
             #[view_class = Bits16]
             format struct Rgb5A1;
@@ -408,6 +402,8 @@ decl_internal_formats! {
             #[view_class = Bits32]
             format struct Rgba8;
             format struct Rgba;
+            format struct CompressedRgb;
+            format struct CompressedRgba;
         }
         #[mtl_format = RGBA8Snorm]
         repr(RgbaColorFormat<NormalizedIntChannel<i8>>) {
@@ -432,7 +428,8 @@ decl_internal_formats! {
         }
         // 10 bit
         #[mtl_format = RGB10A2Unorm]
-        repr(u32) {
+        // repr(u32) {
+            repr(Unimplemented) {
             format struct Rgb10;
             #[view_class = Bits32]
             format struct Rgb10A2;
@@ -499,6 +496,20 @@ decl_internal_formats! {
             #[view_class = Bits128]
             format struct Rgba32ui;
         }
+        #[mtl_format = RGBA32Float]
+        repr(RgbaColorFormat<f32>) {
+            #[view_class = Bits128]
+            format struct Rgba32f;
+            #[view_class = Bits96]
+            format struct Rgb32f;
+        }
+        #[mtl_format = RGBA16Float]
+        repr(RgbaColorFormat<f32>) {
+            #[view_class = Bits64]
+            format struct Rgba16f;
+            #[view_class = Bits48]
+            format struct Rgb16f;
+        }
         #[mtl_format = RGBA8Unorm_sRGB]
         repr(RgbaColorFormat<NormalizedIntChannel<u8>>) {
             format struct CompressedSrgbAlpha;
@@ -519,11 +530,13 @@ decl_internal_formats! {
             format struct StencilIndex8;
         }
         #[mtl_format = Depth32Float_Stencil8]
-        repr([u8; 5]) {
+        // repr([u8; 5]) {
+        repr(Unimplemented) {
             format struct Depth32fStencil8;
         }
         #[mtl_format = Depth24Unorm_Stencil8]
-        repr(u32) {
+        // repr(u32) {
+        repr(Unimplemented) {
             format struct DepthComponent24;
             format struct Depth24Stencil8;
             format struct DepthStencil;
@@ -536,11 +549,125 @@ decl_internal_formats! {
             // should be DepthComponent32Unorm but metal doesn't have that. We just use floats instead :)
             format struct DepthComponent32;
         }
+        #[mtl_format = RG11B10Float]
+        // repr(u32) {
+        repr(Unimplemented) {
+            #[view_class = Bits32]
+            format struct R11fG11fB10f;
+        }
+        #[mtl_format = RGB10A2Uint]
+        // repr(u32) {
+        repr(Unimplemented) {
+            format struct Rgb10A2ui;
+        }
+        #[mtl_format = Invalid]
+        repr(Unimplemented) {
+            format struct Rgb9E5;
+            format struct R3G3B2;
+            format struct Rgb565;
+            format struct Rgba2;
+            format struct DepthComponent16;
+            format struct StencilIndex16;
+            format struct CompressedRedRgtc1;
+            format struct CompressedSignedRedRgtc1;
+            format struct CompressedRgRgtc2;
+            format struct CompressedSignedRgRgtc2;
 
-
+            format struct CompressedRgbaBptcUnorm;
+            format struct CompressedSrgbAlphaBptcUnorm;
+            format struct CompressedRgbBptcSignedFloat;
+            format struct CompressedRgbBptcUnsignedFloat;
+            format struct CompressedRgb8Etc2;
+            format struct CompressedSrgb8Etc2;
+            format struct CompressedRgb8PunchthroughAlpha1Etc2;
+            format struct CompressedSrgb8PunchthroughAlpha1Etc2;
+            format struct CompressedRgba8Etc2Eac;
+            format struct CompressedSrgb8Alpha8Etc2Eac;
+            format struct CompressedR11Eac;
+            format struct CompressedSignedR11Eac;
+            format struct CompressedRg11Eac;
+            format struct CompressedSignedRg11Eac;
+        }
     }
-
 }
+#[derive(Debug, Clone, Copy, Pod, Zeroable)]
+#[repr(transparent)]
+pub struct Unimplemented;
+impl<T> ConvertPixel<Unimplemented> for T {
+    fn convert_pixel(self) -> Unimplemented {
+        panic!("format not implemented")
+    }
+}
+#[derive(Debug, Clone, Copy, Pod, Zeroable)]
+#[repr(transparent)]
+pub struct ReprABGR4 {
+    inner: u16,
+}
+impl ReprABGR4 {
+    const MAX_COMPONENT: u16 = 0b1111;
+    fn index(self, idx: u32) -> u8 {
+        ((self.inner >> (idx * 4)) & Self::MAX_COMPONENT) as u8
+    }
+    fn index_float<const N: u32>(self) -> f32 {
+        self.index(N) as f32 / Self::MAX_COMPONENT as f32
+    }
+    fn from_bytes(vals: [u8; 4]) -> Self {
+        let mut inner = 0;
+        for v in vals {
+            inner |= (v >> 4) as u16 & Self::MAX_COMPONENT;
+            inner <<= 4;
+        }
+        Self { inner }
+    }
+}
+impl ChannelSource<super::Red> for ReprABGR4 {
+    type Channel = f32;
+    fn channel(self) -> Self::Channel {
+        self.index_float::<3>()
+    }
+}
+impl ChannelSource<super::Green> for ReprABGR4 {
+    type Channel = f32;
+    fn channel(self) -> Self::Channel {
+        self.index_float::<2>()
+    }
+}
+impl ChannelSource<super::Blue> for ReprABGR4 {
+    type Channel = f32;
+    fn channel(self) -> Self::Channel {
+        self.index_float::<1>()
+    }
+}
+impl ChannelSource<super::Alpha> for ReprABGR4 {
+    type Channel = f32;
+    fn channel(self) -> Self::Channel {
+        self.index_float::<0>()
+    }
+}
+impl<
+    T: ChannelSource<super::Red, Channel: ConvertChannel<NormalizedIntChannel<u8>>>
+        + ChannelSource<super::Green, Channel: ConvertChannel<NormalizedIntChannel<u8>>>
+        + ChannelSource<super::Blue, Channel: ConvertChannel<NormalizedIntChannel<u8>>>
+        + ChannelSource<super::Alpha, Channel: ConvertChannel<NormalizedIntChannel<u8>>>,
+> ConvertPixel<ReprABGR4> for T
+{
+    fn convert_pixel(self) -> ReprABGR4 {
+        ReprABGR4::from_bytes(
+            [
+                <Self as ChannelSource<super::Red>>::get(self),
+                <Self as ChannelSource<super::Green>>::get(self),
+                <Self as ChannelSource<super::Blue>>::get(self),
+                <Self as ChannelSource<super::Alpha>>::get(self),
+            ]
+            .map(|v| v.0),
+        )
+    }
+}
+channelsource_default! {
+    default impl ChannelSource<super::Stencil> for ReprABGR4 {}
+    default impl ChannelSource<super::Depth> for ReprABGR4 {}
+}
+
 // #[allow(clippy::enum_glob_use)]
 // impl InternalFormat {
 //     #[allow(clippy::too_many_lines)]

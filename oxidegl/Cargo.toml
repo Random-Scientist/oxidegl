@@ -65,7 +65,8 @@ glslang = "0.6.1"
 # used to optimize for the hot path in `with_context`
 likely_stable = "0.1.2"
 # f16, used for texture formats
-half = "2.4.1"
+half = { version = "2.4.1", features = ["bytemuck"] }
+bytemuck = { version = "1.23.1", features = ["derive", "extern_crate_alloc", "extern_crate_std"] }
 
 [build-dependencies]
 # you do not want to know what this is for (see build.rs)
