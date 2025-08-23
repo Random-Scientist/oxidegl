@@ -66,6 +66,7 @@ pub(crate) struct GlState {
     pub(crate) clear_values: ClearState,
     pub(crate) stencil: StencilState,
     pub(crate) blend: BlendState,
+    pub(crate) pack: PackUnpackState,
     pub(crate) writemasks: Writemasks,
     pub(crate) cull_face_mode: TriangleFace,
 
@@ -75,6 +76,7 @@ pub(crate) struct GlState {
     /// current, you'll need to use [`with_debug_state`](super::debug::with_debug_state) or
     /// [`with_debug_state_mut`](super::debug::with_debug_state_mut) to interact with the current debug state
     pub(crate) debug_state_holder: DebugStateHolder,
+    /// Current error code
     pub(crate) error: ErrorCode,
 }
 

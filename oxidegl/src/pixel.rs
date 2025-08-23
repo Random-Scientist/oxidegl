@@ -494,7 +494,7 @@ impl_gl_integer! {
     (i32, true, 32, f64)
 }
 #[derive(Debug, Default, Clone, Copy)]
-struct PackUnpackState {
+pub(crate) struct PackUnpackState {
     swap_bytes: bool,
     lsb_first: bool,
 
@@ -597,6 +597,7 @@ impl PackUnpackState {
             PixelType::Int => todo!(),
             PixelType::UnsignedInt => todo!(),
             PixelType::Float => todo!(),
+            PixelType::HalfFloat => todo!(),
             PixelType::UnsignedByte332 => todo!(),
             PixelType::UnsignedShort4444 => todo!(),
             PixelType::UnsignedShort5551 => todo!(),
@@ -612,7 +613,6 @@ impl PackUnpackState {
             PixelType::UnsignedInt5999Rev => todo!(),
             PixelType::Float32UnsignedInt248Rev => todo!(),
             PixelType::UnsignedInt248 => todo!(),
-            PixelType::HalfFloat => todo!(),
             PixelType::UnsignedInt10F11F11FRev => todo!(),
         }
     }
