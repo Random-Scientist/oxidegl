@@ -10,6 +10,7 @@ use crate::{
         GL_CONTEXT_FLAG_NO_ERROR_BIT, StencilFunction, StencilOp, TriangleFace,
     },
     gl_types::GLenum,
+    pixel::PackUnpackState,
     util::bitflag_bits,
 };
 
