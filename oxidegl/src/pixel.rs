@@ -6,14 +6,12 @@
 //!
 use std::{
     any::TypeId,
-    borrow::Cow,
     marker::PhantomData,
-    mem::{self, MaybeUninit},
-    num::NonZeroU32,
+    mem::MaybeUninit,
     ptr, slice,
 };
 
-use bytemuck::{BoxBytes, Pod, Zeroable, box_bytes_of, cast_mut};
+use bytemuck::{BoxBytes, Pod, Zeroable, box_bytes_of};
 use half::f16;
 use strum_macros::FromRepr;
 
@@ -21,7 +19,7 @@ use crate::{
     debug::{gl_trace, gl_warn},
     error::{GlFallible, gl_assert},
     gl_enums::{InternalFormat, PixelFormat, PixelType},
-    pixel::internal_formats::{ConvertibleToInternalFormat, DepthComponent, InternalFormatInfo},
+    pixel::internal_formats::{ConvertibleToInternalFormat, InternalFormatInfo},
 };
 mod internal_formats;
 
@@ -512,7 +510,7 @@ pub(crate) struct PackUnpackState {
     compressed_block_size: u32,
 }
 
-struct PixelBuf<'a> {
+pub(crate) struct PixelBuf<'a> {
     width: u32,
     height: u32,
     format: InternalFormat,
@@ -535,7 +533,7 @@ impl<T: Pod> From<Vec<T>> for MaybeBorrowedBuf<'static> {
     }
 }
 #[derive(Clone, Copy)]
-struct UnsizedBuf<'a> {
+pub(crate) struct UnsizedBuf<'a> {
     ptr: *const u8,
     _boo: PhantomData<&'a ()>,
 }
@@ -560,6 +558,7 @@ impl PackUnpackState {
         proxy: bool,
     ) -> GlFallible<Option<PixelBuf<'buf>>> {
         use NormalizedIntChannel as NI;
+        use PixelFormat as PF;
         use SingleChannelFormat as SC;
         macro_rules! convert_from {
             ($with_ty:ty) => {
@@ -569,29 +568,51 @@ impl PackUnpackState {
         }
         match src.ty {
             PixelType::Byte => match src.fmt {
-                PixelFormat::DepthComponent => convert_from!(SC<NI<i8>, Depth>),
-                PixelFormat::Red => convert_from!(SC<NI<i8>, Red>),
-                PixelFormat::Green => convert_from!(SC<NI<i8>, Green>),
-                PixelFormat::Blue => convert_from!(SC<NI<i8>, Blue>),
-                PixelFormat::Alpha => {
+                PF::DepthComponent => convert_from!(SC<NI<i8>, Depth>),
+                PF::Red => convert_from!(SC<NI<i8>, Red>),
+                PF::Green => convert_from!(SC<NI<i8>, Green>),
+                PF::Blue => convert_from!(SC<NI<i8>, Blue>),
+                PF::Alpha => {
                     convert_from!(SC<NI<i8>, Alpha>)
                 }
-                PixelFormat::Rg => convert_from!(RgColorFormat<NI<i8>>),
-                PixelFormat::Rgb => convert_from!(RgbColorFormat<NI<i8>>),
-                PixelFormat::Rgba => convert_from!(RgbaColorFormat<NI<i8>>),
-                PixelFormat::Bgr => convert_from!(BgrColorFormat<NI<i8>>),
-                PixelFormat::Bgra => convert_from!(BgraColorFormat<NI<i8>>),
-                PixelFormat::RedInteger => convert_from!(SC<i8, Red>),
-                PixelFormat::GreenInteger => convert_from!(SC<i8, Green>),
-                PixelFormat::BlueInteger => convert_from!(SC<i8, Blue>),
-                PixelFormat::RgInteger => convert_from!(RgColorFormat<i8>),
-                PixelFormat::RgbInteger => convert_from!(RgbColorFormat<i8>),
-                PixelFormat::RgbaInteger => convert_from!(RgbaColorFormat<i8>),
-                PixelFormat::BgrInteger => convert_from!(BgrColorFormat<i8>),
-                PixelFormat::BgraInteger => convert_from!(BgraColorFormat<i8>),
+                PF::Rg => convert_from!(RgColorFormat<NI<i8>>),
+                PF::Rgb => convert_from!(RgbColorFormat<NI<i8>>),
+                PF::Rgba => convert_from!(RgbaColorFormat<NI<i8>>),
+                PF::Bgr => convert_from!(BgrColorFormat<NI<i8>>),
+                PF::Bgra => convert_from!(BgraColorFormat<NI<i8>>),
+                PF::RedInteger => convert_from!(SC<i8, Red>),
+                PF::GreenInteger => convert_from!(SC<i8, Green>),
+                PF::BlueInteger => convert_from!(SC<i8, Blue>),
+                PF::RgInteger => convert_from!(RgColorFormat<i8>),
+                PF::RgbInteger => convert_from!(RgbColorFormat<i8>),
+                PF::RgbaInteger => convert_from!(RgbaColorFormat<i8>),
+                PF::BgrInteger => convert_from!(BgrColorFormat<i8>),
+                PF::BgraInteger => convert_from!(BgraColorFormat<i8>),
                 _ => unreachable!(),
             },
-            PixelType::UnsignedByte => todo!(),
+            PixelType::UnsignedByte => match src.fmt {
+                PF::DepthComponent => convert_from!(SC<NI<u8>, Depth>),
+                PF::Red => convert_from!(SC<NI<u8>, Red>),
+                PF::Green => convert_from!(SC<NI<u8>, Green>),
+                PF::Blue => convert_from!(SC<NI<u8>, Blue>),
+                PF::Alpha => {
+                    convert_from!(SC<NI<u8>, Alpha>)
+                }
+                PF::Rg => convert_from!(RgColorFormat<NI<u8>>),
+                PF::Rgb => convert_from!(RgbColorFormat<NI<u8>>),
+                PF::Rgba => convert_from!(RgbaColorFormat<NI<u8>>),
+                PF::Bgr => convert_from!(BgrColorFormat<NI<u8>>),
+                PF::Bgra => convert_from!(BgraColorFormat<NI<u8>>),
+                PF::RedInteger => convert_from!(SC<u8, Red>),
+                PF::GreenInteger => convert_from!(SC<u8, Green>),
+                PF::BlueInteger => convert_from!(SC<u8, Blue>),
+                PF::RgInteger => convert_from!(RgColorFormat<u8>),
+                PF::RgbInteger => convert_from!(RgbColorFormat<u8>),
+                PF::RgbaInteger => convert_from!(RgbaColorFormat<u8>),
+                PF::BgrInteger => convert_from!(BgrColorFormat<u8>),
+                PF::BgraInteger => convert_from!(BgraColorFormat<u8>),
+                _ => unreachable!(),
+            },
             PixelType::Short => todo!(),
             PixelType::UnsignedShort => todo!(),
             PixelType::Int => todo!(),
@@ -843,60 +864,6 @@ impl PackUnpackState {
             format: U::id(),
             buf: v.into(),
         }))
-    }
-}
-
-fn convert_dispatch_test(buf: *const u8, src_fmt: GlPixelTypeFormat, dst: InternalFormat) {
-    // special type handling
-    match src_fmt.ty {
-        // "normal" pixel types
-        PixelType::Byte => match src_fmt.fmt {
-            PixelFormat::DepthComponent => todo!(),
-            PixelFormat::Red => todo!(),
-            PixelFormat::Green => todo!(),
-            PixelFormat::Blue => todo!(),
-            PixelFormat::Alpha => todo!(),
-            PixelFormat::Rgb => todo!(),
-            PixelFormat::Rgba => todo!(),
-            PixelFormat::Bgr => todo!(),
-            PixelFormat::Bgra => todo!(),
-            PixelFormat::RedInteger => todo!(),
-            PixelFormat::GreenInteger => todo!(),
-            PixelFormat::BlueInteger => todo!(),
-            PixelFormat::RgbInteger => todo!(),
-            PixelFormat::RgbaInteger => todo!(),
-            PixelFormat::BgrInteger => todo!(),
-            PixelFormat::BgraInteger => todo!(),
-            PixelFormat::DepthStencil => todo!(),
-            PixelFormat::Rg => todo!(),
-            PixelFormat::RgInteger => todo!(),
-            PixelFormat::StencilIndex => todo!(),
-            _ => unreachable!(),
-        },
-        PixelType::UnsignedByte => todo!(),
-        PixelType::Short => todo!(),
-        PixelType::UnsignedShort => todo!(),
-        PixelType::Int => todo!(),
-        PixelType::UnsignedInt => todo!(),
-        PixelType::Float => todo!(),
-        PixelType::HalfFloat => todo!(),
-
-        PixelType::UnsignedByte332 => todo!(),
-        PixelType::UnsignedShort4444 => todo!(),
-        PixelType::UnsignedShort5551 => todo!(),
-        PixelType::UnsignedInt8888 => todo!(),
-        PixelType::UnsignedInt1010102 => todo!(),
-        PixelType::UnsignedByte233Rev => todo!(),
-        PixelType::UnsignedShort565 => todo!(),
-        PixelType::UnsignedShort565Rev => todo!(),
-        PixelType::UnsignedShort4444Rev => todo!(),
-        PixelType::UnsignedShort1555Rev => todo!(),
-        PixelType::UnsignedInt8888Rev => todo!(),
-        PixelType::UnsignedInt2101010Rev => todo!(),
-        PixelType::UnsignedInt5999Rev => todo!(),
-        PixelType::Float32UnsignedInt248Rev => todo!(),
-        PixelType::UnsignedInt248 => todo!(),
-        PixelType::UnsignedInt10F11F11FRev => todo!(),
     }
 }
 

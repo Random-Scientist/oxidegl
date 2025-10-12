@@ -312,7 +312,8 @@ impl Context {
                 (Dirty::empty(), Capabilities::DEBUG_OUTPUT_SYNCHRONOUS)
             }
             EnableCap::VertexArray => todo!(),
-            EnableCap::DebugOutput => todo!(),
+            // debug output is already enabled all the time :3
+            EnableCap::DebugOutput => (Dirty::empty(), Capabilities::DEBUG_OUTPUT),
         };
         if self.gl_state.caps.set_to(state, bit.1) {
             self.renderer.dirty_state.set_bits(bit.0);

@@ -290,7 +290,7 @@ fn get_oxidegl_handle() -> *mut c_void {
     OXIDEGL_HANDLE.with(|v| {
         *v.get_or_init(|| {
             //Safety: arguments to dlopen are valid, pointer is checked for null
-            let handle = unsafe { dlopen(c"liboxidegl.dylib".as_ptr(), RTLD_LAZY) };
+            let handle = unsafe { dlopen(c"liboxidegl_shim.dylib".as_ptr(), RTLD_LAZY) };
             assert!(
                 !handle.is_null(),
                 "OxideGL NSGL shim: failed to dlopen oxidegl"

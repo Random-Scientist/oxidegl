@@ -1,6 +1,7 @@
 pub type ProtoObjRef<T> = Retained<ProtocolObject<T>>;
 use std::cell::Cell;
 use std::fmt::Debug;
+use std::num::NonZeroU32;
 #[must_use]
 /// Prints the trimmed type name (e.g. with all paths removed). May not work correctly in all cases (likely breaks for local structs, futures, closures etc)
 /// # Stability note
@@ -94,6 +95,7 @@ macro_rules! bitflag_bits {
 }
 
 pub(crate) use bitflag_bits;
+
 use std::mem::ManuallyDrop;
 use std::ops::{Deref, DerefMut};
 
@@ -174,5 +176,14 @@ impl<T> CloneOptionCell<T> {
         Self {
             inner: Cell::new(val),
         }
+    }
+}
+pub(crate) trait ToU32 {
+    fn to_u32(self) -> u32;
+}
+impl ToU32 for Option<NonZeroU32> {
+    fn to_u32(self) -> u32 {
+        // Safety: guaranteed by Option<NonZero> repr
+        unsafe { std::mem::transmute(self) }
     }
 }

@@ -11,6 +11,7 @@ use crate::{
     },
     gl_types::GLenum,
     pixel::PackUnpackState,
+    texture::{Texture, TextureBindings},
     util::bitflag_bits,
 };
 
@@ -59,6 +60,11 @@ pub(crate) struct GlState {
     pub(crate) framebuffer_binding: Option<ObjectName<Framebuffer>>,
     /// draw buffer/attachment tracking for the default framebuffer
     pub(crate) default_draw_buffers: DrawBuffers,
+
+    /// Current state of texture bindings to this context
+    pub(crate) texture_bindings: TextureBindings,
+    /// List of texture states
+    pub(crate) texture_list: NamedObjectList<Texture>,
 
     //TODO: these should be arrays in order to support viewport arrays
     pub(crate) scissor_box: PixelAlignedRect,

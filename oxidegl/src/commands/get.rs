@@ -1982,11 +1982,11 @@ impl Context {
         unsafe { self.oxidegl_get(target, data, index) };
     }
 
-    pub unsafe fn oxidegl_get_integer64v(&mut self, pname: GetPName, data: *mut GLint64) {
+    pub unsafe fn oxidegl_get_integer_64v(&mut self, pname: GetPName, data: *mut GLint64) {
         // Safety: Caller ensures pointer validity
         unsafe { self.oxidegl_get(pname, data, NoIndex) };
     }
-    pub unsafe fn oxidegl_get_integer64i_v(
+    pub unsafe fn oxidegl_get_integer_64i_v(
         &mut self,
         target: GetPName,
         index: GLuint,

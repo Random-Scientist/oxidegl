@@ -16,6 +16,11 @@ panic = "abort"
 incremental = true
 
 [workspace.dependencies]
+
+oxidegl = { path = "oxidegl" }
+oxidegl_c = { path = "oxidegl_c" }
+
+strum_macros = "0.27.1"
 objc2-app-kit = { default-features = false, version = "0.3.1" }
 objc2 = "0.6.1"
 log = "0.4.21"

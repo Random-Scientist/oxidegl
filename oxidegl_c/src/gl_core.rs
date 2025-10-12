@@ -1320,7 +1320,7 @@ unsafe extern "C" fn glCompressedTexImage1D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_compressed_tex_image1_d(
+            state.oxidegl_compressed_tex_image_1d(
                 target.try_into_enum()?,
                 level,
                 internalformat.try_into_enum()?,
@@ -1356,7 +1356,7 @@ unsafe extern "C" fn glCompressedTexImage2D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_compressed_tex_image2_d(
+            state.oxidegl_compressed_tex_image_2d(
                 target.try_into_enum()?,
                 level,
                 internalformat.try_into_enum()?,
@@ -1395,7 +1395,7 @@ unsafe extern "C" fn glCompressedTexImage3D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_compressed_tex_image3_d(
+            state.oxidegl_compressed_tex_image_3d(
                 target.try_into_enum()?,
                 level,
                 internalformat.try_into_enum()?,
@@ -1431,7 +1431,7 @@ unsafe extern "C" fn glCompressedTexSubImage1D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_compressed_tex_sub_image1_d(
+            state.oxidegl_compressed_tex_sub_image_1d(
                 target.try_into_enum()?,
                 level,
                 xoffset,
@@ -1465,7 +1465,7 @@ unsafe extern "C" fn glCompressedTextureSubImage1D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_compressed_texture_sub_image1_d(
+            state.oxidegl_compressed_texture_sub_image_1d(
                 texture,
                 level,
                 xoffset,
@@ -1503,7 +1503,7 @@ unsafe extern "C" fn glCompressedTexSubImage2D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_compressed_tex_sub_image2_d(
+            state.oxidegl_compressed_tex_sub_image_2d(
                 target.try_into_enum()?,
                 level,
                 xoffset,
@@ -1543,7 +1543,7 @@ unsafe extern "C" fn glCompressedTextureSubImage2D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_compressed_texture_sub_image2_d(
+            state.oxidegl_compressed_texture_sub_image_2d(
                 texture,
                 level,
                 xoffset,
@@ -1587,7 +1587,7 @@ unsafe extern "C" fn glCompressedTexSubImage3D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_compressed_tex_sub_image3_d(
+            state.oxidegl_compressed_tex_sub_image_3d(
                 target.try_into_enum()?,
                 level,
                 xoffset,
@@ -1633,7 +1633,7 @@ unsafe extern "C" fn glCompressedTextureSubImage3D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_compressed_texture_sub_image3_d(
+            state.oxidegl_compressed_texture_sub_image_3d(
                 texture,
                 level,
                 xoffset,
@@ -1778,7 +1778,7 @@ unsafe extern "C" fn glCopyTexImage1D(
         border
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_copy_tex_image1_d(
+        GlResult::normalize(state.oxidegl_copy_tex_image_1d(
             target.try_into_enum()?,
             level,
             internalformat.try_into_enum()?,
@@ -1812,7 +1812,7 @@ unsafe extern "C" fn glCopyTexImage2D(
         border
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_copy_tex_image2_d(
+        GlResult::normalize(state.oxidegl_copy_tex_image_2d(
             target.try_into_enum()?,
             level,
             internalformat.try_into_enum()?,
@@ -1843,7 +1843,7 @@ unsafe extern "C" fn glCopyTexSubImage1D(
         width
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_copy_tex_sub_image1_d(
+        GlResult::normalize(state.oxidegl_copy_tex_sub_image_1d(
             target.try_into_enum()?,
             level,
             xoffset,
@@ -1872,7 +1872,7 @@ unsafe extern "C" fn glCopyTextureSubImage1D(
         width
     );
     with_ctx_mut(|mut state| {
-        state.oxidegl_copy_texture_sub_image1_d(texture, level, xoffset, x, y, width)
+        state.oxidegl_copy_texture_sub_image_1d(texture, level, xoffset, x, y, width)
     })
 }
 #[unsafe(no_mangle)]
@@ -1898,7 +1898,7 @@ unsafe extern "C" fn glCopyTexSubImage2D(
         height
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_copy_tex_sub_image2_d(
+        GlResult::normalize(state.oxidegl_copy_tex_sub_image_2d(
             target.try_into_enum()?,
             level,
             xoffset,
@@ -1933,7 +1933,7 @@ unsafe extern "C" fn glCopyTextureSubImage2D(
         height
     );
     with_ctx_mut(|mut state| {
-        state.oxidegl_copy_texture_sub_image2_d(
+        state.oxidegl_copy_texture_sub_image_2d(
             texture, level, xoffset, yoffset, x, y, width, height,
         )
     })
@@ -1963,7 +1963,7 @@ unsafe extern "C" fn glCopyTexSubImage3D(
         height
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_copy_tex_sub_image3_d(
+        GlResult::normalize(state.oxidegl_copy_tex_sub_image_3d(
             target.try_into_enum()?,
             level,
             xoffset,
@@ -2001,7 +2001,7 @@ unsafe extern "C" fn glCopyTextureSubImage3D(
         height
     );
     with_ctx_mut(|mut state| {
-        state.oxidegl_copy_texture_sub_image3_d(
+        state.oxidegl_copy_texture_sub_image_3d(
             texture, level, xoffset, yoffset, zoffset, x, y, width, height,
         )
     })
@@ -3040,7 +3040,7 @@ unsafe extern "C" fn glFramebufferTexture1D(
         level
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_framebuffer_texture1_d(
+        GlResult::normalize(state.oxidegl_framebuffer_texture_1d(
             target.try_into_enum()?,
             attachment.try_into_enum()?,
             textarget.try_into_enum()?,
@@ -3066,7 +3066,7 @@ unsafe extern "C" fn glFramebufferTexture2D(
         level
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_framebuffer_texture2_d(
+        GlResult::normalize(state.oxidegl_framebuffer_texture_2d(
             target.try_into_enum()?,
             attachment.try_into_enum()?,
             textarget.try_into_enum()?,
@@ -3094,7 +3094,7 @@ unsafe extern "C" fn glFramebufferTexture3D(
         zoffset
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_framebuffer_texture3_d(
+        GlResult::normalize(state.oxidegl_framebuffer_texture_3d(
             target.try_into_enum()?,
             attachment.try_into_enum()?,
             textarget.try_into_enum()?,
@@ -3383,7 +3383,7 @@ unsafe extern "C" fn glGetInteger64v(pname: GLenum, data: *mut GLint64) {
         data
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(unsafe { state.oxidegl_get_integer64v(pname.try_into_enum()?, data) })
+        GlResult::normalize(unsafe { state.oxidegl_get_integer_64v(pname.try_into_enum()?, data) })
     })
 }
 #[unsafe(no_mangle)]
@@ -3396,7 +3396,7 @@ unsafe extern "C" fn glGetInteger64i_v(target: GLenum, index: GLuint, data: *mut
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_get_integer64i_v(target.try_into_enum()?, index, data)
+            state.oxidegl_get_integer_64i_v(target.try_into_enum()?, index, data)
         })
     })
 }
@@ -3745,7 +3745,7 @@ unsafe extern "C" fn glGetBufferParameteri64v(target: GLenum, pname: GLenum, par
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_get_buffer_parameteri64v(
+            state.oxidegl_get_buffer_parameteri_64v(
                 target.try_into_enum()?,
                 pname.try_into_enum()?,
                 params,
@@ -3785,7 +3785,7 @@ unsafe extern "C" fn glGetNamedBufferParameteri64v(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_get_named_buffer_parameteri64v(buffer, pname.try_into_enum()?, params)
+            state.oxidegl_get_named_buffer_parameteri_64v(buffer, pname.try_into_enum()?, params)
         })
     })
 }
@@ -4144,7 +4144,7 @@ unsafe extern "C" fn glGetInternalformati64v(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_get_internalformati64v(
+            state.oxidegl_get_internalformati_64v(
                 target.try_into_enum()?,
                 internalformat.try_into_enum()?,
                 pname.try_into_enum()?,
@@ -4566,7 +4566,7 @@ unsafe extern "C" fn glGetQueryObjecti64v(id: GLuint, pname: GLenum, params: *mu
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_get_query_objecti64v(id, pname.try_into_enum()?, params)
+            state.oxidegl_get_query_objecti_64v(id, pname.try_into_enum()?, params)
         })
     })
 }
@@ -4580,7 +4580,7 @@ unsafe extern "C" fn glGetQueryObjectui64v(id: GLuint, pname: GLenum, params: *m
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_get_query_objectui64v(id, pname.try_into_enum()?, params)
+            state.oxidegl_get_query_objectui_64v(id, pname.try_into_enum()?, params)
         })
     })
 }
@@ -4599,7 +4599,7 @@ unsafe extern "C" fn glGetQueryBufferObjecti64v(
         offset
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_get_query_buffer_objecti64v(
+        GlResult::normalize(state.oxidegl_get_query_buffer_objecti_64v(
             id,
             buffer,
             pname.try_into_enum()?,
@@ -4645,7 +4645,7 @@ unsafe extern "C" fn glGetQueryBufferObjectui64v(
         offset
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_get_query_buffer_objectui64v(
+        GlResult::normalize(state.oxidegl_get_query_buffer_objectui_64v(
             id,
             buffer,
             pname.try_into_enum()?,
@@ -5350,7 +5350,7 @@ unsafe extern "C" fn glGetTransformFeedbacki64_v(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_get_transform_feedbacki64_v(xfb, pname.try_into_enum()?, index, param)
+            state.oxidegl_get_transform_feedbacki_64_v(xfb, pname.try_into_enum()?, index, param)
         })
     })
 }
@@ -5593,7 +5593,7 @@ unsafe extern "C" fn glGetVertexArrayIndexed64iv(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_get_vertex_array_indexed64iv(vaobj, index, pname.try_into_enum()?, param)
+            state.oxidegl_get_vertex_array_indexed_64iv(vaobj, index, pname.try_into_enum()?, param)
         })
     })
 }
@@ -6415,7 +6415,7 @@ unsafe extern "C" fn glProgramUniform1i(program: GLuint, location: GLint, v0: GL
         location,
         v0
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform1i(program, location, v0))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_1i(program, location, v0))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform1iv(
@@ -6432,7 +6432,7 @@ unsafe extern "C" fn glProgramUniform1iv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform1iv(program, location, count, value)
+        state.oxidegl_program_uniform_1iv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6443,7 +6443,7 @@ unsafe extern "C" fn glProgramUniform1f(program: GLuint, location: GLint, v0: GL
         location,
         v0
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform1f(program, location, v0))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_1f(program, location, v0))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform1fv(
@@ -6460,7 +6460,7 @@ unsafe extern "C" fn glProgramUniform1fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform1fv(program, location, count, value)
+        state.oxidegl_program_uniform_1fv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6471,7 +6471,7 @@ unsafe extern "C" fn glProgramUniform1ui(program: GLuint, location: GLint, v0: G
         location,
         v0
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform1ui(program, location, v0))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_1ui(program, location, v0))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform1uiv(
@@ -6488,7 +6488,7 @@ unsafe extern "C" fn glProgramUniform1uiv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform1uiv(program, location, count, value)
+        state.oxidegl_program_uniform_1uiv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6500,7 +6500,7 @@ unsafe extern "C" fn glProgramUniform2i(program: GLuint, location: GLint, v0: GL
         v0,
         v1
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform2i(program, location, v0, v1))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_2i(program, location, v0, v1))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform2iv(
@@ -6517,7 +6517,7 @@ unsafe extern "C" fn glProgramUniform2iv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform2iv(program, location, count, value)
+        state.oxidegl_program_uniform_2iv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6534,7 +6534,7 @@ unsafe extern "C" fn glProgramUniform2f(
         v0,
         v1
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform2f(program, location, v0, v1))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_2f(program, location, v0, v1))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform2fv(
@@ -6551,7 +6551,7 @@ unsafe extern "C" fn glProgramUniform2fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform2fv(program, location, count, value)
+        state.oxidegl_program_uniform_2fv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6563,7 +6563,7 @@ unsafe extern "C" fn glProgramUniform2ui(program: GLuint, location: GLint, v0: G
         v0,
         v1
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform2ui(program, location, v0, v1))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_2ui(program, location, v0, v1))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform2uiv(
@@ -6580,7 +6580,7 @@ unsafe extern "C" fn glProgramUniform2uiv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform2uiv(program, location, count, value)
+        state.oxidegl_program_uniform_2uiv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6599,7 +6599,7 @@ unsafe extern "C" fn glProgramUniform3i(
         v1,
         v2
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform3i(program, location, v0, v1, v2))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_3i(program, location, v0, v1, v2))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform3iv(
@@ -6616,7 +6616,7 @@ unsafe extern "C" fn glProgramUniform3iv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform3iv(program, location, count, value)
+        state.oxidegl_program_uniform_3iv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6635,7 +6635,7 @@ unsafe extern "C" fn glProgramUniform3f(
         v1,
         v2
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform3f(program, location, v0, v1, v2))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_3f(program, location, v0, v1, v2))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform3fv(
@@ -6652,7 +6652,7 @@ unsafe extern "C" fn glProgramUniform3fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform3fv(program, location, count, value)
+        state.oxidegl_program_uniform_3fv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6671,7 +6671,7 @@ unsafe extern "C" fn glProgramUniform3ui(
         v1,
         v2
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform3ui(program, location, v0, v1, v2))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_3ui(program, location, v0, v1, v2))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform3uiv(
@@ -6688,7 +6688,7 @@ unsafe extern "C" fn glProgramUniform3uiv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform3uiv(program, location, count, value)
+        state.oxidegl_program_uniform_3uiv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6709,7 +6709,7 @@ unsafe extern "C" fn glProgramUniform4i(
         v2,
         v3
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform4i(program, location, v0, v1, v2, v3))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_4i(program, location, v0, v1, v2, v3))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform4iv(
@@ -6726,7 +6726,7 @@ unsafe extern "C" fn glProgramUniform4iv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform4iv(program, location, count, value)
+        state.oxidegl_program_uniform_4iv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6747,7 +6747,7 @@ unsafe extern "C" fn glProgramUniform4f(
         v2,
         v3
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform4f(program, location, v0, v1, v2, v3))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_4f(program, location, v0, v1, v2, v3))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform4fv(
@@ -6764,7 +6764,7 @@ unsafe extern "C" fn glProgramUniform4fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform4fv(program, location, count, value)
+        state.oxidegl_program_uniform_4fv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6785,7 +6785,7 @@ unsafe extern "C" fn glProgramUniform4ui(
         v2,
         v3
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform4ui(program, location, v0, v1, v2, v3))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_4ui(program, location, v0, v1, v2, v3))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform4uiv(
@@ -6802,7 +6802,7 @@ unsafe extern "C" fn glProgramUniform4uiv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform4uiv(program, location, count, value)
+        state.oxidegl_program_uniform_4uiv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6822,7 +6822,7 @@ unsafe extern "C" fn glProgramUniformMatrix2fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix2fv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_2fv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6842,7 +6842,7 @@ unsafe extern "C" fn glProgramUniformMatrix3fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix3fv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_3fv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6862,7 +6862,7 @@ unsafe extern "C" fn glProgramUniformMatrix4fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix4fv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_4fv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6882,7 +6882,7 @@ unsafe extern "C" fn glProgramUniformMatrix2x3fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix2x3fv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_2x_3fv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6902,7 +6902,7 @@ unsafe extern "C" fn glProgramUniformMatrix3x2fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix3x2fv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_3x_2fv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6922,7 +6922,7 @@ unsafe extern "C" fn glProgramUniformMatrix2x4fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix2x4fv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_2x_4fv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6942,7 +6942,7 @@ unsafe extern "C" fn glProgramUniformMatrix4x2fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix4x2fv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_4x_2fv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6962,7 +6962,7 @@ unsafe extern "C" fn glProgramUniformMatrix3x4fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix3x4fv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_3x_4fv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -6982,7 +6982,7 @@ unsafe extern "C" fn glProgramUniformMatrix4x3fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix4x3fv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_4x_3fv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -7617,7 +7617,7 @@ unsafe extern "C" fn glTexImage1D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_tex_image1_d(
+            state.oxidegl_tex_image_1d(
                 target.try_into_enum()?,
                 level,
                 internalformat.try_into_enum()?,
@@ -7656,7 +7656,7 @@ unsafe extern "C" fn glTexImage2D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_tex_image2_d(
+            state.oxidegl_tex_image_2d(
                 target.try_into_enum()?,
                 level,
                 internalformat.try_into_enum()?,
@@ -7689,7 +7689,7 @@ unsafe extern "C" fn glTexImage2DMultisample(
         fixedsamplelocations
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_tex_image2_d_multisample(
+        GlResult::normalize(state.oxidegl_tex_image_2d_multisample(
             target.try_into_enum()?,
             samples,
             internalformat.try_into_enum()?,
@@ -7727,7 +7727,7 @@ unsafe extern "C" fn glTexImage3D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_tex_image3_d(
+            state.oxidegl_tex_image_3d(
                 target.try_into_enum()?,
                 level,
                 internalformat.try_into_enum()?,
@@ -7763,7 +7763,7 @@ unsafe extern "C" fn glTexImage3DMultisample(
         fixedsamplelocations
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_tex_image3_d_multisample(
+        GlResult::normalize(state.oxidegl_tex_image_3d_multisample(
             target.try_into_enum()?,
             samples,
             internalformat.try_into_enum()?,
@@ -7969,7 +7969,7 @@ unsafe extern "C" fn glTexStorage1D(
         width
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_tex_storage1_d(
+        GlResult::normalize(state.oxidegl_tex_storage_1d(
             target.try_into_enum()?,
             levels,
             internalformat.try_into_enum()?,
@@ -7992,7 +7992,7 @@ unsafe extern "C" fn glTextureStorage1D(
         width
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_texture_storage1_d(
+        GlResult::normalize(state.oxidegl_texture_storage_1d(
             texture,
             levels,
             internalformat.try_into_enum()?,
@@ -8017,7 +8017,7 @@ unsafe extern "C" fn glTexStorage2D(
         height
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_tex_storage2_d(
+        GlResult::normalize(state.oxidegl_tex_storage_2d(
             target.try_into_enum()?,
             levels,
             internalformat.try_into_enum()?,
@@ -8043,7 +8043,7 @@ unsafe extern "C" fn glTextureStorage2D(
         height
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_texture_storage2_d(
+        GlResult::normalize(state.oxidegl_texture_storage_2d(
             texture,
             levels,
             internalformat.try_into_enum()?,
@@ -8071,7 +8071,7 @@ unsafe extern "C" fn glTexStorage2DMultisample(
         fixedsamplelocations
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_tex_storage2_d_multisample(
+        GlResult::normalize(state.oxidegl_tex_storage_2d_multisample(
             target.try_into_enum()?,
             samples,
             internalformat.try_into_enum()?,
@@ -8100,7 +8100,7 @@ unsafe extern "C" fn glTextureStorage2DMultisample(
         fixedsamplelocations
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_texture_storage2_d_multisample(
+        GlResult::normalize(state.oxidegl_texture_storage_2d_multisample(
             texture,
             samples,
             internalformat.try_into_enum()?,
@@ -8129,7 +8129,7 @@ unsafe extern "C" fn glTexStorage3D(
         depth
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_tex_storage3_d(
+        GlResult::normalize(state.oxidegl_tex_storage_3d(
             target.try_into_enum()?,
             levels,
             internalformat.try_into_enum()?,
@@ -8158,7 +8158,7 @@ unsafe extern "C" fn glTextureStorage3D(
         depth
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_texture_storage3_d(
+        GlResult::normalize(state.oxidegl_texture_storage_3d(
             texture,
             levels,
             internalformat.try_into_enum()?,
@@ -8189,7 +8189,7 @@ unsafe extern "C" fn glTexStorage3DMultisample(
         fixedsamplelocations
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_tex_storage3_d_multisample(
+        GlResult::normalize(state.oxidegl_tex_storage_3d_multisample(
             target.try_into_enum()?,
             samples,
             internalformat.try_into_enum()?,
@@ -8221,7 +8221,7 @@ unsafe extern "C" fn glTextureStorage3DMultisample(
         fixedsamplelocations
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_texture_storage3_d_multisample(
+        GlResult::normalize(state.oxidegl_texture_storage_3d_multisample(
             texture,
             samples,
             internalformat.try_into_enum()?,
@@ -8254,7 +8254,7 @@ unsafe extern "C" fn glTexSubImage1D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_tex_sub_image1_d(
+            state.oxidegl_tex_sub_image_1d(
                 target.try_into_enum()?,
                 level,
                 xoffset,
@@ -8288,7 +8288,7 @@ unsafe extern "C" fn glTextureSubImage1D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_texture_sub_image1_d(
+            state.oxidegl_texture_sub_image_1d(
                 texture,
                 level,
                 xoffset,
@@ -8326,7 +8326,7 @@ unsafe extern "C" fn glTexSubImage2D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_tex_sub_image2_d(
+            state.oxidegl_tex_sub_image_2d(
                 target.try_into_enum()?,
                 level,
                 xoffset,
@@ -8366,7 +8366,7 @@ unsafe extern "C" fn glTextureSubImage2D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_texture_sub_image2_d(
+            state.oxidegl_texture_sub_image_2d(
                 texture,
                 level,
                 xoffset,
@@ -8410,7 +8410,7 @@ unsafe extern "C" fn glTexSubImage3D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_tex_sub_image3_d(
+            state.oxidegl_tex_sub_image_3d(
                 target.try_into_enum()?,
                 level,
                 xoffset,
@@ -8456,7 +8456,7 @@ unsafe extern "C" fn glTextureSubImage3D(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_texture_sub_image3_d(
+            state.oxidegl_texture_sub_image_3d(
                 texture,
                 level,
                 xoffset,
@@ -8574,7 +8574,7 @@ unsafe extern "C" fn glUniform1f(location: GLint, v0: GLfloat) {
         location,
         v0
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform1f(location, v0))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_1f(location, v0))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform2f(location: GLint, v0: GLfloat, v1: GLfloat) {
@@ -8584,7 +8584,7 @@ unsafe extern "C" fn glUniform2f(location: GLint, v0: GLfloat, v1: GLfloat) {
         v0,
         v1
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform2f(location, v0, v1))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_2f(location, v0, v1))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform3f(location: GLint, v0: GLfloat, v1: GLfloat, v2: GLfloat) {
@@ -8595,7 +8595,7 @@ unsafe extern "C" fn glUniform3f(location: GLint, v0: GLfloat, v1: GLfloat, v2: 
         v1,
         v2
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform3f(location, v0, v1, v2))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_3f(location, v0, v1, v2))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform4f(
@@ -8613,7 +8613,7 @@ unsafe extern "C" fn glUniform4f(
         v2,
         v3
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform4f(location, v0, v1, v2, v3))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_4f(location, v0, v1, v2, v3))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform1i(location: GLint, v0: GLint) {
@@ -8622,7 +8622,7 @@ unsafe extern "C" fn glUniform1i(location: GLint, v0: GLint) {
         location,
         v0
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform1i(location, v0))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_1i(location, v0))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform2i(location: GLint, v0: GLint, v1: GLint) {
@@ -8632,7 +8632,7 @@ unsafe extern "C" fn glUniform2i(location: GLint, v0: GLint, v1: GLint) {
         v0,
         v1
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform2i(location, v0, v1))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_2i(location, v0, v1))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform3i(location: GLint, v0: GLint, v1: GLint, v2: GLint) {
@@ -8643,7 +8643,7 @@ unsafe extern "C" fn glUniform3i(location: GLint, v0: GLint, v1: GLint, v2: GLin
         v1,
         v2
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform3i(location, v0, v1, v2))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_3i(location, v0, v1, v2))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform4i(location: GLint, v0: GLint, v1: GLint, v2: GLint, v3: GLint) {
@@ -8655,7 +8655,7 @@ unsafe extern "C" fn glUniform4i(location: GLint, v0: GLint, v1: GLint, v2: GLin
         v2,
         v3
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform4i(location, v0, v1, v2, v3))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_4i(location, v0, v1, v2, v3))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform1fv(location: GLint, count: GLsizei, value: *const GLfloat) {
@@ -8665,7 +8665,7 @@ unsafe extern "C" fn glUniform1fv(location: GLint, count: GLsizei, value: *const
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform1fv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_1fv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform2fv(location: GLint, count: GLsizei, value: *const GLfloat) {
@@ -8675,7 +8675,7 @@ unsafe extern "C" fn glUniform2fv(location: GLint, count: GLsizei, value: *const
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform2fv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_2fv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform3fv(location: GLint, count: GLsizei, value: *const GLfloat) {
@@ -8685,7 +8685,7 @@ unsafe extern "C" fn glUniform3fv(location: GLint, count: GLsizei, value: *const
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform3fv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_3fv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform4fv(location: GLint, count: GLsizei, value: *const GLfloat) {
@@ -8695,7 +8695,7 @@ unsafe extern "C" fn glUniform4fv(location: GLint, count: GLsizei, value: *const
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform4fv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_4fv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform1iv(location: GLint, count: GLsizei, value: *const GLint) {
@@ -8705,7 +8705,7 @@ unsafe extern "C" fn glUniform1iv(location: GLint, count: GLsizei, value: *const
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform1iv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_1iv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform2iv(location: GLint, count: GLsizei, value: *const GLint) {
@@ -8715,7 +8715,7 @@ unsafe extern "C" fn glUniform2iv(location: GLint, count: GLsizei, value: *const
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform2iv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_2iv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform3iv(location: GLint, count: GLsizei, value: *const GLint) {
@@ -8725,7 +8725,7 @@ unsafe extern "C" fn glUniform3iv(location: GLint, count: GLsizei, value: *const
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform3iv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_3iv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform4iv(location: GLint, count: GLsizei, value: *const GLint) {
@@ -8735,7 +8735,7 @@ unsafe extern "C" fn glUniform4iv(location: GLint, count: GLsizei, value: *const
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform4iv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_4iv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniformMatrix2fv(
@@ -8752,7 +8752,7 @@ unsafe extern "C" fn glUniformMatrix2fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix2fv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_2fv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -8770,7 +8770,7 @@ unsafe extern "C" fn glUniformMatrix3fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix3fv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_3fv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -8788,7 +8788,7 @@ unsafe extern "C" fn glUniformMatrix4fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix4fv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_4fv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -8806,7 +8806,7 @@ unsafe extern "C" fn glUniformMatrix2x3fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix2x3fv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_2x_3fv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -8824,7 +8824,7 @@ unsafe extern "C" fn glUniformMatrix3x2fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix3x2fv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_3x_2fv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -8842,7 +8842,7 @@ unsafe extern "C" fn glUniformMatrix2x4fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix2x4fv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_2x_4fv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -8860,7 +8860,7 @@ unsafe extern "C" fn glUniformMatrix4x2fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix4x2fv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_4x_2fv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -8878,7 +8878,7 @@ unsafe extern "C" fn glUniformMatrix3x4fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix3x4fv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_3x_4fv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -8896,7 +8896,7 @@ unsafe extern "C" fn glUniformMatrix4x3fv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix4x3fv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_4x_3fv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -8906,7 +8906,7 @@ unsafe extern "C" fn glUniform1ui(location: GLint, v0: GLuint) {
         location,
         v0
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform1ui(location, v0))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_1ui(location, v0))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform2ui(location: GLint, v0: GLuint, v1: GLuint) {
@@ -8916,7 +8916,7 @@ unsafe extern "C" fn glUniform2ui(location: GLint, v0: GLuint, v1: GLuint) {
         v0,
         v1
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform2ui(location, v0, v1))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_2ui(location, v0, v1))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform3ui(location: GLint, v0: GLuint, v1: GLuint, v2: GLuint) {
@@ -8927,7 +8927,7 @@ unsafe extern "C" fn glUniform3ui(location: GLint, v0: GLuint, v1: GLuint, v2: G
         v1,
         v2
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform3ui(location, v0, v1, v2))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_3ui(location, v0, v1, v2))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform4ui(location: GLint, v0: GLuint, v1: GLuint, v2: GLuint, v3: GLuint) {
@@ -8939,7 +8939,7 @@ unsafe extern "C" fn glUniform4ui(location: GLint, v0: GLuint, v1: GLuint, v2: G
         v2,
         v3
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform4ui(location, v0, v1, v2, v3))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_4ui(location, v0, v1, v2, v3))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform1uiv(location: GLint, count: GLsizei, value: *const GLuint) {
@@ -8949,7 +8949,7 @@ unsafe extern "C" fn glUniform1uiv(location: GLint, count: GLsizei, value: *cons
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform1uiv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_1uiv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform2uiv(location: GLint, count: GLsizei, value: *const GLuint) {
@@ -8959,7 +8959,7 @@ unsafe extern "C" fn glUniform2uiv(location: GLint, count: GLsizei, value: *cons
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform2uiv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_2uiv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform3uiv(location: GLint, count: GLsizei, value: *const GLuint) {
@@ -8969,7 +8969,7 @@ unsafe extern "C" fn glUniform3uiv(location: GLint, count: GLsizei, value: *cons
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform3uiv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_3uiv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform4uiv(location: GLint, count: GLsizei, value: *const GLuint) {
@@ -8979,7 +8979,7 @@ unsafe extern "C" fn glUniform4uiv(location: GLint, count: GLsizei, value: *cons
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform4uiv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_4uiv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniformBlockBinding(
@@ -9083,7 +9083,7 @@ unsafe extern "C" fn glVertexAttrib1d(index: GLuint, x: GLdouble) {
         index,
         x
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib1d(index, x))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_1d(index, x))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib1dv(index: GLuint, v: *const GLdouble) {
@@ -9092,7 +9092,7 @@ unsafe extern "C" fn glVertexAttrib1dv(index: GLuint, v: *const GLdouble) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib1dv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_1dv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib1f(index: GLuint, x: GLfloat) {
@@ -9101,7 +9101,7 @@ unsafe extern "C" fn glVertexAttrib1f(index: GLuint, x: GLfloat) {
         index,
         x
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib1f(index, x))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_1f(index, x))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib1fv(index: GLuint, v: *const GLfloat) {
@@ -9110,7 +9110,7 @@ unsafe extern "C" fn glVertexAttrib1fv(index: GLuint, v: *const GLfloat) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib1fv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_1fv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib1s(index: GLuint, x: GLshort) {
@@ -9119,7 +9119,7 @@ unsafe extern "C" fn glVertexAttrib1s(index: GLuint, x: GLshort) {
         index,
         x
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib1s(index, x))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_1s(index, x))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib1sv(index: GLuint, v: *const GLshort) {
@@ -9128,7 +9128,7 @@ unsafe extern "C" fn glVertexAttrib1sv(index: GLuint, v: *const GLshort) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib1sv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_1sv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib2d(index: GLuint, x: GLdouble, y: GLdouble) {
@@ -9138,7 +9138,7 @@ unsafe extern "C" fn glVertexAttrib2d(index: GLuint, x: GLdouble, y: GLdouble) {
         x,
         y
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib2d(index, x, y))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_2d(index, x, y))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib2dv(index: GLuint, v: *const GLdouble) {
@@ -9147,7 +9147,7 @@ unsafe extern "C" fn glVertexAttrib2dv(index: GLuint, v: *const GLdouble) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib2dv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_2dv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib2f(index: GLuint, x: GLfloat, y: GLfloat) {
@@ -9157,7 +9157,7 @@ unsafe extern "C" fn glVertexAttrib2f(index: GLuint, x: GLfloat, y: GLfloat) {
         x,
         y
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib2f(index, x, y))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_2f(index, x, y))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib2fv(index: GLuint, v: *const GLfloat) {
@@ -9166,7 +9166,7 @@ unsafe extern "C" fn glVertexAttrib2fv(index: GLuint, v: *const GLfloat) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib2fv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_2fv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib2s(index: GLuint, x: GLshort, y: GLshort) {
@@ -9176,7 +9176,7 @@ unsafe extern "C" fn glVertexAttrib2s(index: GLuint, x: GLshort, y: GLshort) {
         x,
         y
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib2s(index, x, y))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_2s(index, x, y))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib2sv(index: GLuint, v: *const GLshort) {
@@ -9185,7 +9185,7 @@ unsafe extern "C" fn glVertexAttrib2sv(index: GLuint, v: *const GLshort) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib2sv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_2sv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib3d(index: GLuint, x: GLdouble, y: GLdouble, z: GLdouble) {
@@ -9196,7 +9196,7 @@ unsafe extern "C" fn glVertexAttrib3d(index: GLuint, x: GLdouble, y: GLdouble, z
         y,
         z
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib3d(index, x, y, z))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_3d(index, x, y, z))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib3dv(index: GLuint, v: *const GLdouble) {
@@ -9205,7 +9205,7 @@ unsafe extern "C" fn glVertexAttrib3dv(index: GLuint, v: *const GLdouble) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib3dv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_3dv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib3f(index: GLuint, x: GLfloat, y: GLfloat, z: GLfloat) {
@@ -9216,7 +9216,7 @@ unsafe extern "C" fn glVertexAttrib3f(index: GLuint, x: GLfloat, y: GLfloat, z: 
         y,
         z
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib3f(index, x, y, z))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_3f(index, x, y, z))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib3fv(index: GLuint, v: *const GLfloat) {
@@ -9225,7 +9225,7 @@ unsafe extern "C" fn glVertexAttrib3fv(index: GLuint, v: *const GLfloat) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib3fv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_3fv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib3s(index: GLuint, x: GLshort, y: GLshort, z: GLshort) {
@@ -9236,7 +9236,7 @@ unsafe extern "C" fn glVertexAttrib3s(index: GLuint, x: GLshort, y: GLshort, z: 
         y,
         z
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib3s(index, x, y, z))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_3s(index, x, y, z))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib3sv(index: GLuint, v: *const GLshort) {
@@ -9245,7 +9245,7 @@ unsafe extern "C" fn glVertexAttrib3sv(index: GLuint, v: *const GLshort) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib3sv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_3sv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4Nbv(index: GLuint, v: *const GLbyte) {
@@ -9254,7 +9254,7 @@ unsafe extern "C" fn glVertexAttrib4Nbv(index: GLuint, v: *const GLbyte) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib4_nbv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_4nbv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4Niv(index: GLuint, v: *const GLint) {
@@ -9263,7 +9263,7 @@ unsafe extern "C" fn glVertexAttrib4Niv(index: GLuint, v: *const GLint) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib4_niv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_4niv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4Nsv(index: GLuint, v: *const GLshort) {
@@ -9272,7 +9272,7 @@ unsafe extern "C" fn glVertexAttrib4Nsv(index: GLuint, v: *const GLshort) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib4_nsv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_4nsv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4Nub(
@@ -9290,7 +9290,7 @@ unsafe extern "C" fn glVertexAttrib4Nub(
         z,
         w
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib4_nub(index, x, y, z, w))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_4nub(index, x, y, z, w))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4Nubv(index: GLuint, v: *const GLubyte) {
@@ -9299,7 +9299,7 @@ unsafe extern "C" fn glVertexAttrib4Nubv(index: GLuint, v: *const GLubyte) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib4_nubv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_4nubv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4Nuiv(index: GLuint, v: *const GLuint) {
@@ -9308,7 +9308,7 @@ unsafe extern "C" fn glVertexAttrib4Nuiv(index: GLuint, v: *const GLuint) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib4_nuiv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_4nuiv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4Nusv(index: GLuint, v: *const GLushort) {
@@ -9317,7 +9317,7 @@ unsafe extern "C" fn glVertexAttrib4Nusv(index: GLuint, v: *const GLushort) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib4_nusv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_4nusv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4bv(index: GLuint, v: *const GLbyte) {
@@ -9326,7 +9326,7 @@ unsafe extern "C" fn glVertexAttrib4bv(index: GLuint, v: *const GLbyte) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib4bv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_4bv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4d(
@@ -9344,7 +9344,7 @@ unsafe extern "C" fn glVertexAttrib4d(
         z,
         w
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib4d(index, x, y, z, w))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_4d(index, x, y, z, w))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4dv(index: GLuint, v: *const GLdouble) {
@@ -9353,7 +9353,7 @@ unsafe extern "C" fn glVertexAttrib4dv(index: GLuint, v: *const GLdouble) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib4dv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_4dv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4f(
@@ -9371,7 +9371,7 @@ unsafe extern "C" fn glVertexAttrib4f(
         z,
         w
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib4f(index, x, y, z, w))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_4f(index, x, y, z, w))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4fv(index: GLuint, v: *const GLfloat) {
@@ -9380,7 +9380,7 @@ unsafe extern "C" fn glVertexAttrib4fv(index: GLuint, v: *const GLfloat) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib4fv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_4fv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4iv(index: GLuint, v: *const GLint) {
@@ -9389,7 +9389,7 @@ unsafe extern "C" fn glVertexAttrib4iv(index: GLuint, v: *const GLint) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib4iv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_4iv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4s(
@@ -9407,7 +9407,7 @@ unsafe extern "C" fn glVertexAttrib4s(
         z,
         w
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib4s(index, x, y, z, w))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_4s(index, x, y, z, w))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4sv(index: GLuint, v: *const GLshort) {
@@ -9416,7 +9416,7 @@ unsafe extern "C" fn glVertexAttrib4sv(index: GLuint, v: *const GLshort) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib4sv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_4sv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4ubv(index: GLuint, v: *const GLubyte) {
@@ -9425,7 +9425,7 @@ unsafe extern "C" fn glVertexAttrib4ubv(index: GLuint, v: *const GLubyte) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib4ubv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_4ubv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4uiv(index: GLuint, v: *const GLuint) {
@@ -9434,7 +9434,7 @@ unsafe extern "C" fn glVertexAttrib4uiv(index: GLuint, v: *const GLuint) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib4uiv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_4uiv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttrib4usv(index: GLuint, v: *const GLushort) {
@@ -9443,7 +9443,7 @@ unsafe extern "C" fn glVertexAttrib4usv(index: GLuint, v: *const GLushort) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib4usv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_4usv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI1i(index: GLuint, x: GLint) {
@@ -9452,7 +9452,7 @@ unsafe extern "C" fn glVertexAttribI1i(index: GLuint, x: GLint) {
         index,
         x
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i1i(index, x))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i_1i(index, x))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI2i(index: GLuint, x: GLint, y: GLint) {
@@ -9462,7 +9462,7 @@ unsafe extern "C" fn glVertexAttribI2i(index: GLuint, x: GLint, y: GLint) {
         x,
         y
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i2i(index, x, y))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i_2i(index, x, y))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI3i(index: GLuint, x: GLint, y: GLint, z: GLint) {
@@ -9473,7 +9473,7 @@ unsafe extern "C" fn glVertexAttribI3i(index: GLuint, x: GLint, y: GLint, z: GLi
         y,
         z
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i3i(index, x, y, z))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i_3i(index, x, y, z))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI4i(index: GLuint, x: GLint, y: GLint, z: GLint, w: GLint) {
@@ -9485,7 +9485,7 @@ unsafe extern "C" fn glVertexAttribI4i(index: GLuint, x: GLint, y: GLint, z: GLi
         z,
         w
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i4i(index, x, y, z, w))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i_4i(index, x, y, z, w))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI1ui(index: GLuint, x: GLuint) {
@@ -9494,7 +9494,7 @@ unsafe extern "C" fn glVertexAttribI1ui(index: GLuint, x: GLuint) {
         index,
         x
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i1ui(index, x))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i_1ui(index, x))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI2ui(index: GLuint, x: GLuint, y: GLuint) {
@@ -9504,7 +9504,7 @@ unsafe extern "C" fn glVertexAttribI2ui(index: GLuint, x: GLuint, y: GLuint) {
         x,
         y
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i2ui(index, x, y))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i_2ui(index, x, y))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI3ui(index: GLuint, x: GLuint, y: GLuint, z: GLuint) {
@@ -9515,7 +9515,7 @@ unsafe extern "C" fn glVertexAttribI3ui(index: GLuint, x: GLuint, y: GLuint, z: 
         y,
         z
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i3ui(index, x, y, z))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i_3ui(index, x, y, z))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI4ui(index: GLuint, x: GLuint, y: GLuint, z: GLuint, w: GLuint) {
@@ -9527,7 +9527,7 @@ unsafe extern "C" fn glVertexAttribI4ui(index: GLuint, x: GLuint, y: GLuint, z: 
         z,
         w
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i4ui(index, x, y, z, w))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_i_4ui(index, x, y, z, w))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI1iv(index: GLuint, v: *const GLint) {
@@ -9536,7 +9536,7 @@ unsafe extern "C" fn glVertexAttribI1iv(index: GLuint, v: *const GLint) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i1iv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i_1iv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI2iv(index: GLuint, v: *const GLint) {
@@ -9545,7 +9545,7 @@ unsafe extern "C" fn glVertexAttribI2iv(index: GLuint, v: *const GLint) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i2iv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i_2iv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI3iv(index: GLuint, v: *const GLint) {
@@ -9554,7 +9554,7 @@ unsafe extern "C" fn glVertexAttribI3iv(index: GLuint, v: *const GLint) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i3iv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i_3iv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI4iv(index: GLuint, v: *const GLint) {
@@ -9563,7 +9563,7 @@ unsafe extern "C" fn glVertexAttribI4iv(index: GLuint, v: *const GLint) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i4iv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i_4iv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI1uiv(index: GLuint, v: *const GLuint) {
@@ -9572,7 +9572,7 @@ unsafe extern "C" fn glVertexAttribI1uiv(index: GLuint, v: *const GLuint) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i1uiv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i_1uiv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI2uiv(index: GLuint, v: *const GLuint) {
@@ -9581,7 +9581,7 @@ unsafe extern "C" fn glVertexAttribI2uiv(index: GLuint, v: *const GLuint) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i2uiv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i_2uiv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI3uiv(index: GLuint, v: *const GLuint) {
@@ -9590,7 +9590,7 @@ unsafe extern "C" fn glVertexAttribI3uiv(index: GLuint, v: *const GLuint) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i3uiv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i_3uiv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI4uiv(index: GLuint, v: *const GLuint) {
@@ -9599,7 +9599,7 @@ unsafe extern "C" fn glVertexAttribI4uiv(index: GLuint, v: *const GLuint) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i4uiv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i_4uiv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI4bv(index: GLuint, v: *const GLbyte) {
@@ -9608,7 +9608,7 @@ unsafe extern "C" fn glVertexAttribI4bv(index: GLuint, v: *const GLbyte) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i4bv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i_4bv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI4sv(index: GLuint, v: *const GLshort) {
@@ -9617,7 +9617,7 @@ unsafe extern "C" fn glVertexAttribI4sv(index: GLuint, v: *const GLshort) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i4sv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i_4sv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI4ubv(index: GLuint, v: *const GLubyte) {
@@ -9626,7 +9626,7 @@ unsafe extern "C" fn glVertexAttribI4ubv(index: GLuint, v: *const GLubyte) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i4ubv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i_4ubv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribI4usv(index: GLuint, v: *const GLushort) {
@@ -9635,7 +9635,7 @@ unsafe extern "C" fn glVertexAttribI4usv(index: GLuint, v: *const GLushort) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i4usv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_i_4usv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribP1ui(
@@ -9652,7 +9652,7 @@ unsafe extern "C" fn glVertexAttribP1ui(
         value
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_vertex_attrib_p1ui(
+        GlResult::normalize(state.oxidegl_vertex_attrib_p_1ui(
             index,
             r#type.try_into_enum()?,
             normalized,
@@ -9675,7 +9675,7 @@ unsafe extern "C" fn glVertexAttribP2ui(
         value
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_vertex_attrib_p2ui(
+        GlResult::normalize(state.oxidegl_vertex_attrib_p_2ui(
             index,
             r#type.try_into_enum()?,
             normalized,
@@ -9698,7 +9698,7 @@ unsafe extern "C" fn glVertexAttribP3ui(
         value
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_vertex_attrib_p3ui(
+        GlResult::normalize(state.oxidegl_vertex_attrib_p_3ui(
             index,
             r#type.try_into_enum()?,
             normalized,
@@ -9721,7 +9721,7 @@ unsafe extern "C" fn glVertexAttribP4ui(
         value
     );
     with_ctx_mut(|mut state| {
-        GlResult::normalize(state.oxidegl_vertex_attrib_p4ui(
+        GlResult::normalize(state.oxidegl_vertex_attrib_p_4ui(
             index,
             r#type.try_into_enum()?,
             normalized,
@@ -9736,7 +9736,7 @@ unsafe extern "C" fn glVertexAttribL1d(index: GLuint, x: GLdouble) {
         index,
         x
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_l1d(index, x))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_l_1d(index, x))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribL2d(index: GLuint, x: GLdouble, y: GLdouble) {
@@ -9746,7 +9746,7 @@ unsafe extern "C" fn glVertexAttribL2d(index: GLuint, x: GLdouble, y: GLdouble) 
         x,
         y
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_l2d(index, x, y))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_l_2d(index, x, y))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribL3d(index: GLuint, x: GLdouble, y: GLdouble, z: GLdouble) {
@@ -9757,7 +9757,7 @@ unsafe extern "C" fn glVertexAttribL3d(index: GLuint, x: GLdouble, y: GLdouble, 
         y,
         z
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_l3d(index, x, y, z))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_l_3d(index, x, y, z))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribL4d(
@@ -9775,7 +9775,7 @@ unsafe extern "C" fn glVertexAttribL4d(
         z,
         w
     );
-    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_l4d(index, x, y, z, w))
+    with_ctx_mut(|mut state| state.oxidegl_vertex_attrib_l_4d(index, x, y, z, w))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribL1dv(index: GLuint, v: *const GLdouble) {
@@ -9784,7 +9784,7 @@ unsafe extern "C" fn glVertexAttribL1dv(index: GLuint, v: *const GLdouble) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_l1dv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_l_1dv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribL2dv(index: GLuint, v: *const GLdouble) {
@@ -9793,7 +9793,7 @@ unsafe extern "C" fn glVertexAttribL2dv(index: GLuint, v: *const GLdouble) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_l2dv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_l_2dv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribL3dv(index: GLuint, v: *const GLdouble) {
@@ -9802,7 +9802,7 @@ unsafe extern "C" fn glVertexAttribL3dv(index: GLuint, v: *const GLdouble) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_l3dv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_l_3dv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribL4dv(index: GLuint, v: *const GLdouble) {
@@ -9811,7 +9811,7 @@ unsafe extern "C" fn glVertexAttribL4dv(index: GLuint, v: *const GLdouble) {
         index,
         v
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_l4dv(index, v) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_vertex_attrib_l_4dv(index, v) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glVertexAttribBinding(attribindex: GLuint, bindingindex: GLuint) {
@@ -10167,7 +10167,7 @@ unsafe extern "C" fn glVertexAttribP1uiv(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_vertex_attrib_p1uiv(index, r#type.try_into_enum()?, normalized, value)
+            state.oxidegl_vertex_attrib_p_1uiv(index, r#type.try_into_enum()?, normalized, value)
         })
     })
 }
@@ -10187,7 +10187,7 @@ unsafe extern "C" fn glVertexAttribP2uiv(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_vertex_attrib_p2uiv(index, r#type.try_into_enum()?, normalized, value)
+            state.oxidegl_vertex_attrib_p_2uiv(index, r#type.try_into_enum()?, normalized, value)
         })
     })
 }
@@ -10207,7 +10207,7 @@ unsafe extern "C" fn glVertexAttribP3uiv(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_vertex_attrib_p3uiv(index, r#type.try_into_enum()?, normalized, value)
+            state.oxidegl_vertex_attrib_p_3uiv(index, r#type.try_into_enum()?, normalized, value)
         })
     })
 }
@@ -10227,7 +10227,7 @@ unsafe extern "C" fn glVertexAttribP4uiv(
     );
     with_ctx_mut(|mut state| {
         GlResult::normalize(unsafe {
-            state.oxidegl_vertex_attrib_p4uiv(index, r#type.try_into_enum()?, normalized, value)
+            state.oxidegl_vertex_attrib_p_4uiv(index, r#type.try_into_enum()?, normalized, value)
         })
     })
 }
@@ -10238,7 +10238,7 @@ unsafe extern "C" fn glUniform1d(location: GLint, x: GLdouble) {
         location,
         x
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform1d(location, x))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_1d(location, x))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform2d(location: GLint, x: GLdouble, y: GLdouble) {
@@ -10248,7 +10248,7 @@ unsafe extern "C" fn glUniform2d(location: GLint, x: GLdouble, y: GLdouble) {
         x,
         y
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform2d(location, x, y))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_2d(location, x, y))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform3d(location: GLint, x: GLdouble, y: GLdouble, z: GLdouble) {
@@ -10259,7 +10259,7 @@ unsafe extern "C" fn glUniform3d(location: GLint, x: GLdouble, y: GLdouble, z: G
         y,
         z
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform3d(location, x, y, z))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_3d(location, x, y, z))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform4d(
@@ -10277,7 +10277,7 @@ unsafe extern "C" fn glUniform4d(
         z,
         w
     );
-    with_ctx_mut(|mut state| state.oxidegl_uniform4d(location, x, y, z, w))
+    with_ctx_mut(|mut state| state.oxidegl_uniform_4d(location, x, y, z, w))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform1dv(location: GLint, count: GLsizei, value: *const GLdouble) {
@@ -10287,7 +10287,7 @@ unsafe extern "C" fn glUniform1dv(location: GLint, count: GLsizei, value: *const
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform1dv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_1dv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform2dv(location: GLint, count: GLsizei, value: *const GLdouble) {
@@ -10297,7 +10297,7 @@ unsafe extern "C" fn glUniform2dv(location: GLint, count: GLsizei, value: *const
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform2dv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_2dv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform3dv(location: GLint, count: GLsizei, value: *const GLdouble) {
@@ -10307,7 +10307,7 @@ unsafe extern "C" fn glUniform3dv(location: GLint, count: GLsizei, value: *const
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform3dv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_3dv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniform4dv(location: GLint, count: GLsizei, value: *const GLdouble) {
@@ -10317,7 +10317,7 @@ unsafe extern "C" fn glUniform4dv(location: GLint, count: GLsizei, value: *const
         count,
         value
     );
-    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform4dv(location, count, value) })
+    with_ctx_mut(|mut state| unsafe { state.oxidegl_uniform_4dv(location, count, value) })
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glUniformMatrix2dv(
@@ -10334,7 +10334,7 @@ unsafe extern "C" fn glUniformMatrix2dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix2dv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_2dv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10352,7 +10352,7 @@ unsafe extern "C" fn glUniformMatrix3dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix3dv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_3dv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10370,7 +10370,7 @@ unsafe extern "C" fn glUniformMatrix4dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix4dv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_4dv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10388,7 +10388,7 @@ unsafe extern "C" fn glUniformMatrix2x3dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix2x3dv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_2x_3dv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10406,7 +10406,7 @@ unsafe extern "C" fn glUniformMatrix2x4dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix2x4dv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_2x_4dv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10424,7 +10424,7 @@ unsafe extern "C" fn glUniformMatrix3x2dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix3x2dv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_3x_2dv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10442,7 +10442,7 @@ unsafe extern "C" fn glUniformMatrix3x4dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix3x4dv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_3x_4dv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10460,7 +10460,7 @@ unsafe extern "C" fn glUniformMatrix4x2dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix4x2dv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_4x_2dv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10478,7 +10478,7 @@ unsafe extern "C" fn glUniformMatrix4x3dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_uniform_matrix4x3dv(location, count, transpose, value)
+        state.oxidegl_uniform_matrix_4x_3dv(location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10489,7 +10489,7 @@ unsafe extern "C" fn glProgramUniform1d(program: GLuint, location: GLint, v0: GL
         location,
         v0
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform1d(program, location, v0))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_1d(program, location, v0))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform1dv(
@@ -10506,7 +10506,7 @@ unsafe extern "C" fn glProgramUniform1dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform1dv(program, location, count, value)
+        state.oxidegl_program_uniform_1dv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10523,7 +10523,7 @@ unsafe extern "C" fn glProgramUniform2d(
         v0,
         v1
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform2d(program, location, v0, v1))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_2d(program, location, v0, v1))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform2dv(
@@ -10540,7 +10540,7 @@ unsafe extern "C" fn glProgramUniform2dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform2dv(program, location, count, value)
+        state.oxidegl_program_uniform_2dv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10559,7 +10559,7 @@ unsafe extern "C" fn glProgramUniform3d(
         v1,
         v2
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform3d(program, location, v0, v1, v2))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_3d(program, location, v0, v1, v2))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform3dv(
@@ -10576,7 +10576,7 @@ unsafe extern "C" fn glProgramUniform3dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform3dv(program, location, count, value)
+        state.oxidegl_program_uniform_3dv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10597,7 +10597,7 @@ unsafe extern "C" fn glProgramUniform4d(
         v2,
         v3
     );
-    with_ctx_mut(|mut state| state.oxidegl_program_uniform4d(program, location, v0, v1, v2, v3))
+    with_ctx_mut(|mut state| state.oxidegl_program_uniform_4d(program, location, v0, v1, v2, v3))
 }
 #[unsafe(no_mangle)]
 unsafe extern "C" fn glProgramUniform4dv(
@@ -10614,7 +10614,7 @@ unsafe extern "C" fn glProgramUniform4dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform4dv(program, location, count, value)
+        state.oxidegl_program_uniform_4dv(program, location, count, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10634,7 +10634,7 @@ unsafe extern "C" fn glProgramUniformMatrix2dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix2dv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_2dv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10654,7 +10654,7 @@ unsafe extern "C" fn glProgramUniformMatrix3dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix3dv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_3dv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10674,7 +10674,7 @@ unsafe extern "C" fn glProgramUniformMatrix4dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix4dv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_4dv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10694,7 +10694,7 @@ unsafe extern "C" fn glProgramUniformMatrix2x3dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix2x3dv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_2x_3dv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10714,7 +10714,7 @@ unsafe extern "C" fn glProgramUniformMatrix3x2dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix3x2dv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_3x_2dv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10734,7 +10734,7 @@ unsafe extern "C" fn glProgramUniformMatrix2x4dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix2x4dv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_2x_4dv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10754,7 +10754,7 @@ unsafe extern "C" fn glProgramUniformMatrix4x2dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix4x2dv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_4x_2dv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10774,7 +10774,7 @@ unsafe extern "C" fn glProgramUniformMatrix3x4dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix3x4dv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_3x_4dv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]
@@ -10794,7 +10794,7 @@ unsafe extern "C" fn glProgramUniformMatrix4x3dv(
         value
     );
     with_ctx_mut(|mut state| unsafe {
-        state.oxidegl_program_uniform_matrix4x3dv(program, location, count, transpose, value)
+        state.oxidegl_program_uniform_matrix_4x_3dv(program, location, count, transpose, value)
     })
 }
 #[unsafe(no_mangle)]

@@ -492,36 +492,6 @@ pub fn get_vals<'a>(
 
     Ok((funcs, enums, new_map))
 }
-pub fn write_dispatch_impl<T: Write>(w: &mut T, v: &[FnCollection<'_>]) -> Result<()> {
-    const DISPATCH_PREFIX: &str = r"
-        // GENERATED CODE. DO NOT MODIFY
-        // GL Command C ABI Shims
-
-        use crate::context::with_ctx_mut;
-        use oxidegl::conversions::GLenumExt;
-        use oxidegl::error::GlResult;
-        use oxidegl::gl_types::*;
-    ";
-    writeln!(w, "{DISPATCH_PREFIX}")?;
-    for item in v {
-        for cmd in item.entries.iter() {
-            let GLAPIEntry::Command {
-                return_type,
-                name,
-                params,
-            } = cmd
-            else {
-                continue;
-            };
-            writeln!(
-                w,
-                "{}",
-                print_dispatch_fn(name, return_type.clone(), params)
-            )?;
-        }
-    }
-    Ok(())
-}
 pub fn write_enum_impl<T: Write>(
     w: &mut T,
     v: &[GLAPIEntry<'_>],
@@ -571,7 +541,7 @@ pub fn write_placeholder_impl<T: Write>(w: &mut T, v: &[FnCollection<'_>]) -> Re
     funcs.retain(|val: &FnCollection| {
         val.name
             .as_ref()
-            .map(|n| (exclude_refpage_names.contains(n.as_str())))
+            .map(|n| exclude_refpage_names.contains(n.as_str()))
             != Some(true)
     });
     for collection in funcs.iter_mut() {
@@ -729,6 +699,36 @@ fn sanitize_ident(unsanitized: &str) -> &str {
         "ref" => "r#ref",
         _ => unsanitized,
     }
+}
+pub fn write_dispatch_impl<T: Write>(w: &mut T, v: &[FnCollection<'_>]) -> Result<()> {
+    const DISPATCH_PREFIX: &str = r"
+        // GENERATED CODE. DO NOT MODIFY
+        // GL Command C ABI Shims
+
+        use crate::context::with_ctx_mut;
+        use oxidegl::conversions::GLenumExt;
+        use oxidegl::error::GlResult;
+        use oxidegl::gl_types::*;
+    ";
+    writeln!(w, "{DISPATCH_PREFIX}")?;
+    for item in v {
+        for cmd in item.entries.iter() {
+            let GLAPIEntry::Command {
+                return_type,
+                name,
+                params,
+            } = cmd
+            else {
+                continue;
+            };
+            writeln!(
+                w,
+                "{}",
+                print_dispatch_fn(name, return_type.clone(), params)
+            )?;
+        }
+    }
+    Ok(())
 }
 fn print_dispatch_fn<'a>(name: &'a str, ret_type: GLTypes, params: &[Parameter<'a>]) -> String {
     let is_unsafe = params.iter().any(|p| p.parameter_type.is_pointer());

@@ -25,7 +25,7 @@ f:glBindBufferRange
 f:glBindBuffersBase
 f:glBindBuffersRange
 
-// enable and disable
+// caps
 f:glEnable
 f:glDisable
 f:glEnablei
@@ -41,8 +41,9 @@ f:glDebugMessageCallback
 f:glDebugMessageControl
 f:glDebugMessageInsert
 f:glGetDebugMessageLog
-f:glPushDebugScope
-f:glPopDebugScope
+f:glPushDebugGroup
+f:glPopDebugGroup
+
 
 // some draws
 f:glDrawArrays
@@ -114,3 +115,29 @@ f:glShaderSource
 f:glCompileShader
 
 f:glGetError
+
+p:gl_get_renderbuffer_parameter
+p:gl_get_sampler_parameter
+p:gl_get_tex_level_parameter
+p:gl_get_tex_parameter
+p:gl_tex_parameter
+
+p:gl_tex_buffer
+p:gl_tex_buffer_range
+
+p:gl_get_tex_image
+p:gl_tex_storage_1_d
+p:gl_tex_storage_2_d
+p:gl_tex_storage_2_d_multisample
+p:gl_tex_storage_3_d
+p:gl_tex_storage_3_d_multisample
+
+p:gl_tex_sub_image_1_d
+p:gl_tex_sub_image_2_d
+p:gl_tex_sub_image_3_d
+f:glCreateTextures
+f:glGenTextures
+f:glIsTexture
+f:glBindTexture
+f:glBindTextures
+f:glBindTextureUnit

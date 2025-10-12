@@ -1,4 +1,3 @@
-use std::mem;
 
 use ahash::{HashMap, HashMapExt, HashSet, HashSetExt};
 use log::{info, trace};
@@ -734,10 +733,10 @@ impl Renderer {
     ) -> &'a InternalDrawable {
         if r.as_ref().is_none_or(|v| v.dimensions != dims) {
             // Need a new internal drawable
-            let new_tex = Self::new_drawbuffer_size_format(device, dims, pixel_format, gpu_private);
-            let mut replacement = Some(InternalDrawable::new(new_tex, dims));
-            mem::swap(r, &mut replacement);
-            drop(replacement);
+            *r = Some(InternalDrawable::new(
+                Self::new_drawbuffer_size_format(device, dims, pixel_format, gpu_private),
+                dims,
+            ));
         }
         // must be Some due to code above
         r.as_ref().unwrap()

@@ -39,21 +39,21 @@ impl NodeExt for Node<'_, '_> {
     }
 }
 fn snake_case_from_title_case(src: &str) -> String {
-    let new = src
-        .chars()
-        .map(|c| {
-            if c.is_uppercase() {
-                format!("_{}", c.to_lowercase())
-            } else {
-                c.to_string()
+    let mut out = String::new();
+    let mut prev: Option<char> = None;
+    for c in src.chars() {
+        match prev {
+            Some(prev) => {
+                if !prev.is_numeric() && c.is_numeric() || c.is_uppercase() && !prev.is_numeric() {
+                    out.push('_');
+                }
+                out.extend(c.to_lowercase());
             }
-        })
-        .collect::<Vec<String>>();
-    let mut a = "".to_owned();
-    for s in new {
-        a = format!("{}{}", a, s);
+            None => out.extend(c.to_lowercase()),
+        }
+        prev = Some(c);
     }
-    a
+    out
 }
 fn open_file_writer<P: AsRef<Path>>(path: P) -> Result<impl Write> {
     let _ = std::fs::remove_file(&path);

@@ -7,6 +7,7 @@ pub mod get;
 pub mod misc;
 pub mod programs;
 pub mod shaders;
+pub mod textures;
 #[allow(clippy::missing_safety_doc, clippy::missing_errors_doc)]
 pub mod unimplemented;
 pub mod vao;

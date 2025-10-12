@@ -9,16 +9,22 @@ use crate::{
 };
 
 use core::fmt::Debug;
-
+#[track_caller]
 pub(crate) fn check_sizei_inner(val: GLsizei) -> Result<u32, GlError> {
-    u32::try_from(val).map_err(|_| GlError::InvalidValue)
+    u32::try_from(val).map_err(|_| {
+        gl_err!("got negative GLsizei");
+        GlError::InvalidValue
+    })
 }
 macro_rules! sizei {
-    ($i:ident) => {
-        let $i = crate::conversions::check_sizei_inner($i)?;
-    };
-    ($i:ident, $new:ident) => {
-        let $new = crate::conversions::check_sizei_inner($i)?;
+    (
+        $(
+            $i:ident
+        ),+
+        ) => {
+            $(
+                let $i = $crate::conversions::check_sizei_inner($i)?;
+            )+
     };
 }
 pub(crate) use sizei;

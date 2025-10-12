@@ -665,7 +665,9 @@ impl Context {
         lengths: *mut GLsizei,
         message_log: *mut GLchar,
     ) -> GlFallible<GLuint> {
-        Ok(with_debug_state_mut(|mut state| unsafe {
+        Ok(with_debug_state_mut(|mut state| 
+            // Safety: caller
+            unsafe {
             state.get_log_message(
                 count,
                 buf_size,
@@ -750,7 +752,9 @@ impl Context {
     /// ### Associated Gets
     /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_DEBUG_MESSAGE_LENGTH`](crate::gl_enums::GL_MAX_DEBUG_MESSAGE_LENGTH).
     pub fn oxidegl_pop_debug_group(&mut self) -> GlFallible {
-        with_debug_state_mut(|mut state| unsafe {
+        with_debug_state_mut(|mut state|
+            // Safety: caller
+            unsafe {
             state.pop_debug_group();
         })
         .expect("no debug state");

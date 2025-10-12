@@ -10,15 +10,14 @@ use crate::gl_enums::{
     ConditionalRenderMode, CopyBufferSubDataTarget, CopyImageSubDataTarget, DepthFunction,
     DrawBufferMode, DrawElementsType, EnableCap, FramebufferAttachment,
     FramebufferAttachmentParameterName, FramebufferParameterName, FramebufferTarget,
-    FrontFaceDirection, GetFramebufferParameter, GetTextureParameter, HintMode, HintTarget,
-    InternalFormat, InternalFormatPName, InvalidateFramebufferAttachment, LogicOp,
-    MapBufferAccessMask, MemoryBarrierMask, PatchParameterName, PipelineParameterName, PixelFormat,
-    PixelStoreParameter, PixelType, PolygonMode, PrecisionType, PrimitiveType, ProgramInterface,
-    ProgramInterfacePName, ProgramParameterPName, ProgramResourceProperty, ProgramStagePName,
-    QueryObjectParameterName, QueryParameterName, QueryTarget, ReadBufferMode,
-    RenderbufferParameterName, SamplerParameter, ShaderType, SizedInternalFormat, StencilFunction,
-    StencilOp, SubroutineParameterName, SyncParameterName, TextureParameterName, TextureTarget,
-    TextureUnit, TransformFeedbackBufferMode, TransformFeedbackPName, TriangleFace,
+    FrontFaceDirection, GetFramebufferParameter, HintMode, HintTarget, InternalFormat,
+    InternalFormatPName, InvalidateFramebufferAttachment, LogicOp, MapBufferAccessMask,
+    MemoryBarrierMask, PatchParameterName, PipelineParameterName, PixelFormat, PixelStoreParameter,
+    PixelType, PolygonMode, PrecisionType, PrimitiveType, ProgramInterface, ProgramInterfacePName,
+    ProgramParameterPName, ProgramResourceProperty, ProgramStagePName, QueryObjectParameterName,
+    QueryParameterName, QueryTarget, ReadBufferMode, SamplerParameter, ShaderType,
+    SizedInternalFormat, StencilFunction, StencilOp, SubroutineParameterName, SyncParameterName,
+    TextureTarget, TextureUnit, TransformFeedbackBufferMode, TransformFeedbackPName, TriangleFace,
     UniformBlockPName, UniformPName, UniformType, UseProgramStageMask, VertexArrayPName,
     VertexAttribEnum, VertexAttribPointerType, VertexAttribProperty, VertexBufferObjectUsage,
     VertexProvokingMode,
@@ -972,14 +971,14 @@ impl Context {
 impl Context {
     pub fn oxidegl_blit_framebuffer(
         &mut self,
-        src_x0: GLint,
-        src_y0: GLint,
-        src_x1: GLint,
-        src_y1: GLint,
-        dst_x0: GLint,
-        dst_y0: GLint,
-        dst_x1: GLint,
-        dst_y1: GLint,
+        src_x_0: GLint,
+        src_y_0: GLint,
+        src_x_1: GLint,
+        src_y_1: GLint,
+        dst_x_0: GLint,
+        dst_y_0: GLint,
+        dst_x_1: GLint,
+        dst_y_1: GLint,
         mask: ClearBufferMask,
         filter: BlitFramebufferFilter,
     ) -> GlFallible {
@@ -989,14 +988,14 @@ impl Context {
         &mut self,
         read_framebuffer: GLuint,
         draw_framebuffer: GLuint,
-        src_x0: GLint,
-        src_y0: GLint,
-        src_x1: GLint,
-        src_y1: GLint,
-        dst_x0: GLint,
-        dst_y0: GLint,
-        dst_x1: GLint,
-        dst_y1: GLint,
+        src_x_0: GLint,
+        src_y_0: GLint,
+        src_x_1: GLint,
+        src_y_1: GLint,
+        dst_x_0: GLint,
+        dst_y_0: GLint,
+        dst_x_1: GLint,
+        dst_y_1: GLint,
         mask: ClearBufferMask,
         filter: BlitFramebufferFilter,
     ) -> GlFallible {
@@ -1787,12 +1786,12 @@ impl Context {
 /// ### Parameters
 /// `target`
 ///
-/// > Specifies the target, to which the texture is bound, for [**glCompressedTexSubImage1D**](crate::context::Context::oxidegl_compressed_tex_sub_image1_d)
+/// > Specifies the target, to which the texture is bound, for [**glCompressedTexSubImage1D**](crate::context::Context::oxidegl_compressed_tex_sub_image_1d)
 /// > function. Must be [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D).
 ///
 /// `texture`
 ///
-/// > Specifies the texture object name for [**glCompressedTextureSubImage1D**](crate::context::Context::oxidegl_compressed_texture_sub_image1_d)
+/// > Specifies the texture object name for [**glCompressedTextureSubImage1D**](crate::context::Context::oxidegl_compressed_texture_sub_image_1d)
 /// > function.
 ///
 /// `level`
@@ -1824,8 +1823,8 @@ impl Context {
 /// ### Description
 /// Texturing allows elements of an image array to be read by shaders.
 ///
-/// [**glCompressedTexSubImage1D**](crate::context::Context::oxidegl_compressed_tex_sub_image1_d)
-/// and [**glCompressedTextureSubImage1D**](crate::context::Context::oxidegl_compressed_texture_sub_image1_d)
+/// [**glCompressedTexSubImage1D**](crate::context::Context::oxidegl_compressed_tex_sub_image_1d)
+/// and [**glCompressedTextureSubImage1D**](crate::context::Context::oxidegl_compressed_texture_sub_image_1d)
 /// redefine a contiguous subregion of an existing one-dimensional texture
 /// image. The texels referenced by `data` replace the portion of the existing
 /// texture array with x indices `xoffset` and `[inlineq]`
@@ -1833,7 +1832,7 @@ impl Context {
 /// `internalformat` must be a known compressed image format (such as [`GL_RGTC`](crate::gl_enums::GL_RGTC))
 /// or an extension-specified compressed-texture format. The `format` of the
 /// compressed texture image is selected by the GL implementation that compressed
-/// it (see [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d)
+/// it (see [**glTexImage1D**](crate::context::Context::oxidegl_tex_image_1d)
 /// ), and should be queried at the time the texture was compressed with [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter).
 ///
 /// If a non-zero named buffer object is bound to the [`GL_PIXEL_UNPACK_BUFFER`](crate::gl_enums::GL_PIXEL_UNPACK_BUFFER)
@@ -1852,7 +1851,7 @@ impl Context {
 /// with arguments [`GL_TEXTURE_INTERNAL_FORMAT`](crate::gl_enums::GL_TEXTURE_INTERNAL_FORMAT)
 /// and [`GL_TEXTURE_COMPRESSED_IMAGE_SIZE`](crate::gl_enums::GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
 impl Context {
-    pub unsafe fn oxidegl_compressed_tex_sub_image1_d(
+    pub unsafe fn oxidegl_compressed_tex_sub_image_1d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -1862,9 +1861,9 @@ impl Context {
         image_size: GLsizei,
         data: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_compressed_tex_sub_image1_d not yet implemented");
+        panic!("command oxidegl_compressed_tex_sub_image_1d not yet implemented");
     }
-    pub unsafe fn oxidegl_compressed_texture_sub_image1_d(
+    pub unsafe fn oxidegl_compressed_texture_sub_image_1d(
         &mut self,
         texture: GLuint,
         level: GLint,
@@ -1874,13 +1873,13 @@ impl Context {
         image_size: GLsizei,
         data: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_compressed_texture_sub_image1_d not yet implemented");
+        panic!("command oxidegl_compressed_texture_sub_image_1d not yet implemented");
     }
 }
 /// ### Parameters
 /// `target`
 ///
-/// > Specifies the target to which the texture is bound for [**glCompressedTexSubImage2D**](crate::context::Context::oxidegl_compressed_tex_sub_image2_d)
+/// > Specifies the target to which the texture is bound for [**glCompressedTexSubImage2D**](crate::context::Context::oxidegl_compressed_tex_sub_image_2d)
 /// > function. Must be [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY),
 /// > [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D), [`GL_TEXTURE_CUBE_MAP_POSITIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_X),
 /// > [`GL_TEXTURE_CUBE_MAP_NEGATIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_X),
@@ -1891,7 +1890,7 @@ impl Context {
 ///
 /// `texture`
 ///
-/// > Specifies the texture object name for [**glCompressedTextureSubImage2D**](crate::context::Context::oxidegl_compressed_texture_sub_image2_d)
+/// > Specifies the texture object name for [**glCompressedTextureSubImage2D**](crate::context::Context::oxidegl_compressed_texture_sub_image_2d)
 /// > function.
 ///
 /// `level`
@@ -1931,8 +1930,8 @@ impl Context {
 /// ### Description
 /// Texturing allows elements of an image array to be read by shaders.
 ///
-/// [**glCompressedTexSubImage2D**](crate::context::Context::oxidegl_compressed_tex_sub_image2_d)
-/// and [**glCompressedTextureSubImage2D**](crate::context::Context::oxidegl_compressed_texture_sub_image2_d)
+/// [**glCompressedTexSubImage2D**](crate::context::Context::oxidegl_compressed_tex_sub_image_2d)
+/// and [**glCompressedTextureSubImage2D**](crate::context::Context::oxidegl_compressed_texture_sub_image_2d)
 /// redefine a contiguous subregion of an existing two-dimensional texture
 /// image. The texels referenced by `data` replace the portion of the existing
 /// texture array with x indices `xoffset` and `[inlineq]` `yoffset` and `[inlineq]`
@@ -1940,7 +1939,7 @@ impl Context {
 /// `internalformat` must be a known compressed image format (such as [`GL_RGTC`](crate::gl_enums::GL_RGTC))
 /// or an extension-specified compressed-texture format. The `format` of the
 /// compressed texture image is selected by the GL implementation that compressed
-/// it (see [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d))
+/// it (see [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d))
 /// and should be queried at the time the texture was compressed with [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter).
 ///
 /// If a non-zero named buffer object is bound to the [`GL_PIXEL_UNPACK_BUFFER`](crate::gl_enums::GL_PIXEL_UNPACK_BUFFER)
@@ -1959,7 +1958,7 @@ impl Context {
 /// with arguments [`GL_TEXTURE_INTERNAL_FORMAT`](crate::gl_enums::GL_TEXTURE_INTERNAL_FORMAT)
 /// and [`GL_TEXTURE_COMPRESSED_IMAGE_SIZE`](crate::gl_enums::GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
 impl Context {
-    pub unsafe fn oxidegl_compressed_tex_sub_image2_d(
+    pub unsafe fn oxidegl_compressed_tex_sub_image_2d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -1971,9 +1970,9 @@ impl Context {
         image_size: GLsizei,
         data: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_compressed_tex_sub_image2_d not yet implemented");
+        panic!("command oxidegl_compressed_tex_sub_image_2d not yet implemented");
     }
-    pub unsafe fn oxidegl_compressed_texture_sub_image2_d(
+    pub unsafe fn oxidegl_compressed_texture_sub_image_2d(
         &mut self,
         texture: GLuint,
         level: GLint,
@@ -1985,19 +1984,19 @@ impl Context {
         image_size: GLsizei,
         data: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_compressed_texture_sub_image2_d not yet implemented");
+        panic!("command oxidegl_compressed_texture_sub_image_2d not yet implemented");
     }
 }
 /// ### Parameters
 /// `target`
 ///
-/// > Specifies the target to which the texture is bound for [**glCompressedTexSubImage3D**](crate::context::Context::oxidegl_compressed_tex_sub_image3_d)
+/// > Specifies the target to which the texture is bound for [**glCompressedTexSubImage3D**](crate::context::Context::oxidegl_compressed_tex_sub_image_3d)
 /// > function. Must be [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY),
 /// > [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D), or [`GL_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_ARRAY).
 ///
 /// `texture`
 ///
-/// > Specifies the texture object name for [**glCompressedTextureSubImage3D**](crate::context::Context::oxidegl_compressed_texture_sub_image3_d)
+/// > Specifies the texture object name for [**glCompressedTextureSubImage3D**](crate::context::Context::oxidegl_compressed_texture_sub_image_3d)
 /// > function.
 ///
 /// `level`
@@ -2045,8 +2044,8 @@ impl Context {
 /// ### Description
 /// Texturing allows elements of an image array to be read by shaders.
 ///
-/// [**glCompressedTexSubImage3D**](crate::context::Context::oxidegl_compressed_tex_sub_image3_d)
-/// and [**glCompressedTextureSubImage3D**](crate::context::Context::oxidegl_compressed_texture_sub_image3_d)
+/// [**glCompressedTexSubImage3D**](crate::context::Context::oxidegl_compressed_tex_sub_image_3d)
+/// and [**glCompressedTextureSubImage3D**](crate::context::Context::oxidegl_compressed_texture_sub_image_3d)
 /// redefine a contiguous subregion of an existing three-dimensional texture
 /// image. The texels referenced by `data` replace the portion of the existing
 /// texture array with x indices `xoffset` and `[inlineq]` `yoffset` and `[inlineq]`
@@ -2055,7 +2054,7 @@ impl Context {
 /// `internalformat` must be a known compressed image format (such as [`GL_RGTC`](crate::gl_enums::GL_RGTC))
 /// or an extension-specified compressed-texture format. The `format` of the
 /// compressed texture image is selected by the GL implementation that compressed
-/// it (see [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d))
+/// it (see [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d))
 /// and should be queried at the time the texture was compressed with [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter).
 ///
 /// If a non-zero named buffer object is bound to the [`GL_PIXEL_UNPACK_BUFFER`](crate::gl_enums::GL_PIXEL_UNPACK_BUFFER)
@@ -2074,7 +2073,7 @@ impl Context {
 /// with arguments [`GL_TEXTURE_INTERNAL_FORMAT`](crate::gl_enums::GL_TEXTURE_INTERNAL_FORMAT)
 /// and [`GL_TEXTURE_COMPRESSED_IMAGE_SIZE`](crate::gl_enums::GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
 impl Context {
-    pub unsafe fn oxidegl_compressed_tex_sub_image3_d(
+    pub unsafe fn oxidegl_compressed_tex_sub_image_3d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -2088,9 +2087,9 @@ impl Context {
         image_size: GLsizei,
         data: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_compressed_tex_sub_image3_d not yet implemented");
+        panic!("command oxidegl_compressed_tex_sub_image_3d not yet implemented");
     }
-    pub unsafe fn oxidegl_compressed_texture_sub_image3_d(
+    pub unsafe fn oxidegl_compressed_texture_sub_image_3d(
         &mut self,
         texture: GLuint,
         level: GLint,
@@ -2104,7 +2103,7 @@ impl Context {
         image_size: GLsizei,
         data: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_compressed_texture_sub_image3_d not yet implemented");
+        panic!("command oxidegl_compressed_texture_sub_image_3d not yet implemented");
     }
 }
 /// ### Parameters
@@ -2215,12 +2214,12 @@ impl Context {
 /// ### Parameters
 /// `target`
 ///
-/// > Specifies the target to which the texture object is bound for [**glCopyTexSubImage1D**](crate::context::Context::oxidegl_copy_tex_sub_image1_d)
+/// > Specifies the target to which the texture object is bound for [**glCopyTexSubImage1D**](crate::context::Context::oxidegl_copy_tex_sub_image_1d)
 /// > function. Must be [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D).
 ///
 /// `texture`
 ///
-/// > Specifies the texture object name for [**glCopyTextureSubImage1D**](crate::context::Context::oxidegl_copy_texture_sub_image1_d)
+/// > Specifies the texture object name for [**glCopyTextureSubImage1D**](crate::context::Context::oxidegl_copy_texture_sub_image_1d)
 /// > function.
 ///
 /// `level`
@@ -2244,14 +2243,14 @@ impl Context {
 /// > Specifies the width of the texture subimage.
 ///
 /// ### Description
-/// [**glCopyTexSubImage1D**](crate::context::Context::oxidegl_copy_tex_sub_image1_d)
-/// and [**glCopyTextureSubImage1D**](crate::context::Context::oxidegl_copy_texture_sub_image1_d)
+/// [**glCopyTexSubImage1D**](crate::context::Context::oxidegl_copy_tex_sub_image_1d)
+/// and [**glCopyTextureSubImage1D**](crate::context::Context::oxidegl_copy_texture_sub_image_1d)
 /// replace a portion of a one-dimensional texture image with pixels from the
 /// current [`GL_READ_BUFFER`](crate::gl_enums::GL_READ_BUFFER) (rather than
-/// from main memory, as is the case for [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image1_d)
-/// ). For [**glCopyTexSubImage1D**](crate::context::Context::oxidegl_copy_tex_sub_image1_d),
+/// from main memory, as is the case for [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image_1d)
+/// ). For [**glCopyTexSubImage1D**](crate::context::Context::oxidegl_copy_tex_sub_image_1d),
 /// the texture object that is bound to `target` will be used for the process.
-/// For [**glCopyTextureSubImage1D**](crate::context::Context::oxidegl_copy_texture_sub_image1_d),
+/// For [**glCopyTextureSubImage1D**](crate::context::Context::oxidegl_copy_texture_sub_image_1d),
 /// `texture` tells which texture object should be used for the purpose of
 /// the call.
 ///
@@ -2279,7 +2278,7 @@ impl Context {
 /// ### Associated Gets
 /// [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image)
 impl Context {
-    pub fn oxidegl_copy_tex_sub_image1_d(
+    pub fn oxidegl_copy_tex_sub_image_1d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -2288,9 +2287,9 @@ impl Context {
         y: GLint,
         width: GLsizei,
     ) -> GlFallible {
-        panic!("command oxidegl_copy_tex_sub_image1_d not yet implemented");
+        panic!("command oxidegl_copy_tex_sub_image_1d not yet implemented");
     }
-    pub fn oxidegl_copy_texture_sub_image1_d(
+    pub fn oxidegl_copy_texture_sub_image_1d(
         &mut self,
         texture: GLuint,
         level: GLint,
@@ -2299,13 +2298,13 @@ impl Context {
         y: GLint,
         width: GLsizei,
     ) -> GlFallible {
-        panic!("command oxidegl_copy_texture_sub_image1_d not yet implemented");
+        panic!("command oxidegl_copy_texture_sub_image_1d not yet implemented");
     }
 }
 /// ### Parameters
 /// `target`
 ///
-/// > Specifies the target to which the texture object is bound for [**glCopyTexSubImage2D**](crate::context::Context::oxidegl_copy_tex_sub_image2_d)
+/// > Specifies the target to which the texture object is bound for [**glCopyTexSubImage2D**](crate::context::Context::oxidegl_copy_tex_sub_image_2d)
 /// > function. Must be [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY),
 /// > [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D), [`GL_TEXTURE_CUBE_MAP_POSITIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_X),
 /// > [`GL_TEXTURE_CUBE_MAP_NEGATIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_X),
@@ -2317,7 +2316,7 @@ impl Context {
 ///
 /// `texture`
 ///
-/// > Specifies the texture object name for [**glCopyTextureSubImage2D**](crate::context::Context::oxidegl_copy_texture_sub_image2_d)
+/// > Specifies the texture object name for [**glCopyTextureSubImage2D**](crate::context::Context::oxidegl_copy_texture_sub_image_2d)
 /// > function.
 ///
 /// `level`
@@ -2349,12 +2348,12 @@ impl Context {
 /// > Specifies the height of the texture subimage.
 ///
 /// ### Description
-/// [**glCopyTexSubImage2D**](crate::context::Context::oxidegl_copy_tex_sub_image2_d)
-/// and [**glCopyTextureSubImage2D**](crate::context::Context::oxidegl_copy_texture_sub_image2_d)
+/// [**glCopyTexSubImage2D**](crate::context::Context::oxidegl_copy_tex_sub_image_2d)
+/// and [**glCopyTextureSubImage2D**](crate::context::Context::oxidegl_copy_texture_sub_image_2d)
 /// replace a rectangular portion of a two-dimensional texture image, cube-map
 /// texture image, rectangular image, or a linear portion of a number of slices
 /// of a one-dimensional array texture with pixels from the current [`GL_READ_BUFFER`](crate::gl_enums::GL_READ_BUFFER)
-/// (rather than from main memory, as is the case for [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image2_d)
+/// (rather than from main memory, as is the case for [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image_2d)
 /// ).
 ///
 /// The screen-aligned pixel rectangle with lower left corner at `[inlineq]`
@@ -2391,7 +2390,7 @@ impl Context {
 /// ### Associated Gets
 /// [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image)
 impl Context {
-    pub fn oxidegl_copy_tex_sub_image2_d(
+    pub fn oxidegl_copy_tex_sub_image_2d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -2402,9 +2401,9 @@ impl Context {
         width: GLsizei,
         height: GLsizei,
     ) -> GlFallible {
-        panic!("command oxidegl_copy_tex_sub_image2_d not yet implemented");
+        panic!("command oxidegl_copy_tex_sub_image_2d not yet implemented");
     }
-    pub fn oxidegl_copy_texture_sub_image2_d(
+    pub fn oxidegl_copy_texture_sub_image_2d(
         &mut self,
         texture: GLuint,
         level: GLint,
@@ -2415,19 +2414,19 @@ impl Context {
         width: GLsizei,
         height: GLsizei,
     ) -> GlFallible {
-        panic!("command oxidegl_copy_texture_sub_image2_d not yet implemented");
+        panic!("command oxidegl_copy_texture_sub_image_2d not yet implemented");
     }
 }
 /// ### Parameters
 /// `target`
 ///
-/// > Specifies the target to which the texture object is bound for [**glCopyTexSubImage3D**](crate::context::Context::oxidegl_copy_tex_sub_image3_d)
+/// > Specifies the target to which the texture object is bound for [**glCopyTexSubImage3D**](crate::context::Context::oxidegl_copy_tex_sub_image_3d)
 /// > function. Must be [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D), [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY)
 /// > or [`GL_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_ARRAY).
 ///
 /// `texture`
 ///
-/// > Specifies the texture object name for [**glCopyTextureSubImage3D**](crate::context::Context::oxidegl_copy_texture_sub_image3_d)
+/// > Specifies the texture object name for [**glCopyTextureSubImage3D**](crate::context::Context::oxidegl_copy_texture_sub_image_3d)
 /// > function.
 ///
 /// `level`
@@ -2463,11 +2462,11 @@ impl Context {
 /// > Specifies the height of the texture subimage.
 ///
 /// ### Description
-/// [**glCopyTexSubImage3D**](crate::context::Context::oxidegl_copy_tex_sub_image3_d)
-/// and [**glCopyTextureSubImage3D**](crate::context::Context::oxidegl_copy_texture_sub_image3_d)
+/// [**glCopyTexSubImage3D**](crate::context::Context::oxidegl_copy_tex_sub_image_3d)
+/// and [**glCopyTextureSubImage3D**](crate::context::Context::oxidegl_copy_texture_sub_image_3d)
 /// functions replace a rectangular portion of a three-dimensional or two-dimensional
 /// array texture image with pixels from the current [`GL_READ_BUFFER`](crate::gl_enums::GL_READ_BUFFER)
-/// (rather than from main memory, as is the case for [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image3_d)
+/// (rather than from main memory, as is the case for [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image_3d)
 /// ).
 ///
 /// The screen-aligned pixel rectangle with lower left corner at( `x`, `y`)
@@ -2499,7 +2498,7 @@ impl Context {
 /// ### Associated Gets
 /// [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image)
 impl Context {
-    pub fn oxidegl_copy_tex_sub_image3_d(
+    pub fn oxidegl_copy_tex_sub_image_3d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -2511,9 +2510,9 @@ impl Context {
         width: GLsizei,
         height: GLsizei,
     ) -> GlFallible {
-        panic!("command oxidegl_copy_tex_sub_image3_d not yet implemented");
+        panic!("command oxidegl_copy_tex_sub_image_3d not yet implemented");
     }
-    pub fn oxidegl_copy_texture_sub_image3_d(
+    pub fn oxidegl_copy_texture_sub_image_3d(
         &mut self,
         texture: GLuint,
         level: GLint,
@@ -2525,7 +2524,7 @@ impl Context {
         width: GLsizei,
         height: GLsizei,
     ) -> GlFallible {
-        panic!("command oxidegl_copy_texture_sub_image3_d not yet implemented");
+        panic!("command oxidegl_copy_texture_sub_image_3d not yet implemented");
     }
 }
 /// ### Parameters
@@ -2555,9 +2554,9 @@ impl Context {
 /// It is not necessary that `nearVal` be less than `farVal`. Reverse mappings
 /// such as `[inlineq]` `[inlineq]`
 ///
-/// The type of the `nearVal` and `farVal` parameters was changed from `GLclampf`
-/// to `GLfloat` for [**glDepthRangef**](crate::context::Context::oxidegl_depth_rangef)
-/// and from `GLclampd` to `GLdouble` for [**glDepthRange**](crate::context::Context::oxidegl_depth_range).
+/// The type of the `nearVal` and `farVal` parameters was changed from GLclampf
+/// to GLfloat for [**glDepthRangef**](crate::context::Context::oxidegl_depth_rangef)
+/// and from GLclampd to GLdouble for [**glDepthRange**](crate::context::Context::oxidegl_depth_range).
 /// This change is transparent to user code and is described in detail on
 /// the [**removedTypes**](crate::context::Context::oxideremoved_types) page.
 ///
@@ -3052,9 +3051,9 @@ impl Context {
 ///
 /// `textarget`
 ///
-/// > For [**glFramebufferTexture1D**](crate::context::Context::oxidegl_framebuffer_texture1_d),
-/// > [**glFramebufferTexture2D**](crate::context::Context::oxidegl_framebuffer_texture2_d)
-/// > and [**glFramebufferTexture3D**](crate::context::Context::oxidegl_framebuffer_texture3_d),
+/// > For [**glFramebufferTexture1D**](crate::context::Context::oxidegl_framebuffer_texture_1d),
+/// > [**glFramebufferTexture2D**](crate::context::Context::oxidegl_framebuffer_texture_2d)
+/// > and [**glFramebufferTexture3D**](crate::context::Context::oxidegl_framebuffer_texture_3d),
 /// > specifies what type of texture is expected in the `texture` parameter,
 /// > or for cube map textures, which face is to be attached.
 ///
@@ -3090,9 +3089,9 @@ impl Context {
 /// *and* the [`GL_STENCIL_ATTACHMENT`](crate::gl_enums::GL_STENCIL_ATTACHMENT)
 /// attachment points simultaneously.
 ///
-/// For [**glFramebufferTexture1D**](crate::context::Context::oxidegl_framebuffer_texture1_d),
-/// [**glFramebufferTexture2D**](crate::context::Context::oxidegl_framebuffer_texture2_d)
-/// and [**glFramebufferTexture3D**](crate::context::Context::oxidegl_framebuffer_texture3_d),
+/// For [**glFramebufferTexture1D**](crate::context::Context::oxidegl_framebuffer_texture_1d),
+/// [**glFramebufferTexture2D**](crate::context::Context::oxidegl_framebuffer_texture_2d)
+/// and [**glFramebufferTexture3D**](crate::context::Context::oxidegl_framebuffer_texture_3d),
 /// `textarget` specifies what type of texture is named by `texture`, and for
 /// cube map textures, specifies the face that is to be attached. If `texture`
 /// is not zero, it must be the name of an existing texture object with effective
@@ -3106,9 +3105,9 @@ impl Context {
 ///
 /// If `texture` is non-zero, the specified `level` of the texture object named
 /// `texture` is attached to the framebuffer attachment point named by `attachment`.
-/// For [**glFramebufferTexture1D**](crate::context::Context::oxidegl_framebuffer_texture1_d),
-/// [**glFramebufferTexture2D**](crate::context::Context::oxidegl_framebuffer_texture2_d),
-/// and [**glFramebufferTexture3D**](crate::context::Context::oxidegl_framebuffer_texture3_d),
+/// For [**glFramebufferTexture1D**](crate::context::Context::oxidegl_framebuffer_texture_1d),
+/// [**glFramebufferTexture2D**](crate::context::Context::oxidegl_framebuffer_texture_2d),
+/// and [**glFramebufferTexture3D**](crate::context::Context::oxidegl_framebuffer_texture_3d),
 /// `texture` must be zero or the name of an existing texture with an effective
 /// target of `textarget`, or `texture` must be the name of an existing cube-map
 /// texture and `textarget` must be one of [`GL_TEXTURE_CUBE_MAP_POSITIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_X),
@@ -3125,7 +3124,7 @@ impl Context {
 ///
 /// If `textarget` is [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D), then
 /// `level` must be greater than or equal to zero and less than or equal to
-/// $`log_2`$ of the value of [`GL_MAX_3D_TEXTURE_SIZE`](crate::gl_enums::GL_MAX_3D_TEXTURE_SIZE).
+/// $log_2$ of the value of [`GL_MAX_3D_TEXTURE_SIZE`](crate::gl_enums::GL_MAX_3D_TEXTURE_SIZE).
 ///
 /// If `textarget` is one of [`GL_TEXTURE_CUBE_MAP_POSITIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_X),
 /// [`GL_TEXTURE_CUBE_MAP_POSITIVE_Y`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_Y),
@@ -3134,17 +3133,17 @@ impl Context {
 /// [`GL_TEXTURE_CUBE_MAP_NEGATIVE_Y`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_Y),
 /// or [`GL_TEXTURE_CUBE_MAP_NEGATIVE_Z`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_Z),
 /// then `level` must be greater than or equal to zero and less than or equal
-/// to $`log_2`$ of the value of [`GL_MAX_CUBE_MAP_TEXTURE_SIZE`](crate::gl_enums::GL_MAX_CUBE_MAP_TEXTURE_SIZE).
+/// to $log_2$ of the value of [`GL_MAX_CUBE_MAP_TEXTURE_SIZE`](crate::gl_enums::GL_MAX_CUBE_MAP_TEXTURE_SIZE).
 ///
 /// For all other values of `textarget`, `level` must be greater than or equal
-/// to zero and less than or equal to $`log_2`$ of the value of [`GL_MAX_TEXTURE_SIZE`](crate::gl_enums::GL_MAX_TEXTURE_SIZE).
+/// to zero and less than or equal to $log_2$ of the value of [`GL_MAX_TEXTURE_SIZE`](crate::gl_enums::GL_MAX_TEXTURE_SIZE).
 ///
 /// `layer` specifies the layer of a 2-dimensional image within a 3-dimensional
 /// texture.
 ///
-/// For [**glFramebufferTexture1D**](crate::context::Context::oxidegl_framebuffer_texture1_d),
+/// For [**glFramebufferTexture1D**](crate::context::Context::oxidegl_framebuffer_texture_1d),
 /// if `texture` is not zero, then `textarget` must be [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D).
-/// For [**glFramebufferTexture2D**](crate::context::Context::oxidegl_framebuffer_texture2_d),
+/// For [**glFramebufferTexture2D**](crate::context::Context::oxidegl_framebuffer_texture_2d),
 /// if `texture` is not zero, `textarget` must be one of [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D),
 /// [`GL_TEXTURE_RECTANGLE`](crate::gl_enums::GL_TEXTURE_RECTANGLE), [`GL_TEXTURE_CUBE_MAP_POSITIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_X),
 /// [`GL_TEXTURE_CUBE_MAP_POSITIVE_Y`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_Y),
@@ -3153,7 +3152,7 @@ impl Context {
 /// [`GL_TEXTURE_CUBE_MAP_NEGATIVE_Y`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_Y),
 /// [`GL_TEXTURE_CUBE_MAP_NEGATIVE_Z`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_Z),
 /// or [`GL_TEXTURE_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE).
-/// For [**glFramebufferTexture3D**](crate::context::Context::oxidegl_framebuffer_texture3_d),
+/// For [**glFramebufferTexture3D**](crate::context::Context::oxidegl_framebuffer_texture_3d),
 /// if `texture` is not zero, then `textarget` must be [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D).
 ///
 /// For [**glFramebufferTexture**](crate::context::Context::oxidegl_framebuffer_texture)
@@ -3163,7 +3162,7 @@ impl Context {
 /// texture, the specified texture level is an array of images, and the framebuffer
 /// attachment is considered to be *layered*.
 impl Context {
-    pub fn oxidegl_framebuffer_texture1_d(
+    pub fn oxidegl_framebuffer_texture_1d(
         &mut self,
         target: FramebufferTarget,
         attachment: FramebufferAttachment,
@@ -3171,9 +3170,9 @@ impl Context {
         texture: GLuint,
         level: GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_framebuffer_texture1_d not yet implemented");
+        panic!("command oxidegl_framebuffer_texture_1d not yet implemented");
     }
-    pub fn oxidegl_framebuffer_texture2_d(
+    pub fn oxidegl_framebuffer_texture_2d(
         &mut self,
         target: FramebufferTarget,
         attachment: FramebufferAttachment,
@@ -3181,9 +3180,9 @@ impl Context {
         texture: GLuint,
         level: GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_framebuffer_texture2_d not yet implemented");
+        panic!("command oxidegl_framebuffer_texture_2d not yet implemented");
     }
-    pub fn oxidegl_framebuffer_texture3_d(
+    pub fn oxidegl_framebuffer_texture_3d(
         &mut self,
         target: FramebufferTarget,
         attachment: FramebufferAttachment,
@@ -3192,7 +3191,7 @@ impl Context {
         level: GLint,
         zoffset: GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_framebuffer_texture3_d not yet implemented");
+        panic!("command oxidegl_framebuffer_texture_3d not yet implemented");
     }
     pub fn oxidegl_framebuffer_texture(
         &mut self,
@@ -3268,11 +3267,11 @@ impl Context {
 /// multisample array, one- or two-dimensional array, or cube map array texture.
 ///
 /// If `texture` is a three-dimensional texture, then `level` must be greater
-/// than or equal to zero and less than or equal to $`log_2`$ of the value of
+/// than or equal to zero and less than or equal to $log_2$ of the value of
 /// [`GL_MAX_3D_TEXTURE_SIZE`](crate::gl_enums::GL_MAX_3D_TEXTURE_SIZE).
 ///
 /// If `texture` is a two-dimensional array texture, then `level` must be greater
-/// than or equal to zero and less than or equal to $`log_2`$ of the value of
+/// than or equal to zero and less than or equal to $log_2$ of the value of
 /// [`GL_MAX_TEXTURE_SIZE`](crate::gl_enums::GL_MAX_TEXTURE_SIZE).
 ///
 /// For cube map textures, `layer` is translated into a cube map face according
@@ -3349,7 +3348,7 @@ impl Context {
 /// `target`
 ///
 /// > Specifies the target to which the buffer object is bound for [**glGetBufferParameteriv**](crate::context::Context::oxidegl_get_buffer_parameteriv)
-/// > and [**glGetBufferParameteri64v**](crate::context::Context::oxidegl_get_buffer_parameteri64v).
+/// > and [**glGetBufferParameteri64v**](crate::context::Context::oxidegl_get_buffer_parameteri_64v).
 /// > Must be one of the buffer binding targets in the following table:
 ///
 /// > | *Buffer Binding Target*                               | *Purpose*      |
@@ -3372,7 +3371,7 @@ impl Context {
 /// `buffer`
 ///
 /// > Specifies the name of the buffer object for [**glGetNamedBufferParameteriv**](crate::context::Context::oxidegl_get_named_buffer_parameteriv)
-/// > and [**glGetNamedBufferParameteri64v**](crate::context::Context::oxidegl_get_named_buffer_parameteri64v).
+/// > and [**glGetNamedBufferParameteri64v**](crate::context::Context::oxidegl_get_named_buffer_parameteri_64v).
 ///
 /// `value`
 ///
@@ -3420,14 +3419,14 @@ impl Context {
 ///
 /// > `params` returns the length of the mapping into the buffer object established
 /// > with [**glMapBuffer***](crate::context::Context::oxidegl_map_buffer*). The
-/// > [**i64v**](crate::context::Context::oxidei64v) versions of these queries
+/// > [**i64v**](crate::context::Context::oxidei_64v) versions of these queries
 /// > should be used for this parameter. The initial value is zero.
 ///
 /// [`GL_BUFFER_MAP_OFFSET`](crate::gl_enums::GL_BUFFER_MAP_OFFSET)
 ///
 /// > `params` returns the offset of the mapping into the buffer object established
 /// > with [**glMapBuffer***](crate::context::Context::oxidegl_map_buffer*). The
-/// > [**i64v**](crate::context::Context::oxidei64v) versions of these queries
+/// > [**i64v**](crate::context::Context::oxidei_64v) versions of these queries
 /// > should be used for this parameter. The initial value is zero.
 ///
 /// [`GL_BUFFER_SIZE`](crate::gl_enums::GL_BUFFER_SIZE)
@@ -3472,13 +3471,13 @@ impl Context {
     ) -> GlFallible {
         panic!("command oxidegl_get_buffer_parameteriv not yet implemented");
     }
-    pub unsafe fn oxidegl_get_buffer_parameteri64v(
+    pub unsafe fn oxidegl_get_buffer_parameteri_64v(
         &mut self,
         target: BufferTarget,
         pname: BufferPName,
         params: *mut GLint64,
     ) -> GlFallible {
-        panic!("command oxidegl_get_buffer_parameteri64v not yet implemented");
+        panic!("command oxidegl_get_buffer_parameteri_64v not yet implemented");
     }
     pub unsafe fn oxidegl_get_named_buffer_parameteriv(
         &mut self,
@@ -3488,13 +3487,13 @@ impl Context {
     ) -> GlFallible {
         panic!("command oxidegl_get_named_buffer_parameteriv not yet implemented");
     }
-    pub unsafe fn oxidegl_get_named_buffer_parameteri64v(
+    pub unsafe fn oxidegl_get_named_buffer_parameteri_64v(
         &mut self,
         buffer: GLuint,
         pname: BufferPName,
         params: *mut GLint64,
     ) -> GlFallible {
-        panic!("command oxidegl_get_named_buffer_parameteri64v not yet implemented");
+        panic!("command oxidegl_get_named_buffer_parameteri_64v not yet implemented");
     }
 }
 /// ### Parameters
@@ -4095,7 +4094,7 @@ impl Context {
 ///
 /// ### Description
 /// [**glGetInternalformativ**](crate::context::Context::oxidegl_get_internalformativ)
-/// and [**glGetInternalformati64v**](crate::context::Context::oxidegl_get_internalformati64v)
+/// and [**glGetInternalformati64v**](crate::context::Context::oxidegl_get_internalformati_64v)
 /// retrieve information about implementation-dependent support for internal
 /// formats. `target` indicates the target with which the internal format will
 /// be used and must be one of [`GL_RENDERBUFFER`](crate::gl_enums::GL_RENDERBUFFER),
@@ -4232,12 +4231,12 @@ impl Context {
 /// If `pname` is [`GL_TEXTURE_IMAGE_FORMAT`](crate::gl_enums::GL_TEXTURE_IMAGE_FORMAT)
 /// or [`GL_TEXTURE_IMAGE_TYPE`](crate::gl_enums::GL_TEXTURE_IMAGE_TYPE) then
 /// `params` is filled with the implementation-recommended format or type to
-/// be used in calls to [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d)
+/// be used in calls to [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d)
 /// and other similar functions. For [`GL_TEXTURE_IMAGE_FORMAT`](crate::gl_enums::GL_TEXTURE_IMAGE_FORMAT),
 /// `params` is filled with a token suitable for use as the `format` argument
-/// to [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d). For
+/// to [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d). For
 /// [`GL_TEXTURE_IMAGE_TYPE`](crate::gl_enums::GL_TEXTURE_IMAGE_TYPE), `params`
-/// is filled with a token suitable for use as the `type` argument to [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d).
+/// is filled with a token suitable for use as the `type` argument to [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d).
 ///
 /// If `pname` is [`GL_GET_TEXTURE_IMAGE_FORMAT`](crate::gl_enums::GL_GET_TEXTURE_IMAGE_FORMAT)
 /// or [`GL_GET_TEXTURE_IMAGE_TYPE`](crate::gl_enums::GL_GET_TEXTURE_IMAGE_TYPE)
@@ -4488,7 +4487,7 @@ impl Context {
     ) -> GlFallible {
         panic!("command oxidegl_get_internalformativ not yet implemented");
     }
-    pub unsafe fn oxidegl_get_internalformati64v(
+    pub unsafe fn oxidegl_get_internalformati_64v(
         &mut self,
         target: TextureTarget,
         internalformat: InternalFormat,
@@ -4496,7 +4495,7 @@ impl Context {
         count: GLsizei,
         params: *mut GLint64,
     ) -> GlFallible {
-        panic!("command oxidegl_get_internalformati64v not yet implemented");
+        panic!("command oxidegl_get_internalformati_64v not yet implemented");
     }
 }
 /// ### Parameters
@@ -4579,8 +4578,8 @@ impl Context {
 /// the results of the most recent query will be returned. In this case, when
 /// issuing a new query, the results of the previous query are discarded.
 ///
-/// [**glGetQueryObjecti64v**](crate::context::Context::oxidegl_get_query_objecti64v)
-/// and [**glGetQueryObjectui64v**](crate::context::Context::oxidegl_get_query_objectui64v)
+/// [**glGetQueryObjecti64v**](crate::context::Context::oxidegl_get_query_objecti_64v)
+/// and [**glGetQueryObjectui64v**](crate::context::Context::oxidegl_get_query_objectui_64v)
 /// are available only if the GL version is 3.3 or greater.
 ///
 /// [`GL_QUERY_RESULT_NO_WAIT`](crate::gl_enums::GL_QUERY_RESULT_NO_WAIT) is
@@ -4606,30 +4605,30 @@ impl Context {
     ) -> GlFallible {
         panic!("command oxidegl_get_query_objectuiv not yet implemented");
     }
-    pub unsafe fn oxidegl_get_query_objecti64v(
+    pub unsafe fn oxidegl_get_query_objecti_64v(
         &mut self,
         id: GLuint,
         pname: QueryObjectParameterName,
         params: *mut GLint64,
     ) -> GlFallible {
-        panic!("command oxidegl_get_query_objecti64v not yet implemented");
+        panic!("command oxidegl_get_query_objecti_64v not yet implemented");
     }
-    pub unsafe fn oxidegl_get_query_objectui64v(
+    pub unsafe fn oxidegl_get_query_objectui_64v(
         &mut self,
         id: GLuint,
         pname: QueryObjectParameterName,
         params: *mut GLuint64,
     ) -> GlFallible {
-        panic!("command oxidegl_get_query_objectui64v not yet implemented");
+        panic!("command oxidegl_get_query_objectui_64v not yet implemented");
     }
-    pub fn oxidegl_get_query_buffer_objecti64v(
+    pub fn oxidegl_get_query_buffer_objecti_64v(
         &mut self,
         id: GLuint,
         buffer: GLuint,
         pname: QueryObjectParameterName,
         offset: GLintptr,
     ) -> GlFallible {
-        panic!("command oxidegl_get_query_buffer_objecti64v not yet implemented");
+        panic!("command oxidegl_get_query_buffer_objecti_64v not yet implemented");
     }
     pub fn oxidegl_get_query_buffer_objectiv(
         &mut self,
@@ -4640,14 +4639,14 @@ impl Context {
     ) -> GlFallible {
         panic!("command oxidegl_get_query_buffer_objectiv not yet implemented");
     }
-    pub fn oxidegl_get_query_buffer_objectui64v(
+    pub fn oxidegl_get_query_buffer_objectui_64v(
         &mut self,
         id: GLuint,
         buffer: GLuint,
         pname: QueryObjectParameterName,
         offset: GLintptr,
     ) -> GlFallible {
-        panic!("command oxidegl_get_query_buffer_objectui64v not yet implemented");
+        panic!("command oxidegl_get_query_buffer_objectui_64v not yet implemented");
     }
     pub fn oxidegl_get_query_buffer_objectuiv(
         &mut self,
@@ -4657,880 +4656,6 @@ impl Context {
         offset: GLintptr,
     ) -> GlFallible {
         panic!("command oxidegl_get_query_buffer_objectuiv not yet implemented");
-    }
-}
-/// ### Parameters
-/// `target`
-///
-/// > Specifies the target to which the renderbuffer object is bound for [**glGetRenderbufferParameteriv**](crate::context::Context::oxidegl_get_renderbuffer_parameteriv).
-/// > `target` must be [`GL_RENDERBUFFER`](crate::gl_enums::GL_RENDERBUFFER).
-///
-/// `renderbuffer`
-///
-/// > Specifies the name of the renderbuffer object for [**glGetNamedRenderbufferParameteriv**](crate::context::Context::oxidegl_get_named_renderbuffer_parameteriv).
-///
-/// `pname`
-///
-/// > Specifies the parameter of the renderbuffer object to query.
-///
-/// `params`
-///
-/// > Returns the value of parameter `pname` for the renderbuffer object.
-///
-/// ### Description
-/// [**glGetRenderbufferParameteriv**](crate::context::Context::oxidegl_get_renderbuffer_parameteriv)
-/// and [**glGetNamedRenderbufferParameteriv**](crate::context::Context::oxidegl_get_named_renderbuffer_parameteriv)
-/// query parameters of a specified renderbuffer object.
-///
-/// For [**glGetRenderbufferParameteriv**](crate::context::Context::oxidegl_get_renderbuffer_parameteriv),
-/// the renderbuffer object is that bound to `target`, which must be [`GL_RENDERBUFFER`](crate::gl_enums::GL_RENDERBUFFER).
-///
-/// For [**glGetNamedRenderbufferParameteriv**](crate::context::Context::oxidegl_get_named_renderbuffer_parameteriv),
-/// `renderbuffer` is the name of the renderbuffer object.
-///
-/// Upon successful return, `param` will contain the value of the renderbuffer
-/// parameter specified by `pname`, as described below.
-///
-/// [`GL_RENDERBUFFER_WIDTH`](crate::gl_enums::GL_RENDERBUFFER_WIDTH), [`GL_RENDERBUFFER_HEIGHT`](crate::gl_enums::GL_RENDERBUFFER_HEIGHT),
-/// [`GL_RENDERBUFFER_INTERNAL_FORMAT`](crate::gl_enums::GL_RENDERBUFFER_INTERNAL_FORMAT)
-/// or [`GL_RENDERBUFFER_SAMPLES`](crate::gl_enums::GL_RENDERBUFFER_SAMPLES)
-///
-/// > `params` returns the width in pixels, the height in pixels, internal format,
-/// > or the number of samples, respectively, of the image of the specified renderbuffer
-/// > object.
-///
-/// [`GL_RENDERBUFFER_RED_SIZE`](crate::gl_enums::GL_RENDERBUFFER_RED_SIZE),
-/// [`GL_RENDERBUFFER_GREEN_SIZE`](crate::gl_enums::GL_RENDERBUFFER_GREEN_SIZE),
-/// [`GL_RENDERBUFFER_BLUE_SIZE`](crate::gl_enums::GL_RENDERBUFFER_BLUE_SIZE),
-/// [`GL_RENDERBUFFER_ALPHA_SIZE`](crate::gl_enums::GL_RENDERBUFFER_ALPHA_SIZE),
-/// [`GL_RENDERBUFFER_DEPTH_SIZE`](crate::gl_enums::GL_RENDERBUFFER_DEPTH_SIZE)
-/// or [`GL_RENDERBUFFER_STENCIL_SIZE`](crate::gl_enums::GL_RENDERBUFFER_STENCIL_SIZE)
-///
-/// > `params` returns the actual resolution in bits (not the resolution specified
-/// > when the image was defined) for the red, green, blue, alpha, depth or stencil
-/// > components, respectively, of the image of the renderbuffer object.
-impl Context {
-    pub unsafe fn oxidegl_get_renderbuffer_parameteriv(
-        &mut self,
-        target: GLenum,
-        pname: RenderbufferParameterName,
-        params: *mut GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_renderbuffer_parameteriv not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_named_renderbuffer_parameteriv(
-        &mut self,
-        renderbuffer: GLuint,
-        pname: RenderbufferParameterName,
-        params: *mut GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_named_renderbuffer_parameteriv not yet implemented");
-    }
-}
-/// ### Parameters
-/// `sampler`
-///
-/// > Specifies name of the sampler object from which to retrieve parameters.
-///
-/// `pname`
-///
-/// > Specifies the symbolic name of a sampler parameter. [`GL_TEXTURE_MAG_FILTER`](crate::gl_enums::GL_TEXTURE_MAG_FILTER),
-/// > [`GL_TEXTURE_MIN_FILTER`](crate::gl_enums::GL_TEXTURE_MIN_FILTER), [`GL_TEXTURE_MIN_LOD`](crate::gl_enums::GL_TEXTURE_MIN_LOD),
-/// > [`GL_TEXTURE_MAX_LOD`](crate::gl_enums::GL_TEXTURE_MAX_LOD), [`GL_TEXTURE_LOD_BIAS`](crate::gl_enums::GL_TEXTURE_LOD_BIAS),
-/// > [`GL_TEXTURE_WRAP_S`](crate::gl_enums::GL_TEXTURE_WRAP_S), [`GL_TEXTURE_WRAP_T`](crate::gl_enums::GL_TEXTURE_WRAP_T),
-/// > [`GL_TEXTURE_WRAP_R`](crate::gl_enums::GL_TEXTURE_WRAP_R), [`GL_TEXTURE_BORDER_COLOR`](crate::gl_enums::GL_TEXTURE_BORDER_COLOR),
-/// > [`GL_TEXTURE_COMPARE_MODE`](crate::gl_enums::GL_TEXTURE_COMPARE_MODE), and
-/// > [`GL_TEXTURE_COMPARE_FUNC`](crate::gl_enums::GL_TEXTURE_COMPARE_FUNC) are
-/// > accepted.
-///
-/// `params`
-///
-/// > Returns the sampler parameters.
-///
-/// ### Description
-/// [**glGetSamplerParameter**](crate::context::Context::oxidegl_get_sampler_parameter)
-/// returns in `params` the value or values of the sampler parameter specified
-/// as `pname`. `sampler` defines the target sampler, and must be the name
-/// of an existing sampler object, returned from a previous call to [**glGenSamplers**](crate::context::Context::oxidegl_gen_samplers).
-/// `pname` accepts the same symbols as [**glSamplerParameter**](crate::context::Context::oxidegl_sampler_parameter),
-/// with the same interpretations:
-///
-/// [`GL_TEXTURE_MAG_FILTER`](crate::gl_enums::GL_TEXTURE_MAG_FILTER)
-///
-/// > Returns the single-valued texture magnification filter, a symbolic constant.
-/// > The initial value is [`GL_LINEAR`](crate::gl_enums::GL_LINEAR).
-///
-/// [`GL_TEXTURE_MIN_FILTER`](crate::gl_enums::GL_TEXTURE_MIN_FILTER)
-///
-/// > Returns the single-valued texture minification filter, a symbolic constant.
-/// > The initial value is [`GL_NEAREST_MIPMAP_LINEAR`](crate::gl_enums::GL_NEAREST_MIPMAP_LINEAR).
-///
-/// [`GL_TEXTURE_MIN_LOD`](crate::gl_enums::GL_TEXTURE_MIN_LOD)
-///
-/// > Returns the single-valued texture minimum level-of-detail value. The initial
-/// > value is `[inlineq]`
-///
-/// [`GL_TEXTURE_MAX_LOD`](crate::gl_enums::GL_TEXTURE_MAX_LOD)
-///
-/// > Returns the single-valued texture maximum level-of-detail value. The initial
-/// > value is 1000.
-///
-/// [`GL_TEXTURE_WRAP_S`](crate::gl_enums::GL_TEXTURE_WRAP_S)
-///
-/// > Returns the single-valued wrapping function for texture coordinate `[inlineq]`
-/// > [`GL_REPEAT`](crate::gl_enums::GL_REPEAT).
-///
-/// [`GL_TEXTURE_WRAP_T`](crate::gl_enums::GL_TEXTURE_WRAP_T)
-///
-/// > Returns the single-valued wrapping function for texture coordinate `[inlineq]`
-/// > [`GL_REPEAT`](crate::gl_enums::GL_REPEAT).
-///
-/// [`GL_TEXTURE_WRAP_R`](crate::gl_enums::GL_TEXTURE_WRAP_R)
-///
-/// > Returns the single-valued wrapping function for texture coordinate `[inlineq]`
-/// > [`GL_REPEAT`](crate::gl_enums::GL_REPEAT).
-///
-/// [`GL_TEXTURE_BORDER_COLOR`](crate::gl_enums::GL_TEXTURE_BORDER_COLOR)
-///
-/// > Returns four integer or floating-point numbers that comprise the RGBA color
-/// > of the texture border. Floating-point values are returned in the range
-/// > `[inlineq]` `[inlineq]`
-///
-/// [`GL_TEXTURE_COMPARE_MODE`](crate::gl_enums::GL_TEXTURE_COMPARE_MODE)
-///
-/// > Returns a single-valued texture comparison mode, a symbolic constant. The
-/// > initial value is [`GL_NONE`](crate::gl_enums::GL_NONE). See [**glSamplerParameter**](crate::context::Context::oxidegl_sampler_parameter).
-///
-/// [`GL_TEXTURE_COMPARE_FUNC`](crate::gl_enums::GL_TEXTURE_COMPARE_FUNC)
-///
-/// > Returns a single-valued texture comparison function, a symbolic constant.
-/// > The initial value is [`GL_LEQUAL`](crate::gl_enums::GL_LEQUAL). See [**glSamplerParameter**](crate::context::Context::oxidegl_sampler_parameter).
-///
-/// ### Notes
-/// If an error is generated, no change is made to the contents of `params`.
-///
-/// [**glGetSamplerParameter**](crate::context::Context::oxidegl_get_sampler_parameter)
-/// is available only if the GL version is 3.3 or higher.
-impl Context {
-    pub unsafe fn oxidegl_get_sampler_parameteriv(
-        &mut self,
-        sampler: GLuint,
-        pname: SamplerParameter,
-        params: *mut GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_sampler_parameteriv not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_sampler_parameter_iiv(
-        &mut self,
-        sampler: GLuint,
-        pname: SamplerParameter,
-        params: *mut GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_sampler_parameter_iiv not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_sampler_parameterfv(
-        &mut self,
-        sampler: GLuint,
-        pname: SamplerParameter,
-        params: *mut GLfloat,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_sampler_parameterfv not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_sampler_parameter_iuiv(
-        &mut self,
-        sampler: GLuint,
-        pname: SamplerParameter,
-        params: *mut GLuint,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_sampler_parameter_iuiv not yet implemented");
-    }
-}
-/// ### Parameters
-/// `target`
-///
-/// > Specifies the target to which the texture is bound for [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image)
-/// > and [**glGetnTexImage**](crate::context::Context::oxidegl_getn_tex_image)
-/// > functions. [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D), [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D),
-/// > [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D), [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY),
-/// > [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY), [`GL_TEXTURE_RECTANGLE`](crate::gl_enums::GL_TEXTURE_RECTANGLE),
-/// > [`GL_TEXTURE_CUBE_MAP_POSITIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_X),
-/// > [`GL_TEXTURE_CUBE_MAP_NEGATIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_X),
-/// > [`GL_TEXTURE_CUBE_MAP_POSITIVE_Y`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_Y),
-/// > [`GL_TEXTURE_CUBE_MAP_NEGATIVE_Y`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_Y),
-/// > [`GL_TEXTURE_CUBE_MAP_POSITIVE_Z`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_Z),
-/// > [`GL_TEXTURE_CUBE_MAP_NEGATIVE_Z`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_Z),
-/// > and [`GL_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_ARRAY)
-/// > are acceptable.
-///
-/// `texture`
-///
-/// > Specifies the texture object name.
-///
-/// `level`
-///
-/// > Specifies the level-of-detail number of the desired image. Level 0 is the
-/// > base image level. Level `[inlineq]` `[inlineq]`
-///
-/// `format`
-///
-/// > Specifies a pixel format for the returned data. The supported formats are
-/// > [`GL_STENCIL_INDEX`](crate::gl_enums::GL_STENCIL_INDEX), [`GL_DEPTH_COMPONENT`](crate::gl_enums::GL_DEPTH_COMPONENT),
-/// > [`GL_DEPTH_STENCIL`](crate::gl_enums::GL_DEPTH_STENCIL), [`GL_RED`](crate::gl_enums::GL_RED),
-/// > [`GL_GREEN`](crate::gl_enums::GL_GREEN), [`GL_BLUE`](crate::gl_enums::GL_BLUE),
-/// > [`GL_RG`](crate::gl_enums::GL_RG), [`GL_RGB`](crate::gl_enums::GL_RGB),
-/// > [`GL_RGBA`](crate::gl_enums::GL_RGBA), [`GL_BGR`](crate::gl_enums::GL_BGR),
-/// > [`GL_BGRA`](crate::gl_enums::GL_BGRA), [`GL_RED_INTEGER`](crate::gl_enums::GL_RED_INTEGER),
-/// > [`GL_GREEN_INTEGER`](crate::gl_enums::GL_GREEN_INTEGER), [`GL_BLUE_INTEGER`](crate::gl_enums::GL_BLUE_INTEGER),
-/// > [`GL_RG_INTEGER`](crate::gl_enums::GL_RG_INTEGER), [`GL_RGB_INTEGER`](crate::gl_enums::GL_RGB_INTEGER),
-/// > [`GL_RGBA_INTEGER`](crate::gl_enums::GL_RGBA_INTEGER), [`GL_BGR_INTEGER`](crate::gl_enums::GL_BGR_INTEGER),
-/// > [`GL_BGRA_INTEGER`](crate::gl_enums::GL_BGRA_INTEGER).
-///
-/// `type`
-///
-/// > Specifies a pixel type for the returned data. The supported types are [`GL_UNSIGNED_BYTE`](crate::gl_enums::GL_UNSIGNED_BYTE),
-/// > [`GL_BYTE`](crate::gl_enums::GL_BYTE), [`GL_UNSIGNED_SHORT`](crate::gl_enums::GL_UNSIGNED_SHORT),
-/// > [`GL_SHORT`](crate::gl_enums::GL_SHORT), [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT),
-/// > [`GL_INT`](crate::gl_enums::GL_INT), [`GL_HALF_FLOAT`](crate::gl_enums::GL_HALF_FLOAT),
-/// > [`GL_FLOAT`](crate::gl_enums::GL_FLOAT), [`GL_UNSIGNED_BYTE_3_3_2`](crate::gl_enums::GL_UNSIGNED_BYTE_3_3_2),
-/// > [`GL_UNSIGNED_BYTE_2_3_3_REV`](crate::gl_enums::GL_UNSIGNED_BYTE_2_3_3_REV),
-/// > [`GL_UNSIGNED_SHORT_5_6_5`](crate::gl_enums::GL_UNSIGNED_SHORT_5_6_5), [`GL_UNSIGNED_SHORT_5_6_5_REV`](crate::gl_enums::GL_UNSIGNED_SHORT_5_6_5_REV),
-/// > [`GL_UNSIGNED_SHORT_4_4_4_4`](crate::gl_enums::GL_UNSIGNED_SHORT_4_4_4_4),
-/// > [`GL_UNSIGNED_SHORT_4_4_4_4_REV`](crate::gl_enums::GL_UNSIGNED_SHORT_4_4_4_4_REV),
-/// > [`GL_UNSIGNED_SHORT_5_5_5_1`](crate::gl_enums::GL_UNSIGNED_SHORT_5_5_5_1),
-/// > [`GL_UNSIGNED_SHORT_1_5_5_5_REV`](crate::gl_enums::GL_UNSIGNED_SHORT_1_5_5_5_REV),
-/// > [`GL_UNSIGNED_INT_8_8_8_8`](crate::gl_enums::GL_UNSIGNED_INT_8_8_8_8), [`GL_UNSIGNED_INT_8_8_8_8_REV`](crate::gl_enums::GL_UNSIGNED_INT_8_8_8_8_REV),
-/// > [`GL_UNSIGNED_INT_10_10_10_2`](crate::gl_enums::GL_UNSIGNED_INT_10_10_10_2),
-/// > [`GL_UNSIGNED_INT_2_10_10_10_REV`](crate::gl_enums::GL_UNSIGNED_INT_2_10_10_10_REV),
-/// > [`GL_UNSIGNED_INT_24_8`](crate::gl_enums::GL_UNSIGNED_INT_24_8), [`GL_UNSIGNED_INT_10F_11F_11F_REV`](crate::gl_enums::GL_UNSIGNED_INT_10F_11F_11F_REV),
-/// > [`GL_UNSIGNED_INT_5_9_9_9_REV`](crate::gl_enums::GL_UNSIGNED_INT_5_9_9_9_REV),
-/// > and [`GL_FLOAT_32_UNSIGNED_INT_24_8_REV`](crate::gl_enums::GL_FLOAT_32_UNSIGNED_INT_24_8_REV).
-///
-/// `bufSize`
-///
-/// > Specifies the size of the buffer `pixels` for [**glGetnTexImage**](crate::context::Context::oxidegl_getn_tex_image)
-/// > and [**glGetTextureImage**](crate::context::Context::oxidegl_get_texture_image)
-/// > functions.
-///
-/// `pixels`
-///
-/// > Returns the texture image. Should be a pointer to an array of the type
-/// > specified by `type`.
-///
-/// ### Description
-/// [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image), [**glGetnTexImage**](crate::context::Context::oxidegl_getn_tex_image)
-/// and [**glGetTextureImage**](crate::context::Context::oxidegl_get_texture_image)
-/// functions return a texture image into `pixels`. For [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image)
-/// and [**glGetnTexImage**](crate::context::Context::oxidegl_getn_tex_image),
-/// `target` specifies whether the desired texture image is one specified by
-/// [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d)( [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D)
-/// ), [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d)( [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY),
-/// [`GL_TEXTURE_RECTANGLE`](crate::gl_enums::GL_TEXTURE_RECTANGLE), [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D)
-/// or any of [`GL_TEXTURE_CUBE_MAP_*`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_*)
-/// ), or [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d)(
-/// [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY), [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D),
-/// [`GL_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_ARRAY)
-/// ). For [**glGetTextureImage**](crate::context::Context::oxidegl_get_texture_image),
-/// `texture` specifies the texture object name. In addition to types of textures
-/// accepted by [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image)
-/// and [**glGetnTexImage**](crate::context::Context::oxidegl_getn_tex_image),
-/// the function also accepts cube map texture objects (with effective target
-/// [`GL_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_CUBE_MAP) ). `level`
-/// specifies the level-of-detail number of the desired image. `format` and
-/// `type` specify the format and type of the desired image array. See the
-/// reference page for [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d)
-/// for a description of the acceptable values for the `format` and `type`
-/// parameters, respectively. For glGetnTexImage and glGetTextureImage functions,
-/// bufSize tells the size of the buffer to receive the retrieved pixel data.
-/// [**glGetnTexImage**](crate::context::Context::oxidegl_getn_tex_image) and
-/// [**glGetTextureImage**](crate::context::Context::oxidegl_get_texture_image)
-/// do not write more than `bufSize` bytes into `pixels`.
-///
-/// If a non-zero named buffer object is bound to the [`GL_PIXEL_PACK_BUFFER`](crate::gl_enums::GL_PIXEL_PACK_BUFFER)
-/// target (see [**glBindBuffer**](crate::context::Context::oxidegl_bind_buffer))
-/// while a texture image is requested, `pixels` is treated as a byte offset
-/// into the buffer object's data store.
-///
-/// To understand the operation of [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image),
-/// consider the selected internal four-component texture image to be an RGBA
-/// color buffer the size of the image. The semantics of [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image)
-/// are then identical to those of [**glReadPixels**](crate::context::Context::oxidegl_read_pixels),
-/// with the exception that no pixel transfer operations are performed, when
-/// called with the same `format` and `type`, with *x* and *y* set to 0, *width*
-/// set to the width of the texture image and *height* set to 1 for 1D images,
-/// or to the height of the texture image for 2D images.
-///
-/// If the selected texture image does not contain four components, the following
-/// mappings are applied. Single-component textures are treated as RGBA buffers
-/// with red set to the single-component value, green set to 0, blue set to
-/// 0, and alpha set to 1. Two-component textures are treated as RGBA buffers
-/// with red set to the value of component zero, alpha set to the value of
-/// component one, and green and blue set to 0. Finally, three-component textures
-/// are treated as RGBA buffers with red set to component zero, green set to
-/// component one, blue set to component two, and alpha set to 1.
-///
-/// To determine the required size of `pixels`, use [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter)
-/// to determine the dimensions of the internal texture image, then scale the
-/// required number of pixels by the storage required for each pixel, based
-/// on `format` and `type`. Be sure to take the pixel storage parameters into
-/// account, especially [`GL_PACK_ALIGNMENT`](crate::gl_enums::GL_PACK_ALIGNMENT).
-///
-/// If [**glGetTextureImage**](crate::context::Context::oxidegl_get_texture_image)
-/// is used against a cube map texture object, the texture is treated as a
-/// three-dimensional image of a depth of 6, where the cube map faces are ordered
-/// as image layers, in an order presented in the table below:
-///
-/// | Layer number        | Cube Map Face        |
-/// |---------------------|----------------------|
-/// | 0                   | `GL_TEXTURE_CUBE_MAP_POSITIVE_X` |
-/// | 1                   | `GL_TEXTURE_CUBE_MAP_NEGATIVE_X` |
-/// | 2                   | `GL_TEXTURE_CUBE_MAP_POSITIVE_Y` |
-/// | 3                   | `GL_TEXTURE_CUBE_MAP_NEGATIVE_Y` |
-/// | 4                   | `GL_TEXTURE_CUBE_MAP_POSITIVE_Z` |
-/// | 5                   | `GL_TEXTURE_CUBE_MAP_NEGATIVE_Z` |
-///
-/// ### Notes
-/// If an error is generated, no change is made to the contents of `pixels`.
-///
-/// [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image) and
-/// [**glGetnTexImage**](crate::context::Context::oxidegl_getn_tex_image) return
-/// the texture image for the active texture unit.
-///
-/// [`GL_STENCIL_INDEX`](crate::gl_enums::GL_STENCIL_INDEX) is accepted for
-/// `format` only if the GL version is 4.4 or greater.
-///
-/// ### Associated Gets
-/// [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter)
-/// with argument [`GL_TEXTURE_WIDTH`](crate::gl_enums::GL_TEXTURE_WIDTH)
-///
-/// [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter)
-/// with argument [`GL_TEXTURE_HEIGHT`](crate::gl_enums::GL_TEXTURE_HEIGHT)
-///
-/// [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter)
-/// with argument [`GL_TEXTURE_INTERNAL_FORMAT`](crate::gl_enums::GL_TEXTURE_INTERNAL_FORMAT)
-///
-/// [**glGet**](crate::context::Context::oxidegl_get) with arguments [`GL_PACK_ALIGNMENT`](crate::gl_enums::GL_PACK_ALIGNMENT)
-/// and others
-///
-/// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_PIXEL_PACK_BUFFER_BINDING`](crate::gl_enums::GL_PIXEL_PACK_BUFFER_BINDING)
-impl Context {
-    pub unsafe fn oxidegl_get_tex_image(
-        &mut self,
-        target: TextureTarget,
-        level: GLint,
-        format: PixelFormat,
-        r#type: PixelType,
-        pixels: *mut GLvoid,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_tex_image not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_texture_image(
-        &mut self,
-        texture: GLuint,
-        level: GLint,
-        format: PixelFormat,
-        r#type: PixelType,
-        buf_size: GLsizei,
-        pixels: *mut GLvoid,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_texture_image not yet implemented");
-    }
-    pub unsafe fn oxidegl_getn_tex_image(
-        &mut self,
-        target: TextureTarget,
-        level: GLint,
-        format: PixelFormat,
-        r#type: PixelType,
-        buf_size: GLsizei,
-        pixels: *mut GLvoid,
-    ) -> GlFallible {
-        panic!("command oxidegl_getn_tex_image not yet implemented");
-    }
-}
-/// ### Parameters
-/// `target`
-///
-/// > Specifies the target to which the texture is bound for [**glGetTexLevelParameterfv**](crate::context::Context::oxidegl_get_tex_level_parameterfv)
-/// > and [**glGetTexLevelParameteriv**](crate::context::Context::oxidegl_get_tex_level_parameteriv)
-/// > functions. Must be one of the following values: [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D),
-/// > [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D), [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D),
-/// > [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY), [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY),
-/// > [`GL_TEXTURE_RECTANGLE`](crate::gl_enums::GL_TEXTURE_RECTANGLE), [`GL_TEXTURE_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE),
-/// > [`GL_TEXTURE_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE_ARRAY),
-/// > [`GL_TEXTURE_CUBE_MAP_POSITIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_X),
-/// > [`GL_TEXTURE_CUBE_MAP_NEGATIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_X),
-/// > [`GL_TEXTURE_CUBE_MAP_POSITIVE_Y`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_Y),
-/// > [`GL_TEXTURE_CUBE_MAP_NEGATIVE_Y`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_Y),
-/// > [`GL_TEXTURE_CUBE_MAP_POSITIVE_Z`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_Z),
-/// > [`GL_TEXTURE_CUBE_MAP_NEGATIVE_Z`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_Z),
-/// > [`GL_PROXY_TEXTURE_1D`](crate::gl_enums::GL_PROXY_TEXTURE_1D), [`GL_PROXY_TEXTURE_2D`](crate::gl_enums::GL_PROXY_TEXTURE_2D),
-/// > [`GL_PROXY_TEXTURE_3D`](crate::gl_enums::GL_PROXY_TEXTURE_3D), [`GL_PROXY_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_PROXY_TEXTURE_1D_ARRAY),
-/// > [`GL_PROXY_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_PROXY_TEXTURE_2D_ARRAY),
-/// > [`GL_PROXY_TEXTURE_RECTANGLE`](crate::gl_enums::GL_PROXY_TEXTURE_RECTANGLE),
-/// > [`GL_PROXY_TEXTURE_2D_MULTISAMPLE`](crate::gl_enums::GL_PROXY_TEXTURE_2D_MULTISAMPLE),
-/// > [`GL_PROXY_TEXTURE_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_PROXY_TEXTURE_2D_MULTISAMPLE_ARRAY),
-/// > [`GL_PROXY_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_PROXY_TEXTURE_CUBE_MAP),
-/// > or [`GL_TEXTURE_BUFFER`](crate::gl_enums::GL_TEXTURE_BUFFER).
-///
-/// `texture`
-///
-/// > Specifies the texture object name for [**glGetTextureLevelParameterfv**](crate::context::Context::oxidegl_get_texture_level_parameterfv)
-/// > and [**glGetTextureLevelParameteriv**](crate::context::Context::oxidegl_get_texture_level_parameteriv)
-/// > functions.
-///
-/// `level`
-///
-/// > Specifies the level-of-detail number of the desired image. Level 0 is the
-/// > base image level. Level `[inlineq]` `[inlineq]`
-///
-/// `pname`
-///
-/// > Specifies the symbolic name of a texture parameter. [`GL_TEXTURE_WIDTH`](crate::gl_enums::GL_TEXTURE_WIDTH),
-/// > [`GL_TEXTURE_HEIGHT`](crate::gl_enums::GL_TEXTURE_HEIGHT), [`GL_TEXTURE_DEPTH`](crate::gl_enums::GL_TEXTURE_DEPTH),
-/// > [`GL_TEXTURE_INTERNAL_FORMAT`](crate::gl_enums::GL_TEXTURE_INTERNAL_FORMAT),
-/// > [`GL_TEXTURE_RED_SIZE`](crate::gl_enums::GL_TEXTURE_RED_SIZE), [`GL_TEXTURE_GREEN_SIZE`](crate::gl_enums::GL_TEXTURE_GREEN_SIZE),
-/// > [`GL_TEXTURE_BLUE_SIZE`](crate::gl_enums::GL_TEXTURE_BLUE_SIZE), [`GL_TEXTURE_ALPHA_SIZE`](crate::gl_enums::GL_TEXTURE_ALPHA_SIZE),
-/// > [`GL_TEXTURE_DEPTH_SIZE`](crate::gl_enums::GL_TEXTURE_DEPTH_SIZE), [`GL_TEXTURE_COMPRESSED`](crate::gl_enums::GL_TEXTURE_COMPRESSED),
-/// > [`GL_TEXTURE_COMPRESSED_IMAGE_SIZE`](crate::gl_enums::GL_TEXTURE_COMPRESSED_IMAGE_SIZE),
-/// > and [`GL_TEXTURE_BUFFER_OFFSET`](crate::gl_enums::GL_TEXTURE_BUFFER_OFFSET)
-/// > are accepted.
-///
-/// `params`
-///
-/// > Returns the requested data.
-///
-/// ### Description
-/// [**glGetTexLevelParameterfv**](crate::context::Context::oxidegl_get_tex_level_parameterfv),
-/// [**glGetTexLevelParameteriv**](crate::context::Context::oxidegl_get_tex_level_parameteriv),
-/// [**glGetTextureLevelParameterfv**](crate::context::Context::oxidegl_get_texture_level_parameterfv)
-/// and [**glGetTextureLevelParameteriv**](crate::context::Context::oxidegl_get_texture_level_parameteriv)
-/// return in `params` texture parameter values for a specific level-of-detail
-/// value, specified as `level`. For the first two functions, `target` defines
-/// the target texture, either [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D),
-/// [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D), [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D),
-/// [`GL_PROXY_TEXTURE_1D`](crate::gl_enums::GL_PROXY_TEXTURE_1D), [`GL_PROXY_TEXTURE_2D`](crate::gl_enums::GL_PROXY_TEXTURE_2D),
-/// [`GL_PROXY_TEXTURE_3D`](crate::gl_enums::GL_PROXY_TEXTURE_3D), [`GL_TEXTURE_CUBE_MAP_POSITIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_X),
-/// [`GL_TEXTURE_CUBE_MAP_NEGATIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_X),
-/// [`GL_TEXTURE_CUBE_MAP_POSITIVE_Y`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_Y),
-/// [`GL_TEXTURE_CUBE_MAP_NEGATIVE_Y`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_Y),
-/// [`GL_TEXTURE_CUBE_MAP_POSITIVE_Z`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_Z),
-/// [`GL_TEXTURE_CUBE_MAP_NEGATIVE_Z`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_Z),
-/// or [`GL_PROXY_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_PROXY_TEXTURE_CUBE_MAP).
-/// The remaining two take a `texture` argument which specifies the name of
-/// the texture object.
-///
-/// [`GL_MAX_TEXTURE_SIZE`](crate::gl_enums::GL_MAX_TEXTURE_SIZE), and [`GL_MAX_3D_TEXTURE_SIZE`](crate::gl_enums::GL_MAX_3D_TEXTURE_SIZE)
-/// are not really descriptive enough. It has to report the largest square
-/// texture image that can be accommodated with mipmaps but a long skinny texture,
-/// or a texture without mipmaps may easily fit in texture memory. The proxy
-/// targets allow the user to more accurately query whether the GL can accommodate
-/// a texture of a given configuration. If the texture cannot be accommodated,
-/// the texture state variables, which may be queried with [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter)
-/// and [**glGetTextureLevelParameter**](crate::context::Context::oxidegl_get_texture_level_parameter),
-/// are set to 0. If the texture can be accommodated, the texture state values
-/// will be set as they would be set for a non-proxy target.
-///
-/// `pname` specifies the texture parameter whose value or values will be returned.
-///
-/// The accepted parameter names are as follows:
-///
-/// [`GL_TEXTURE_WIDTH`](crate::gl_enums::GL_TEXTURE_WIDTH)
-///
-/// > `params` returns a single value, the width of the texture image. The initial
-/// > value is 0.
-///
-/// [`GL_TEXTURE_HEIGHT`](crate::gl_enums::GL_TEXTURE_HEIGHT)
-///
-/// > `params` returns a single value, the height of the texture image. The initial
-/// > value is 0.
-///
-/// [`GL_TEXTURE_DEPTH`](crate::gl_enums::GL_TEXTURE_DEPTH)
-///
-/// > `params` returns a single value, the depth of the texture image. The initial
-/// > value is 0.
-///
-/// [`GL_TEXTURE_INTERNAL_FORMAT`](crate::gl_enums::GL_TEXTURE_INTERNAL_FORMAT)
-///
-/// > `params` returns a single value, the internal format of the texture image.
-///
-/// [`GL_TEXTURE_RED_TYPE`](crate::gl_enums::GL_TEXTURE_RED_TYPE), [`GL_TEXTURE_GREEN_TYPE`](crate::gl_enums::GL_TEXTURE_GREEN_TYPE),
-/// [`GL_TEXTURE_BLUE_TYPE`](crate::gl_enums::GL_TEXTURE_BLUE_TYPE), [`GL_TEXTURE_ALPHA_TYPE`](crate::gl_enums::GL_TEXTURE_ALPHA_TYPE),
-/// [`GL_TEXTURE_DEPTH_TYPE`](crate::gl_enums::GL_TEXTURE_DEPTH_TYPE)
-///
-/// > The data type used to store the component. The types [`GL_NONE`](crate::gl_enums::GL_NONE),
-/// > [`GL_SIGNED_NORMALIZED`](crate::gl_enums::GL_SIGNED_NORMALIZED), [`GL_UNSIGNED_NORMALIZED`](crate::gl_enums::GL_UNSIGNED_NORMALIZED),
-/// > [`GL_FLOAT`](crate::gl_enums::GL_FLOAT), [`GL_INT`](crate::gl_enums::GL_INT),
-/// > and [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT) may be returned
-/// > to indicate signed normalized fixed-point, unsigned normalized fixed-point,
-/// > floating-point, integer unnormalized, and unsigned integer unnormalized
-/// > components, respectively.
-///
-/// [`GL_TEXTURE_RED_SIZE`](crate::gl_enums::GL_TEXTURE_RED_SIZE), [`GL_TEXTURE_GREEN_SIZE`](crate::gl_enums::GL_TEXTURE_GREEN_SIZE),
-/// [`GL_TEXTURE_BLUE_SIZE`](crate::gl_enums::GL_TEXTURE_BLUE_SIZE), [`GL_TEXTURE_ALPHA_SIZE`](crate::gl_enums::GL_TEXTURE_ALPHA_SIZE),
-/// [`GL_TEXTURE_DEPTH_SIZE`](crate::gl_enums::GL_TEXTURE_DEPTH_SIZE)
-///
-///
-/// > The internal storage resolution of an individual component. The resolution
-/// > chosen by the GL will be a close match for the resolution requested by
-/// > the user with the component argument of [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d),
-/// > [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d), [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d),
-/// > [**glCopyTexImage1D**](crate::context::Context::oxidegl_copy_tex_image1_d),
-/// > and [**glCopyTexImage2D**](crate::context::Context::oxidegl_copy_tex_image2_d).
-/// > The initial value is 0.
-///
-/// [`GL_TEXTURE_COMPRESSED`](crate::gl_enums::GL_TEXTURE_COMPRESSED)
-///
-///
-/// > `params` returns a single boolean value indicating if the texture image
-/// > is stored in a compressed internal format. The initiali value is [`GL_FALSE`](crate::gl_enums::GL_FALSE).
-///
-/// [`GL_TEXTURE_COMPRESSED_IMAGE_SIZE`](crate::gl_enums::GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
-///
-///
-/// > `params` returns a single integer value, the number of unsigned bytes of
-/// > the compressed texture image that would be returned from [**glGetCompressedTexImage**](crate::context::Context::oxidegl_get_compressed_tex_image).
-///
-/// [`GL_TEXTURE_BUFFER_OFFSET`](crate::gl_enums::GL_TEXTURE_BUFFER_OFFSET)
-///
-///
-/// > `params` returns a single integer value, the offset into the data store
-/// > of the buffer bound to a buffer texture. [**glTexBufferRange**](crate::context::Context::oxidegl_tex_buffer_range).
-///
-/// [`GL_TEXTURE_BUFFER_SIZE`](crate::gl_enums::GL_TEXTURE_BUFFER_SIZE)
-///
-///
-/// > `params` returns a single integer value, the size of the range of a data
-/// > store of the buffer bound to a buffer texture. [**glTexBufferRange**](crate::context::Context::oxidegl_tex_buffer_range).
-///
-/// ### Notes
-/// If an error is generated, no change is made to the contents of `params`.
-///
-/// [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter)
-/// returns the texture level parameters for the active texture unit.
-///
-/// [`GL_TEXTURE_BUFFER_OFFSET`](crate::gl_enums::GL_TEXTURE_BUFFER_OFFSET)
-/// and [`GL_TEXTURE_BUFFER_SIZE`](crate::gl_enums::GL_TEXTURE_BUFFER_SIZE)
-/// are available only if the GL version is 4.3 or greater.
-impl Context {
-    pub unsafe fn oxidegl_get_tex_level_parameterfv(
-        &mut self,
-        target: TextureTarget,
-        level: GLint,
-        pname: GetTextureParameter,
-        params: *mut GLfloat,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_tex_level_parameterfv not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_tex_level_parameteriv(
-        &mut self,
-        target: TextureTarget,
-        level: GLint,
-        pname: GetTextureParameter,
-        params: *mut GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_tex_level_parameteriv not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_texture_level_parameterfv(
-        &mut self,
-        texture: GLuint,
-        level: GLint,
-        pname: GetTextureParameter,
-        params: *mut GLfloat,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_texture_level_parameterfv not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_texture_level_parameteriv(
-        &mut self,
-        texture: GLuint,
-        level: GLint,
-        pname: GetTextureParameter,
-        params: *mut GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_texture_level_parameteriv not yet implemented");
-    }
-}
-/// ### Parameters
-/// `target`
-///
-/// > Specifies the target to which the texture is bound for [**glGetTexParameterfv**](crate::context::Context::oxidegl_get_tex_parameterfv),
-/// > [**glGetTexParameteriv**](crate::context::Context::oxidegl_get_tex_parameteriv),
-/// > [**glGetTexParameterIiv**](crate::context::Context::oxidegl_get_tex_parameter_iiv),
-/// > and [**glGetTexParameterIuiv**](crate::context::Context::oxidegl_get_tex_parameter_iuiv)
-/// > functions. [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D), [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY),
-/// > [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D), [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY),
-/// > [`GL_TEXTURE_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE),
-/// > [`GL_TEXTURE_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE_ARRAY),
-/// > [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D), [`GL_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_CUBE_MAP),
-/// > [`GL_TEXTURE_RECTANGLE`](crate::gl_enums::GL_TEXTURE_RECTANGLE), and [`GL_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_ARRAY)
-/// > are accepted.
-///
-/// `texture`
-///
-/// > Specifies the texture object name for [**glGetTextureParameterfv**](crate::context::Context::oxidegl_get_texture_parameterfv),
-/// > [**glGetTextureParameteriv**](crate::context::Context::oxidegl_get_texture_parameteriv),
-/// > [**glGetTextureParameterIiv**](crate::context::Context::oxidegl_get_texture_parameter_iiv),
-/// > and [**glGetTextureParameterIuiv**](crate::context::Context::oxidegl_get_texture_parameter_iuiv)
-/// > functions.
-///
-/// `pname`
-///
-/// > Specifies the symbolic name of a texture parameter. [`GL_DEPTH_STENCIL_TEXTURE_MODE`](crate::gl_enums::GL_DEPTH_STENCIL_TEXTURE_MODE),
-/// > [`GL_IMAGE_FORMAT_COMPATIBILITY_TYPE`](crate::gl_enums::GL_IMAGE_FORMAT_COMPATIBILITY_TYPE),
-/// > [`GL_TEXTURE_BASE_LEVEL`](crate::gl_enums::GL_TEXTURE_BASE_LEVEL), [`GL_TEXTURE_BORDER_COLOR`](crate::gl_enums::GL_TEXTURE_BORDER_COLOR),
-/// > [`GL_TEXTURE_COMPARE_MODE`](crate::gl_enums::GL_TEXTURE_COMPARE_MODE), [`GL_TEXTURE_COMPARE_FUNC`](crate::gl_enums::GL_TEXTURE_COMPARE_FUNC),
-/// > [`GL_TEXTURE_IMMUTABLE_FORMAT`](crate::gl_enums::GL_TEXTURE_IMMUTABLE_FORMAT),
-/// > [`GL_TEXTURE_IMMUTABLE_LEVELS`](crate::gl_enums::GL_TEXTURE_IMMUTABLE_LEVELS),
-/// > [`GL_TEXTURE_LOD_BIAS`](crate::gl_enums::GL_TEXTURE_LOD_BIAS), [`GL_TEXTURE_MAG_FILTER`](crate::gl_enums::GL_TEXTURE_MAG_FILTER),
-/// > [`GL_TEXTURE_MAX_LEVEL`](crate::gl_enums::GL_TEXTURE_MAX_LEVEL), [`GL_TEXTURE_MAX_LOD`](crate::gl_enums::GL_TEXTURE_MAX_LOD),
-/// > [`GL_TEXTURE_MIN_FILTER`](crate::gl_enums::GL_TEXTURE_MIN_FILTER), [`GL_TEXTURE_MIN_LOD`](crate::gl_enums::GL_TEXTURE_MIN_LOD),
-/// > [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R), [`GL_TEXTURE_SWIZZLE_G`](crate::gl_enums::GL_TEXTURE_SWIZZLE_G),
-/// > [`GL_TEXTURE_SWIZZLE_B`](crate::gl_enums::GL_TEXTURE_SWIZZLE_B), [`GL_TEXTURE_SWIZZLE_A`](crate::gl_enums::GL_TEXTURE_SWIZZLE_A),
-/// > [`GL_TEXTURE_SWIZZLE_RGBA`](crate::gl_enums::GL_TEXTURE_SWIZZLE_RGBA), [`GL_TEXTURE_TARGET`](crate::gl_enums::GL_TEXTURE_TARGET),
-/// > [`GL_TEXTURE_VIEW_MIN_LAYER`](crate::gl_enums::GL_TEXTURE_VIEW_MIN_LAYER),
-/// > [`GL_TEXTURE_VIEW_MIN_LEVEL`](crate::gl_enums::GL_TEXTURE_VIEW_MIN_LEVEL),
-/// > [`GL_TEXTURE_VIEW_NUM_LAYERS`](crate::gl_enums::GL_TEXTURE_VIEW_NUM_LAYERS),
-/// > [`GL_TEXTURE_VIEW_NUM_LEVELS`](crate::gl_enums::GL_TEXTURE_VIEW_NUM_LEVELS),
-/// > [`GL_TEXTURE_WRAP_S`](crate::gl_enums::GL_TEXTURE_WRAP_S), [`GL_TEXTURE_WRAP_T`](crate::gl_enums::GL_TEXTURE_WRAP_T),
-/// > and [`GL_TEXTURE_WRAP_R`](crate::gl_enums::GL_TEXTURE_WRAP_R) are accepted.
-///
-/// `params`
-///
-/// > Returns the texture parameters.
-///
-/// ### Description
-/// [**glGetTexParameter**](crate::context::Context::oxidegl_get_tex_parameter)
-/// and [**glGetTextureParameter**](crate::context::Context::oxidegl_get_texture_parameter)
-/// return in `params` the value or values of the texture parameter specified
-/// as `pname`. `target` defines the target texture. [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D),
-/// [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D), [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D),
-/// [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY), [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY),
-/// [`GL_TEXTURE_RECTANGLE`](crate::gl_enums::GL_TEXTURE_RECTANGLE), [`GL_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_CUBE_MAP),
-/// [`GL_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_ARRAY),
-/// [`GL_TEXTURE_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE),
-/// or [`GL_TEXTURE_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE_ARRAY)
-/// specify one-, two-, or three-dimensional, one-dimensional array, two-dimensional
-/// array, rectangle, cube-mapped or cube-mapped array, two-dimensional multisample,
-/// or two-dimensional multisample array texturing, respectively. `pname` accepts
-/// the same symbols as [**glTexParameter**](crate::context::Context::oxidegl_tex_parameter),
-/// with the same interpretations:
-///
-/// [`GL_DEPTH_STENCIL_TEXTURE_MODE`](crate::gl_enums::GL_DEPTH_STENCIL_TEXTURE_MODE)
-///
-/// > Returns the single-value depth stencil texture mode, a symbolic constant.
-/// > The initial value is [`GL_DEPTH_COMPONENT`](crate::gl_enums::GL_DEPTH_COMPONENT).
-///
-/// [`GL_TEXTURE_MAG_FILTER`](crate::gl_enums::GL_TEXTURE_MAG_FILTER)
-///
-/// > Returns the single-valued texture magnification filter, a symbolic constant.
-/// > The initial value is [`GL_LINEAR`](crate::gl_enums::GL_LINEAR).
-///
-/// [`GL_TEXTURE_MIN_FILTER`](crate::gl_enums::GL_TEXTURE_MIN_FILTER)
-///
-/// > Returns the single-valued texture minification filter, a symbolic constant.
-/// > The initial value is [`GL_NEAREST_MIPMAP_LINEAR`](crate::gl_enums::GL_NEAREST_MIPMAP_LINEAR).
-///
-/// [`GL_TEXTURE_MIN_LOD`](crate::gl_enums::GL_TEXTURE_MIN_LOD)
-///
-/// > Returns the single-valued texture minimum level-of-detail value. The initial
-/// > value is `[inlineq]`
-///
-/// [`GL_TEXTURE_MAX_LOD`](crate::gl_enums::GL_TEXTURE_MAX_LOD)
-///
-/// > Returns the single-valued texture maximum level-of-detail value. The initial
-/// > value is 1000.
-///
-/// [`GL_TEXTURE_BASE_LEVEL`](crate::gl_enums::GL_TEXTURE_BASE_LEVEL)
-///
-/// > Returns the single-valued base texture mipmap level. The initial value
-/// > is 0.
-///
-/// [`GL_TEXTURE_MAX_LEVEL`](crate::gl_enums::GL_TEXTURE_MAX_LEVEL)
-///
-/// > Returns the single-valued maximum texture mipmap array level. The initial
-/// > value is 1000.
-///
-/// [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R)
-///
-/// > Returns the red component swizzle. The initial value is [`GL_RED`](crate::gl_enums::GL_RED).
-///
-/// [`GL_TEXTURE_SWIZZLE_G`](crate::gl_enums::GL_TEXTURE_SWIZZLE_G)
-///
-/// > Returns the green component swizzle. The initial value is [`GL_GREEN`](crate::gl_enums::GL_GREEN).
-///
-/// [`GL_TEXTURE_SWIZZLE_B`](crate::gl_enums::GL_TEXTURE_SWIZZLE_B)
-///
-/// > Returns the blue component swizzle. The initial value is [`GL_BLUE`](crate::gl_enums::GL_BLUE).
-///
-/// [`GL_TEXTURE_SWIZZLE_A`](crate::gl_enums::GL_TEXTURE_SWIZZLE_A)
-///
-/// > Returns the alpha component swizzle. The initial value is [`GL_ALPHA`](crate::gl_enums::GL_ALPHA).
-///
-/// [`GL_TEXTURE_SWIZZLE_RGBA`](crate::gl_enums::GL_TEXTURE_SWIZZLE_RGBA)
-///
-/// > Returns the component swizzle for all channels in a single query.
-///
-/// [`GL_TEXTURE_WRAP_S`](crate::gl_enums::GL_TEXTURE_WRAP_S)
-///
-/// > Returns the single-valued wrapping function for texture coordinate `[inlineq]`
-/// > [`GL_REPEAT`](crate::gl_enums::GL_REPEAT).
-///
-/// [`GL_TEXTURE_WRAP_T`](crate::gl_enums::GL_TEXTURE_WRAP_T)
-///
-/// > Returns the single-valued wrapping function for texture coordinate `[inlineq]`
-/// > [`GL_REPEAT`](crate::gl_enums::GL_REPEAT).
-///
-/// [`GL_TEXTURE_WRAP_R`](crate::gl_enums::GL_TEXTURE_WRAP_R)
-///
-/// > Returns the single-valued wrapping function for texture coordinate `[inlineq]`
-/// > [`GL_REPEAT`](crate::gl_enums::GL_REPEAT).
-///
-/// [`GL_TEXTURE_BORDER_COLOR`](crate::gl_enums::GL_TEXTURE_BORDER_COLOR)
-///
-/// > Returns four integer or floating-point numbers that comprise the RGBA color
-/// > of the texture border. Floating-point values are returned in the range
-/// > `[inlineq]` `[inlineq]`
-///
-/// [`GL_TEXTURE_COMPARE_MODE`](crate::gl_enums::GL_TEXTURE_COMPARE_MODE)
-///
-/// > Returns a single-valued texture comparison mode, a symbolic constant. The
-/// > initial value is [`GL_NONE`](crate::gl_enums::GL_NONE). See [**glTexParameter**](crate::context::Context::oxidegl_tex_parameter).
-///
-/// [`GL_TEXTURE_COMPARE_FUNC`](crate::gl_enums::GL_TEXTURE_COMPARE_FUNC)
-///
-/// > Returns a single-valued texture comparison function, a symbolic constant.
-/// > The initial value is [`GL_LEQUAL`](crate::gl_enums::GL_LEQUAL). See [**glTexParameter**](crate::context::Context::oxidegl_tex_parameter).
-///
-/// [`GL_TEXTURE_VIEW_MIN_LEVEL`](crate::gl_enums::GL_TEXTURE_VIEW_MIN_LEVEL)
-///
-/// > Returns a single-valued base level of a texture view relative to its parent.
-/// > The initial value is 0. See [**glTextureView**](crate::context::Context::oxidegl_texture_view).
-///
-/// [`GL_TEXTURE_VIEW_NUM_LEVELS`](crate::gl_enums::GL_TEXTURE_VIEW_NUM_LEVELS)
-///
-/// > Returns a single-valued number of levels of detail of a texture view. See
-/// > [**glTextureView**](crate::context::Context::oxidegl_texture_view).
-///
-/// [`GL_TEXTURE_VIEW_MIN_LAYER`](crate::gl_enums::GL_TEXTURE_VIEW_MIN_LAYER)
-///
-/// > Returns a single-valued first level of a texture array view relative to
-/// > its parent. See [**glTextureView**](crate::context::Context::oxidegl_texture_view).
-///
-/// [`GL_TEXTURE_VIEW_NUM_LAYERS`](crate::gl_enums::GL_TEXTURE_VIEW_NUM_LAYERS)
-///
-/// > Returns a single-valued number of layers in a texture array view. See [**glTextureView**](crate::context::Context::oxidegl_texture_view).
-///
-/// [`GL_TEXTURE_IMMUTABLE_LEVELS`](crate::gl_enums::GL_TEXTURE_IMMUTABLE_LEVELS)
-///
-/// > Returns a single-valued number of immutable texture levels in a texture
-/// > view. See [**glTextureView**](crate::context::Context::oxidegl_texture_view).
-///
-/// In addition to the parameters that may be set with [**glTexParameter**](crate::context::Context::oxidegl_tex_parameter),
-/// [**glGetTexParameter**](crate::context::Context::oxidegl_get_tex_parameter)
-/// and [**glGetTextureParameter**](crate::context::Context::oxidegl_get_texture_parameter)
-/// accept the following read-only parameters:
-///
-/// [`GL_IMAGE_FORMAT_COMPATIBILITY_TYPE`](crate::gl_enums::GL_IMAGE_FORMAT_COMPATIBILITY_TYPE)
-///
-/// > Returns the matching criteria use for the texture when used as an image
-/// > texture. Can return [`GL_IMAGE_FORMAT_COMPATIBILITY_BY_SIZE`](crate::gl_enums::GL_IMAGE_FORMAT_COMPATIBILITY_BY_SIZE),
-/// > [`GL_IMAGE_FORMAT_COMPATIBILITY_BY_CLASS`](crate::gl_enums::GL_IMAGE_FORMAT_COMPATIBILITY_BY_CLASS)
-/// > or [`GL_NONE`](crate::gl_enums::GL_NONE).
-///
-/// [`GL_TEXTURE_IMMUTABLE_FORMAT`](crate::gl_enums::GL_TEXTURE_IMMUTABLE_FORMAT)
-///
-/// > Returns non-zero if the texture has an immutable format. Textures become
-/// > immutable if their storage is specified with [**glTexStorage1D**](crate::context::Context::oxidegl_tex_storage1_d),
-/// > [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage2_d) or
-/// > [**glTexStorage3D**](crate::context::Context::oxidegl_tex_storage3_d). The
-/// > initial value is [`GL_FALSE`](crate::gl_enums::GL_FALSE).
-///
-/// [`GL_TEXTURE_TARGET`](crate::gl_enums::GL_TEXTURE_TARGET)
-///
-/// > Returns the effective target of the texture object. For [**glGetTex*Parameter**](crate::context::Context::oxidegl_get_tex*_parameter)
-/// > functions, this is the target parameter. For [**glGetTextureParameter***](crate::context::Context::oxidegl_get_texture_parameter*),
-/// > it is the target to which the texture was initially bound when it was
-/// > created, or the value of the target parameter to the call to [**glCreateTextures**](crate::context::Context::oxidegl_create_textures)
-/// > which created the texture.
-///
-/// ### Notes
-/// If an error is generated, no change is made to the contents of `params`.
-///
-/// [`GL_IMAGE_FORMAT_COMPATIBILITY_TYPE`](crate::gl_enums::GL_IMAGE_FORMAT_COMPATIBILITY_TYPE)
-/// is available only if the GL version is 4.2 or greater.
-///
-/// [`GL_DEPTH_STENCIL_TEXTURE_MODE`](crate::gl_enums::GL_DEPTH_STENCIL_TEXTURE_MODE),
-/// [`GL_TEXTURE_VIEW_MIN_LEVEL`](crate::gl_enums::GL_TEXTURE_VIEW_MIN_LEVEL),
-/// [`GL_TEXTURE_VIEW_NUM_LEVELS`](crate::gl_enums::GL_TEXTURE_VIEW_NUM_LEVELS),
-/// [`GL_TEXTURE_VIEW_MIN_LAYER`](crate::gl_enums::GL_TEXTURE_VIEW_MIN_LAYER),
-/// [`GL_TEXTURE_VIEW_NUM_LAYERS`](crate::gl_enums::GL_TEXTURE_VIEW_NUM_LAYERS)
-/// and [`GL_TEXTURE_IMMUTABLE_LEVELS`](crate::gl_enums::GL_TEXTURE_IMMUTABLE_LEVELS)
-/// are available only if the GL version is 4.3 or greater.
-///
-/// [`GL_TEXTURE_TARGET`](crate::gl_enums::GL_TEXTURE_TARGET) are available
-/// only if the GL version is 4.5 or greater.
-impl Context {
-    pub unsafe fn oxidegl_get_tex_parameterfv(
-        &mut self,
-        target: TextureTarget,
-        pname: GetTextureParameter,
-        params: *mut GLfloat,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_tex_parameterfv not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_tex_parameteriv(
-        &mut self,
-        target: TextureTarget,
-        pname: GetTextureParameter,
-        params: *mut GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_tex_parameteriv not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_tex_parameter_iiv(
-        &mut self,
-        target: TextureTarget,
-        pname: GetTextureParameter,
-        params: *mut GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_tex_parameter_iiv not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_tex_parameter_iuiv(
-        &mut self,
-        target: TextureTarget,
-        pname: GetTextureParameter,
-        params: *mut GLuint,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_tex_parameter_iuiv not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_texture_parameterfv(
-        &mut self,
-        texture: GLuint,
-        pname: GetTextureParameter,
-        params: *mut GLfloat,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_texture_parameterfv not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_texture_parameter_iiv(
-        &mut self,
-        texture: GLuint,
-        pname: GetTextureParameter,
-        params: *mut GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_texture_parameter_iiv not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_texture_parameter_iuiv(
-        &mut self,
-        texture: GLuint,
-        pname: GetTextureParameter,
-        params: *mut GLuint,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_texture_parameter_iuiv not yet implemented");
-    }
-    pub unsafe fn oxidegl_get_texture_parameteriv(
-        &mut self,
-        texture: GLuint,
-        pname: GetTextureParameter,
-        params: *mut GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_get_texture_parameteriv not yet implemented");
     }
 }
 /// ### Parameters
@@ -5589,8 +4714,8 @@ impl Context {
 /// > undergoing;( [`GL_TRANSFORM_FEEDBACK_ACTIVE`](crate::gl_enums::GL_TRANSFORM_FEEDBACK_ACTIVE))
 ///
 ///
-/// The latter class, which includes [**`glGetTransformFeedbacki_v`**](crate::context::Context::oxidegl_get_transform_feedbacki_v)
-/// and [**`glGetTransformFeedbacki64_v`**](crate::context::Context::oxidegl_get_transform_feedbacki64_v)
+/// The latter class, which includes [**glGetTransformFeedbacki_v**](crate::context::Context::oxidegl_get_transform_feedbacki_v)
+/// and [**glGetTransformFeedbacki64_v**](crate::context::Context::oxidegl_get_transform_feedbacki_64_v)
 /// functions, can be used to check what the current configuration of each
 /// of the buffer object regions bound to Transform Feedback Buffer binding
 /// points is. This allows you to query for the following information:
@@ -5600,11 +4725,11 @@ impl Context {
 /// > Point of user-specified index is;( [`GL_TRANSFORM_FEEDBACK_BUFFER_BINDING`](crate::gl_enums::GL_TRANSFORM_FEEDBACK_BUFFER_BINDING)
 /// > ).
 ///
-/// > [**glGetTransformFeedbacki64_v**](crate::context::Context::oxidegl_get_transform_feedbacki64_v)
+/// > [**glGetTransformFeedbacki64_v**](crate::context::Context::oxidegl_get_transform_feedbacki_64_v)
 /// > only: What the start offset configured for the binding is;( [`GL_TRANSFORM_FEEDBACK_BUFFER_START`](crate::gl_enums::GL_TRANSFORM_FEEDBACK_BUFFER_START)
 /// > );
 ///
-/// > [**glGetTransformFeedbacki64_v**](crate::context::Context::oxidegl_get_transform_feedbacki64_v)
+/// > [**glGetTransformFeedbacki64_v**](crate::context::Context::oxidegl_get_transform_feedbacki_64_v)
 /// > only: What the length of the region used for the binding is;( [`GL_TRANSFORM_FEEDBACK_BUFFER_SIZE`](crate::gl_enums::GL_TRANSFORM_FEEDBACK_BUFFER_SIZE)
 /// > );
 ///
@@ -5626,14 +4751,14 @@ impl Context {
     ) -> GlFallible {
         panic!("command oxidegl_get_transform_feedbacki_v not yet implemented");
     }
-    pub unsafe fn oxidegl_get_transform_feedbacki64_v(
+    pub unsafe fn oxidegl_get_transform_feedbacki_64_v(
         &mut self,
         xfb: GLuint,
         pname: TransformFeedbackPName,
         index: GLuint,
         param: *mut GLint64,
     ) -> GlFallible {
-        panic!("command oxidegl_get_transform_feedbacki64_v not yet implemented");
+        panic!("command oxidegl_get_transform_feedbacki_64_v not yet implemented");
     }
 }
 /// ### Parameters
@@ -5791,7 +4916,7 @@ impl Context {
 /// > [`GL_VERTEX_ATTRIB_ARRAY_LONG`](crate::gl_enums::GL_VERTEX_ATTRIB_ARRAY_LONG),
 /// > [`GL_VERTEX_ATTRIB_ARRAY_DIVISOR`](crate::gl_enums::GL_VERTEX_ATTRIB_ARRAY_DIVISOR),
 /// > or [`GL_VERTEX_ATTRIB_RELATIVE_OFFSET`](crate::gl_enums::GL_VERTEX_ATTRIB_RELATIVE_OFFSET).
-/// > For [**glGetVertexArrayIndexed64v**](crate::context::Context::oxidegl_get_vertex_array_indexed64v),
+/// > For [**glGetVertexArrayIndexed64v**](crate::context::Context::oxidegl_get_vertex_array_indexed_64v),
 /// > it must be equal to [`GL_VERTEX_BINDING_OFFSET`](crate::gl_enums::GL_VERTEX_BINDING_OFFSET).
 ///
 /// `param`
@@ -5800,7 +4925,7 @@ impl Context {
 ///
 /// ### Description
 /// [**glGetVertexArrayIndexediv**](crate::context::Context::oxidegl_get_vertex_array_indexediv)
-/// and [**glGetVertexArrayIndexed64iv**](crate::context::Context::oxidegl_get_vertex_array_indexed64iv)
+/// and [**glGetVertexArrayIndexed64iv**](crate::context::Context::oxidegl_get_vertex_array_indexed_64iv)
 /// provide a way of querying parameters of an attribute at an user-specified
 /// index of a vertex array object. The vertex array object does not have to
 /// be bound to the rendering context at the time of the call, but must have
@@ -5863,7 +4988,7 @@ impl Context {
 /// > relative to the start of the vertex buffer binding specified attribute
 /// > fetches from. The initial value is 0.
 ///
-/// [**glGetVertexArrayIndexed64iv**](crate::context::Context::oxidegl_get_vertex_array_indexed64iv)
+/// [**glGetVertexArrayIndexed64iv**](crate::context::Context::oxidegl_get_vertex_array_indexed_64iv)
 /// can be used to retrieve [`GL_VERTEX_BINDING_OFFSET`](crate::gl_enums::GL_VERTEX_BINDING_OFFSET)
 /// parameter value for any of the attributes defined for a vertex array object.
 /// When `pname` is set to [`GL_VERTEX_BINDING_OFFSET`](crate::gl_enums::GL_VERTEX_BINDING_OFFSET),
@@ -5880,14 +5005,14 @@ impl Context {
     ) -> GlFallible {
         panic!("command oxidegl_get_vertex_array_indexediv not yet implemented");
     }
-    pub unsafe fn oxidegl_get_vertex_array_indexed64iv(
+    pub unsafe fn oxidegl_get_vertex_array_indexed_64iv(
         &mut self,
         vaobj: GLuint,
         index: GLuint,
         pname: VertexArrayPName,
         param: *mut GLint64,
     ) -> GlFallible {
-        panic!("command oxidegl_get_vertex_array_indexed64iv not yet implemented");
+        panic!("command oxidegl_get_vertex_array_indexed_64iv not yet implemented");
     }
 }
 /// ### Parameters
@@ -6745,7 +5870,7 @@ impl Context {
 /// > Reads and writes of buffer objects via the [`GL_PIXEL_PACK_BUFFER`](crate::gl_enums::GL_PIXEL_PACK_BUFFER)
 /// > and [`GL_PIXEL_UNPACK_BUFFER`](crate::gl_enums::GL_PIXEL_UNPACK_BUFFER)
 /// > bindings (via [**glReadPixels**](crate::context::Context::oxidegl_read_pixels),
-/// > [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image1_d),
+/// > [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image_1d),
 /// > etc.) after the barrier will reflect data written by shaders prior to
 /// > the barrier. Additionally, buffer object writes issued after the barrier
 /// > will wait on the completion of all shader writes initiated prior to the
@@ -6847,7 +5972,7 @@ impl Context {
 /// memory accesses and when to use barriers.
 ///
 /// > Data that are read-only or constant may be accessed without using coherent
-/// > variables or calling [**MemoryBarrier**](crate::context::Context::oxide_memory_barrier)
+/// > variables or calling [**MemoryBarrier**](crate::context::Context::oxidememory_barrier)
 /// > (). Updates to the read-only data via API calls such as [**glBufferSubData**](crate::context::Context::oxidegl_buffer_sub_data)
 /// > will invalidate shader caches implicitly as required.
 ///
@@ -6970,17 +6095,17 @@ impl Context {
 /// ### Description
 /// [**glPixelStore**](crate::context::Context::oxidegl_pixel_store) sets pixel
 /// storage modes that affect the operation of subsequent [**glReadPixels**](crate::context::Context::oxidegl_read_pixels)
-/// as well as the unpacking of texture patterns (see [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d),
-/// [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d), [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d),
-/// [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image1_d),
-/// [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image2_d),
-/// [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image3_d)
-/// ), [**glCompressedTexImage1D**](crate::context::Context::oxidegl_compressed_tex_image1_d),
-/// [**glCompressedTexImage2D**](crate::context::Context::oxidegl_compressed_tex_image2_d),
-/// [**glCompressedTexImage3D**](crate::context::Context::oxidegl_compressed_tex_image3_d),
-/// [**glCompressedTexSubImage1D**](crate::context::Context::oxidegl_compressed_tex_sub_image1_d),
-/// [**glCompressedTexSubImage2D**](crate::context::Context::oxidegl_compressed_tex_sub_image2_d)
-/// or [**glCompressedTexSubImage1D**](crate::context::Context::oxidegl_compressed_tex_sub_image1_d).
+/// as well as the unpacking of texture patterns (see [**glTexImage1D**](crate::context::Context::oxidegl_tex_image_1d),
+/// [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d), [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d),
+/// [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image_1d),
+/// [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image_2d),
+/// [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image_3d)
+/// ), [**glCompressedTexImage1D**](crate::context::Context::oxidegl_compressed_tex_image_1d),
+/// [**glCompressedTexImage2D**](crate::context::Context::oxidegl_compressed_tex_image_2d),
+/// [**glCompressedTexImage3D**](crate::context::Context::oxidegl_compressed_tex_image_3d),
+/// [**glCompressedTexSubImage1D**](crate::context::Context::oxidegl_compressed_tex_sub_image_1d),
+/// [**glCompressedTexSubImage2D**](crate::context::Context::oxidegl_compressed_tex_sub_image_2d)
+/// or [**glCompressedTexSubImage1D**](crate::context::Context::oxidegl_compressed_tex_sub_image_1d).
 ///
 /// `pname` is a symbolic constant indicating the parameter to be set, and
 /// `param` is the new value. Six of the twelve storage parameters affect how
@@ -7034,9 +6159,9 @@ impl Context {
 ///
 ///
 /// > components or indices, where `[inlineq]` `[inlineq]` [`GL_PACK_ROW_LENGTH`](crate::gl_enums::GL_PACK_ROW_LENGTH)
-/// > if it is greater than 0, the `[inlineq]` [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d)
+/// > if it is greater than 0, the `[inlineq]` [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d)
 /// > otherwise), `[inlineq]` [`GL_PACK_IMAGE_HEIGHT`](crate::gl_enums::GL_PACK_IMAGE_HEIGHT)
-/// > if it is greater than 0, the `[inlineq]` [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d)
+/// > if it is greater than 0, the `[inlineq]` [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d)
 /// > routine otherwise), `[inlineq]` [`GL_PACK_ALIGNMENT`](crate::gl_enums::GL_PACK_ALIGNMENT),
 /// > and `[inlineq]` `[inlineq]` `[inlineq]`
 ///
@@ -7066,11 +6191,11 @@ impl Context {
 /// > boundaries).
 ///
 /// The other six of the twelve storage parameters affect how pixel data is
-/// read from client memory. These values are significant for [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d),
-/// [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d), [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d),
-/// [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image1_d),
-/// [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image2_d),
-/// and [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image3_d)
+/// read from client memory. These values are significant for [**glTexImage1D**](crate::context::Context::oxidegl_tex_image_1d),
+/// [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d), [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d),
+/// [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image_1d),
+/// [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image_2d),
+/// and [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image_3d)
 ///
 /// They are as follows:
 ///
@@ -7122,9 +6247,9 @@ impl Context {
 ///
 ///
 /// > components or indices, where `[inlineq]` `[inlineq]` [`GL_UNPACK_ROW_LENGTH`](crate::gl_enums::GL_UNPACK_ROW_LENGTH)
-/// > if it is greater than 0, the `[inlineq]` [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d)
+/// > if it is greater than 0, the `[inlineq]` [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d)
 /// > otherwise), `[inlineq]` [`GL_UNPACK_IMAGE_HEIGHT`](crate::gl_enums::GL_UNPACK_IMAGE_HEIGHT)
-/// > if it is greater than 0, the `[inlineq]` [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d)
+/// > if it is greater than 0, the `[inlineq]` [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d)
 /// > otherwise), `[inlineq]` [`GL_UNPACK_ALIGNMENT`](crate::gl_enums::GL_UNPACK_ALIGNMENT),
 /// > and `[inlineq]` `[inlineq]` `[inlineq]`
 ///
@@ -7137,9 +6262,9 @@ impl Context {
 ///
 /// > These values are provided as a convenience to the programmer; they provide
 /// > no functionality that cannot be duplicated by incrementing the pointer
-/// > passed to [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d),
-/// > [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d), [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image1_d)
-/// > or [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image2_d).
+/// > passed to [**glTexImage1D**](crate::context::Context::oxidegl_tex_image_1d),
+/// > [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d), [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image_1d)
+/// > or [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image_2d).
 /// > Setting [`GL_UNPACK_SKIP_PIXELS`](crate::gl_enums::GL_UNPACK_SKIP_PIXELS)
 /// > to `[inlineq]` `[inlineq]` `[inlineq]` [`GL_UNPACK_SKIP_ROWS`](crate::gl_enums::GL_UNPACK_SKIP_ROWS)
 /// > to `[inlineq]` `[inlineq]` `[inlineq]` [`GL_UNPACK_ROW_LENGTH`](crate::gl_enums::GL_UNPACK_ROW_LENGTH)
@@ -7337,7 +6462,7 @@ impl Context {
 /// [**glProgramUniform**](crate::context::Context::oxidegl_program_uniform)
 /// operates on the program object specified by `program`.
 ///
-/// The commands [**glProgramUniform{1|2|3|4}{f|i|ui}**](crate::context::Context::oxidegl_program_uniform{1|2|3|4}{f|i|ui})
+/// The commands [**glProgramUniform{1|2|3|4}{f|i|ui}**](crate::context::Context::oxidegl_program_uniform{_1|_2|_3|_4}{f|i|ui})
 /// are used to change the value of the uniform variable specified by `location`
 /// using the values passed as arguments. The number specified in the command
 /// should match the number of components in the data type of the specified
@@ -7361,7 +6486,7 @@ impl Context {
 /// until the next successful link operation occurs on the program object,
 /// when they are once again initialized to 0.
 ///
-/// The commands [**glProgramUniform{1|2|3|4}{f|i|ui}v**](crate::context::Context::oxidegl_program_uniform{1|2|3|4}{f|i|ui}v)
+/// The commands [**glProgramUniform{1|2|3|4}{f|i|ui}v**](crate::context::Context::oxidegl_program_uniform{_1|_2|_3|_4}{f|i|ui}v)
 /// can be used to modify a single uniform variable or a uniform variable array.
 /// These commands pass a count and a pointer to the values to be loaded into
 /// a uniform variable or a uniform variable array. A count of 1 should be
@@ -7375,16 +6500,16 @@ impl Context {
 /// number of components for each element in `value`, and it should match the
 /// number of components in the data type of the specified uniform variable
 /// (e.g., [**1**](crate::context::Context::oxide1) for [**2**](crate::context::Context::oxide2)
-/// for [**glProgramUniform{1|2|3|4}{f|i|ui}**](crate::context::Context::oxidegl_program_uniform{1|2|3|4}{f|i|ui}).
+/// for [**glProgramUniform{1|2|3|4}{f|i|ui}**](crate::context::Context::oxidegl_program_uniform{_1|_2|_3|_4}{f|i|ui}).
 ///
 /// For uniform variable arrays, each element of the array is considered to
-/// be of the type indicated in the name of the command (e.g., [**glProgramUniform3f**](crate::context::Context::oxidegl_program_uniform3f)
-/// or [**glProgramUniform3fv**](crate::context::Context::oxidegl_program_uniform3fv)
+/// be of the type indicated in the name of the command (e.g., [**glProgramUniform3f**](crate::context::Context::oxidegl_program_uniform_3f)
+/// or [**glProgramUniform3fv**](crate::context::Context::oxidegl_program_uniform_3fv)
 /// can be used to load a uniform variable array of type vec3). The number
 /// of elements of the uniform variable array to be modified is specified by
 /// `count`
 ///
-/// The commands [**glProgramUniformMatrix{2|3|4|2x3|3x2|2x4|4x2|3x4|4x3}fv**](crate::context::Context::oxidegl_program_uniform_matrix{2|3|4|2x3|3x2|2x4|4x2|3x4|4x3}fv)
+/// The commands [**glProgramUniformMatrix{2|3|4|2x3|3x2|2x4|4x2|3x4|4x3}fv**](crate::context::Context::oxidegl_program_uniform_matrix{_2|_3|_4|_2x_3|_3x_2|_2x_4|_4x_2|_3x_4|_4x_3}fv)
 /// are used to modify a matrix or an array of matrices. The numbers in the
 /// command name are interpreted as the dimensionality of the matrix. The number
 /// [**2**](crate::context::Context::oxide2) indicates a 2 × 2 matrix (i.e.,
@@ -7392,7 +6517,7 @@ impl Context {
 /// a 3 × 3 matrix (i.e., 9 values), and the number [**4**](crate::context::Context::oxide4)
 /// indicates a 4 × 4 matrix (i.e., 16 values). Non-square matrix dimensionality
 /// is explicit, with the first number representing the number of columns and
-/// the second number representing the number of rows. For example, [**2x4**](crate::context::Context::oxide2x4)
+/// the second number representing the number of rows. For example, [**2x4**](crate::context::Context::oxide2x_4)
 /// indicates a 2 × 4 matrix with 2 columns and 4 rows (i.e., 8 values). If
 /// `transpose` is [`GL_FALSE`](crate::gl_enums::GL_FALSE), each matrix is
 /// assumed to be supplied in column major order. If `transpose` is [`GL_TRUE`](crate::gl_enums::GL_TRUE),
@@ -7402,8 +6527,8 @@ impl Context {
 /// than 1 can be used to modify an array of matrices.
 ///
 /// ### Notes
-/// [**glProgramUniform1i**](crate::context::Context::oxidegl_program_uniform1i)
-/// and [**glProgramUniform1iv**](crate::context::Context::oxidegl_program_uniform1iv)
+/// [**glProgramUniform1i**](crate::context::Context::oxidegl_program_uniform_1i)
+/// and [**glProgramUniform1iv**](crate::context::Context::oxidegl_program_uniform_1iv)
 /// are the only two functions that may be used to load uniform variables defined
 /// as sampler types. Loading samplers with any other function will result
 /// in a [`GL_INVALID_OPERATION`](crate::gl_enums::GL_INVALID_OPERATION) error.
@@ -7435,229 +6560,229 @@ impl Context {
 /// [**glGetUniformLocation**](crate::context::Context::oxidegl_get_uniform_location)
 /// with the handle of a program object and the name of a uniform variable
 impl Context {
-    pub fn oxidegl_program_uniform1i(
+    pub fn oxidegl_program_uniform_1i(
         &mut self,
         program: GLuint,
         location: GLint,
-        v0: GLint,
+        v_0: GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform1i not yet implemented");
+        panic!("command oxidegl_program_uniform_1i not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform1iv(
+    pub unsafe fn oxidegl_program_uniform_1iv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
         value: *const GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform1iv not yet implemented");
+        panic!("command oxidegl_program_uniform_1iv not yet implemented");
     }
-    pub fn oxidegl_program_uniform1f(
+    pub fn oxidegl_program_uniform_1f(
         &mut self,
         program: GLuint,
         location: GLint,
-        v0: GLfloat,
+        v_0: GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform1f not yet implemented");
+        panic!("command oxidegl_program_uniform_1f not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform1fv(
+    pub unsafe fn oxidegl_program_uniform_1fv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform1fv not yet implemented");
+        panic!("command oxidegl_program_uniform_1fv not yet implemented");
     }
-    pub fn oxidegl_program_uniform1ui(
+    pub fn oxidegl_program_uniform_1ui(
         &mut self,
         program: GLuint,
         location: GLint,
-        v0: GLuint,
+        v_0: GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform1ui not yet implemented");
+        panic!("command oxidegl_program_uniform_1ui not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform1uiv(
+    pub unsafe fn oxidegl_program_uniform_1uiv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
         value: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform1uiv not yet implemented");
+        panic!("command oxidegl_program_uniform_1uiv not yet implemented");
     }
-    pub fn oxidegl_program_uniform2i(
+    pub fn oxidegl_program_uniform_2i(
         &mut self,
         program: GLuint,
         location: GLint,
-        v0: GLint,
-        v1: GLint,
+        v_0: GLint,
+        v_1: GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform2i not yet implemented");
+        panic!("command oxidegl_program_uniform_2i not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform2iv(
+    pub unsafe fn oxidegl_program_uniform_2iv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
         value: *const GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform2iv not yet implemented");
+        panic!("command oxidegl_program_uniform_2iv not yet implemented");
     }
-    pub fn oxidegl_program_uniform2f(
+    pub fn oxidegl_program_uniform_2f(
         &mut self,
         program: GLuint,
         location: GLint,
-        v0: GLfloat,
-        v1: GLfloat,
+        v_0: GLfloat,
+        v_1: GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform2f not yet implemented");
+        panic!("command oxidegl_program_uniform_2f not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform2fv(
+    pub unsafe fn oxidegl_program_uniform_2fv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform2fv not yet implemented");
+        panic!("command oxidegl_program_uniform_2fv not yet implemented");
     }
-    pub fn oxidegl_program_uniform2ui(
+    pub fn oxidegl_program_uniform_2ui(
         &mut self,
         program: GLuint,
         location: GLint,
-        v0: GLuint,
-        v1: GLuint,
+        v_0: GLuint,
+        v_1: GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform2ui not yet implemented");
+        panic!("command oxidegl_program_uniform_2ui not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform2uiv(
+    pub unsafe fn oxidegl_program_uniform_2uiv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
         value: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform2uiv not yet implemented");
+        panic!("command oxidegl_program_uniform_2uiv not yet implemented");
     }
-    pub fn oxidegl_program_uniform3i(
+    pub fn oxidegl_program_uniform_3i(
         &mut self,
         program: GLuint,
         location: GLint,
-        v0: GLint,
-        v1: GLint,
-        v2: GLint,
+        v_0: GLint,
+        v_1: GLint,
+        v_2: GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform3i not yet implemented");
+        panic!("command oxidegl_program_uniform_3i not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform3iv(
+    pub unsafe fn oxidegl_program_uniform_3iv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
         value: *const GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform3iv not yet implemented");
+        panic!("command oxidegl_program_uniform_3iv not yet implemented");
     }
-    pub fn oxidegl_program_uniform3f(
+    pub fn oxidegl_program_uniform_3f(
         &mut self,
         program: GLuint,
         location: GLint,
-        v0: GLfloat,
-        v1: GLfloat,
-        v2: GLfloat,
+        v_0: GLfloat,
+        v_1: GLfloat,
+        v_2: GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform3f not yet implemented");
+        panic!("command oxidegl_program_uniform_3f not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform3fv(
+    pub unsafe fn oxidegl_program_uniform_3fv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform3fv not yet implemented");
+        panic!("command oxidegl_program_uniform_3fv not yet implemented");
     }
-    pub fn oxidegl_program_uniform3ui(
+    pub fn oxidegl_program_uniform_3ui(
         &mut self,
         program: GLuint,
         location: GLint,
-        v0: GLuint,
-        v1: GLuint,
-        v2: GLuint,
+        v_0: GLuint,
+        v_1: GLuint,
+        v_2: GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform3ui not yet implemented");
+        panic!("command oxidegl_program_uniform_3ui not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform3uiv(
+    pub unsafe fn oxidegl_program_uniform_3uiv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
         value: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform3uiv not yet implemented");
+        panic!("command oxidegl_program_uniform_3uiv not yet implemented");
     }
-    pub fn oxidegl_program_uniform4i(
+    pub fn oxidegl_program_uniform_4i(
         &mut self,
         program: GLuint,
         location: GLint,
-        v0: GLint,
-        v1: GLint,
-        v2: GLint,
-        v3: GLint,
+        v_0: GLint,
+        v_1: GLint,
+        v_2: GLint,
+        v_3: GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform4i not yet implemented");
+        panic!("command oxidegl_program_uniform_4i not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform4iv(
+    pub unsafe fn oxidegl_program_uniform_4iv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
         value: *const GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform4iv not yet implemented");
+        panic!("command oxidegl_program_uniform_4iv not yet implemented");
     }
-    pub fn oxidegl_program_uniform4f(
+    pub fn oxidegl_program_uniform_4f(
         &mut self,
         program: GLuint,
         location: GLint,
-        v0: GLfloat,
-        v1: GLfloat,
-        v2: GLfloat,
-        v3: GLfloat,
+        v_0: GLfloat,
+        v_1: GLfloat,
+        v_2: GLfloat,
+        v_3: GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform4f not yet implemented");
+        panic!("command oxidegl_program_uniform_4f not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform4fv(
+    pub unsafe fn oxidegl_program_uniform_4fv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform4fv not yet implemented");
+        panic!("command oxidegl_program_uniform_4fv not yet implemented");
     }
-    pub fn oxidegl_program_uniform4ui(
+    pub fn oxidegl_program_uniform_4ui(
         &mut self,
         program: GLuint,
         location: GLint,
-        v0: GLuint,
-        v1: GLuint,
-        v2: GLuint,
-        v3: GLuint,
+        v_0: GLuint,
+        v_1: GLuint,
+        v_2: GLuint,
+        v_3: GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform4ui not yet implemented");
+        panic!("command oxidegl_program_uniform_4ui not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform4uiv(
+    pub unsafe fn oxidegl_program_uniform_4uiv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
         value: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform4uiv not yet implemented");
+        panic!("command oxidegl_program_uniform_4uiv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix2fv(
+    pub unsafe fn oxidegl_program_uniform_matrix_2fv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -7665,9 +6790,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix2fv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_2fv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix3fv(
+    pub unsafe fn oxidegl_program_uniform_matrix_3fv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -7675,9 +6800,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix3fv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_3fv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix4fv(
+    pub unsafe fn oxidegl_program_uniform_matrix_4fv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -7685,9 +6810,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix4fv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_4fv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix2x3fv(
+    pub unsafe fn oxidegl_program_uniform_matrix_2x_3fv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -7695,9 +6820,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix2x3fv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_2x_3fv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix3x2fv(
+    pub unsafe fn oxidegl_program_uniform_matrix_3x_2fv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -7705,9 +6830,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix3x2fv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_3x_2fv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix2x4fv(
+    pub unsafe fn oxidegl_program_uniform_matrix_2x_4fv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -7715,9 +6840,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix2x4fv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_2x_4fv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix4x2fv(
+    pub unsafe fn oxidegl_program_uniform_matrix_4x_2fv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -7725,9 +6850,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix4x2fv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_4x_2fv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix3x4fv(
+    pub unsafe fn oxidegl_program_uniform_matrix_3x_4fv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -7735,9 +6860,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix3x4fv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_3x_4fv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix4x3fv(
+    pub unsafe fn oxidegl_program_uniform_matrix_4x_3fv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -7745,7 +6870,7 @@ impl Context {
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix4x3fv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_4x_3fv not yet implemented");
     }
 }
 /// ### Parameters
@@ -7766,11 +6891,11 @@ impl Context {
 /// ### Description
 /// [**glReadBuffer**](crate::context::Context::oxidegl_read_buffer) specifies
 /// a color buffer as the source for subsequent [**glReadPixels**](crate::context::Context::oxidegl_read_pixels),
-/// [**glCopyTexImage1D**](crate::context::Context::oxidegl_copy_tex_image1_d),
-/// [**glCopyTexImage2D**](crate::context::Context::oxidegl_copy_tex_image2_d),
-/// [**glCopyTexSubImage1D**](crate::context::Context::oxidegl_copy_tex_sub_image1_d),
-/// [**glCopyTexSubImage2D**](crate::context::Context::oxidegl_copy_tex_sub_image2_d),
-/// and [**glCopyTexSubImage3D**](crate::context::Context::oxidegl_copy_tex_sub_image3_d)
+/// [**glCopyTexImage1D**](crate::context::Context::oxidegl_copy_tex_image_1d),
+/// [**glCopyTexImage2D**](crate::context::Context::oxidegl_copy_tex_image_2d),
+/// [**glCopyTexSubImage1D**](crate::context::Context::oxidegl_copy_tex_sub_image_1d),
+/// [**glCopyTexSubImage2D**](crate::context::Context::oxidegl_copy_tex_sub_image_2d),
+/// and [**glCopyTexSubImage3D**](crate::context::Context::oxidegl_copy_tex_sub_image_3d)
 /// commands. `mode` accepts one of twelve or more predefined values. In a
 /// fully configured system, [`GL_FRONT`](crate::gl_enums::GL_FRONT), [`GL_LEFT`](crate::gl_enums::GL_LEFT),
 /// and [`GL_FRONT_LEFT`](crate::gl_enums::GL_FRONT_LEFT) all name the front
@@ -8190,10 +7315,10 @@ impl Context {
 /// > A mipmap is an ordered set of arrays representing the same image at progressively
 /// > lower resolutions. If the texture has dimensions `[inlineq]` `[inlineq]`
 /// > `[inlineq]` `[inlineq]` `[inlineq]` `[inlineq]` `[inlineq]` `[inlineq]`
-/// > `[inlineq]` `[inlineq]` [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d),
-/// > [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d), [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d),
-/// > [**glCopyTexImage1D**](crate::context::Context::oxidegl_copy_tex_image1_d),
-/// > or [**glCopyTexImage2D**](crate::context::Context::oxidegl_copy_tex_image2_d)
+/// > `[inlineq]` `[inlineq]` [**glTexImage1D**](crate::context::Context::oxidegl_tex_image_1d),
+/// > [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d), [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d),
+/// > [**glCopyTexImage1D**](crate::context::Context::oxidegl_copy_tex_image_1d),
+/// > or [**glCopyTexImage2D**](crate::context::Context::oxidegl_copy_tex_image_2d)
 /// > with the *level* argument indicating the order of the mipmaps. Level 0
 /// > is the original texture; level `[inlineq]` `[inlineq]`
 ///
@@ -8337,7 +7462,7 @@ impl Context {
 ///
 /// > Specifies the texture comparison mode for currently bound textures. That
 /// > is, a texture whose internal format is [`GL_DEPTH_COMPONENT_*`](crate::gl_enums::GL_DEPTH_COMPONENT_*);
-/// > see [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d))
+/// > see [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d))
 /// > Permissible values are: [`GL_COMPARE_REF_TO_TEXTURE`](crate::gl_enums::GL_COMPARE_REF_TO_TEXTURE)
 ///
 /// >> Specifies that the interpolated and clamped `[inlineq]` [`GL_TEXTURE_COMPARE_FUNC`](crate::gl_enums::GL_TEXTURE_COMPARE_FUNC)
@@ -8510,717 +7635,12 @@ impl Context {
 /// ### Parameters
 /// `target`
 ///
-/// > Specifies the target to which the texture is bound for [**glTexBuffer**](crate::context::Context::oxidegl_tex_buffer).
-/// > Must be [`GL_TEXTURE_BUFFER`](crate::gl_enums::GL_TEXTURE_BUFFER).
-///
-/// `texture`
-///
-/// > Specifies the texture object name for [**glTextureBuffer**](crate::context::Context::oxidegl_texture_buffer).
-///
-/// `internalformat`
-///
-/// > Specifies the internal format of the data in the store belonging to `buffer`.
-///
-/// `buffer`
-///
-/// > Specifies the name of the buffer object whose storage to attach to the
-/// > active buffer texture.
-///
-/// ### Description
-/// [**glTexBuffer**](crate::context::Context::oxidegl_tex_buffer) and [**glTextureBuffer**](crate::context::Context::oxidegl_texture_buffer)
-/// attaches the data store of a specified buffer object to a specified texture
-/// object, and specify the storage format for the texture image found in the
-/// buffer object. The texture object must be a buffer texture.
-///
-/// If `buffer` is zero, any buffer object attached to the buffer texture is
-/// detached and no new buffer object is attached. If `buffer` is non-zero,
-/// it must be the name of an existing buffer object.
-///
-/// `internalformat` specifies the storage format, and must be one of the following
-/// sized internal formats:
-///
-/// | *Sized Internal Format*                               | *Base Type*       | *Components*        | *Norm*     | 0  | 1  | 2  | 3  |
-/// |-------------------------------------------------------|-------------------|---------------------|------------|----|----|----|----|
-/// | [`GL_R8`](crate::gl_enums::GL_R8)                     | ubyte             | 1                   | YES        | R  | 0  | 0  | 1  |
-/// | [`GL_R16`](crate::gl_enums::GL_R16)                   | ushort            | 1                   | YES        | R  | 0  | 0  | 1  |
-/// | [`GL_R16F`](crate::gl_enums::GL_R16F)                 | half              | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_R32F`](crate::gl_enums::GL_R32F)                 | float             | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_R8I`](crate::gl_enums::GL_R8I)                   | byte              | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_R16I`](crate::gl_enums::GL_R16I)                 | short             | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_R32I`](crate::gl_enums::GL_R32I)                 | int               | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_R8UI`](crate::gl_enums::GL_R8UI)                 | ubyte             | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_R16UI`](crate::gl_enums::GL_R16UI)               | ushort            | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_R32UI`](crate::gl_enums::GL_R32UI)               | uint              | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_RG8`](crate::gl_enums::GL_RG8)                   | ubyte             | 2                   | YES        | R  | G  | 0  | 1  |
-/// | [`GL_RG16`](crate::gl_enums::GL_RG16)                 | ushort            | 2                   | YES        | R  | G  | 0  | 1  |
-/// | [`GL_RG16F`](crate::gl_enums::GL_RG16F)               | half              | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RG32F`](crate::gl_enums::GL_RG32F)               | float             | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RG8I`](crate::gl_enums::GL_RG8I)                 | byte              | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RG16I`](crate::gl_enums::GL_RG16I)               | short             | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RG32I`](crate::gl_enums::GL_RG32I)               | int               | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RG8UI`](crate::gl_enums::GL_RG8UI)               | ubyte             | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RG16UI`](crate::gl_enums::GL_RG16UI)             | ushort            | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RG32UI`](crate::gl_enums::GL_RG32UI)             | uint              | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RGB32F`](crate::gl_enums::GL_RGB32F)             | float             | 3                   | NO         | R  | G  | B  | 1  |
-/// | [`GL_RGB32I`](crate::gl_enums::GL_RGB32I)             | int               | 3                   | NO         | R  | G  | B  | 1  |
-/// | [`GL_RGB32UI`](crate::gl_enums::GL_RGB32UI)           | uint              | 3                   | NO         | R  | G  | B  | 1  |
-/// | [`GL_RGBA8`](crate::gl_enums::GL_RGBA8)               | uint              | 4                   | YES        | R  | G  | B  | A  |
-/// | [`GL_RGBA16`](crate::gl_enums::GL_RGBA16)             | short             | 4                   | YES        | R  | G  | B  | A  |
-/// | [`GL_RGBA16F`](crate::gl_enums::GL_RGBA16F)           | half              | 4                   | NO         | R  | G  | B  | A  |
-/// | [`GL_RGBA32F`](crate::gl_enums::GL_RGBA32F)           | float             | 4                   | NO         | R  | G  | B  | A  |
-/// | [`GL_RGBA8I`](crate::gl_enums::GL_RGBA8I)             | byte              | 4                   | NO         | R  | G  | B  | A  |
-/// | [`GL_RGBA16I`](crate::gl_enums::GL_RGBA16I)           | short             | 4                   | NO         | R  | G  | B  | A  |
-/// | [`GL_RGBA32I`](crate::gl_enums::GL_RGBA32I)           | int               | 4                   | NO         | R  | G  | B  | A  |
-/// | [`GL_RGBA8UI`](crate::gl_enums::GL_RGBA8UI)           | ubyte             | 4                   | NO         | R  | G  | B  | A  |
-/// | [`GL_RGBA16UI`](crate::gl_enums::GL_RGBA16UI)         | ushort            | 4                   | NO         | R  | G  | B  | A  |
-/// | [`GL_RGBA32UI`](crate::gl_enums::GL_RGBA32UI)         | uint              | 4                   | NO         | R  | G  | B  | A  |
-///
-/// When a buffer object is attached to a buffer texture, the buffer object's
-/// data store is taken as the texture's texel array. The number of texels
-/// in the buffer texture's texel array is given by $$ \left\lfloor{ size \over
-///{ components \times sizeof(base\_type)}} \right\rfloor $$ where $size$ is
-/// the size of the buffer object in basic machine units (the value of [`GL_BUFFER_SIZE`](crate::gl_enums::GL_BUFFER_SIZE)
-/// for `buffer` ), and $components$ and $base\_type$ are the element count
-/// and base data type for elements, as specified in the table above. The number
-/// of texels in the texel array is then clamped to the value of the implementation-dependent
-/// limit [`GL_MAX_TEXTURE_BUFFER_SIZE`](crate::gl_enums::GL_MAX_TEXTURE_BUFFER_SIZE).
-/// When a buffer texture is accessed in a shader, the results of a texel
-/// fetch are undefined if the specified texel coordinate is negative, or greater
-/// than or equal to the clamped number of texels in the texel array.
-///
-/// ### Associated Gets
-/// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_MAX_TEXTURE_BUFFER_SIZE`](crate::gl_enums::GL_MAX_TEXTURE_BUFFER_SIZE)
-///
-/// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_TEXTURE_BINDING_BUFFER`](crate::gl_enums::GL_TEXTURE_BINDING_BUFFER)
-///
-/// [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter)
-/// with argument [`GL_TEXTURE_BUFFER_DATA_STORE_BINDING`](crate::gl_enums::GL_TEXTURE_BUFFER_DATA_STORE_BINDING)
-impl Context {
-    pub fn oxidegl_tex_buffer(
-        &mut self,
-        target: TextureTarget,
-        internalformat: SizedInternalFormat,
-        buffer: GLuint,
-    ) -> GlFallible {
-        panic!("command oxidegl_tex_buffer not yet implemented");
-    }
-    pub fn oxidegl_texture_buffer(
-        &mut self,
-        texture: GLuint,
-        internalformat: SizedInternalFormat,
-        buffer: GLuint,
-    ) -> GlFallible {
-        panic!("command oxidegl_texture_buffer not yet implemented");
-    }
-}
-/// ### Parameters
-/// `target`
-///
-/// > Specifies the target to which the texture object is bound for [**glTexBufferRange**](crate::context::Context::oxidegl_tex_buffer_range).
-/// > Must be [`GL_TEXTURE_BUFFER`](crate::gl_enums::GL_TEXTURE_BUFFER).
-///
-/// `texture`
-///
-/// > Specifies the texture object name for [**glTextureBufferRange**](crate::context::Context::oxidegl_texture_buffer_range).
-///
-/// `internalformat`
-///
-/// > Specifies the internal format of the data in the store belonging to `buffer`.
-///
-/// `buffer`
-///
-/// > Specifies the name of the buffer object whose storage to attach to the
-/// > active buffer texture.
-///
-/// `offset`
-///
-/// > Specifies the offset of the start of the range of the buffer's data store
-/// > to attach.
-///
-/// `size`
-///
-/// > Specifies the size of the range of the buffer's data store to attach.
-///
-/// ### Description
-/// [**glTexBufferRange**](crate::context::Context::oxidegl_tex_buffer_range)
-/// and [**glTextureBufferRange**](crate::context::Context::oxidegl_texture_buffer_range)
-/// attach a range of the data store of a specified buffer object to a specified
-/// texture object, and specify the storage format for the texture image found
-/// in the buffer object. The texture object must be a buffer texture.
-///
-/// If `buffer` is zero, any buffer object attached to the buffer texture is
-/// detached and no new buffer object is attached. If `buffer` is non-zero,
-/// it must be the name of an existing buffer object.
-///
-/// The start and size of the range are specified by `offset` and `size` respectively,
-/// both measured in basic machine units. `offset` must be greater than or
-/// equal to zero, `size` must be greater than zero, and the sum of `offset`
-/// and `size` must not exceed the value of [`GL_BUFFER_SIZE`](crate::gl_enums::GL_BUFFER_SIZE)
-/// for `buffer`. Furthermore, `offset` must be an integer multiple of the
-/// value of [`GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT`](crate::gl_enums::GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT).
-///
-/// `internalformat` specifies the storage format, and must be one of the following
-/// sized internal formats:
-///
-/// | *Sized Internal Format*                               | *Base Type*       | *Components*        | *Norm*     | 0  | 1  | 2  | 3  |
-/// |-------------------------------------------------------|-------------------|---------------------|------------|----|----|----|----|
-/// | [`GL_R8`](crate::gl_enums::GL_R8)                     | ubyte             | 1                   | YES        | R  | 0  | 0  | 1  |
-/// | [`GL_R16`](crate::gl_enums::GL_R16)                   | ushort            | 1                   | YES        | R  | 0  | 0  | 1  |
-/// | [`GL_R16F`](crate::gl_enums::GL_R16F)                 | half              | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_R32F`](crate::gl_enums::GL_R32F)                 | float             | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_R8I`](crate::gl_enums::GL_R8I)                   | byte              | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_R16I`](crate::gl_enums::GL_R16I)                 | short             | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_R32I`](crate::gl_enums::GL_R32I)                 | int               | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_R8UI`](crate::gl_enums::GL_R8UI)                 | ubyte             | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_R16UI`](crate::gl_enums::GL_R16UI)               | ushort            | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_R32UI`](crate::gl_enums::GL_R32UI)               | uint              | 1                   | NO         | R  | 0  | 0  | 1  |
-/// | [`GL_RG8`](crate::gl_enums::GL_RG8)                   | ubyte             | 2                   | YES        | R  | G  | 0  | 1  |
-/// | [`GL_RG16`](crate::gl_enums::GL_RG16)                 | ushort            | 2                   | YES        | R  | G  | 0  | 1  |
-/// | [`GL_RG16F`](crate::gl_enums::GL_RG16F)               | half              | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RG32F`](crate::gl_enums::GL_RG32F)               | float             | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RG8I`](crate::gl_enums::GL_RG8I)                 | byte              | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RG16I`](crate::gl_enums::GL_RG16I)               | short             | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RG32I`](crate::gl_enums::GL_RG32I)               | int               | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RG8UI`](crate::gl_enums::GL_RG8UI)               | ubyte             | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RG16UI`](crate::gl_enums::GL_RG16UI)             | ushort            | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RG32UI`](crate::gl_enums::GL_RG32UI)             | uint              | 2                   | NO         | R  | G  | 0  | 1  |
-/// | [`GL_RGB32F`](crate::gl_enums::GL_RGB32F)             | float             | 3                   | NO         | R  | G  | B  | 1  |
-/// | [`GL_RGB32I`](crate::gl_enums::GL_RGB32I)             | int               | 3                   | NO         | R  | G  | B  | 1  |
-/// | [`GL_RGB32UI`](crate::gl_enums::GL_RGB32UI)           | uint              | 3                   | NO         | R  | G  | B  | 1  |
-/// | [`GL_RGBA8`](crate::gl_enums::GL_RGBA8)               | uint              | 4                   | YES        | R  | G  | B  | A  |
-/// | [`GL_RGBA16`](crate::gl_enums::GL_RGBA16)             | short             | 4                   | YES        | R  | G  | B  | A  |
-/// | [`GL_RGBA16F`](crate::gl_enums::GL_RGBA16F)           | half              | 4                   | NO         | R  | G  | B  | A  |
-/// | [`GL_RGBA32F`](crate::gl_enums::GL_RGBA32F)           | float             | 4                   | NO         | R  | G  | B  | A  |
-/// | [`GL_RGBA8I`](crate::gl_enums::GL_RGBA8I)             | byte              | 4                   | NO         | R  | G  | B  | A  |
-/// | [`GL_RGBA16I`](crate::gl_enums::GL_RGBA16I)           | short             | 4                   | NO         | R  | G  | B  | A  |
-/// | [`GL_RGBA32I`](crate::gl_enums::GL_RGBA32I)           | int               | 4                   | NO         | R  | G  | B  | A  |
-/// | [`GL_RGBA8UI`](crate::gl_enums::GL_RGBA8UI)           | ubyte             | 4                   | NO         | R  | G  | B  | A  |
-/// | [`GL_RGBA16UI`](crate::gl_enums::GL_RGBA16UI)         | ushort            | 4                   | NO         | R  | G  | B  | A  |
-/// | [`GL_RGBA32UI`](crate::gl_enums::GL_RGBA32UI)         | uint              | 4                   | NO         | R  | G  | B  | A  |
-///
-/// When a range of a buffer object is attached to a buffer texture, the specified
-/// range of the buffer object's data store is taken as the texture's texel
-/// array. The number of texels in the buffer texture's texel array is given
-/// by $$ \left\lfloor{ size \over{ components \times sizeof(base\_type)}} \right\rfloor
-/// $$ where $components$ and $base\_type$ are the element count and base data
-/// type for elements, as specified in the table above. The number of texels
-/// in the texel array is then clamped to the value of the implementation-dependent
-/// limit [`GL_MAX_TEXTURE_BUFFER_SIZE`](crate::gl_enums::GL_MAX_TEXTURE_BUFFER_SIZE).
-/// When a buffer texture is accessed in a shader, the results of a texel
-/// fetch are undefined if the specified texel coordinate is negative, or greater
-/// than or equal to the clamped number of texels in the texel array.
-///
-/// ### Associated Gets
-/// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT`](crate::gl_enums::GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT)
-///
-/// [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter)
-/// with arguments [`GL_TEXTURE_BUFFER_OFFSET`](crate::gl_enums::GL_TEXTURE_BUFFER_OFFSET)
-/// or [`GL_TEXTURE_BUFFER_SIZE`](crate::gl_enums::GL_TEXTURE_BUFFER_SIZE).
-impl Context {
-    pub fn oxidegl_tex_buffer_range(
-        &mut self,
-        target: TextureTarget,
-        internalformat: SizedInternalFormat,
-        buffer: GLuint,
-        offset: GLintptr,
-        size: GLsizeiptr,
-    ) -> GlFallible {
-        panic!("command oxidegl_tex_buffer_range not yet implemented");
-    }
-    pub fn oxidegl_texture_buffer_range(
-        &mut self,
-        texture: GLuint,
-        internalformat: SizedInternalFormat,
-        buffer: GLuint,
-        offset: GLintptr,
-        size: GLsizeiptr,
-    ) -> GlFallible {
-        panic!("command oxidegl_texture_buffer_range not yet implemented");
-    }
-}
-/// ### Parameters
-/// `target`
-///
-/// > Specifies the target to which the texture is bound for [**glTexParameter**](crate::context::Context::oxidegl_tex_parameter)
-/// > functions. Must be one of [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D),
-/// > [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY), [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D),
-/// > [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY), [`GL_TEXTURE_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE),
-/// > [`GL_TEXTURE_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE_ARRAY),
-/// > [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D), [`GL_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_CUBE_MAP),
-/// > [`GL_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_ARRAY),
-/// > or [`GL_TEXTURE_RECTANGLE`](crate::gl_enums::GL_TEXTURE_RECTANGLE).
-///
-/// `texture`
-///
-/// > Specifies the texture object name for [**glTextureParameter**](crate::context::Context::oxidegl_texture_parameter)
-/// > functions.
-///
-/// `pname`
-///
-/// > Specifies the symbolic name of a single-valued texture parameter. `pname`
-/// > can be one of the following: [`GL_DEPTH_STENCIL_TEXTURE_MODE`](crate::gl_enums::GL_DEPTH_STENCIL_TEXTURE_MODE),
-/// > [`GL_TEXTURE_BASE_LEVEL`](crate::gl_enums::GL_TEXTURE_BASE_LEVEL), [`GL_TEXTURE_COMPARE_FUNC`](crate::gl_enums::GL_TEXTURE_COMPARE_FUNC),
-/// > [`GL_TEXTURE_COMPARE_MODE`](crate::gl_enums::GL_TEXTURE_COMPARE_MODE), [`GL_TEXTURE_LOD_BIAS`](crate::gl_enums::GL_TEXTURE_LOD_BIAS),
-/// > [`GL_TEXTURE_MIN_FILTER`](crate::gl_enums::GL_TEXTURE_MIN_FILTER), [`GL_TEXTURE_MAG_FILTER`](crate::gl_enums::GL_TEXTURE_MAG_FILTER),
-/// > [`GL_TEXTURE_MIN_LOD`](crate::gl_enums::GL_TEXTURE_MIN_LOD), [`GL_TEXTURE_MAX_LOD`](crate::gl_enums::GL_TEXTURE_MAX_LOD),
-/// > [`GL_TEXTURE_MAX_LEVEL`](crate::gl_enums::GL_TEXTURE_MAX_LEVEL), [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R),
-/// > [`GL_TEXTURE_SWIZZLE_G`](crate::gl_enums::GL_TEXTURE_SWIZZLE_G), [`GL_TEXTURE_SWIZZLE_B`](crate::gl_enums::GL_TEXTURE_SWIZZLE_B),
-/// > [`GL_TEXTURE_SWIZZLE_A`](crate::gl_enums::GL_TEXTURE_SWIZZLE_A), [`GL_TEXTURE_WRAP_S`](crate::gl_enums::GL_TEXTURE_WRAP_S),
-/// > [`GL_TEXTURE_WRAP_T`](crate::gl_enums::GL_TEXTURE_WRAP_T), or [`GL_TEXTURE_WRAP_R`](crate::gl_enums::GL_TEXTURE_WRAP_R).
-///
-/// > For the vector commands( [**glTexParameter*v**](crate::context::Context::oxidegl_tex_parameter*v)
-/// > ), `pname` can also be one of [`GL_TEXTURE_BORDER_COLOR`](crate::gl_enums::GL_TEXTURE_BORDER_COLOR)
-/// > or [`GL_TEXTURE_SWIZZLE_RGBA`](crate::gl_enums::GL_TEXTURE_SWIZZLE_RGBA).
-///
-/// `param`
-///
-/// > For the scalar commands, specifies the value of `pname`.
-///
-/// `params`
-///
-/// > For the vector commands, specifies a pointer to an array where the value
-/// > or values of `pname` are stored.
-///
-/// ### Description
-/// [**glTexParameter**](crate::context::Context::oxidegl_tex_parameter) and
-/// [**glTextureParameter**](crate::context::Context::oxidegl_texture_parameter)
-/// assign the value or values in `params` to the texture parameter specified
-/// as `pname`. For [**glTexParameter**](crate::context::Context::oxidegl_tex_parameter),
-/// `target` defines the target texture, either [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D),
-/// [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY), [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D),
-/// [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY), [`GL_TEXTURE_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE),
-/// [`GL_TEXTURE_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE_ARRAY),
-/// [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D), [`GL_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_CUBE_MAP),
-/// [`GL_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_ARRAY),
-/// or [`GL_TEXTURE_RECTANGLE`](crate::gl_enums::GL_TEXTURE_RECTANGLE). The
-/// following symbols are accepted in `pname`:
-///
-/// [`GL_DEPTH_STENCIL_TEXTURE_MODE`](crate::gl_enums::GL_DEPTH_STENCIL_TEXTURE_MODE)
-///
-/// > Specifies the mode used to read from depth-stencil format textures. `params`
-/// > must be one of [`GL_DEPTH_COMPONENT`](crate::gl_enums::GL_DEPTH_COMPONENT)
-/// > or [`GL_STENCIL_INDEX`](crate::gl_enums::GL_STENCIL_INDEX). If the depth
-/// > stencil mode is [`GL_DEPTH_COMPONENT`](crate::gl_enums::GL_DEPTH_COMPONENT),
-/// > then reads from depth-stencil format textures will return the depth component
-/// > of the texel in `[inlineq]` [`GL_STENCIL_INDEX`](crate::gl_enums::GL_STENCIL_INDEX)
-/// > then the stencil component is returned in `[inlineq]` [`GL_DEPTH_COMPONENT`](crate::gl_enums::GL_DEPTH_COMPONENT).
-///
-/// [`GL_TEXTURE_BASE_LEVEL`](crate::gl_enums::GL_TEXTURE_BASE_LEVEL)
-///
-/// > Specifies the index of the lowest defined mipmap level. This is an integer
-/// > value. The initial value is 0.
-///
-///
-/// [`GL_TEXTURE_BORDER_COLOR`](crate::gl_enums::GL_TEXTURE_BORDER_COLOR)
-///
-/// > The data in `params` specifies four values that define the border values
-/// > that should be used for border texels. If a texel is sampled from the border
-/// > of the texture, the values of [`GL_TEXTURE_BORDER_COLOR`](crate::gl_enums::GL_TEXTURE_BORDER_COLOR)
-/// > are interpreted as an RGBA color to match the texture's internal format
-/// > and substituted for the non-existent texel data. If the texture contains
-/// > depth components, the first component of [`GL_TEXTURE_BORDER_COLOR`](crate::gl_enums::GL_TEXTURE_BORDER_COLOR)
-/// > is interpreted as a depth value. The initial value is `[inlineq]`
-///
-/// > If the values for [`GL_TEXTURE_BORDER_COLOR`](crate::gl_enums::GL_TEXTURE_BORDER_COLOR)
-/// > are specified with [**glTexParameterIiv**](crate::context::Context::oxidegl_tex_parameter_iiv)
-/// > or [**glTexParameterIuiv**](crate::context::Context::oxidegl_tex_parameter_iuiv),
-/// > the values are stored unmodified with an internal data type of integer.
-/// > If specified with [**glTexParameteriv**](crate::context::Context::oxidegl_tex_parameteriv),
-/// > they are converted to floating point with the following equation: `[inlineq]`
-/// > [**glTexParameterfv**](crate::context::Context::oxidegl_tex_parameterfv),
-/// > they are stored unmodified as floating-point values.
-///
-/// [`GL_TEXTURE_COMPARE_FUNC`](crate::gl_enums::GL_TEXTURE_COMPARE_FUNC)
-///
-/// > Specifies the comparison operator used when [`GL_TEXTURE_COMPARE_MODE`](crate::gl_enums::GL_TEXTURE_COMPARE_MODE)
-/// > is set to [`GL_COMPARE_REF_TO_TEXTURE`](crate::gl_enums::GL_COMPARE_REF_TO_TEXTURE).
-/// > Permissible values are:
-/// > |* Texture Comparison Function*                                  |* Computed result*                            |
-/// > |----------------------------------------------------------------|----------------------------------------------|
-/// > | [`GL_LEQUAL`](crate::gl_enums::GL_LEQUAL)                      | `[inlineq]`                                  |
-/// > | [`GL_GEQUAL`](crate::gl_enums::GL_GEQUAL)                      | `[inlineq]`                                  |
-/// > | [`GL_LESS`](crate::gl_enums::GL_LESS)                          | `[inlineq]`                                  |
-/// > | [`GL_GREATER`](crate::gl_enums::GL_GREATER)                    | `[inlineq]`                                  |
-/// > | [`GL_EQUAL`](crate::gl_enums::GL_EQUAL)                        | `[inlineq]`                                  |
-/// > | [`GL_NOTEQUAL`](crate::gl_enums::GL_NOTEQUAL)                  | `[inlineq]`                                  |
-/// > | [`GL_ALWAYS`](crate::gl_enums::GL_ALWAYS)                      | `[inlineq]`                                  |
-/// > | [`GL_NEVER`](crate::gl_enums::GL_NEVER)                        | `[inlineq]`                                  |
-///
-/// > `[inlineq]` `[inlineq]` `[inlineq]`
-///
-/// [`GL_TEXTURE_COMPARE_MODE`](crate::gl_enums::GL_TEXTURE_COMPARE_MODE)
-///
-/// > Specifies the texture comparison mode for currently bound depth textures.
-/// > That is, a texture whose internal format is [`GL_DEPTH_COMPONENT_*`](crate::gl_enums::GL_DEPTH_COMPONENT_*);
-/// > see [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d))
-/// > Permissible values are: [`GL_COMPARE_REF_TO_TEXTURE`](crate::gl_enums::GL_COMPARE_REF_TO_TEXTURE)
-///
-/// >> Specifies that the interpolated and clamped `[inlineq]` [`GL_TEXTURE_COMPARE_FUNC`](crate::gl_enums::GL_TEXTURE_COMPARE_FUNC)
-/// >> for details of how the comparison is evaluated. The result of the comparison
-/// >> is assigned to the red channel.
-///
-/// > [`GL_NONE`](crate::gl_enums::GL_NONE)
-///
-/// >> Specifies that the red channel should be assigned the appropriate value
-/// >> from the currently bound depth texture.
-///
-///
-/// [`GL_TEXTURE_LOD_BIAS`](crate::gl_enums::GL_TEXTURE_LOD_BIAS)
-///
-/// > `params` specifies a fixed bias value that is to be added to the level-of-detail
-/// > parameter for the texture before texture sampling. The specified value
-/// > is added to the shader-supplied bias value (if any) and subsequently clamped
-/// > into the implementation-defined range `[inlineq]` `[inlineq]` [`GL_MAX_TEXTURE_LOD_BIAS`](crate::gl_enums::GL_MAX_TEXTURE_LOD_BIAS).
-/// > The initial value is 0.0.
-///
-/// [`GL_TEXTURE_MIN_FILTER`](crate::gl_enums::GL_TEXTURE_MIN_FILTER)
-///
-/// > The texture minifying function is used whenever the level-of-detail function
-/// > used when sampling from the texture determines that the texture should
-/// > be minified. There are six defined minifying functions. Two of them use
-/// > either the nearest texture elements or a weighted average of multiple texture
-/// > elements to compute the texture value. The other four use mipmaps.
-///
-/// > A mipmap is an ordered set of arrays representing the same image at progressively
-/// > lower resolutions. If the texture has dimensions `[inlineq]` `[inlineq]`
-/// > `[inlineq]` `[inlineq]` `[inlineq]` `[inlineq]` `[inlineq]` `[inlineq]`
-/// > `[inlineq]` `[inlineq]` [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d),
-/// > [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d), [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d),
-/// > [**glCopyTexImage1D**](crate::context::Context::oxidegl_copy_tex_image1_d),
-/// > or [**glCopyTexImage2D**](crate::context::Context::oxidegl_copy_tex_image2_d)
-/// > with the *level* argument indicating the order of the mipmaps. Level 0
-/// > is the original texture; level `[inlineq]` `[inlineq]`
-///
-/// > `params` supplies a function for minifying the texture as one of the following:
-/// > [`GL_NEAREST`](crate::gl_enums::GL_NEAREST)
-///
-/// >> Returns the value of the texture element that is nearest (in Manhattan
-/// >> distance) to the specified texture coordinates.
-///
-/// > [`GL_LINEAR`](crate::gl_enums::GL_LINEAR)
-///
-/// >> Returns the weighted average of the four texture elements that are closest
-/// >> to the specified texture coordinates. These can include items wrapped or
-/// >> repeated from other parts of a texture, depending on the values of [`GL_TEXTURE_WRAP_S`](crate::gl_enums::GL_TEXTURE_WRAP_S)
-/// >> and [`GL_TEXTURE_WRAP_T`](crate::gl_enums::GL_TEXTURE_WRAP_T), and on the
-/// >> exact mapping.
-///
-/// > [`GL_NEAREST_MIPMAP_NEAREST`](crate::gl_enums::GL_NEAREST_MIPMAP_NEAREST)
-///
-/// >> Chooses the mipmap that most closely matches the size of the pixel being
-/// >> textured and uses the [`GL_NEAREST`](crate::gl_enums::GL_NEAREST) criterion
-/// >> (the texture element closest to the specified texture coordinates) to produce
-/// >> a texture value.
-///
-/// > [`GL_LINEAR_MIPMAP_NEAREST`](crate::gl_enums::GL_LINEAR_MIPMAP_NEAREST)
-///
-/// >> Chooses the mipmap that most closely matches the size of the pixel being
-/// >> textured and uses the [`GL_LINEAR`](crate::gl_enums::GL_LINEAR) criterion
-/// >> (a weighted average of the four texture elements that are closest to the
-/// >> specified texture coordinates) to produce a texture value.
-///
-/// > [`GL_NEAREST_MIPMAP_LINEAR`](crate::gl_enums::GL_NEAREST_MIPMAP_LINEAR)
-///
-/// >> Chooses the two mipmaps that most closely match the size of the pixel being
-/// >> textured and uses the [`GL_NEAREST`](crate::gl_enums::GL_NEAREST) criterion
-/// >> (the texture element closest to the specified texture coordinates) to produce
-/// >> a texture value from each mipmap. The final texture value is a weighted
-/// >> average of those two values.
-///
-/// > [`GL_LINEAR_MIPMAP_LINEAR`](crate::gl_enums::GL_LINEAR_MIPMAP_LINEAR)
-///
-/// >> Chooses the two mipmaps that most closely match the size of the pixel being
-/// >> textured and uses the [`GL_LINEAR`](crate::gl_enums::GL_LINEAR) criterion
-/// >> (a weighted average of the texture elements that are closest to the specified
-/// >> texture coordinates) to produce a texture value from each mipmap. The final
-/// >> texture value is a weighted average of those two values.
-///
-///
-/// > As more texture elements are sampled in the minification process, fewer
-/// > aliasing artifacts will be apparent. While the [`GL_NEAREST`](crate::gl_enums::GL_NEAREST)
-/// > and [`GL_LINEAR`](crate::gl_enums::GL_LINEAR) minification functions can
-/// > be faster than the other four, they sample only one or multiple texture
-/// > elements to determine the texture value of the pixel being rendered and
-/// > can produce moire patterns or ragged transitions. The initial value of
-/// > [`GL_TEXTURE_MIN_FILTER`](crate::gl_enums::GL_TEXTURE_MIN_FILTER) is [`GL_NEAREST_MIPMAP_LINEAR`](crate::gl_enums::GL_NEAREST_MIPMAP_LINEAR).
-///
-///
-/// [`GL_TEXTURE_MAG_FILTER`](crate::gl_enums::GL_TEXTURE_MAG_FILTER)
-///
-/// > The texture magnification function is used whenever the level-of-detail
-/// > function used when sampling from the texture determines that the texture
-/// > should be magified. It sets the texture magnification function to either
-/// > [`GL_NEAREST`](crate::gl_enums::GL_NEAREST) or [`GL_LINEAR`](crate::gl_enums::GL_LINEAR)
-/// > (see below). [`GL_NEAREST`](crate::gl_enums::GL_NEAREST) is generally faster
-/// > than [`GL_LINEAR`](crate::gl_enums::GL_LINEAR), but it can produce textured
-/// > images with sharper edges because the transition between texture elements
-/// > is not as smooth. The initial value of [`GL_TEXTURE_MAG_FILTER`](crate::gl_enums::GL_TEXTURE_MAG_FILTER)
-/// > is [`GL_LINEAR`](crate::gl_enums::GL_LINEAR). [`GL_NEAREST`](crate::gl_enums::GL_NEAREST)
-///
-/// >> Returns the value of the texture element that is nearest (in Manhattan
-/// >> distance) to the specified texture coordinates.
-///
-/// > [`GL_LINEAR`](crate::gl_enums::GL_LINEAR)
-///
-/// >> Returns the weighted average of the texture elements that are closest to
-/// >> the specified texture coordinates. These can include items wrapped or repeated
-/// >> from other parts of a texture, depending on the values of [`GL_TEXTURE_WRAP_S`](crate::gl_enums::GL_TEXTURE_WRAP_S)
-/// >> and [`GL_TEXTURE_WRAP_T`](crate::gl_enums::GL_TEXTURE_WRAP_T), and on the
-/// >> exact mapping.
-///
-///
-///
-/// [`GL_TEXTURE_MIN_LOD`](crate::gl_enums::GL_TEXTURE_MIN_LOD)
-///
-/// > Sets the minimum level-of-detail parameter. This floating-point value limits
-/// > the selection of highest resolution mipmap (lowest mipmap level). The initial
-/// > value is -1000.
-///
-///
-/// [`GL_TEXTURE_MAX_LOD`](crate::gl_enums::GL_TEXTURE_MAX_LOD)
-///
-/// > Sets the maximum level-of-detail parameter. This floating-point value limits
-/// > the selection of the lowest resolution mipmap (highest mipmap level). The
-/// > initial value is 1000.
-///
-///
-/// [`GL_TEXTURE_MAX_LEVEL`](crate::gl_enums::GL_TEXTURE_MAX_LEVEL)
-///
-/// > Sets the index of the highest defined mipmap level. This is an integer
-/// > value. The initial value is 1000.
-///
-///
-/// [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R)
-///
-/// > Sets the swizzle that will be applied to the `[inlineq]` `param` are [`GL_RED`](crate::gl_enums::GL_RED),
-/// > [`GL_GREEN`](crate::gl_enums::GL_GREEN), [`GL_BLUE`](crate::gl_enums::GL_BLUE),
-/// > [`GL_ALPHA`](crate::gl_enums::GL_ALPHA), [`GL_ZERO`](crate::gl_enums::GL_ZERO)
-/// > and [`GL_ONE`](crate::gl_enums::GL_ONE). If [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R)
-/// > is [`GL_RED`](crate::gl_enums::GL_RED), the value for `[inlineq]` [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R)
-/// > is [`GL_GREEN`](crate::gl_enums::GL_GREEN), the value for `[inlineq]` [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R)
-/// > is [`GL_BLUE`](crate::gl_enums::GL_BLUE), the value for `[inlineq]` [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R)
-/// > is [`GL_ALPHA`](crate::gl_enums::GL_ALPHA), the value for `[inlineq]` [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R)
-/// > is [`GL_ZERO`](crate::gl_enums::GL_ZERO), the value for `[inlineq]` `[inlineq]`
-/// > [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R) is [`GL_ONE`](crate::gl_enums::GL_ONE),
-/// > the value for `[inlineq]` `[inlineq]` [`GL_RED`](crate::gl_enums::GL_RED).
-///
-///
-/// [`GL_TEXTURE_SWIZZLE_G`](crate::gl_enums::GL_TEXTURE_SWIZZLE_G)
-///
-/// > Sets the swizzle that will be applied to the `[inlineq]` `param` and their
-/// > effects are similar to those of [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R).
-/// > The initial value is [`GL_GREEN`](crate::gl_enums::GL_GREEN).
-///
-///
-/// [`GL_TEXTURE_SWIZZLE_B`](crate::gl_enums::GL_TEXTURE_SWIZZLE_B)
-///
-/// > Sets the swizzle that will be applied to the `[inlineq]` `param` and their
-/// > effects are similar to those of [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R).
-/// > The initial value is [`GL_BLUE`](crate::gl_enums::GL_BLUE).
-///
-///
-/// [`GL_TEXTURE_SWIZZLE_A`](crate::gl_enums::GL_TEXTURE_SWIZZLE_A)
-///
-/// > Sets the swizzle that will be applied to the `[inlineq]` `param` and their
-/// > effects are similar to those of [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R).
-/// > The initial value is [`GL_ALPHA`](crate::gl_enums::GL_ALPHA).
-///
-///
-/// [`GL_TEXTURE_SWIZZLE_RGBA`](crate::gl_enums::GL_TEXTURE_SWIZZLE_RGBA)
-///
-/// > Sets the swizzles that will be applied to the `[inlineq]` `[inlineq]` `[inlineq]`
-/// > `[inlineq]` `params` and their effects are similar to those of [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R),
-/// > except that all channels are specified simultaneously. Setting the value
-/// > of [`GL_TEXTURE_SWIZZLE_RGBA`](crate::gl_enums::GL_TEXTURE_SWIZZLE_RGBA)
-/// > is equivalent (assuming no errors are generated) to setting the parameters
-/// > of each of [`GL_TEXTURE_SWIZZLE_R`](crate::gl_enums::GL_TEXTURE_SWIZZLE_R),
-/// > [`GL_TEXTURE_SWIZZLE_G`](crate::gl_enums::GL_TEXTURE_SWIZZLE_G), [`GL_TEXTURE_SWIZZLE_B`](crate::gl_enums::GL_TEXTURE_SWIZZLE_B),
-/// > and [`GL_TEXTURE_SWIZZLE_A`](crate::gl_enums::GL_TEXTURE_SWIZZLE_A) successively.
-///
-///
-/// [`GL_TEXTURE_WRAP_S`](crate::gl_enums::GL_TEXTURE_WRAP_S)
-///
-/// > Sets the wrap parameter for texture coordinate `[inlineq]` [`GL_CLAMP_TO_EDGE`](crate::gl_enums::GL_CLAMP_TO_EDGE),
-/// > [`GL_CLAMP_TO_BORDER`](crate::gl_enums::GL_CLAMP_TO_BORDER), [`GL_MIRRORED_REPEAT`](crate::gl_enums::GL_MIRRORED_REPEAT),
-/// > [`GL_REPEAT`](crate::gl_enums::GL_REPEAT), or [`GL_MIRROR_CLAMP_TO_EDGE`](crate::gl_enums::GL_MIRROR_CLAMP_TO_EDGE).
-/// > [`GL_CLAMP_TO_EDGE`](crate::gl_enums::GL_CLAMP_TO_EDGE) causes `[inlineq]`
-/// > `[inlineq]` `[inlineq]` [`GL_CLAMP_TO_BORDER`](crate::gl_enums::GL_CLAMP_TO_BORDER)
-/// > evaluates `[inlineq]` [`GL_CLAMP_TO_EDGE`](crate::gl_enums::GL_CLAMP_TO_EDGE).
-/// > However, in cases where clamping would have occurred in [`GL_CLAMP_TO_EDGE`](crate::gl_enums::GL_CLAMP_TO_EDGE)
-/// > mode, the fetched texel data is substituted with the values specified by
-/// > [`GL_TEXTURE_BORDER_COLOR`](crate::gl_enums::GL_TEXTURE_BORDER_COLOR). [`GL_REPEAT`](crate::gl_enums::GL_REPEAT)
-/// > causes the integer part of the `[inlineq]` [`GL_MIRRORED_REPEAT`](crate::gl_enums::GL_MIRRORED_REPEAT)
-/// > causes the `[inlineq]` `[inlineq]` `[inlineq]` `[inlineq]` `[inlineq]`
-/// > `[inlineq]` `[inlineq]` [`GL_MIRROR_CLAMP_TO_EDGE`](crate::gl_enums::GL_MIRROR_CLAMP_TO_EDGE)
-/// > causes the `[inlineq]` [`GL_MIRRORED_REPEAT`](crate::gl_enums::GL_MIRRORED_REPEAT)
-/// > for one repetition of the texture, at which point the coordinate to be
-/// > clamped as in [`GL_CLAMP_TO_EDGE`](crate::gl_enums::GL_CLAMP_TO_EDGE). Initially,
-/// > [`GL_TEXTURE_WRAP_S`](crate::gl_enums::GL_TEXTURE_WRAP_S) is set to [`GL_REPEAT`](crate::gl_enums::GL_REPEAT).
-///
-///
-/// [`GL_TEXTURE_WRAP_T`](crate::gl_enums::GL_TEXTURE_WRAP_T)
-///
-/// > Sets the wrap parameter for texture coordinate `[inlineq]` [`GL_CLAMP_TO_EDGE`](crate::gl_enums::GL_CLAMP_TO_EDGE),
-/// > [`GL_CLAMP_TO_BORDER`](crate::gl_enums::GL_CLAMP_TO_BORDER), [`GL_MIRRORED_REPEAT`](crate::gl_enums::GL_MIRRORED_REPEAT),
-/// > [`GL_REPEAT`](crate::gl_enums::GL_REPEAT), or [`GL_MIRROR_CLAMP_TO_EDGE`](crate::gl_enums::GL_MIRROR_CLAMP_TO_EDGE).
-/// > See the discussion under [`GL_TEXTURE_WRAP_S`](crate::gl_enums::GL_TEXTURE_WRAP_S).
-/// > Initially, [`GL_TEXTURE_WRAP_T`](crate::gl_enums::GL_TEXTURE_WRAP_T) is
-/// > set to [`GL_REPEAT`](crate::gl_enums::GL_REPEAT).
-///
-///
-/// [`GL_TEXTURE_WRAP_R`](crate::gl_enums::GL_TEXTURE_WRAP_R)
-///
-/// > Sets the wrap parameter for texture coordinate `[inlineq]` [`GL_CLAMP_TO_EDGE`](crate::gl_enums::GL_CLAMP_TO_EDGE),
-/// > [`GL_CLAMP_TO_BORDER`](crate::gl_enums::GL_CLAMP_TO_BORDER), [`GL_MIRRORED_REPEAT`](crate::gl_enums::GL_MIRRORED_REPEAT),
-/// > [`GL_REPEAT`](crate::gl_enums::GL_REPEAT), or [`GL_MIRROR_CLAMP_TO_EDGE`](crate::gl_enums::GL_MIRROR_CLAMP_TO_EDGE).
-/// > See the discussion under [`GL_TEXTURE_WRAP_S`](crate::gl_enums::GL_TEXTURE_WRAP_S).
-/// > Initially, [`GL_TEXTURE_WRAP_R`](crate::gl_enums::GL_TEXTURE_WRAP_R) is
-/// > set to [`GL_REPEAT`](crate::gl_enums::GL_REPEAT).
-///
-/// ### Notes
-/// Suppose that a program attempts to sample from a texture and has set [`GL_TEXTURE_MIN_FILTER`](crate::gl_enums::GL_TEXTURE_MIN_FILTER)
-/// to one of the functions that requires a mipmap. If either the dimensions
-/// of the texture images currently defined (with previous calls to [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d),
-/// [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d), [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d),
-/// [**glCopyTexImage1D**](crate::context::Context::oxidegl_copy_tex_image1_d),
-/// or [**glCopyTexImage2D**](crate::context::Context::oxidegl_copy_tex_image2_d))
-/// do not follow the proper sequence for mipmaps (described above), or there
-/// are fewer texture images defined than are needed, or the set of texture
-/// images have differing numbers of texture components, then the texture is
-/// considered *incomplete*.
-///
-/// Linear filtering accesses the four nearest texture elements only in 2D
-/// textures. In 1D textures, linear filtering accesses the two nearest texture
-/// elements. In 3D textures, linear filtering accesses the eight nearest texture
-/// elements.
-///
-/// [**glTexParameter**](crate::context::Context::oxidegl_tex_parameter) specifies
-/// the texture parameters for the active texture unit, specified by calling
-/// [**glActiveTexture**](crate::context::Context::oxidegl_active_texture).
-/// [**glTextureParameter**](crate::context::Context::oxidegl_texture_parameter)
-/// specifies the texture parameters for the texture object with ID `texture`.
-///
-/// [`GL_DEPTH_STENCIL_TEXTURE_MODE`](crate::gl_enums::GL_DEPTH_STENCIL_TEXTURE_MODE)
-/// is available only if the GL version is 4.3 or greater.
-///
-/// [`GL_MIRROR_CLAMP_TO_EDGE`](crate::gl_enums::GL_MIRROR_CLAMP_TO_EDGE) is
-/// available only if the GL version is 4.4 or greater.
-///
-/// ### Associated Gets
-/// [**glGetTexParameter**](crate::context::Context::oxidegl_get_tex_parameter)
-///
-/// [**glGetTextureParameter**](crate::context::Context::oxidegl_get_texture_parameter)
-///
-/// [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter)
-///
-/// [**glGetTextureLevelParameter**](crate::context::Context::oxidegl_get_texture_level_parameter)
-impl Context {
-    pub fn oxidegl_tex_parameterf(
-        &mut self,
-        target: TextureTarget,
-        pname: TextureParameterName,
-        param: GLfloat,
-    ) -> GlFallible {
-        panic!("command oxidegl_tex_parameterf not yet implemented");
-    }
-    pub unsafe fn oxidegl_tex_parameterfv(
-        &mut self,
-        target: TextureTarget,
-        pname: TextureParameterName,
-        params: *const GLfloat,
-    ) -> GlFallible {
-        panic!("command oxidegl_tex_parameterfv not yet implemented");
-    }
-    pub fn oxidegl_tex_parameteri(
-        &mut self,
-        target: TextureTarget,
-        pname: TextureParameterName,
-        param: GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_tex_parameteri not yet implemented");
-    }
-    pub unsafe fn oxidegl_tex_parameteriv(
-        &mut self,
-        target: TextureTarget,
-        pname: TextureParameterName,
-        params: *const GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_tex_parameteriv not yet implemented");
-    }
-    pub unsafe fn oxidegl_tex_parameter_iiv(
-        &mut self,
-        target: TextureTarget,
-        pname: TextureParameterName,
-        params: *const GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_tex_parameter_iiv not yet implemented");
-    }
-    pub unsafe fn oxidegl_tex_parameter_iuiv(
-        &mut self,
-        target: TextureTarget,
-        pname: TextureParameterName,
-        params: *const GLuint,
-    ) -> GlFallible {
-        panic!("command oxidegl_tex_parameter_iuiv not yet implemented");
-    }
-    pub fn oxidegl_texture_parameterf(
-        &mut self,
-        texture: GLuint,
-        pname: TextureParameterName,
-        param: GLfloat,
-    ) -> GlFallible {
-        panic!("command oxidegl_texture_parameterf not yet implemented");
-    }
-    pub unsafe fn oxidegl_texture_parameterfv(
-        &mut self,
-        texture: GLuint,
-        pname: TextureParameterName,
-        param: *const GLfloat,
-    ) -> GlFallible {
-        panic!("command oxidegl_texture_parameterfv not yet implemented");
-    }
-    pub fn oxidegl_texture_parameteri(
-        &mut self,
-        texture: GLuint,
-        pname: TextureParameterName,
-        param: GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_texture_parameteri not yet implemented");
-    }
-    pub unsafe fn oxidegl_texture_parameter_iiv(
-        &mut self,
-        texture: GLuint,
-        pname: TextureParameterName,
-        params: *const GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_texture_parameter_iiv not yet implemented");
-    }
-    pub unsafe fn oxidegl_texture_parameter_iuiv(
-        &mut self,
-        texture: GLuint,
-        pname: TextureParameterName,
-        params: *const GLuint,
-    ) -> GlFallible {
-        panic!("command oxidegl_texture_parameter_iuiv not yet implemented");
-    }
-    pub unsafe fn oxidegl_texture_parameteriv(
-        &mut self,
-        texture: GLuint,
-        pname: TextureParameterName,
-        param: *const GLint,
-    ) -> GlFallible {
-        panic!("command oxidegl_texture_parameteriv not yet implemented");
-    }
-}
-/// ### Parameters
-/// `target`
-///
-/// > Specifies the target to which the texture object is bound for [**glTexStorage1D**](crate::context::Context::oxidegl_tex_storage1_d).
+/// > Specifies the target to which the texture object is bound for [**glTexStorage1D**](crate::context::Context::oxidegl_tex_storage_1d).
 /// > Must be one of [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D) or [`GL_PROXY_TEXTURE_1D`](crate::gl_enums::GL_PROXY_TEXTURE_1D).
 ///
 /// `texture`
 ///
-/// > Specifies the texture object name for [**glTextureStorage1D**](crate::context::Context::oxidegl_texture_storage1_d).
+/// > Specifies the texture object name for [**glTextureStorage1D**](crate::context::Context::oxidegl_texture_storage_1d).
 /// > The effective target of `texture` must be one of the valid non-proxy `target`
 /// > values above.
 ///
@@ -9237,8 +7657,8 @@ impl Context {
 /// > Specifies the width of the texture, in texels.
 ///
 /// ### Description
-/// [**glTexStorage1D**](crate::context::Context::oxidegl_tex_storage1_d) and
-/// [**glTextureStorage1D**](crate::context::Context::oxidegl_texture_storage1_d)
+/// [**glTexStorage1D**](crate::context::Context::oxidegl_tex_storage_1d) and
+/// [**glTextureStorage1D**](crate::context::Context::oxidegl_texture_storage_1d)
 /// specify the storage requirements for all levels of a one-dimensional texture
 /// simultaneously. Once a texture is specified with this command, the format
 /// and dimensions of all levels become immutable unless it is a proxy texture.
@@ -9246,14 +7666,14 @@ impl Context {
 /// may not change. Such a texture is referred to as an *immutable-format*
 /// texture.
 ///
-/// Calling [**glTexStorage1D**](crate::context::Context::oxidegl_tex_storage1_d)
+/// Calling [**glTexStorage1D**](crate::context::Context::oxidegl_tex_storage_1d)
 /// is equivalent, assuming no errors are generated, to executing the following
 /// pseudo-code:
 ///
-/// Calling [**glTextureStorage1D**](crate::context::Context::oxidegl_texture_storage1_d)
+/// Calling [**glTextureStorage1D**](crate::context::Context::oxidegl_texture_storage_1d)
 /// is equivalent to the above pseudo-code, where `target` is the effective
 /// target of `texture` and it is as if `texture` were bound to `target` for
-/// the purposes of [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d).
+/// the purposes of [**glTexImage1D**](crate::context::Context::oxidegl_tex_image_1d).
 ///
 /// Since no texture data is actually provided, the values used in the pseudo-code
 /// for `format` and `type` are irrelevant and may be considered to be any
@@ -9270,8 +7690,8 @@ impl Context {
 /// with `pname` set to [`GL_TEXTURE_IMMUTABLE_FORMAT`](crate::gl_enums::GL_TEXTURE_IMMUTABLE_FORMAT).
 /// No further changes to the dimensions or format of the texture object may
 /// be made. Using any command that might alter the dimensions or format of
-/// the texture object (such as [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d)
-/// or another call to [**glTexStorage1D**](crate::context::Context::oxidegl_tex_storage1_d))
+/// the texture object (such as [**glTexImage1D**](crate::context::Context::oxidegl_tex_image_1d)
+/// or another call to [**glTexStorage1D**](crate::context::Context::oxidegl_tex_storage_1d))
 /// will result in the generation of a [`GL_INVALID_OPERATION`](crate::gl_enums::GL_INVALID_OPERATION)
 /// error, even if it would not, in fact, alter the dimensions or format of
 /// the object.
@@ -9345,29 +7765,29 @@ impl Context {
 /// [`GL_STENCIL_INDEX8`](crate::gl_enums::GL_STENCIL_INDEX8) is accepted for
 /// `internalformat` only if the GL version is 4.4 or higher.
 impl Context {
-    pub fn oxidegl_tex_storage1_d(
+    pub fn oxidegl_tex_storage_1d(
         &mut self,
         target: TextureTarget,
         levels: GLsizei,
         internalformat: SizedInternalFormat,
         width: GLsizei,
     ) -> GlFallible {
-        panic!("command oxidegl_tex_storage1_d not yet implemented");
+        panic!("command oxidegl_tex_storage_1d not yet implemented");
     }
-    pub fn oxidegl_texture_storage1_d(
+    pub fn oxidegl_texture_storage_1d(
         &mut self,
         texture: GLuint,
         levels: GLsizei,
         internalformat: SizedInternalFormat,
         width: GLsizei,
     ) -> GlFallible {
-        panic!("command oxidegl_texture_storage1_d not yet implemented");
+        panic!("command oxidegl_texture_storage_1d not yet implemented");
     }
 }
 /// ### Parameters
 /// `target`
 ///
-/// > Specifies the target to which the texture object is bound for [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage2_d).
+/// > Specifies the target to which the texture object is bound for [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage_2d).
 /// > Must be one of [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D), [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY),
 /// > [`GL_TEXTURE_RECTANGLE`](crate::gl_enums::GL_TEXTURE_RECTANGLE), [`GL_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_CUBE_MAP),
 /// > [`GL_PROXY_TEXTURE_2D`](crate::gl_enums::GL_PROXY_TEXTURE_2D), [`GL_PROXY_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_PROXY_TEXTURE_1D_ARRAY),
@@ -9376,7 +7796,7 @@ impl Context {
 ///
 /// `texture`
 ///
-/// > Specifies the texture object name for [**glTextureStorage2D**](crate::context::Context::oxidegl_texture_storage2_d).
+/// > Specifies the texture object name for [**glTextureStorage2D**](crate::context::Context::oxidegl_texture_storage_2d).
 /// > The effective target of `texture` must be one of the valid non-proxy `target`
 /// > values above.
 ///
@@ -9397,8 +7817,8 @@ impl Context {
 /// > Specifies the height of the texture, in texels.
 ///
 /// ### Description
-/// [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage2_d) and
-/// [**glTextureStorage2D**](crate::context::Context::oxidegl_texture_storage2_d)
+/// [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage_2d) and
+/// [**glTextureStorage2D**](crate::context::Context::oxidegl_texture_storage_2d)
 /// specify the storage requirements for all levels of a two-dimensional texture
 /// or one-dimensional texture array simultaneously. Once a texture is specified
 /// with this command, the format and dimensions of all levels become immutable
@@ -9406,28 +7826,28 @@ impl Context {
 /// however, its storage requirements may not change. Such a texture is referred
 /// to as an *immutable-format* texture.
 ///
-/// The behavior of [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage2_d)
+/// The behavior of [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage_2d)
 /// depends on the `target` parameter. When `target` is [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D),
 /// [`GL_PROXY_TEXTURE_2D`](crate::gl_enums::GL_PROXY_TEXTURE_2D), [`GL_TEXTURE_RECTANGLE`](crate::gl_enums::GL_TEXTURE_RECTANGLE),
 /// [`GL_PROXY_TEXTURE_RECTANGLE`](crate::gl_enums::GL_PROXY_TEXTURE_RECTANGLE)
 /// or [`GL_PROXY_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_PROXY_TEXTURE_CUBE_MAP),
-/// calling [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage2_d)
+/// calling [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage_2d)
 /// is equivalent, assuming no errors are generated, to executing the following
 /// pseudo-code:
 ///
 /// When `target` is [`GL_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_CUBE_MAP),
-/// [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage2_d) is
+/// [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage_2d) is
 /// equivalent to:
 ///
 /// When `target` is [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY)
 /// or [`GL_PROXY_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_PROXY_TEXTURE_1D_ARRAY),
-/// [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage2_d) is
+/// [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage_2d) is
 /// equivalent to:
 ///
-/// Calling [**glTextureStorage2D**](crate::context::Context::oxidegl_texture_storage2_d)
+/// Calling [**glTextureStorage2D**](crate::context::Context::oxidegl_texture_storage_2d)
 /// is equivalent to the above pseudo-code, where `target` is the effective
 /// target of `texture` and it is as if `texture` were bound to `target` for
-/// the purposes of [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d).
+/// the purposes of [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d).
 ///
 /// Since no texture data is actually provided, the values used in the pseudo-code
 /// for `format` and `type` are irrelevant and may be considered to be any
@@ -9444,8 +7864,8 @@ impl Context {
 /// with `pname` set to [`GL_TEXTURE_IMMUTABLE_FORMAT`](crate::gl_enums::GL_TEXTURE_IMMUTABLE_FORMAT).
 /// No further changes to the dimensions or format of the texture object may
 /// be made. Using any command that might alter the dimensions or format of
-/// the texture object (such as [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d)
-/// or another call to [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage2_d))
+/// the texture object (such as [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d)
+/// or another call to [**glTexStorage2D**](crate::context::Context::oxidegl_tex_storage_2d))
 /// will result in the generation of a [`GL_INVALID_OPERATION`](crate::gl_enums::GL_INVALID_OPERATION)
 /// error, even if it would not, in fact, alter the dimensions or format of
 /// the object.
@@ -9519,7 +7939,7 @@ impl Context {
 /// [`GL_STENCIL_INDEX8`](crate::gl_enums::GL_STENCIL_INDEX8) is accepted for
 /// `internalformat` only if the GL version is 4.4 or higher.
 impl Context {
-    pub fn oxidegl_tex_storage2_d(
+    pub fn oxidegl_tex_storage_2d(
         &mut self,
         target: TextureTarget,
         levels: GLsizei,
@@ -9527,9 +7947,9 @@ impl Context {
         width: GLsizei,
         height: GLsizei,
     ) -> GlFallible {
-        panic!("command oxidegl_tex_storage2_d not yet implemented");
+        panic!("command oxidegl_tex_storage_2d not yet implemented");
     }
-    pub fn oxidegl_texture_storage2_d(
+    pub fn oxidegl_texture_storage_2d(
         &mut self,
         texture: GLuint,
         levels: GLsizei,
@@ -9537,19 +7957,19 @@ impl Context {
         width: GLsizei,
         height: GLsizei,
     ) -> GlFallible {
-        panic!("command oxidegl_texture_storage2_d not yet implemented");
+        panic!("command oxidegl_texture_storage_2d not yet implemented");
     }
 }
 /// ### Parameters
 /// `target`
 ///
-/// > Specifies the target to which the texture object is bound for [**glTexStorage2DMultisample**](crate::context::Context::oxidegl_tex_storage2_d_multisample).
+/// > Specifies the target to which the texture object is bound for [**glTexStorage2DMultisample**](crate::context::Context::oxidegl_tex_storage_2d_multisample).
 /// > Must be one of [`GL_TEXTURE_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE)
 /// > or [`GL_PROXY_TEXTURE_2D_MULTISAMPLE`](crate::gl_enums::GL_PROXY_TEXTURE_2D_MULTISAMPLE).
 ///
 /// `texture`
 ///
-/// > Specifies the texture object name for [**glTextureStorage2DMultisample**](crate::context::Context::oxidegl_texture_storage2_d_multisample).
+/// > Specifies the texture object name for [**glTextureStorage2DMultisample**](crate::context::Context::oxidegl_texture_storage_2d_multisample).
 /// > The effective target of `texture` must be one of the valid non-proxy `target`
 /// > values above.
 ///
@@ -9576,8 +7996,8 @@ impl Context {
 /// > will not depend on the internal format or size of the image.
 ///
 /// ### Description
-/// [**glTexStorage2DMultisample**](crate::context::Context::oxidegl_tex_storage2_d_multisample)
-/// and [**glTextureStorage2DMultisample**](crate::context::Context::oxidegl_texture_storage2_d_multisample)
+/// [**glTexStorage2DMultisample**](crate::context::Context::oxidegl_tex_storage_2d_multisample)
+/// and [**glTextureStorage2DMultisample**](crate::context::Context::oxidegl_texture_storage_2d_multisample)
 /// specify the storage requirements for a two-dimensional multisample texture.
 /// Once a texture is specified with this command, its format and dimensions
 /// become immutable unless it is a proxy texture. The contents of the image
@@ -9658,7 +8078,7 @@ impl Context {
 /// | [`GL_RGBA32UI`](crate::gl_enums::GL_RGBA32UI)         | [`GL_RGBA`](crate::gl_enums::GL_RGBA)                | ui32             | ui32                | ui32              | ui32                |                      |
 ///
 impl Context {
-    pub fn oxidegl_tex_storage2_d_multisample(
+    pub fn oxidegl_tex_storage_2d_multisample(
         &mut self,
         target: TextureTarget,
         samples: GLsizei,
@@ -9667,9 +8087,9 @@ impl Context {
         height: GLsizei,
         fixedsamplelocations: GLboolean,
     ) -> GlFallible {
-        panic!("command oxidegl_tex_storage2_d_multisample not yet implemented");
+        panic!("command oxidegl_tex_storage_2d_multisample not yet implemented");
     }
-    pub fn oxidegl_texture_storage2_d_multisample(
+    pub fn oxidegl_texture_storage_2d_multisample(
         &mut self,
         texture: GLuint,
         samples: GLsizei,
@@ -9678,13 +8098,13 @@ impl Context {
         height: GLsizei,
         fixedsamplelocations: GLboolean,
     ) -> GlFallible {
-        panic!("command oxidegl_texture_storage2_d_multisample not yet implemented");
+        panic!("command oxidegl_texture_storage_2d_multisample not yet implemented");
     }
 }
 /// ### Parameters
 /// `target`
 ///
-/// > Specifies the target to which the texture object is bound for [**glTexStorage3D**](crate::context::Context::oxidegl_tex_storage3_d).
+/// > Specifies the target to which the texture object is bound for [**glTexStorage3D**](crate::context::Context::oxidegl_tex_storage_3d).
 /// > Must be one of [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D), [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY),
 /// > [`GL_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_ARRAY),
 /// > [`GL_PROXY_TEXTURE_3D`](crate::gl_enums::GL_PROXY_TEXTURE_3D), [`GL_PROXY_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_PROXY_TEXTURE_2D_ARRAY)
@@ -9692,7 +8112,7 @@ impl Context {
 ///
 /// `texture`
 ///
-/// > Specifies the texture object name for [**glTextureStorage3D**](crate::context::Context::oxidegl_texture_storage3_d).
+/// > Specifies the texture object name for [**glTextureStorage3D**](crate::context::Context::oxidegl_texture_storage_3d).
 /// > The effective target of `texture` must be one of the valid non-proxy `target`
 /// > values above.
 ///
@@ -9717,8 +8137,8 @@ impl Context {
 /// > Specifies the depth of the texture, in texels.
 ///
 /// ### Description
-/// [**glTexStorage3D**](crate::context::Context::oxidegl_tex_storage3_d) and
-/// [**glTextureStorage3D**](crate::context::Context::oxidegl_texture_storage3_d)
+/// [**glTexStorage3D**](crate::context::Context::oxidegl_tex_storage_3d) and
+/// [**glTextureStorage3D**](crate::context::Context::oxidegl_texture_storage_3d)
 /// specify the storage requirements for all levels of a three-dimensional,
 /// two-dimensional array or cube-map array texture simultaneously. Once a
 /// texture is specified with this command, the format and dimensions of all
@@ -9726,10 +8146,10 @@ impl Context {
 /// image may still be modified, however, its storage requirements may not
 /// change. Such a texture is referred to as an *immutable-format* texture.
 ///
-/// The behavior of [**glTexStorage3D**](crate::context::Context::oxidegl_tex_storage3_d)
+/// The behavior of [**glTexStorage3D**](crate::context::Context::oxidegl_tex_storage_3d)
 /// depends on the `target` parameter. When `target` is [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D),
 /// or [`GL_PROXY_TEXTURE_3D`](crate::gl_enums::GL_PROXY_TEXTURE_3D), calling
-/// [**glTexStorage3D**](crate::context::Context::oxidegl_tex_storage3_d) is
+/// [**glTexStorage3D**](crate::context::Context::oxidegl_tex_storage_3d) is
 /// equivalent, assuming no errors are generated, to executing the following
 /// pseudo-code:
 ///
@@ -9737,13 +8157,13 @@ impl Context {
 /// [`GL_PROXY_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_PROXY_TEXTURE_2D_ARRAY),
 /// [`GL_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_ARRAY),
 /// or [`GL_PROXY_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_PROXY_TEXTURE_CUBE_MAP_ARRAY),
-/// [**glTexStorage3D**](crate::context::Context::oxidegl_tex_storage3_d) is
+/// [**glTexStorage3D**](crate::context::Context::oxidegl_tex_storage_3d) is
 /// equivalent to:
 ///
-/// Calling [**glTextureStorage3D**](crate::context::Context::oxidegl_texture_storage3_d)
+/// Calling [**glTextureStorage3D**](crate::context::Context::oxidegl_texture_storage_3d)
 /// is equivalent to the above pseudo-code, where `target` is the effective
 /// target of `texture` and it is as if `texture` were bound to `target` for
-/// the purposes of [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d).
+/// the purposes of [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d).
 ///
 /// Since no texture data is actually provided, the values used in the pseudo-code
 /// for `format` and `type` are irrelevant and may be considered to be any
@@ -9760,8 +8180,8 @@ impl Context {
 /// with `pname` set to [`GL_TEXTURE_IMMUTABLE_FORMAT`](crate::gl_enums::GL_TEXTURE_IMMUTABLE_FORMAT).
 /// No further changes to the dimensions or format of the texture object may
 /// be made. Using any command that might alter the dimensions or format of
-/// the texture object (such as [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d)
-/// or another call to [**glTexStorage3D**](crate::context::Context::oxidegl_tex_storage3_d))
+/// the texture object (such as [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d)
+/// or another call to [**glTexStorage3D**](crate::context::Context::oxidegl_tex_storage_3d))
 /// will result in the generation of a [`GL_INVALID_OPERATION`](crate::gl_enums::GL_INVALID_OPERATION)
 /// error, even if it would not, in fact, alter the dimensions or format of
 /// the object.
@@ -9835,7 +8255,7 @@ impl Context {
 /// [`GL_STENCIL_INDEX8`](crate::gl_enums::GL_STENCIL_INDEX8) is accepted for
 /// `internalformat` only if the GL version is 4.4 or higher.
 impl Context {
-    pub fn oxidegl_tex_storage3_d(
+    pub fn oxidegl_tex_storage_3d(
         &mut self,
         target: TextureTarget,
         levels: GLsizei,
@@ -9844,9 +8264,9 @@ impl Context {
         height: GLsizei,
         depth: GLsizei,
     ) -> GlFallible {
-        panic!("command oxidegl_tex_storage3_d not yet implemented");
+        panic!("command oxidegl_tex_storage_3d not yet implemented");
     }
-    pub fn oxidegl_texture_storage3_d(
+    pub fn oxidegl_texture_storage_3d(
         &mut self,
         texture: GLuint,
         levels: GLsizei,
@@ -9855,19 +8275,19 @@ impl Context {
         height: GLsizei,
         depth: GLsizei,
     ) -> GlFallible {
-        panic!("command oxidegl_texture_storage3_d not yet implemented");
+        panic!("command oxidegl_texture_storage_3d not yet implemented");
     }
 }
 /// ### Parameters
 /// `target`
 ///
-/// > Specifies the target to which the texture object is bound for [**glTexStorage3DMultisample**](crate::context::Context::oxidegl_tex_storage3_d_multisample).
+/// > Specifies the target to which the texture object is bound for [**glTexStorage3DMultisample**](crate::context::Context::oxidegl_tex_storage_3d_multisample).
 /// > Must be one of [`GL_TEXTURE_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE_ARRAY)
 /// > or [`GL_PROXY_TEXTURE_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_PROXY_TEXTURE_2D_MULTISAMPLE_ARRAY).
 ///
 /// `texture`
 ///
-/// > Specifies the texture object name for [**glTextureStorage3DMultisample**](crate::context::Context::oxidegl_texture_storage3_d_multisample).
+/// > Specifies the texture object name for [**glTextureStorage3DMultisample**](crate::context::Context::oxidegl_texture_storage_3d_multisample).
 /// > The effective target of `texture` must be one of the valid non-proxy `target`
 /// > values above.
 ///
@@ -9898,8 +8318,8 @@ impl Context {
 /// > will not depend on the internal format or size of the image.
 ///
 /// ### Description
-/// [**glTexStorage3DMultisample**](crate::context::Context::oxidegl_tex_storage3_d_multisample)
-/// and [**glTextureStorage3DMultisample**](crate::context::Context::oxidegl_texture_storage3_d_multisample)
+/// [**glTexStorage3DMultisample**](crate::context::Context::oxidegl_tex_storage_3d_multisample)
+/// and [**glTextureStorage3DMultisample**](crate::context::Context::oxidegl_texture_storage_3d_multisample)
 /// specify the storage requirements for a two-dimensional multisample array
 /// texture. Once a texture is specified with this command, its format and
 /// dimensions become immutable unless it is a proxy texture. The contents
@@ -9988,7 +8408,7 @@ impl Context {
 /// [`GL_TEXTURE_VIEW_NUM_LAYERS`](crate::gl_enums::GL_TEXTURE_VIEW_NUM_LAYERS),
 /// or [`GL_TEXTURE_IMMUTABLE_LEVELS`](crate::gl_enums::GL_TEXTURE_IMMUTABLE_LEVELS).
 impl Context {
-    pub fn oxidegl_tex_storage3_d_multisample(
+    pub fn oxidegl_tex_storage_3d_multisample(
         &mut self,
         target: TextureTarget,
         samples: GLsizei,
@@ -9998,9 +8418,9 @@ impl Context {
         depth: GLsizei,
         fixedsamplelocations: GLboolean,
     ) -> GlFallible {
-        panic!("command oxidegl_tex_storage3_d_multisample not yet implemented");
+        panic!("command oxidegl_tex_storage_3d_multisample not yet implemented");
     }
-    pub fn oxidegl_texture_storage3_d_multisample(
+    pub fn oxidegl_texture_storage_3d_multisample(
         &mut self,
         texture: GLuint,
         samples: GLsizei,
@@ -10010,18 +8430,18 @@ impl Context {
         depth: GLsizei,
         fixedsamplelocations: GLboolean,
     ) -> GlFallible {
-        panic!("command oxidegl_texture_storage3_d_multisample not yet implemented");
+        panic!("command oxidegl_texture_storage_3d_multisample not yet implemented");
     }
 }
 /// ### Parameters
 /// `target`
 ///
-/// > Specifies the target to which the texture is bound for [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image1_d).
+/// > Specifies the target to which the texture is bound for [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image_1d).
 /// > Must be [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D).
 ///
 /// `texture`
 ///
-/// > Specifies the texture object name for [**glTextureSubImage1D**](crate::context::Context::oxidegl_texture_sub_image1_d).
+/// > Specifies the texture object name for [**glTextureSubImage1D**](crate::context::Context::oxidegl_texture_sub_image_1d).
 /// > The effective target of `texture` must be one of the valid `target` values
 /// > above.
 ///
@@ -10074,8 +8494,8 @@ impl Context {
 /// and [**glDisable**](crate::context::Context::oxidegl_disable) with argument
 /// [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D).
 ///
-/// [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image1_d)
-/// and [**glTextureSubImage1D**](crate::context::Context::oxidegl_texture_sub_image1_d)
+/// [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image_1d)
+/// and [**glTextureSubImage1D**](crate::context::Context::oxidegl_texture_sub_image_1d)
 /// redefine a contiguous subregion of an existing one-dimensional texture
 /// image. The texels referenced by `pixels` replace the portion of the existing
 /// texture array with x indices `xoffset` and `[inlineq]`
@@ -10089,8 +8509,8 @@ impl Context {
 /// [**glPixelStore**](crate::context::Context::oxidegl_pixel_store) modes
 /// affect texture images.
 ///
-/// [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image1_d)
-/// and [**glTextureSubImage1D**](crate::context::Context::oxidegl_texture_sub_image1_d)
+/// [**glTexSubImage1D**](crate::context::Context::oxidegl_tex_sub_image_1d)
+/// and [**glTextureSubImage1D**](crate::context::Context::oxidegl_texture_sub_image_1d)
 /// specify a one-dimensional subtexture for the current texture unit, specified
 /// with [**glActiveTexture**](crate::context::Context::oxidegl_active_texture).
 ///
@@ -10102,7 +8522,7 @@ impl Context {
 ///
 /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_PIXEL_UNPACK_BUFFER_BINDING`](crate::gl_enums::GL_PIXEL_UNPACK_BUFFER_BINDING)
 impl Context {
-    pub unsafe fn oxidegl_tex_sub_image1_d(
+    pub unsafe fn oxidegl_tex_sub_image_1d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -10112,9 +8532,9 @@ impl Context {
         r#type: PixelType,
         pixels: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_tex_sub_image1_d not yet implemented");
+        panic!("command oxidegl_tex_sub_image_1d not yet implemented");
     }
-    pub unsafe fn oxidegl_texture_sub_image1_d(
+    pub unsafe fn oxidegl_texture_sub_image_1d(
         &mut self,
         texture: GLuint,
         level: GLint,
@@ -10124,13 +8544,13 @@ impl Context {
         r#type: PixelType,
         pixels: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_texture_sub_image1_d not yet implemented");
+        panic!("command oxidegl_texture_sub_image_1d not yet implemented");
     }
 }
 /// ### Parameters
 /// `target`
 ///
-/// > Specifies the target to which the texture is bound for [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image2_d).
+/// > Specifies the target to which the texture is bound for [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image_2d).
 /// > Must be [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D), [`GL_TEXTURE_CUBE_MAP_POSITIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_X),
 /// > [`GL_TEXTURE_CUBE_MAP_NEGATIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_NEGATIVE_X),
 /// > [`GL_TEXTURE_CUBE_MAP_POSITIVE_Y`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_Y),
@@ -10141,7 +8561,7 @@ impl Context {
 ///
 /// `texture`
 ///
-/// > Specifies the texture object name for [**glTextureSubImage2D**](crate::context::Context::oxidegl_texture_sub_image2_d).
+/// > Specifies the texture object name for [**glTextureSubImage2D**](crate::context::Context::oxidegl_texture_sub_image_2d).
 /// > The effective target of `texture` must be one of the valid `target` values
 /// > above.
 ///
@@ -10199,8 +8619,8 @@ impl Context {
 /// Texturing maps a portion of a specified texture image onto each graphical
 /// primitive for which texturing is enabled.
 ///
-/// [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image2_d)
-/// and [**glTextureSubImage2D**](crate::context::Context::oxidegl_texture_sub_image2_d)
+/// [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image_2d)
+/// and [**glTextureSubImage2D**](crate::context::Context::oxidegl_texture_sub_image_2d)
 /// redefine a contiguous subregion of an existing two-dimensional or one-dimensional
 /// array texture image. The texels referenced by `pixels` replace the portion
 /// of the existing texture array with x indices `xoffset` and `[inlineq]`
@@ -10215,8 +8635,8 @@ impl Context {
 /// [**glPixelStore**](crate::context::Context::oxidegl_pixel_store) modes
 /// affect texture images.
 ///
-/// [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image2_d)
-/// and [**glTextureSubImage3D**](crate::context::Context::oxidegl_texture_sub_image3_d)
+/// [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image_2d)
+/// and [**glTextureSubImage3D**](crate::context::Context::oxidegl_texture_sub_image_3d)
 /// specify a two-dimensional subtexture for the current texture unit, specified
 /// with [**glActiveTexture**](crate::context::Context::oxidegl_active_texture).
 ///
@@ -10228,7 +8648,7 @@ impl Context {
 ///
 /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_PIXEL_UNPACK_BUFFER_BINDING`](crate::gl_enums::GL_PIXEL_UNPACK_BUFFER_BINDING)
 impl Context {
-    pub unsafe fn oxidegl_tex_sub_image2_d(
+    pub unsafe fn oxidegl_tex_sub_image_2d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -10240,9 +8660,9 @@ impl Context {
         r#type: PixelType,
         pixels: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_tex_sub_image2_d not yet implemented");
+        panic!("command oxidegl_tex_sub_image_2d not yet implemented");
     }
-    pub unsafe fn oxidegl_texture_sub_image2_d(
+    pub unsafe fn oxidegl_texture_sub_image_2d(
         &mut self,
         texture: GLuint,
         level: GLint,
@@ -10254,18 +8674,18 @@ impl Context {
         r#type: PixelType,
         pixels: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_texture_sub_image2_d not yet implemented");
+        panic!("command oxidegl_texture_sub_image_2d not yet implemented");
     }
 }
 /// ### Parameters
 /// `target`
 ///
-/// > Specifies the target to which the texture is bound for [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image3_d).
+/// > Specifies the target to which the texture is bound for [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image_3d).
 /// > Must be [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D) or [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY).
 ///
 /// `texture`
 ///
-/// > Specifies the texture object name for [**glTextureSubImage3D**](crate::context::Context::oxidegl_texture_sub_image3_d).
+/// > Specifies the texture object name for [**glTextureSubImage3D**](crate::context::Context::oxidegl_texture_sub_image_3d).
 /// > The effective target of `texture` must be one of the valid `target` values
 /// > above.
 ///
@@ -10331,8 +8751,8 @@ impl Context {
 /// Texturing maps a portion of a specified texture image onto each graphical
 /// primitive for which texturing is enabled.
 ///
-/// [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image3_d)
-/// and [**glTextureSubImage3D**](crate::context::Context::oxidegl_texture_sub_image3_d)
+/// [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image_3d)
+/// and [**glTextureSubImage3D**](crate::context::Context::oxidegl_texture_sub_image_3d)
 /// redefine a contiguous subregion of an existing three-dimensional or two-dimensioanl
 /// array texture image. The texels referenced by `pixels` replace the portion
 /// of the existing texture array with x indices `xoffset` and `[inlineq]`
@@ -10347,8 +8767,8 @@ impl Context {
 /// The [**glPixelStore**](crate::context::Context::oxidegl_pixel_store) modes
 /// affect texture images.
 ///
-/// [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image3_d)
-/// and [**glTextureSubImage3D**](crate::context::Context::oxidegl_texture_sub_image3_d)
+/// [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image_3d)
+/// and [**glTextureSubImage3D**](crate::context::Context::oxidegl_texture_sub_image_3d)
 /// specify a three-dimensional or two-dimensional array subtexture for the
 /// current texture unit, specified with [**glActiveTexture**](crate::context::Context::oxidegl_active_texture).
 ///
@@ -10360,7 +8780,7 @@ impl Context {
 ///
 /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_PIXEL_UNPACK_BUFFER_BINDING`](crate::gl_enums::GL_PIXEL_UNPACK_BUFFER_BINDING)
 impl Context {
-    pub unsafe fn oxidegl_tex_sub_image3_d(
+    pub unsafe fn oxidegl_tex_sub_image_3d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -10374,9 +8794,9 @@ impl Context {
         r#type: PixelType,
         pixels: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_tex_sub_image3_d not yet implemented");
+        panic!("command oxidegl_tex_sub_image_3d not yet implemented");
     }
-    pub unsafe fn oxidegl_texture_sub_image3_d(
+    pub unsafe fn oxidegl_texture_sub_image_3d(
         &mut self,
         texture: GLuint,
         level: GLint,
@@ -10390,7 +8810,7 @@ impl Context {
         r#type: PixelType,
         pixels: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_texture_sub_image3_d not yet implemented");
+        panic!("command oxidegl_texture_sub_image_3d not yet implemented");
     }
 }
 /// ### Parameters
@@ -10433,7 +8853,7 @@ impl Context {
 /// [**glUniform**](crate::context::Context::oxidegl_uniform) operates on the
 /// program object that was made part of current state by calling [**glUseProgram**](crate::context::Context::oxidegl_use_program).
 ///
-/// The commands [**glUniform{1|2|3|4}{f|i|ui}**](crate::context::Context::oxidegl_uniform{1|2|3|4}{f|i|ui})
+/// The commands [**glUniform{1|2|3|4}{f|i|ui}**](crate::context::Context::oxidegl_uniform{_1|_2|_3|_4}{f|i|ui})
 /// are used to change the value of the uniform variable specified by `location`
 /// using the values passed as arguments. The number specified in the command
 /// should match the number of components in the data type of the specified
@@ -10457,7 +8877,7 @@ impl Context {
 ///) until the next successful link operation occurs on the program object,
 /// when they are once again initialized to 0.
 ///
-/// The commands [**glUniform{1|2|3|4}{f|i|ui}v**](crate::context::Context::oxidegl_uniform{1|2|3|4}{f|i|ui}v)
+/// The commands [**glUniform{1|2|3|4}{f|i|ui}v**](crate::context::Context::oxidegl_uniform{_1|_2|_3|_4}{f|i|ui}v)
 /// can be used to modify a single uniform variable or a uniform variable array.
 /// These commands pass a count and a pointer to the values to be loaded into
 /// a uniform variable or a uniform variable array. A count of 1 should be
@@ -10473,15 +8893,15 @@ impl Context {
 /// (e.g., [**1**](crate::context::Context::oxide1) for float, int, bool; [**2**](crate::context::Context::oxide2)
 /// for vec2, ivec2, bvec2, etc.). The data type specified in the name of the
 /// command must match the data type for the specified uniform variable as
-/// described previously for [**glUniform{1|2|3|4}{f|i|ui}**](crate::context::Context::oxidegl_uniform{1|2|3|4}{f|i|ui}).
+/// described previously for [**glUniform{1|2|3|4}{f|i|ui}**](crate::context::Context::oxidegl_uniform{_1|_2|_3|_4}{f|i|ui}).
 ///
 /// For uniform variable arrays, each element of the array is considered to
-/// be of the type indicated in the name of the command (e.g., [**glUniform3f**](crate::context::Context::oxidegl_uniform3f)
-/// or [**glUniform3fv**](crate::context::Context::oxidegl_uniform3fv) can
+/// be of the type indicated in the name of the command (e.g., [**glUniform3f**](crate::context::Context::oxidegl_uniform_3f)
+/// or [**glUniform3fv**](crate::context::Context::oxidegl_uniform_3fv) can
 /// be used to load a uniform variable array of type vec3). The number of elements
 /// of the uniform variable array to be modified is specified by `count`
 ///
-/// The commands [**glUniformMatrix{2|3|4|2x3|3x2|2x4|4x2|3x4|4x3}fv**](crate::context::Context::oxidegl_uniform_matrix{2|3|4|2x3|3x2|2x4|4x2|3x4|4x3}fv)
+/// The commands [**glUniformMatrix{2|3|4|2x3|3x2|2x4|4x2|3x4|4x3}fv**](crate::context::Context::oxidegl_uniform_matrix{_2|_3|_4|_2x_3|_3x_2|_2x_4|_4x_2|_3x_4|_4x_3}fv)
 /// are used to modify a matrix or an array of matrices. The numbers in the
 /// command name are interpreted as the dimensionality of the matrix. The number
 /// [**2**](crate::context::Context::oxide2) indicates a 2 × 2 matrix (i.e.,
@@ -10489,7 +8909,7 @@ impl Context {
 /// a 3 × 3 matrix (i.e., 9 values), and the number [**4**](crate::context::Context::oxide4)
 /// indicates a 4 × 4 matrix (i.e., 16 values). Non-square matrix dimensionality
 /// is explicit, with the first number representing the number of columns and
-/// the second number representing the number of rows. For example, [**2x4**](crate::context::Context::oxide2x4)
+/// the second number representing the number of rows. For example, [**2x4**](crate::context::Context::oxide2x_4)
 /// indicates a 2 × 4 matrix with 2 columns and 4 rows (i.e., 8 values). If
 /// `transpose` is [`GL_FALSE`](crate::gl_enums::GL_FALSE), each matrix is
 /// assumed to be supplied in column major order. If `transpose` is [`GL_TRUE`](crate::gl_enums::GL_TRUE),
@@ -10499,7 +8919,7 @@ impl Context {
 /// than 1 can be used to modify an array of matrices.
 ///
 /// ### Notes
-/// [**glUniform1i**](crate::context::Context::oxidegl_uniform1i) and [**glUniform1iv**](crate::context::Context::oxidegl_uniform1iv)
+/// [**glUniform1i**](crate::context::Context::oxidegl_uniform_1i) and [**glUniform1iv**](crate::context::Context::oxidegl_uniform_1iv)
 /// are the only two functions that may be used to load uniform variables defined
 /// as sampler types. Loading samplers with any other function will result
 /// in a [`GL_INVALID_OPERATION`](crate::gl_enums::GL_INVALID_OPERATION) error.
@@ -10534,257 +8954,262 @@ impl Context {
 /// [**glGetUniformLocation**](crate::context::Context::oxidegl_get_uniform_location)
 /// with the handle of a program object and the name of a uniform variable
 impl Context {
-    pub fn oxidegl_uniform1f(&mut self, location: GLint, v0: GLfloat) -> GlFallible {
-        panic!("command oxidegl_uniform1f not yet implemented");
+    pub fn oxidegl_uniform_1f(&mut self, location: GLint, v_0: GLfloat) -> GlFallible {
+        panic!("command oxidegl_uniform_1f not yet implemented");
     }
-    pub fn oxidegl_uniform2f(&mut self, location: GLint, v0: GLfloat, v1: GLfloat) -> GlFallible {
-        panic!("command oxidegl_uniform2f not yet implemented");
-    }
-    pub fn oxidegl_uniform3f(
+    pub fn oxidegl_uniform_2f(
         &mut self,
         location: GLint,
-        v0: GLfloat,
-        v1: GLfloat,
-        v2: GLfloat,
+        v_0: GLfloat,
+        v_1: GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform3f not yet implemented");
+        panic!("command oxidegl_uniform_2f not yet implemented");
     }
-    pub fn oxidegl_uniform4f(
+    pub fn oxidegl_uniform_3f(
         &mut self,
         location: GLint,
-        v0: GLfloat,
-        v1: GLfloat,
-        v2: GLfloat,
-        v3: GLfloat,
+        v_0: GLfloat,
+        v_1: GLfloat,
+        v_2: GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform4f not yet implemented");
+        panic!("command oxidegl_uniform_3f not yet implemented");
     }
-    pub fn oxidegl_uniform1i(&mut self, location: GLint, v0: GLint) -> GlFallible {
-        panic!("command oxidegl_uniform1i not yet implemented");
-    }
-    pub fn oxidegl_uniform2i(&mut self, location: GLint, v0: GLint, v1: GLint) -> GlFallible {
-        panic!("command oxidegl_uniform2i not yet implemented");
-    }
-    pub fn oxidegl_uniform3i(
+    pub fn oxidegl_uniform_4f(
         &mut self,
         location: GLint,
-        v0: GLint,
-        v1: GLint,
-        v2: GLint,
+        v_0: GLfloat,
+        v_1: GLfloat,
+        v_2: GLfloat,
+        v_3: GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform3i not yet implemented");
+        panic!("command oxidegl_uniform_4f not yet implemented");
     }
-    pub fn oxidegl_uniform4i(
+    pub fn oxidegl_uniform_1i(&mut self, location: GLint, v_0: GLint) -> GlFallible {
+        panic!("command oxidegl_uniform_1i not yet implemented");
+    }
+    pub fn oxidegl_uniform_2i(&mut self, location: GLint, v_0: GLint, v_1: GLint) -> GlFallible {
+        panic!("command oxidegl_uniform_2i not yet implemented");
+    }
+    pub fn oxidegl_uniform_3i(
         &mut self,
         location: GLint,
-        v0: GLint,
-        v1: GLint,
-        v2: GLint,
-        v3: GLint,
+        v_0: GLint,
+        v_1: GLint,
+        v_2: GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform4i not yet implemented");
+        panic!("command oxidegl_uniform_3i not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform1fv(
+    pub fn oxidegl_uniform_4i(
         &mut self,
         location: GLint,
-        count: GLsizei,
-        value: *const GLfloat,
+        v_0: GLint,
+        v_1: GLint,
+        v_2: GLint,
+        v_3: GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform1fv not yet implemented");
+        panic!("command oxidegl_uniform_4i not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform2fv(
+    pub unsafe fn oxidegl_uniform_1fv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform2fv not yet implemented");
+        panic!("command oxidegl_uniform_1fv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform3fv(
+    pub unsafe fn oxidegl_uniform_2fv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform3fv not yet implemented");
+        panic!("command oxidegl_uniform_2fv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform4fv(
+    pub unsafe fn oxidegl_uniform_3fv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform4fv not yet implemented");
+        panic!("command oxidegl_uniform_3fv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform1iv(
+    pub unsafe fn oxidegl_uniform_4fv(
+        &mut self,
+        location: GLint,
+        count: GLsizei,
+        value: *const GLfloat,
+    ) -> GlFallible {
+        panic!("command oxidegl_uniform_4fv not yet implemented");
+    }
+    pub unsafe fn oxidegl_uniform_1iv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform1iv not yet implemented");
+        panic!("command oxidegl_uniform_1iv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform2iv(
+    pub unsafe fn oxidegl_uniform_2iv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform2iv not yet implemented");
+        panic!("command oxidegl_uniform_2iv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform3iv(
+    pub unsafe fn oxidegl_uniform_3iv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform3iv not yet implemented");
+        panic!("command oxidegl_uniform_3iv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform4iv(
+    pub unsafe fn oxidegl_uniform_4iv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform4iv not yet implemented");
+        panic!("command oxidegl_uniform_4iv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix2fv(
+    pub unsafe fn oxidegl_uniform_matrix_2fv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix2fv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_2fv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix3fv(
+    pub unsafe fn oxidegl_uniform_matrix_3fv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix3fv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_3fv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix4fv(
+    pub unsafe fn oxidegl_uniform_matrix_4fv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix4fv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_4fv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix2x3fv(
+    pub unsafe fn oxidegl_uniform_matrix_2x_3fv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix2x3fv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_2x_3fv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix3x2fv(
+    pub unsafe fn oxidegl_uniform_matrix_3x_2fv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix3x2fv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_3x_2fv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix2x4fv(
+    pub unsafe fn oxidegl_uniform_matrix_2x_4fv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix2x4fv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_2x_4fv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix4x2fv(
+    pub unsafe fn oxidegl_uniform_matrix_4x_2fv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix4x2fv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_4x_2fv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix3x4fv(
+    pub unsafe fn oxidegl_uniform_matrix_3x_4fv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix3x4fv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_3x_4fv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix4x3fv(
+    pub unsafe fn oxidegl_uniform_matrix_4x_3fv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix4x3fv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_4x_3fv not yet implemented");
     }
-    pub fn oxidegl_uniform1ui(&mut self, location: GLint, v0: GLuint) -> GlFallible {
-        panic!("command oxidegl_uniform1ui not yet implemented");
+    pub fn oxidegl_uniform_1ui(&mut self, location: GLint, v_0: GLuint) -> GlFallible {
+        panic!("command oxidegl_uniform_1ui not yet implemented");
     }
-    pub fn oxidegl_uniform2ui(&mut self, location: GLint, v0: GLuint, v1: GLuint) -> GlFallible {
-        panic!("command oxidegl_uniform2ui not yet implemented");
+    pub fn oxidegl_uniform_2ui(&mut self, location: GLint, v_0: GLuint, v_1: GLuint) -> GlFallible {
+        panic!("command oxidegl_uniform_2ui not yet implemented");
     }
-    pub fn oxidegl_uniform3ui(
+    pub fn oxidegl_uniform_3ui(
         &mut self,
         location: GLint,
-        v0: GLuint,
-        v1: GLuint,
-        v2: GLuint,
+        v_0: GLuint,
+        v_1: GLuint,
+        v_2: GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform3ui not yet implemented");
+        panic!("command oxidegl_uniform_3ui not yet implemented");
     }
-    pub fn oxidegl_uniform4ui(
+    pub fn oxidegl_uniform_4ui(
         &mut self,
         location: GLint,
-        v0: GLuint,
-        v1: GLuint,
-        v2: GLuint,
-        v3: GLuint,
+        v_0: GLuint,
+        v_1: GLuint,
+        v_2: GLuint,
+        v_3: GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform4ui not yet implemented");
+        panic!("command oxidegl_uniform_4ui not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform1uiv(
+    pub unsafe fn oxidegl_uniform_1uiv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform1uiv not yet implemented");
+        panic!("command oxidegl_uniform_1uiv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform2uiv(
+    pub unsafe fn oxidegl_uniform_2uiv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform2uiv not yet implemented");
+        panic!("command oxidegl_uniform_2uiv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform3uiv(
+    pub unsafe fn oxidegl_uniform_3uiv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform3uiv not yet implemented");
+        panic!("command oxidegl_uniform_3uiv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform4uiv(
+    pub unsafe fn oxidegl_uniform_4uiv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform4uiv not yet implemented");
+        panic!("command oxidegl_uniform_4uiv not yet implemented");
     }
 }
 /// ### Parameters
@@ -10938,21 +9363,21 @@ impl Context {
 /// Additional capitalized letters can indicate further alterations to the
 /// default behavior of the glVertexAttrib function:
 ///
-/// The commands containing [**N**](crate::context::Context::oxide_n) indicate
+/// The commands containing [**N**](crate::context::Context::oxiden) indicate
 /// that the arguments will be passed as fixed-point values that are scaled
 /// to a normalized range according to the component conversion rules defined
 /// by the OpenGL specification. Signed values are understood to represent
 /// fixed-point values in the range \[-1,1\], and unsigned values are understood
 /// to represent fixed-point values in the range \[0,1\].
 ///
-/// The commands containing [**I**](crate::context::Context::oxide_i) indicate
+/// The commands containing [**I**](crate::context::Context::oxidei) indicate
 /// that the arguments are extended to full signed or unsigned integers.
 ///
-/// The commands containing [**P**](crate::context::Context::oxide_p) indicate
+/// The commands containing [**P**](crate::context::Context::oxidep) indicate
 /// that the arguments are stored as packed components within a larger natural
 /// type.
 ///
-/// The commands containing [**L**](crate::context::Context::oxide_l) indicate
+/// The commands containing [**L**](crate::context::Context::oxidel) indicate
 /// that the arguments are full 64-bit quantities and should be passed directly
 /// to shader inputs declared as 64-bit double precision types.
 ///
@@ -11019,141 +9444,151 @@ impl Context {
 /// with arguments [`GL_CURRENT_VERTEX_ATTRIB`](crate::gl_enums::GL_CURRENT_VERTEX_ATTRIB)
 /// and `index`
 impl Context {
-    pub fn oxidegl_vertex_attrib1d(&mut self, index: GLuint, x: GLdouble) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib1d not yet implemented");
+    pub fn oxidegl_vertex_attrib_1d(&mut self, index: GLuint, x: GLdouble) -> GlFallible {
+        panic!("command oxidegl_vertex_attrib_1d not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib1dv(
+    pub unsafe fn oxidegl_vertex_attrib_1dv(
         &mut self,
         index: GLuint,
         v: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib1dv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_1dv not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib1f(&mut self, index: GLuint, x: GLfloat) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib1f not yet implemented");
+    pub fn oxidegl_vertex_attrib_1f(&mut self, index: GLuint, x: GLfloat) -> GlFallible {
+        panic!("command oxidegl_vertex_attrib_1f not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib1fv(
+    pub unsafe fn oxidegl_vertex_attrib_1fv(
         &mut self,
         index: GLuint,
         v: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib1fv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_1fv not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib1s(&mut self, index: GLuint, x: GLshort) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib1s not yet implemented");
+    pub fn oxidegl_vertex_attrib_1s(&mut self, index: GLuint, x: GLshort) -> GlFallible {
+        panic!("command oxidegl_vertex_attrib_1s not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib1sv(
+    pub unsafe fn oxidegl_vertex_attrib_1sv(
         &mut self,
         index: GLuint,
         v: *const GLshort,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib1sv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_1sv not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib2d(
+    pub fn oxidegl_vertex_attrib_2d(
         &mut self,
         index: GLuint,
         x: GLdouble,
         y: GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib2d not yet implemented");
+        panic!("command oxidegl_vertex_attrib_2d not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib2dv(
+    pub unsafe fn oxidegl_vertex_attrib_2dv(
         &mut self,
         index: GLuint,
         v: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib2dv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_2dv not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib2f(&mut self, index: GLuint, x: GLfloat, y: GLfloat) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib2f not yet implemented");
+    pub fn oxidegl_vertex_attrib_2f(
+        &mut self,
+        index: GLuint,
+        x: GLfloat,
+        y: GLfloat,
+    ) -> GlFallible {
+        panic!("command oxidegl_vertex_attrib_2f not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib2fv(
+    pub unsafe fn oxidegl_vertex_attrib_2fv(
         &mut self,
         index: GLuint,
         v: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib2fv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_2fv not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib2s(&mut self, index: GLuint, x: GLshort, y: GLshort) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib2s not yet implemented");
+    pub fn oxidegl_vertex_attrib_2s(
+        &mut self,
+        index: GLuint,
+        x: GLshort,
+        y: GLshort,
+    ) -> GlFallible {
+        panic!("command oxidegl_vertex_attrib_2s not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib2sv(
+    pub unsafe fn oxidegl_vertex_attrib_2sv(
         &mut self,
         index: GLuint,
         v: *const GLshort,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib2sv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_2sv not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib3d(
+    pub fn oxidegl_vertex_attrib_3d(
         &mut self,
         index: GLuint,
         x: GLdouble,
         y: GLdouble,
         z: GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib3d not yet implemented");
+        panic!("command oxidegl_vertex_attrib_3d not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib3dv(
+    pub unsafe fn oxidegl_vertex_attrib_3dv(
         &mut self,
         index: GLuint,
         v: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib3dv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_3dv not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib3f(
+    pub fn oxidegl_vertex_attrib_3f(
         &mut self,
         index: GLuint,
         x: GLfloat,
         y: GLfloat,
         z: GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib3f not yet implemented");
+        panic!("command oxidegl_vertex_attrib_3f not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib3fv(
+    pub unsafe fn oxidegl_vertex_attrib_3fv(
         &mut self,
         index: GLuint,
         v: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib3fv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_3fv not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib3s(
+    pub fn oxidegl_vertex_attrib_3s(
         &mut self,
         index: GLuint,
         x: GLshort,
         y: GLshort,
         z: GLshort,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib3s not yet implemented");
+        panic!("command oxidegl_vertex_attrib_3s not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib3sv(
+    pub unsafe fn oxidegl_vertex_attrib_3sv(
         &mut self,
         index: GLuint,
         v: *const GLshort,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib3sv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_3sv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib4_nbv(
+    pub unsafe fn oxidegl_vertex_attrib_4nbv(
         &mut self,
         index: GLuint,
         v: *const GLbyte,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4_nbv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4nbv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib4_niv(
+    pub unsafe fn oxidegl_vertex_attrib_4niv(
         &mut self,
         index: GLuint,
         v: *const GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4_niv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4niv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib4_nsv(
+    pub unsafe fn oxidegl_vertex_attrib_4nsv(
         &mut self,
         index: GLuint,
         v: *const GLshort,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4_nsv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4nsv not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib4_nub(
+    pub fn oxidegl_vertex_attrib_4nub(
         &mut self,
         index: GLuint,
         x: GLubyte,
@@ -11161,37 +9596,37 @@ impl Context {
         z: GLubyte,
         w: GLubyte,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4_nub not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4nub not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib4_nubv(
+    pub unsafe fn oxidegl_vertex_attrib_4nubv(
         &mut self,
         index: GLuint,
         v: *const GLubyte,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4_nubv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4nubv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib4_nuiv(
+    pub unsafe fn oxidegl_vertex_attrib_4nuiv(
         &mut self,
         index: GLuint,
         v: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4_nuiv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4nuiv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib4_nusv(
+    pub unsafe fn oxidegl_vertex_attrib_4nusv(
         &mut self,
         index: GLuint,
         v: *const GLushort,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4_nusv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4nusv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib4bv(
+    pub unsafe fn oxidegl_vertex_attrib_4bv(
         &mut self,
         index: GLuint,
         v: *const GLbyte,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4bv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4bv not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib4d(
+    pub fn oxidegl_vertex_attrib_4d(
         &mut self,
         index: GLuint,
         x: GLdouble,
@@ -11199,16 +9634,16 @@ impl Context {
         z: GLdouble,
         w: GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4d not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4d not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib4dv(
+    pub unsafe fn oxidegl_vertex_attrib_4dv(
         &mut self,
         index: GLuint,
         v: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4dv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4dv not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib4f(
+    pub fn oxidegl_vertex_attrib_4f(
         &mut self,
         index: GLuint,
         x: GLfloat,
@@ -11216,23 +9651,23 @@ impl Context {
         z: GLfloat,
         w: GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4f not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4f not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib4fv(
+    pub unsafe fn oxidegl_vertex_attrib_4fv(
         &mut self,
         index: GLuint,
         v: *const GLfloat,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4fv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4fv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib4iv(
+    pub unsafe fn oxidegl_vertex_attrib_4iv(
         &mut self,
         index: GLuint,
         v: *const GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4iv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4iv not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib4s(
+    pub fn oxidegl_vertex_attrib_4s(
         &mut self,
         index: GLuint,
         x: GLshort,
@@ -11240,52 +9675,52 @@ impl Context {
         z: GLshort,
         w: GLshort,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4s not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4s not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib4sv(
+    pub unsafe fn oxidegl_vertex_attrib_4sv(
         &mut self,
         index: GLuint,
         v: *const GLshort,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4sv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4sv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib4ubv(
+    pub unsafe fn oxidegl_vertex_attrib_4ubv(
         &mut self,
         index: GLuint,
         v: *const GLubyte,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4ubv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4ubv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib4uiv(
+    pub unsafe fn oxidegl_vertex_attrib_4uiv(
         &mut self,
         index: GLuint,
         v: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4uiv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4uiv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib4usv(
+    pub unsafe fn oxidegl_vertex_attrib_4usv(
         &mut self,
         index: GLuint,
         v: *const GLushort,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib4usv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_4usv not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_i1i(&mut self, index: GLuint, x: GLint) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i1i not yet implemented");
+    pub fn oxidegl_vertex_attrib_i_1i(&mut self, index: GLuint, x: GLint) -> GlFallible {
+        panic!("command oxidegl_vertex_attrib_i_1i not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_i2i(&mut self, index: GLuint, x: GLint, y: GLint) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i2i not yet implemented");
+    pub fn oxidegl_vertex_attrib_i_2i(&mut self, index: GLuint, x: GLint, y: GLint) -> GlFallible {
+        panic!("command oxidegl_vertex_attrib_i_2i not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_i3i(
+    pub fn oxidegl_vertex_attrib_i_3i(
         &mut self,
         index: GLuint,
         x: GLint,
         y: GLint,
         z: GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i3i not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_3i not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_i4i(
+    pub fn oxidegl_vertex_attrib_i_4i(
         &mut self,
         index: GLuint,
         x: GLint,
@@ -11293,29 +9728,29 @@ impl Context {
         z: GLint,
         w: GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i4i not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_4i not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_i1ui(&mut self, index: GLuint, x: GLuint) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i1ui not yet implemented");
+    pub fn oxidegl_vertex_attrib_i_1ui(&mut self, index: GLuint, x: GLuint) -> GlFallible {
+        panic!("command oxidegl_vertex_attrib_i_1ui not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_i2ui(
+    pub fn oxidegl_vertex_attrib_i_2ui(
         &mut self,
         index: GLuint,
         x: GLuint,
         y: GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i2ui not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_2ui not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_i3ui(
+    pub fn oxidegl_vertex_attrib_i_3ui(
         &mut self,
         index: GLuint,
         x: GLuint,
         y: GLuint,
         z: GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i3ui not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_3ui not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_i4ui(
+    pub fn oxidegl_vertex_attrib_i_4ui(
         &mut self,
         index: GLuint,
         x: GLuint,
@@ -11323,149 +9758,149 @@ impl Context {
         z: GLuint,
         w: GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i4ui not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_4ui not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_i1iv(
+    pub unsafe fn oxidegl_vertex_attrib_i_1iv(
         &mut self,
         index: GLuint,
         v: *const GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i1iv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_1iv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_i2iv(
+    pub unsafe fn oxidegl_vertex_attrib_i_2iv(
         &mut self,
         index: GLuint,
         v: *const GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i2iv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_2iv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_i3iv(
+    pub unsafe fn oxidegl_vertex_attrib_i_3iv(
         &mut self,
         index: GLuint,
         v: *const GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i3iv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_3iv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_i4iv(
+    pub unsafe fn oxidegl_vertex_attrib_i_4iv(
         &mut self,
         index: GLuint,
         v: *const GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i4iv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_4iv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_i1uiv(
+    pub unsafe fn oxidegl_vertex_attrib_i_1uiv(
         &mut self,
         index: GLuint,
         v: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i1uiv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_1uiv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_i2uiv(
+    pub unsafe fn oxidegl_vertex_attrib_i_2uiv(
         &mut self,
         index: GLuint,
         v: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i2uiv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_2uiv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_i3uiv(
+    pub unsafe fn oxidegl_vertex_attrib_i_3uiv(
         &mut self,
         index: GLuint,
         v: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i3uiv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_3uiv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_i4uiv(
+    pub unsafe fn oxidegl_vertex_attrib_i_4uiv(
         &mut self,
         index: GLuint,
         v: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i4uiv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_4uiv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_i4bv(
+    pub unsafe fn oxidegl_vertex_attrib_i_4bv(
         &mut self,
         index: GLuint,
         v: *const GLbyte,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i4bv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_4bv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_i4sv(
+    pub unsafe fn oxidegl_vertex_attrib_i_4sv(
         &mut self,
         index: GLuint,
         v: *const GLshort,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i4sv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_4sv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_i4ubv(
+    pub unsafe fn oxidegl_vertex_attrib_i_4ubv(
         &mut self,
         index: GLuint,
         v: *const GLubyte,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i4ubv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_4ubv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_i4usv(
+    pub unsafe fn oxidegl_vertex_attrib_i_4usv(
         &mut self,
         index: GLuint,
         v: *const GLushort,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_i4usv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_i_4usv not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_p1ui(
+    pub fn oxidegl_vertex_attrib_p_1ui(
         &mut self,
         index: GLuint,
         r#type: VertexAttribPointerType,
         normalized: GLboolean,
         value: GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_p1ui not yet implemented");
+        panic!("command oxidegl_vertex_attrib_p_1ui not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_p2ui(
+    pub fn oxidegl_vertex_attrib_p_2ui(
         &mut self,
         index: GLuint,
         r#type: VertexAttribPointerType,
         normalized: GLboolean,
         value: GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_p2ui not yet implemented");
+        panic!("command oxidegl_vertex_attrib_p_2ui not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_p3ui(
+    pub fn oxidegl_vertex_attrib_p_3ui(
         &mut self,
         index: GLuint,
         r#type: VertexAttribPointerType,
         normalized: GLboolean,
         value: GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_p3ui not yet implemented");
+        panic!("command oxidegl_vertex_attrib_p_3ui not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_p4ui(
+    pub fn oxidegl_vertex_attrib_p_4ui(
         &mut self,
         index: GLuint,
         r#type: VertexAttribPointerType,
         normalized: GLboolean,
         value: GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_p4ui not yet implemented");
+        panic!("command oxidegl_vertex_attrib_p_4ui not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_l1d(&mut self, index: GLuint, x: GLdouble) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_l1d not yet implemented");
+    pub fn oxidegl_vertex_attrib_l_1d(&mut self, index: GLuint, x: GLdouble) -> GlFallible {
+        panic!("command oxidegl_vertex_attrib_l_1d not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_l2d(
+    pub fn oxidegl_vertex_attrib_l_2d(
         &mut self,
         index: GLuint,
         x: GLdouble,
         y: GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_l2d not yet implemented");
+        panic!("command oxidegl_vertex_attrib_l_2d not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_l3d(
+    pub fn oxidegl_vertex_attrib_l_3d(
         &mut self,
         index: GLuint,
         x: GLdouble,
         y: GLdouble,
         z: GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_l3d not yet implemented");
+        panic!("command oxidegl_vertex_attrib_l_3d not yet implemented");
     }
-    pub fn oxidegl_vertex_attrib_l4d(
+    pub fn oxidegl_vertex_attrib_l_4d(
         &mut self,
         index: GLuint,
         x: GLdouble,
@@ -11473,35 +9908,35 @@ impl Context {
         z: GLdouble,
         w: GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_l4d not yet implemented");
+        panic!("command oxidegl_vertex_attrib_l_4d not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_l1dv(
+    pub unsafe fn oxidegl_vertex_attrib_l_1dv(
         &mut self,
         index: GLuint,
         v: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_l1dv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_l_1dv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_l2dv(
+    pub unsafe fn oxidegl_vertex_attrib_l_2dv(
         &mut self,
         index: GLuint,
         v: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_l2dv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_l_2dv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_l3dv(
+    pub unsafe fn oxidegl_vertex_attrib_l_3dv(
         &mut self,
         index: GLuint,
         v: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_l3dv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_l_3dv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_l4dv(
+    pub unsafe fn oxidegl_vertex_attrib_l_4dv(
         &mut self,
         index: GLuint,
         v: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_l4dv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_l_4dv not yet implemented");
     }
 }
 /// ### Parameters
@@ -11661,9 +10096,9 @@ impl Context {
     ///
     /// If `name` refers to a matrix attribute variable, `index` refers to the
     /// first column of the matrix. Other matrix columns are then automatically
-    /// bound to locations `index+1` for a matrix of type [**mat2**](crate::context::Context::oxidemat2);
-    /// `index+1` and `index+2` for a matrix of type [**mat3**](crate::context::Context::oxidemat3);
-    /// and `index+1`, `index+2`, and `index+3` for a matrix of type [**mat4**](crate::context::Context::oxidemat4).
+    /// bound to locations `index+1` for a matrix of type [**mat2**](crate::context::Context::oxidemat_2);
+    /// `index+1` and `index+2` for a matrix of type [**mat3**](crate::context::Context::oxidemat_3);
+    /// and `index+1`, `index+2`, and `index+3` for a matrix of type [**mat4**](crate::context::Context::oxidemat_4).
     ///
     /// This command makes it possible for vertex shaders to use descriptive names
     /// for attribute variables rather than generic variables that are numbered
@@ -12235,201 +10670,6 @@ impl Context {
     /// ### Parameters
     /// `target`
     ///
-    /// > Specifies the target to which the texture is bound. Must be one of [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D),
-    /// > [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D), [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D),
-    /// > [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY), [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY),
-    /// > [`GL_TEXTURE_RECTANGLE`](crate::gl_enums::GL_TEXTURE_RECTANGLE), [`GL_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_CUBE_MAP),
-    /// > [`GL_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_ARRAY),
-    /// > [`GL_TEXTURE_BUFFER`](crate::gl_enums::GL_TEXTURE_BUFFER), [`GL_TEXTURE_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE)
-    /// > or [`GL_TEXTURE_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE_ARRAY).
-    ///
-    /// `texture`
-    ///
-    /// > Specifies the name of a texture.
-    ///
-    /// ### Description
-    /// [**glBindTexture**](crate::context::Context::oxidegl_bind_texture) lets
-    /// you create or use a named texture. Calling [**glBindTexture**](crate::context::Context::oxidegl_bind_texture)
-    /// with `target` set to [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D),
-    /// [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D), [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D),
-    /// [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY), [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY),
-    /// [`GL_TEXTURE_RECTANGLE`](crate::gl_enums::GL_TEXTURE_RECTANGLE), [`GL_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_CUBE_MAP),
-    /// [`GL_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_ARRAY),
-    /// [`GL_TEXTURE_BUFFER`](crate::gl_enums::GL_TEXTURE_BUFFER), [`GL_TEXTURE_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE)
-    /// or [`GL_TEXTURE_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE_ARRAY)
-    /// and `texture` set to the name of the new texture binds the texture name
-    /// to the target. When a texture is bound to a target, the previous binding
-    /// for that target is automatically broken.
-    ///
-    /// Texture names are unsigned integers. The value zero is reserved to represent
-    /// the default texture for each texture target. Texture names and the corresponding
-    /// texture contents are local to the shared object space of the current GL
-    /// rendering context; two rendering contexts share texture names only if they
-    /// explicitly enable sharing between contexts through the appropriate GL windows
-    /// interfaces functions.
-    ///
-    /// You must use [**glGenTextures**](crate::context::Context::oxidegl_gen_textures)
-    /// to generate a set of new texture names.
-    ///
-    /// When a texture is first bound, it assumes the specified target: A texture
-    /// first bound to [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D) becomes
-    /// one-dimensional texture, a texture first bound to [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D)
-    /// becomes two-dimensional texture, a texture first bound to [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D)
-    /// becomes three-dimensional texture, a texture first bound to [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY)
-    /// becomes one-dimensional array texture, a texture first bound to [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY)
-    /// becomes two-dimensional array texture, a texture first bound to [`GL_TEXTURE_RECTANGLE`](crate::gl_enums::GL_TEXTURE_RECTANGLE)
-    /// becomes rectangle texture, a texture first bound to [`GL_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_CUBE_MAP)
-    /// becomes a cube-mapped texture, a texture first bound to [`GL_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_ARRAY)
-    /// becomes a cube-mapped array texture, a texture first bound to [`GL_TEXTURE_BUFFER`](crate::gl_enums::GL_TEXTURE_BUFFER)
-    /// becomes a buffer texture, a texture first bound to [`GL_TEXTURE_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE)
-    /// becomes a two-dimensional multisampled texture, and a texture first bound
-    /// to [`GL_TEXTURE_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE_ARRAY)
-    /// becomes a two-dimensional multisampled array texture. The state of a one-dimensional
-    /// texture immediately after it is first bound is equivalent to the state
-    /// of the default [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D) at GL
-    /// initialization, and similarly for the other texture types.
-    ///
-    /// While a texture is bound, GL operations on the target to which it is bound
-    /// affect the bound texture, and queries of the target to which it is bound
-    /// return state from the bound texture. In effect, the texture targets become
-    /// aliases for the textures currently bound to them, and the texture name
-    /// zero refers to the default textures that were bound to them at initialization.
-    ///
-    /// A texture binding created with [**glBindTexture**](crate::context::Context::oxidegl_bind_texture)
-    /// remains active until a different texture is bound to the same target, or
-    /// until the bound texture is deleted with [**glDeleteTextures**](crate::context::Context::oxidegl_delete_textures).
-    ///
-    /// Once created, a named texture may be re-bound to its same original target
-    /// as often as needed. It is usually much faster to use [**glBindTexture**](crate::context::Context::oxidegl_bind_texture)
-    /// to bind an existing named texture to one of the texture targets than it
-    /// is to reload the texture image using [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d),
-    /// [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d), [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d)
-    /// or another similar function.
-    ///
-    /// ### Notes
-    /// The [`GL_TEXTURE_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE)
-    /// and [`GL_TEXTURE_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE_ARRAY)
-    /// targets are available only if the GL version is 3.2 or higher.
-    ///
-    /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_TEXTURE_BINDING_1D`](crate::gl_enums::GL_TEXTURE_BINDING_1D),
-    /// [`GL_TEXTURE_BINDING_2D`](crate::gl_enums::GL_TEXTURE_BINDING_2D), [`GL_TEXTURE_BINDING_3D`](crate::gl_enums::GL_TEXTURE_BINDING_3D),
-    /// [`GL_TEXTURE_BINDING_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_BINDING_1D_ARRAY),
-    /// [`GL_TEXTURE_BINDING_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_BINDING_2D_ARRAY),
-    /// [`GL_TEXTURE_BINDING_RECTANGLE`](crate::gl_enums::GL_TEXTURE_BINDING_RECTANGLE),
-    /// [`GL_TEXTURE_BINDING_BUFFER`](crate::gl_enums::GL_TEXTURE_BINDING_BUFFER),
-    /// [`GL_TEXTURE_BINDING_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_BINDING_CUBE_MAP),
-    /// [`GL_TEXTURE_BINDING_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_BINDING_CUBE_MAP_ARRAY),
-    /// [`GL_TEXTURE_BINDING_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_BINDING_2D_MULTISAMPLE),
-    /// or [`GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY).
-    pub fn oxidegl_bind_texture(&mut self, target: TextureTarget, texture: GLuint) -> GlFallible {
-        panic!("command oxidegl_bind_texture not yet implemented");
-    }
-    /// ### Parameters
-    /// `first`
-    ///
-    /// > Specifies the first texture unit to which a texture is to be bound.
-    ///
-    /// `count`
-    ///
-    /// > Specifies the number of textures to bind.
-    ///
-    /// `textures`
-    ///
-    /// > Specifies the address of an array of names of existing texture objects.
-    ///
-    /// ### Description
-    /// [**glBindTextures**](crate::context::Context::oxidegl_bind_textures) binds
-    /// an array of existing texture objects to a specified number of consecutive
-    /// texture units. `count` specifies the number of texture objects whose names
-    /// are stored in the array `textures`. That number of texture names are read
-    /// from the array and bound to the `count` consecutive texture units starting
-    /// from `first`. The target, or type of texture is deduced from the texture
-    /// object and each texture is bound to the corresponding target of the texture
-    /// unit. If the name zero appears in the `textures` array, any existing binding
-    /// to any target of the texture unit is reset and the default texture for
-    /// that target is bound in its place. Any non-zero entry in `textures` must
-    /// be the name of an existing texture object. If `textures` is [`NULL`](crate::gl_enums::NULL)
-    /// then it is as if an appropriately sized array containing only zeros had
-    /// been specified.
-    ///
-    /// With the exception that the active texture selector maintains its current
-    /// value, [**glBindTextures**](crate::context::Context::oxidegl_bind_textures)
-    /// is equivalent to the following pseudo code:
-    ///
-    /// Each entry in `textures` will be checked individually and if found to be
-    /// invalid, the state for that texture unit will not be changed and an error
-    /// will be generated. However, the state for other texture units referenced
-    /// by the command will still be updated.
-    ///
-    /// ### Notes
-    /// [**glBindTextures**](crate::context::Context::oxidegl_bind_textures) is
-    /// available only if the GL version is 4.4 or higher.
-    ///
-    /// Note that because [**glBindTextures**](crate::context::Context::oxidegl_bind_textures)
-    /// cannot create new textures (even if a name passed has been previously generated
-    /// by call to [**glGenTextures**](crate::context::Context::oxidegl_gen_textures)
-    /// ), names passed to [**glBindTextures**](crate::context::Context::oxidegl_bind_textures)
-    /// must have been bound at least once previously via a call to [**glBindTexture**](crate::context::Context::oxidegl_bind_texture).
-    ///
-    /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_TEXTURE_BINDING_1D`](crate::gl_enums::GL_TEXTURE_BINDING_1D),
-    /// [`GL_TEXTURE_BINDING_2D`](crate::gl_enums::GL_TEXTURE_BINDING_2D), [`GL_TEXTURE_BINDING_3D`](crate::gl_enums::GL_TEXTURE_BINDING_3D),
-    /// [`GL_TEXTURE_BINDING_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_BINDING_1D_ARRAY),
-    /// [`GL_TEXTURE_BINDING_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_BINDING_2D_ARRAY),
-    /// [`GL_TEXTURE_BINDING_RECTANGLE`](crate::gl_enums::GL_TEXTURE_BINDING_RECTANGLE),
-    /// [`GL_TEXTURE_BINDING_BUFFER`](crate::gl_enums::GL_TEXTURE_BINDING_BUFFER),
-    /// [`GL_TEXTURE_BINDING_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_BINDING_CUBE_MAP),
-    /// [`GL_TEXTURE_BINDING_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_BINDING_CUBE_MAP),
-    /// [`GL_TEXTURE_BINDING_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_BINDING_CUBE_MAP_ARRAY),
-    /// [`GL_TEXTURE_BINDING_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_BINDING_2D_MULTISAMPLE),
-    /// or [`GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY).
-    pub unsafe fn oxidegl_bind_textures(
-        &mut self,
-        first: GLuint,
-        count: GLsizei,
-        textures: *const GLuint,
-    ) -> GlFallible {
-        panic!("command oxidegl_bind_textures not yet implemented");
-    }
-    /// ### Parameters
-    /// `unit`
-    ///
-    /// > Specifies the texture unit, to which the texture object should be bound
-    /// > to.
-    ///
-    /// `texture`
-    ///
-    /// > Specifies the name of a texture.
-    ///
-    /// ### Description
-    /// [**glBindTextureUnit**](crate::context::Context::oxidegl_bind_texture_unit)
-    /// binds an existing texture object to the texture unit numbered `unit`.
-    ///
-    /// `texture` must be zero or the name of an existing texture object. When
-    /// `texture` is the name of an existing texture object, that object is bound
-    /// to the target, in the corresponding texture unit, that was specified when
-    /// the object was created. When `texture` is zero, each of the targets enumerated
-    /// at the beginning of this section is reset to its default texture for the
-    /// corresponding texture image unit.
-    ///
-    /// ### Associated Gets
-    /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_TEXTURE_BINDING_1D`](crate::gl_enums::GL_TEXTURE_BINDING_1D),
-    /// [`GL_TEXTURE_BINDING_2D`](crate::gl_enums::GL_TEXTURE_BINDING_2D), [`GL_TEXTURE_BINDING_3D`](crate::gl_enums::GL_TEXTURE_BINDING_3D),
-    /// [`GL_TEXTURE_BINDING_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_BINDING_1D_ARRAY),
-    /// [`GL_TEXTURE_BINDING_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_BINDING_2D_ARRAY),
-    /// [`GL_TEXTURE_BINDING_RECTANGLE`](crate::gl_enums::GL_TEXTURE_BINDING_RECTANGLE),
-    /// [`GL_TEXTURE_BINDING_BUFFER`](crate::gl_enums::GL_TEXTURE_BINDING_BUFFER),
-    /// [`GL_TEXTURE_BINDING_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_BINDING_CUBE_MAP),
-    /// [`GL_TEXTURE_BINDING_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_BINDING_CUBE_MAP_ARRAY),
-    /// [`GL_TEXTURE_BINDING_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_BINDING_2D_MULTISAMPLE)
-    /// or [`GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY).
-    pub fn oxidegl_bind_texture_unit(&mut self, unit: GLuint, texture: GLuint) -> GlFallible {
-        panic!("command oxidegl_bind_texture_unit not yet implemented");
-    }
-    /// ### Parameters
-    /// `target`
-    ///
     /// > Specifies the target to which to bind the transform feedback object `id`.
     /// > `target` must be [`GL_TRANSFORM_FEEDBACK`](crate::gl_enums::GL_TRANSFORM_FEEDBACK).
     ///
@@ -12483,7 +10723,7 @@ impl Context {
     ///
     /// ### Notes
     /// The type of the `red`, `green`, `blue`, and `alpha` parameters was changed
-    /// from `GLclampf` to `GLfloat`. This change is transparent to user code and is
+    /// from GLclampf to GLfloat. This change is transparent to user code and is
     /// described in detail on the [**removedTypes**](crate::context::Context::oxideremoved_types)
     /// page.
     ///
@@ -12552,7 +10792,7 @@ impl Context {
     /// compressed.
     ///
     /// `format` and `type` specify the format and type of the source data and
-    /// are interpreted as they are for [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d).
+    /// are interpreted as they are for [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d).
     /// Textures with a base internal format of [`GL_DEPTH_COMPONENT`](crate::gl_enums::GL_DEPTH_COMPONENT),
     /// [`GL_STENCIL_INDEX`](crate::gl_enums::GL_STENCIL_INDEX), or [`GL_DEPTH_STENCIL`](crate::gl_enums::GL_DEPTH_STENCIL)
     /// require depth component, stencil, or depth-stencil component data respectively.
@@ -12668,7 +10908,7 @@ impl Context {
     /// to one.
     ///
     /// `format` and `type` specify the format and type of the source data and
-    /// are interpreted as they are for [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d).
+    /// are interpreted as they are for [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d).
     /// Textures with a base internal format of [`GL_DEPTH_COMPONENT`](crate::gl_enums::GL_DEPTH_COMPONENT),
     /// [`GL_STENCIL_INDEX`](crate::gl_enums::GL_STENCIL_INDEX), or [`GL_DEPTH_STENCIL`](crate::gl_enums::GL_DEPTH_STENCIL)
     /// require depth component, stencil, or depth-stencil component data respectively.
@@ -12771,20 +11011,20 @@ impl Context {
     /// the clipping volume behavior and the clip coordinate to window coordinate
     /// transformation behavior.
     ///
-    /// The view volume is defined by $$z_{min} \leq `z_c` \leq `w_c`$$ where $z_{min}
-    ///= -`w_c`$ when `depth` is [`GL_NEGATIVE_ONE_TO_ONE`](crate::gl_enums::GL_NEGATIVE_ONE_TO_ONE),
+    /// The view volume is defined by $$z_{min} \leq z_c \leq w_c$$ where $z_{min}
+    ///= -w_c$ when `depth` is [`GL_NEGATIVE_ONE_TO_ONE`](crate::gl_enums::GL_NEGATIVE_ONE_TO_ONE),
     /// and $z_{min}= 0$ when `depth` is [`GL_ZERO_TO_ONE`](crate::gl_enums::GL_ZERO_TO_ONE).
     ///
-    /// The normalized device coordinate $`y_d`$ is given by $$`y_d`={{ f \times `y_c`
-    ///} \over `w_c` }$$ where $f= 1$ when `origin` is [`GL_LOWER_LEFT`](crate::gl_enums::GL_LOWER_LEFT),
+    /// The normalized device coordinate $y_d$ is given by $$y_d={{ f \times y_c
+    ///} \over w_c }$$ where $f= 1$ when `origin` is [`GL_LOWER_LEFT`](crate::gl_enums::GL_LOWER_LEFT),
     /// and $f= -1$ when `origin` is [`GL_UPPER_LEFT`](crate::gl_enums::GL_UPPER_LEFT).
     ///
-    /// The window coordinate $`z_w`$ is given by $$`z_w`= s \times `z_d`+ b$$ where
+    /// The window coordinate $z_w$ is given by $$z_w= s \times z_d+ b$$ where
     /// $s={{ f- n} \over 2 }$ and $b={ {n+ f} \over 2 }$ when `depth` is [`GL_NEGATIVE_ONE_TO_ONE`](crate::gl_enums::GL_NEGATIVE_ONE_TO_ONE),
     /// and $s= f- n$ and $b= n$ when `depth` is [`GL_ZERO_TO_ONE`](crate::gl_enums::GL_ZERO_TO_ONE).
     /// $n$ and $f$ are the near and far depth range values set with [**glDepthRange**](crate::context::Context::oxidegl_depth_range).
     ///
-    /// Finally, the polygon area computation defined by [**`gl_FrontFacing`**](crate::context::Context::oxidegl__front_facing)
+    /// Finally, the polygon area computation defined by [**gl_FrontFacing**](crate::context::Context::oxidegl__front_facing)
     /// to determine if a polygon is front- or back-facing has its sign negated
     /// when `origin` is [`GL_UPPER_LEFT`](crate::gl_enums::GL_UPPER_LEFT).
     ///
@@ -12847,10 +11087,10 @@ impl Context {
     /// ### Description
     /// Texturing allows elements of an image array to be read by shaders.
     ///
-    /// [**glCompressedTexImage1D**](crate::context::Context::oxidegl_compressed_tex_image1_d)
+    /// [**glCompressedTexImage1D**](crate::context::Context::oxidegl_compressed_tex_image_1d)
     /// loads a previously defined, and retrieved, compressed one-dimensional texture
     /// image if `target` is [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D)
-    /// (see [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d)
+    /// (see [**glTexImage1D**](crate::context::Context::oxidegl_tex_image_1d)
     /// ).
     ///
     /// If `target` is [`GL_PROXY_TEXTURE_1D`](crate::gl_enums::GL_PROXY_TEXTURE_1D),
@@ -12863,10 +11103,10 @@ impl Context {
     /// or equal to 1.
     ///
     /// `internalformat` must be an extension-specified compressed-texture format.
-    /// When a texture is loaded with [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d)
+    /// When a texture is loaded with [**glTexImage1D**](crate::context::Context::oxidegl_tex_image_1d)
     /// using a generic compressed texture format (e.g., [`GL_COMPRESSED_RGB`](crate::gl_enums::GL_COMPRESSED_RGB))
     /// the GL selects from one of its extensions supporting compressed textures.
-    /// In order to load the compressed texture image using [**glCompressedTexImage1D**](crate::context::Context::oxidegl_compressed_tex_image1_d),
+    /// In order to load the compressed texture image using [**glCompressedTexImage1D**](crate::context::Context::oxidegl_compressed_tex_image_1d),
     /// query the compressed texture image's size and format using [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter).
     ///
     /// If a non-zero named buffer object is bound to the [`GL_PIXEL_UNPACK_BUFFER`](crate::gl_enums::GL_PIXEL_UNPACK_BUFFER)
@@ -12877,7 +11117,7 @@ impl Context {
     /// If the compressed data are arranged into fixed-size blocks of texels, the
     /// pixel storage modes can be used to select a sub-rectangle from a larger
     /// containing rectangle. These pixel storage modes operate in the same way
-    /// as they do for [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d).
+    /// as they do for [**glTexImage1D**](crate::context::Context::oxidegl_tex_image_1d).
     /// In the following description, denote by `[inlineq]` `[inlineq]` `[inlineq]`
     /// `[inlineq]` [`GL_UNPACK_COMPRESSED_BLOCK_SIZE`](crate::gl_enums::GL_UNPACK_COMPRESSED_BLOCK_SIZE),
     /// [`GL_UNPACK_COMPRESSED_BLOCK_WIDTH`](crate::gl_enums::GL_UNPACK_COMPRESSED_BLOCK_WIDTH),
@@ -12918,7 +11158,7 @@ impl Context {
     /// [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter)
     /// with arguments [`GL_TEXTURE_INTERNAL_FORMAT`](crate::gl_enums::GL_TEXTURE_INTERNAL_FORMAT)
     /// and [`GL_TEXTURE_COMPRESSED_IMAGE_SIZE`](crate::gl_enums::GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
-    pub unsafe fn oxidegl_compressed_tex_image1_d(
+    pub unsafe fn oxidegl_compressed_tex_image_1d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -12928,7 +11168,7 @@ impl Context {
         image_size: GLsizei,
         data: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_compressed_tex_image1_d not yet implemented");
+        panic!("command oxidegl_compressed_tex_image_1d not yet implemented");
     }
     /// ### Parameters
     /// `target`
@@ -12979,11 +11219,11 @@ impl Context {
     /// ### Description
     /// Texturing allows elements of an image array to be read by shaders.
     ///
-    /// [**glCompressedTexImage2D**](crate::context::Context::oxidegl_compressed_tex_image2_d)
+    /// [**glCompressedTexImage2D**](crate::context::Context::oxidegl_compressed_tex_image_2d)
     /// loads a previously defined, and retrieved, compressed two-dimensional texture
     /// image if `target` is [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D),
     /// or one of the cube map faces such as [`GL_TEXTURE_CUBE_MAP_POSITIVE_X`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_POSITIVE_X).
-    /// (see [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d)
+    /// (see [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d)
     /// ).
     ///
     /// If `target` is [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY),
@@ -13002,10 +11242,10 @@ impl Context {
     ///
     /// `internalformat` must be a known compressed image format (such as [`GL_RGTC`](crate::gl_enums::GL_RGTC))
     /// or an extension-specified compressed-texture format. When a texture is
-    /// loaded with [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d)
+    /// loaded with [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d)
     /// using a generic compressed texture format (e.g., [`GL_COMPRESSED_RGB`](crate::gl_enums::GL_COMPRESSED_RGB)
     /// ), the GL selects from one of its extensions supporting compressed textures.
-    /// In order to load the compressed texture image using [**glCompressedTexImage2D**](crate::context::Context::oxidegl_compressed_tex_image2_d),
+    /// In order to load the compressed texture image using [**glCompressedTexImage2D**](crate::context::Context::oxidegl_compressed_tex_image_2d),
     /// query the compressed texture image's size and format using [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter).
     ///
     /// If a non-zero named buffer object is bound to the [`GL_PIXEL_UNPACK_BUFFER`](crate::gl_enums::GL_PIXEL_UNPACK_BUFFER)
@@ -13016,7 +11256,7 @@ impl Context {
     /// If the compressed data are arranged into fixed-size blocks of texels, the
     /// pixel storage modes can be used to select a sub-rectangle from a larger
     /// containing rectangle. These pixel storage modes operate in the same way
-    /// as they do for [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d).
+    /// as they do for [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d).
     /// In the following description, denote by `[inlineq]` `[inlineq]` `[inlineq]`
     /// `[inlineq]` [`GL_UNPACK_COMPRESSED_BLOCK_SIZE`](crate::gl_enums::GL_UNPACK_COMPRESSED_BLOCK_SIZE),
     /// [`GL_UNPACK_COMPRESSED_BLOCK_WIDTH`](crate::gl_enums::GL_UNPACK_COMPRESSED_BLOCK_WIDTH),
@@ -13068,7 +11308,7 @@ impl Context {
     /// [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter)
     /// with arguments [`GL_TEXTURE_INTERNAL_FORMAT`](crate::gl_enums::GL_TEXTURE_INTERNAL_FORMAT)
     /// and [`GL_TEXTURE_COMPRESSED_IMAGE_SIZE`](crate::gl_enums::GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
-    pub unsafe fn oxidegl_compressed_tex_image2_d(
+    pub unsafe fn oxidegl_compressed_tex_image_2d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -13079,7 +11319,7 @@ impl Context {
         image_size: GLsizei,
         data: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_compressed_tex_image2_d not yet implemented");
+        panic!("command oxidegl_compressed_tex_image_2d not yet implemented");
     }
     /// ### Parameters
     /// `target`
@@ -13128,10 +11368,10 @@ impl Context {
     /// ### Description
     /// Texturing allows elements of an image array to be read by shaders.
     ///
-    /// [**glCompressedTexImage3D**](crate::context::Context::oxidegl_compressed_tex_image3_d)
+    /// [**glCompressedTexImage3D**](crate::context::Context::oxidegl_compressed_tex_image_3d)
     /// loads a previously defined, and retrieved, compressed three-dimensional
     /// texture image if `target` is [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D)
-    /// (see [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d)
+    /// (see [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d)
     /// ).
     ///
     /// If `target` is [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY),
@@ -13149,10 +11389,10 @@ impl Context {
     ///
     /// `internalformat` must be a known compressed image format (such as [`GL_RGTC`](crate::gl_enums::GL_RGTC))
     /// or an extension-specified compressed-texture format. When a texture is
-    /// loaded with [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d)
+    /// loaded with [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d)
     /// using a generic compressed texture format (e.g., [`GL_COMPRESSED_RGB`](crate::gl_enums::GL_COMPRESSED_RGB)
     /// ), the GL selects from one of its extensions supporting compressed textures.
-    /// In order to load the compressed texture image using [**glCompressedTexImage3D**](crate::context::Context::oxidegl_compressed_tex_image3_d),
+    /// In order to load the compressed texture image using [**glCompressedTexImage3D**](crate::context::Context::oxidegl_compressed_tex_image_3d),
     /// query the compressed texture image's size and format using [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter).
     ///
     /// If a non-zero named buffer object is bound to the [`GL_PIXEL_UNPACK_BUFFER`](crate::gl_enums::GL_PIXEL_UNPACK_BUFFER)
@@ -13163,7 +11403,7 @@ impl Context {
     /// If the compressed data are arranged into fixed-size blocks of texels, the
     /// pixel storage modes can be used to select a sub-rectangle from a larger
     /// containing rectangle. These pixel storage modes operate in the same way
-    /// as they do for [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d).
+    /// as they do for [**glTexImage1D**](crate::context::Context::oxidegl_tex_image_1d).
     /// In the following description, denote by `[inlineq]` `[inlineq]` `[inlineq]`
     /// `[inlineq]` [`GL_UNPACK_COMPRESSED_BLOCK_SIZE`](crate::gl_enums::GL_UNPACK_COMPRESSED_BLOCK_SIZE),
     /// [`GL_UNPACK_COMPRESSED_BLOCK_WIDTH`](crate::gl_enums::GL_UNPACK_COMPRESSED_BLOCK_WIDTH),
@@ -13206,7 +11446,7 @@ impl Context {
     /// [**glGetTexLevelParameter**](crate::context::Context::oxidegl_get_tex_level_parameter)
     /// with arguments [`GL_TEXTURE_INTERNAL_FORMAT`](crate::gl_enums::GL_TEXTURE_INTERNAL_FORMAT)
     /// and [`GL_TEXTURE_COMPRESSED_IMAGE_SIZE`](crate::gl_enums::GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
-    pub unsafe fn oxidegl_compressed_tex_image3_d(
+    pub unsafe fn oxidegl_compressed_tex_image_3d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -13218,7 +11458,7 @@ impl Context {
         image_size: GLsizei,
         data: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_compressed_tex_image3_d not yet implemented");
+        panic!("command oxidegl_compressed_tex_image_3d not yet implemented");
     }
     /// ### Parameters
     /// `srcName`
@@ -13283,7 +11523,7 @@ impl Context {
     /// to another. [**glCopyImageSubData**](crate::context::Context::oxidegl_copy_image_sub_data)
     /// does not perform general-purpose conversions such as scaling, resizing,
     /// blending, color-space, or format conversions. It should be considered to
-    /// operate in a manner similar to a CPU memcpy. `CopyImageSubData` can copy
+    /// operate in a manner similar to a CPU memcpy. CopyImageSubData can copy
     /// between images with different internal formats, provided the formats are
     /// compatible.
     ///
@@ -13335,7 +11575,7 @@ impl Context {
     /// of slices to be copied with `srcDepth`. Cubemap textures always have six
     /// faces which are selected by a zero-based face index.
     ///
-    /// For the purposes of `CopyImageSubData`, two internal formats are considered
+    /// For the purposes of CopyImageSubData, two internal formats are considered
     /// compatible if any of the following conditions are met: the formats are
     /// > the same,
     ///
@@ -13424,7 +11664,7 @@ impl Context {
     /// > Must be 0.
     ///
     /// ### Description
-    /// [**glCopyTexImage1D**](crate::context::Context::oxidegl_copy_tex_image1_d)
+    /// [**glCopyTexImage1D**](crate::context::Context::oxidegl_copy_tex_image_1d)
     /// defines a one-dimensional texture image with pixels from the current [`GL_READ_BUFFER`](crate::gl_enums::GL_READ_BUFFER).
     ///
     /// The screen-aligned pixel row with left corner at `[inlineq]` `[inlineq]`
@@ -13441,7 +11681,7 @@ impl Context {
     /// are outside the window associated with the current rendering context, then
     /// the values obtained for those pixels are undefined.
     ///
-    /// [**glCopyTexImage1D**](crate::context::Context::oxidegl_copy_tex_image1_d)
+    /// [**glCopyTexImage1D**](crate::context::Context::oxidegl_copy_tex_image_1d)
     /// defines a one-dimensional texture image with pixels from the current [`GL_READ_BUFFER`](crate::gl_enums::GL_READ_BUFFER).
     ///
     /// When `internalformat` is one of the sRGB types, the GL does not automatically
@@ -13458,7 +11698,7 @@ impl Context {
     ///
     /// ### Associated Gets
     /// [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image)
-    pub fn oxidegl_copy_tex_image1_d(
+    pub fn oxidegl_copy_tex_image_1d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -13468,7 +11708,7 @@ impl Context {
         width: GLsizei,
         border: GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_copy_tex_image1_d not yet implemented");
+        panic!("command oxidegl_copy_tex_image_1d not yet implemented");
     }
     /// ### Parameters
     /// `target`
@@ -13528,7 +11768,7 @@ impl Context {
     /// > Must be 0.
     ///
     /// ### Description
-    /// [**glCopyTexImage2D**](crate::context::Context::oxidegl_copy_tex_image2_d)
+    /// [**glCopyTexImage2D**](crate::context::Context::oxidegl_copy_tex_image_2d)
     /// defines a two-dimensional texture image, or cube-map texture image with
     /// pixels from the current [`GL_READ_BUFFER`](crate::gl_enums::GL_READ_BUFFER).
     ///
@@ -13560,7 +11800,7 @@ impl Context {
     ///
     /// ### Associated Gets
     /// [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image)
-    pub fn oxidegl_copy_tex_image2_d(
+    pub fn oxidegl_copy_tex_image_2d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -13571,7 +11811,7 @@ impl Context {
         height: GLsizei,
         border: GLint,
     ) -> GlFallible {
-        panic!("command oxidegl_copy_tex_image2_d not yet implemented");
+        panic!("command oxidegl_copy_tex_image_2d not yet implemented");
     }
     /// ### Parameters
     /// `n`
@@ -13719,40 +11959,6 @@ impl Context {
         strings: *const *const GLchar,
     ) -> GlFallible<GLuint> {
         panic!("command oxidegl_create_shader_programv not yet implemented");
-    }
-    /// ### Parameters
-    /// `target`
-    ///
-    /// > Specifies the effective texture target of each created texture.
-    ///
-    /// `n`
-    ///
-    /// > Number of texture objects to create.
-    ///
-    /// `textures`
-    ///
-    /// > Specifies an array in which names of the new texture objects are stored.
-    ///
-    /// ### Description
-    /// [**glCreateTextures**](crate::context::Context::oxidegl_create_textures)
-    /// returns `n` previously unused texture names in `textures`, each representing
-    /// a new texture object of the dimensionality and type specified by `target`
-    /// and initialized to the default values for that texture type.
-    ///
-    /// `target` must be one of [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D),
-    /// [`GL_TEXTURE_2D`](crate::gl_enums::GL_TEXTURE_2D), [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D),
-    /// [`GL_TEXTURE_1D_ARRAY`](crate::gl_enums::GL_TEXTURE_1D_ARRAY), [`GL_TEXTURE_2D_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_ARRAY),
-    /// [`GL_TEXTURE_RECTANGLE`](crate::gl_enums::GL_TEXTURE_RECTANGLE), [`GL_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_CUBE_MAP),
-    /// [`GL_TEXTURE_CUBE_MAP_ARRAY`](crate::gl_enums::GL_TEXTURE_CUBE_MAP_ARRAY),
-    /// [`GL_TEXTURE_BUFFER`](crate::gl_enums::GL_TEXTURE_BUFFER), [`GL_TEXTURE_2D_MULTISAMPLE`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE)
-    /// or [`GL_TEXTURE_2D_MULTISAMPLE_ARRAY`](crate::gl_enums::GL_TEXTURE_2D_MULTISAMPLE_ARRAY).
-    pub unsafe fn oxidegl_create_textures(
-        &mut self,
-        target: TextureTarget,
-        n: GLsizei,
-        textures: *mut GLuint,
-    ) -> GlFallible {
-        panic!("command oxidegl_create_textures not yet implemented");
     }
     /// ### Parameters
     /// `n`
@@ -14206,7 +12412,7 @@ impl Context {
     /// It is not necessary that the near plane distance be less than the far plane
     /// distance. Reverse mappings such as `[inlineq]` `[inlineq]`
     ///
-    /// The type of the `v` parameter was changed from `GLclampd` to `GLdouble`. This
+    /// The type of the `v` parameter was changed from GLclampd to GLdouble. This
     /// change is transparent to user code and is described in detail on the [**removedTypes**](crate::context::Context::oxideremoved_types)
     /// page.
     ///
@@ -14255,8 +12461,8 @@ impl Context {
     /// It is not necessary that the near plane distance be less than the far plane
     /// distance. Reverse mappings such as `[inlineq]` `[inlineq]`
     ///
-    /// The type of the `nearVal` and `farVal` parameters was changed from `GLclampd`
-    /// to `GLdouble`. This change is transparent to user code and is described in
+    /// The type of the `nearVal` and `farVal` parameters was changed from GLclampd
+    /// to GLdouble. This change is transparent to user code and is described in
     /// detail on the [**removedTypes**](crate::context::Context::oxideremoved_types)
     /// page.
     ///
@@ -14595,34 +12801,6 @@ impl Context {
         samplers: *mut GLuint,
     ) -> GlFallible {
         panic!("command oxidegl_gen_samplers not yet implemented");
-    }
-    /// ### Parameters
-    /// `n`
-    ///
-    /// > Specifies the number of texture names to be generated.
-    ///
-    /// `textures`
-    ///
-    /// > Specifies an array in which the generated texture names are stored.
-    ///
-    /// ### Description
-    /// [**glGenTextures**](crate::context::Context::oxidegl_gen_textures) returns
-    /// `n` texture names in `textures`. There is no guarantee that the names form
-    /// a contiguous set of integers; however, it is guaranteed that none of the
-    /// returned names was in use immediately before the call to [**glGenTextures**](crate::context::Context::oxidegl_gen_textures).
-    ///
-    /// The generated textures have no dimensionality; they assume the dimensionality
-    /// of the texture target to which they are first bound (see [**glBindTexture**](crate::context::Context::oxidegl_bind_texture)
-    /// ).
-    ///
-    /// Texture names returned by a call to [**glGenTextures**](crate::context::Context::oxidegl_gen_textures)
-    /// are not returned by subsequent calls, unless they are first deleted with
-    /// [**glDeleteTextures**](crate::context::Context::oxidegl_delete_textures).
-    ///
-    /// ### Associated Gets
-    /// [**glIsTexture**](crate::context::Context::oxidegl_is_texture)
-    pub unsafe fn oxidegl_gen_textures(&mut self, n: GLsizei, textures: *mut GLuint) -> GlFallible {
-        panic!("command oxidegl_gen_textures not yet implemented");
     }
     /// ### Parameters
     /// `n`
@@ -15124,7 +13302,7 @@ impl Context {
     /// | [`GL_INT_VEC2`](crate::gl_enums::GL_INT_VEC2)               | [`ivec2`](crate::gl_enums::ivec2)                  |
     /// | [`GL_INT_VEC3`](crate::gl_enums::GL_INT_VEC3)               | [`ivec3`](crate::gl_enums::ivec3)                  |
     /// | [`GL_INT_VEC4`](crate::gl_enums::GL_INT_VEC4)               | [`ivec4`](crate::gl_enums::ivec4)                  |
-    /// | [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT)       | [`unsigned int`](`crate::gl_enums::unsigned` int)    |
+    /// | [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT)       | [`unsigned int`](crate::gl_enums::unsigned int)    |
     /// | [`GL_UNSIGNED_INT_VEC2`](crate::gl_enums::GL_UNSIGNED_INT_VEC2) | [`uvec2`](crate::gl_enums::uvec2)              |
     /// | [`GL_UNSIGNED_INT_VEC3`](crate::gl_enums::GL_UNSIGNED_INT_VEC3) | [`uvec3`](crate::gl_enums::uvec3)              |
     /// | [`GL_UNSIGNED_INT_VEC4`](crate::gl_enums::GL_UNSIGNED_INT_VEC4) | [`uvec4`](crate::gl_enums::uvec4)              |
@@ -15564,7 +13742,7 @@ impl Context {
     /// | [`GL_INT_VEC2`](crate::gl_enums::GL_INT_VEC2)               | [`ivec2`](crate::gl_enums::ivec2)                  |
     /// | [`GL_INT_VEC3`](crate::gl_enums::GL_INT_VEC3)               | [`ivec3`](crate::gl_enums::ivec3)                  |
     /// | [`GL_INT_VEC4`](crate::gl_enums::GL_INT_VEC4)               | [`ivec4`](crate::gl_enums::ivec4)                  |
-    /// | [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT)       | [`unsigned int`](`crate::gl_enums::unsigned` int)    |
+    /// | [`GL_UNSIGNED_INT`](crate::gl_enums::GL_UNSIGNED_INT)       | [`unsigned int`](crate::gl_enums::unsigned int)    |
     /// | [`GL_UNSIGNED_INT_VEC2`](crate::gl_enums::GL_UNSIGNED_INT_VEC2) | [`uvec2`](crate::gl_enums::uvec2)              |
     /// | [`GL_UNSIGNED_INT_VEC3`](crate::gl_enums::GL_UNSIGNED_INT_VEC3) | [`uvec3`](crate::gl_enums::uvec3)              |
     /// | [`GL_UNSIGNED_INT_VEC4`](crate::gl_enums::GL_UNSIGNED_INT_VEC4) | [`uvec4`](crate::gl_enums::uvec4)              |
@@ -15875,7 +14053,7 @@ impl Context {
     /// not be a buffer or multisample texture. The effective `target` is the value
     /// of [`GL_TEXTURE_TARGET`](crate::gl_enums::GL_TEXTURE_TARGET) for texture.
     /// `level` and `pixels` have the same meaning as the corresponding arguments
-    /// of [**glCompressedTexSubImage3D**](crate::context::Context::oxidegl_compressed_tex_sub_image3_d).
+    /// of [**glCompressedTexSubImage3D**](crate::context::Context::oxidegl_compressed_tex_sub_image_3d).
     /// `bufSize` indicates the size of the buffer to receive the retrieved pixel
     /// data.
     ///
@@ -15896,7 +14074,7 @@ impl Context {
     ///
     /// `xoffset`, `yoffset` and `zoffset` indicate the position of the subregion
     /// to return. `width`, `height` and `depth` indicate the size of the region
-    /// to return. These arguments have the same meaning as for [**glCompressedTexSubImage3D**](crate::context::Context::oxidegl_compressed_tex_sub_image3_d),
+    /// to return. These arguments have the same meaning as for [**glCompressedTexSubImage3D**](crate::context::Context::oxidegl_compressed_tex_sub_image_3d),
     /// though there are extra restrictions, described in the errors section below.
     ///
     /// The mapping between the `xoffset`, `yoffset`, `zoffset`, `width`, `height`
@@ -16012,7 +14190,7 @@ impl Context {
     /// repeatedly returned, the context may be in the process of resetting.
     ///
     /// Reset notification behavior is determined at context creation time, and
-    /// may be queried by calling [**`GetIntegerv`**](crate::context::Context::oxide_get_integerv)
+    /// may be queried by calling [**GetIntegerv**](crate::context::Context::oxideget_integerv)
     /// with the symbolic constant [`GL_RESET_NOTIFICATION_STRATEGY`](crate::gl_enums::GL_RESET_NOTIFICATION_STRATEGY).
     ///
     /// If the reset notification behavior is [`GL_NO_RESET_NOTIFICATION`](crate::gl_enums::GL_NO_RESET_NOTIFICATION),
@@ -16491,7 +14669,7 @@ impl Context {
     /// |---------------|---------------------------------------------------|
     /// | [`GL_NAME_LENGTH`](crate::gl_enums::GL_NAME_LENGTH) | Any except [`GL_ATOMIC_COUNTER_BUFFER`](crate::gl_enums::GL_ATOMIC_COUNTER_BUFFER) and [`GL_TRANSFORM_FEEDBACK_BUFFER`](crate::gl_enums::GL_TRANSFORM_FEEDBACK_BUFFER) |
     /// | [`GL_TYPE`](crate::gl_enums::GL_TYPE) | [`GL_UNIFORM`](crate::gl_enums::GL_UNIFORM), [`GL_PROGRAM_INPUT`](crate::gl_enums::GL_PROGRAM_INPUT), [`GL_PROGRAM_OUTPUT`](crate::gl_enums::GL_PROGRAM_OUTPUT), [`GL_TRANSFORM_FEEDBACK_VARYING`](crate::gl_enums::GL_TRANSFORM_FEEDBACK_VARYING), [`GL_BUFFER_VARIABLE`](crate::gl_enums::GL_BUFFER_VARIABLE) |
-    /// | [`GL_ARRAY_SIZE`](crate::gl_enums::GL_ARRAY_SIZE) | [`GL_UNIFORM`](crate::gl_enums::GL_UNIFORM), [`GL_BUFFER_VARIABLE`](crate::gl_enums::GL_BUFFER_VARIABLE), [`GL_PROGRAM_INPUT`](crate::gl_enums::GL_PROGRAM_INPUT), [`GL_PROGRAM_OUTPUT, VERTEX_SUBROUTINE_UNIFORM`](`crate::gl_enums::GL_PROGRAM_OUTPUT`, `VERTEX_SUBROUTINE_UNIFORM`), [`GL_TESS_CONTROL_SUBROUTINE_UNIFORM`](crate::gl_enums::GL_TESS_CONTROL_SUBROUTINE_UNIFORM), [`GL_TESS_EVALUATION_SUBROUTINE_UNIFORM`](crate::gl_enums::GL_TESS_EVALUATION_SUBROUTINE_UNIFORM), [`GL_GEOMETRY_SUBROUTINE_UNIFORM`](crate::gl_enums::GL_GEOMETRY_SUBROUTINE_UNIFORM), [`GL_FRAGMENT_SUBROUTINE_UNIFORM`](crate::gl_enums::GL_FRAGMENT_SUBROUTINE_UNIFORM), [`GL_COMPUTE_SUBROUTINE_UNIFORM`](crate::gl_enums::GL_COMPUTE_SUBROUTINE_UNIFORM), [`GL_TRANSFORM_FEEDBACK_VARYING`](crate::gl_enums::GL_TRANSFORM_FEEDBACK_VARYING) |
+    /// | [`GL_ARRAY_SIZE`](crate::gl_enums::GL_ARRAY_SIZE) | [`GL_UNIFORM`](crate::gl_enums::GL_UNIFORM), [`GL_BUFFER_VARIABLE`](crate::gl_enums::GL_BUFFER_VARIABLE), [`GL_PROGRAM_INPUT`](crate::gl_enums::GL_PROGRAM_INPUT), [`GL_PROGRAM_OUTPUT, VERTEX_SUBROUTINE_UNIFORM`](crate::gl_enums::GL_PROGRAM_OUTPUT, VERTEX_SUBROUTINE_UNIFORM), [`GL_TESS_CONTROL_SUBROUTINE_UNIFORM`](crate::gl_enums::GL_TESS_CONTROL_SUBROUTINE_UNIFORM), [`GL_TESS_EVALUATION_SUBROUTINE_UNIFORM`](crate::gl_enums::GL_TESS_EVALUATION_SUBROUTINE_UNIFORM), [`GL_GEOMETRY_SUBROUTINE_UNIFORM`](crate::gl_enums::GL_GEOMETRY_SUBROUTINE_UNIFORM), [`GL_FRAGMENT_SUBROUTINE_UNIFORM`](crate::gl_enums::GL_FRAGMENT_SUBROUTINE_UNIFORM), [`GL_COMPUTE_SUBROUTINE_UNIFORM`](crate::gl_enums::GL_COMPUTE_SUBROUTINE_UNIFORM), [`GL_TRANSFORM_FEEDBACK_VARYING`](crate::gl_enums::GL_TRANSFORM_FEEDBACK_VARYING) |
     /// | [`GL_OFFSET`](crate::gl_enums::GL_OFFSET) | [`GL_UNIFORM`](crate::gl_enums::GL_UNIFORM), [`GL_BUFFER_VARIABLE`](crate::gl_enums::GL_BUFFER_VARIABLE), [`GL_TRANSFORM_FEEDBACK_VARYING`](crate::gl_enums::GL_TRANSFORM_FEEDBACK_VARYING) |
     /// | [`GL_BLOCK_INDEX`](crate::gl_enums::GL_BLOCK_INDEX) | [`GL_UNIFORM`](crate::gl_enums::GL_UNIFORM), [`GL_BUFFER_VARIABLE`](crate::gl_enums::GL_BUFFER_VARIABLE) |
     /// | [`GL_ARRAY_STRIDE`](crate::gl_enums::GL_ARRAY_STRIDE) | [`GL_UNIFORM`](crate::gl_enums::GL_UNIFORM), [`GL_BUFFER_VARIABLE`](crate::gl_enums::GL_BUFFER_VARIABLE) |
@@ -17598,13 +15776,13 @@ impl Context {
     /// `Level`, `format`, `type` and `pixels` have the same meaning as for [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image).
     /// `bufSize` is the size of the buffer to receive the retrieved pixel data.
     ///
-    /// For cube map textures, the behavior is as though [**`GetTextureImage`**](crate::context::Context::oxide_get_texture_image)
+    /// For cube map textures, the behavior is as though [**GetTextureImage**](crate::context::Context::oxideget_texture_image)
     /// were called, but only texels from the requested cube map faces (selected
     /// by `zoffset` and `depth`, as described below) were returned.
     ///
     /// `xoffset`, `yoffset` and `zoffset` values indicate the position of the
     /// subregion to return. `width`, `height` and `depth` indicate the size of
-    /// the region to return. These parameters have the same meaning as for [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image3_d),
+    /// the region to return. These parameters have the same meaning as for [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image_3d),
     /// though for one- and two-dimensional textures there are extra restrictions,
     /// described in the errors section below.
     ///
@@ -17621,12 +15799,12 @@ impl Context {
     ///
     /// | Layer number        | Cube Map Face        |
     /// |---------------------|----------------------|
-    /// | 0                   | `GL_TEXTURE_CUBE_MAP_POSITIVE_X` |
-    /// | 1                   | `GL_TEXTURE_CUBE_MAP_NEGATIVE_X` |
-    /// | 2                   | `GL_TEXTURE_CUBE_MAP_POSITIVE_Y` |
-    /// | 3                   | `GL_TEXTURE_CUBE_MAP_NEGATIVE_Y` |
-    /// | 4                   | `GL_TEXTURE_CUBE_MAP_POSITIVE_Z` |
-    /// | 5                   | `GL_TEXTURE_CUBE_MAP_NEGATIVE_Z` |
+    /// | 0                   | GL_TEXTURE_CUBE_MAP_POSITIVE_X |
+    /// | 1                   | GL_TEXTURE_CUBE_MAP_NEGATIVE_X |
+    /// | 2                   | GL_TEXTURE_CUBE_MAP_POSITIVE_Y |
+    /// | 3                   | GL_TEXTURE_CUBE_MAP_NEGATIVE_Y |
+    /// | 4                   | GL_TEXTURE_CUBE_MAP_POSITIVE_Z |
+    /// | 5                   | GL_TEXTURE_CUBE_MAP_NEGATIVE_Z |
     ///
     ///
     /// For cube map array textures, `zoffset` is the first layer-face to access,
@@ -18187,7 +16365,7 @@ impl Context {
     /// invalidates all or part of a texture image. `texture` and `level` indicated
     /// which texture image is being invalidated. After this command, data in that
     /// subregion have undefined values. `xoffset`, `yoffset`, `zoffset`, `width`,
-    /// `height`, and `depth` are interpreted as they are in [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image3_d).
+    /// `height`, and `depth` are interpreted as they are in [**glTexSubImage3D**](crate::context::Context::oxidegl_tex_sub_image_3d).
     /// For texture targets that don't have certain dimensions, this command treats
     /// those dimensions as having a size of 1. For example, to invalidate a portion
     /// of a two- dimensional texture, the application would use `zoffset` equal
@@ -18423,24 +16601,6 @@ impl Context {
         panic!("command oxidegl_is_sync not yet implemented");
     }
     /// ### Parameters
-    /// `texture`
-    ///
-    /// > Specifies a value that may be the name of a texture.
-    ///
-    /// ### Description
-    /// [**glIsTexture**](crate::context::Context::oxidegl_is_texture) returns
-    /// [`GL_TRUE`](crate::gl_enums::GL_TRUE) if `texture` is currently the name
-    /// of a texture. If `texture` is zero, or is a non-zero value that is not
-    /// currently the name of a texture, or if an error occurs, [**glIsTexture**](crate::context::Context::oxidegl_is_texture)
-    /// returns [`GL_FALSE`](crate::gl_enums::GL_FALSE).
-    ///
-    /// A name returned by [**glGenTextures**](crate::context::Context::oxidegl_gen_textures),
-    /// but not yet associated with a texture by calling [**glBindTexture**](crate::context::Context::oxidegl_bind_texture),
-    /// is not the name of a texture.
-    pub fn oxidegl_is_texture(&mut self, texture: GLuint) -> GlFallible<GLboolean> {
-        panic!("command oxidegl_is_texture not yet implemented");
-    }
-    /// ### Parameters
     /// `id`
     ///
     /// > Specifies a value that may be the name of a transform feedback object.
@@ -18622,7 +16782,7 @@ impl Context {
     /// fragment's samples is implementation dependent.
     ///
     /// ### Notes
-    /// The type of the `value` parameter was changed from `GLclampf` to `GLfloat`.
+    /// The type of the `value` parameter was changed from GLclampf to GLfloat.
     /// This change is transparent to user code and is described in detail on the
     /// [**removedTypes**](crate::context::Context::oxideremoved_types) page.
     ///
@@ -19103,7 +17263,7 @@ impl Context {
     /// specifies a vertex array element that is treated specially when primitive
     /// restarting is enabled. This is known as the primitive restart index.
     ///
-    /// When one of the [**Draw***](crate::context::Context::oxide_draw*) commands
+    /// When one of the [**Draw***](crate::context::Context::oxidedraw*) commands
     /// transfers a set of generic attribute array elements to the GL, if the index
     /// within the vertex arrays corresponding to that set is equal to the primitive
     /// restart index, then the GL does not process those elements as a vertex.
@@ -19362,7 +17522,7 @@ impl Context {
     /// allowing those operations to be performed on each sample.
     ///
     /// ### Notes
-    /// The type of the `value` parameter was changed from `GLclampf` to `GLfloat`.
+    /// The type of the `value` parameter was changed from GLclampf to GLfloat.
     /// This change is transparent to user code and is described in detail on the
     /// [**removedTypes**](crate::context::Context::oxideremoved_types) page.
     ///
@@ -19552,8 +17712,8 @@ impl Context {
     /// `func` is a symbolic constant that determines the stencil comparison function.
     /// It accepts one of eight values, shown in the following list. `ref` is an
     /// integer reference value that is used in the stencil comparison. It is clamped
-    /// to the range `[inlineq]` `[inlineq]` `mask` is bitwise `ANDed` with both
-    /// the reference value and the stored stencil value, with the `ANDed` values
+    /// to the range `[inlineq]` `[inlineq]` `mask` is bitwise ANDed with both
+    /// the reference value and the stored stencil value, with the ANDed values
     /// participating in the comparison.
     ///
     /// If *stencil* represents the value stored in the corresponding stencil buffer
@@ -19672,8 +17832,8 @@ impl Context {
     /// `func` is a symbolic constant that determines the stencil comparison function.
     /// It accepts one of eight values, shown in the following list. `ref` is an
     /// integer reference value that is used in the stencil comparison. It is clamped
-    /// to the range `[inlineq]` `[inlineq]` `mask` is bitwise `ANDed` with both
-    /// the reference value and the stored stencil value, with the `ANDed` values
+    /// to the range `[inlineq]` `[inlineq]` `mask` is bitwise ANDed with both
+    /// the reference value and the stored stencil value, with the ANDed values
     /// participating in the comparison.
     ///
     /// If *stencil* represents the value stored in the corresponding stencil buffer
@@ -20122,7 +18282,7 @@ impl Context {
     /// and [**glDisable**](crate::context::Context::oxidegl_disable) with argument
     /// [`GL_TEXTURE_1D`](crate::gl_enums::GL_TEXTURE_1D).
     ///
-    /// Texture images are defined with [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d).
+    /// Texture images are defined with [**glTexImage1D**](crate::context::Context::oxidegl_tex_image_1d).
     /// The arguments describe the parameters of the texture image, such as width,
     /// width of the border, level-of-detail number (see [**glTexParameter**](crate::context::Context::oxidegl_tex_parameter)
     /// ), and the internal resolution and format used to store the image. The
@@ -20343,7 +18503,7 @@ impl Context {
     /// to initialize the texture memory. The image is undefined if the program
     /// tries to apply an uninitialized portion of the texture image to a primitive.
     ///
-    /// [**glTexImage1D**](crate::context::Context::oxidegl_tex_image1_d) specifies
+    /// [**glTexImage1D**](crate::context::Context::oxidegl_tex_image_1d) specifies
     /// the one-dimensional texture for the current texture unit, specified with
     /// [**glActiveTexture**](crate::context::Context::oxidegl_active_texture).
     ///
@@ -20354,7 +18514,7 @@ impl Context {
     /// [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image)
     ///
     /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_PIXEL_UNPACK_BUFFER_BINDING`](crate::gl_enums::GL_PIXEL_UNPACK_BUFFER_BINDING)
-    pub unsafe fn oxidegl_tex_image1_d(
+    pub unsafe fn oxidegl_tex_image_1d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -20365,7 +18525,7 @@ impl Context {
         r#type: PixelType,
         pixels: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_tex_image1_d not yet implemented");
+        panic!("command oxidegl_tex_image_1d not yet implemented");
     }
     /// ### Parameters
     /// `target`
@@ -20449,7 +18609,7 @@ impl Context {
     /// ### Description
     /// Texturing allows elements of an image array to be read by shaders.
     ///
-    /// To define texture images, call [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d).
+    /// To define texture images, call [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d).
     /// The arguments describe the parameters of the texture image, such as height,
     /// width, width of the border, level-of-detail number (see [**glTexParameter**](crate::context::Context::oxidegl_tex_parameter)
     /// ), and number of color components provided. The last three arguments describe
@@ -20689,7 +18849,7 @@ impl Context {
     /// is undefined if the user tries to apply an uninitialized portion of the
     /// texture image to a primitive.
     ///
-    /// [**glTexImage2D**](crate::context::Context::oxidegl_tex_image2_d) specifies
+    /// [**glTexImage2D**](crate::context::Context::oxidegl_tex_image_2d) specifies
     /// the two-dimensional texture for the current texture unit, specified with
     /// [**glActiveTexture**](crate::context::Context::oxidegl_active_texture).
     ///
@@ -20700,7 +18860,7 @@ impl Context {
     /// [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image)
     ///
     /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_PIXEL_UNPACK_BUFFER_BINDING`](crate::gl_enums::GL_PIXEL_UNPACK_BUFFER_BINDING)
-    pub unsafe fn oxidegl_tex_image2_d(
+    pub unsafe fn oxidegl_tex_image_2d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -20712,7 +18872,7 @@ impl Context {
         r#type: PixelType,
         pixels: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_tex_image2_d not yet implemented");
+        panic!("command oxidegl_tex_image_2d not yet implemented");
     }
     /// ### Parameters
     /// `target`
@@ -20745,7 +18905,7 @@ impl Context {
     /// > will not depend on the internal format or size of the image.
     ///
     /// ### Description
-    /// [**glTexImage2DMultisample**](crate::context::Context::oxidegl_tex_image2_d_multisample)
+    /// [**glTexImage2DMultisample**](crate::context::Context::oxidegl_tex_image_2d_multisample)
     /// establishes the data storage, format, dimensions and number of samples
     /// of a multisample texture's image.
     ///
@@ -20772,9 +18932,9 @@ impl Context {
     /// targets.
     ///
     /// ### Notes
-    /// [**glTexImage2DMultisample**](crate::context::Context::oxidegl_tex_image2_d_multisample)
+    /// [**glTexImage2DMultisample**](crate::context::Context::oxidegl_tex_image_2d_multisample)
     /// is available only if the GL version is 3.2 or greater.
-    pub fn oxidegl_tex_image2_d_multisample(
+    pub fn oxidegl_tex_image_2d_multisample(
         &mut self,
         target: TextureTarget,
         samples: GLsizei,
@@ -20783,7 +18943,7 @@ impl Context {
         height: GLsizei,
         fixedsamplelocations: GLboolean,
     ) -> GlFallible {
-        panic!("command oxidegl_tex_image2_d_multisample not yet implemented");
+        panic!("command oxidegl_tex_image_2d_multisample not yet implemented");
     }
     /// ### Parameters
     /// `target`
@@ -20865,7 +19025,7 @@ impl Context {
     /// and [**glDisable**](crate::context::Context::oxidegl_disable) with argument
     /// [`GL_TEXTURE_3D`](crate::gl_enums::GL_TEXTURE_3D).
     ///
-    /// To define texture images, call [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d).
+    /// To define texture images, call [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d).
     /// The arguments describe the parameters of the texture image, such as height,
     /// width, depth, width of the border, level-of-detail number (see [**glTexParameter**](crate::context::Context::oxidegl_tex_parameter)
     /// ), and number of color components provided. The last three arguments describe
@@ -21080,7 +19240,7 @@ impl Context {
     /// image is undefined if the user tries to apply an uninitialized portion
     /// of the texture image to a primitive.
     ///
-    /// [**glTexImage3D**](crate::context::Context::oxidegl_tex_image3_d) specifies
+    /// [**glTexImage3D**](crate::context::Context::oxidegl_tex_image_3d) specifies
     /// the three-dimensional texture for the current texture unit, specified with
     /// [**glActiveTexture**](crate::context::Context::oxidegl_active_texture).
     ///
@@ -21091,7 +19251,7 @@ impl Context {
     /// [**glGetTexImage**](crate::context::Context::oxidegl_get_tex_image)
     ///
     /// [**glGet**](crate::context::Context::oxidegl_get) with argument [`GL_PIXEL_UNPACK_BUFFER_BINDING`](crate::gl_enums::GL_PIXEL_UNPACK_BUFFER_BINDING)
-    pub unsafe fn oxidegl_tex_image3_d(
+    pub unsafe fn oxidegl_tex_image_3d(
         &mut self,
         target: TextureTarget,
         level: GLint,
@@ -21104,7 +19264,7 @@ impl Context {
         r#type: PixelType,
         pixels: *const GLvoid,
     ) -> GlFallible {
-        panic!("command oxidegl_tex_image3_d not yet implemented");
+        panic!("command oxidegl_tex_image_3d not yet implemented");
     }
     /// ### Parameters
     /// `target`
@@ -21137,7 +19297,7 @@ impl Context {
     /// > will not depend on the internal format or size of the image.
     ///
     /// ### Description
-    /// [**glTexImage3DMultisample**](crate::context::Context::oxidegl_tex_image3_d_multisample)
+    /// [**glTexImage3DMultisample**](crate::context::Context::oxidegl_tex_image_3d_multisample)
     /// establishes the data storage, format, dimensions and number of samples
     /// of a multisample texture's image.
     ///
@@ -21165,9 +19325,9 @@ impl Context {
     /// targets.
     ///
     /// ### Notes
-    /// [**glTexImage2DMultisample**](crate::context::Context::oxidegl_tex_image2_d_multisample)
+    /// [**glTexImage2DMultisample**](crate::context::Context::oxidegl_tex_image_2d_multisample)
     /// is available only if the GL version is 3.2 or greater.
-    pub fn oxidegl_tex_image3_d_multisample(
+    pub fn oxidegl_tex_image_3d_multisample(
         &mut self,
         target: TextureTarget,
         samples: GLsizei,
@@ -21177,7 +19337,7 @@ impl Context {
         depth: GLsizei,
         fixedsamplelocations: GLboolean,
     ) -> GlFallible {
-        panic!("command oxidegl_tex_image3_d_multisample not yet implemented");
+        panic!("command oxidegl_tex_image_3d_multisample not yet implemented");
     }
     /// ### Description
     /// The values of rendered fragments are undefined when a shader stage fetches
@@ -21310,9 +19470,9 @@ impl Context {
     /// is called to create a [`GL_TEXTURE_CUBE_MAP`](crate::gl_enums::GL_TEXTURE_CUBE_MAP)
     /// view.
     ///
-    /// Texture commands that take a `level` or `layer` parameter, such as [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image2_d),
+    /// Texture commands that take a `level` or `layer` parameter, such as [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image_2d),
     /// interpret that parameter to be relative to the view of the texture. i.e.
-    /// the mipmap level of the data store that would be updated via [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image2_d)
+    /// the mipmap level of the data store that would be updated via [**glTexSubImage2D**](crate::context::Context::oxidegl_tex_sub_image_2d)
     /// would be the sum of `level` and the value of [`GL_TEXTURE_VIEW_MIN_LEVEL`](crate::gl_enums::GL_TEXTURE_VIEW_MIN_LEVEL).
     ///
     /// ### Associated Gets
@@ -21762,58 +19922,58 @@ impl Context {
     ) -> GlFallible {
         panic!("command oxidegl_wait_sync not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_p1uiv(
+    pub unsafe fn oxidegl_vertex_attrib_p_1uiv(
         &mut self,
         index: GLuint,
         r#type: VertexAttribPointerType,
         normalized: GLboolean,
         value: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_p1uiv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_p_1uiv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_p2uiv(
+    pub unsafe fn oxidegl_vertex_attrib_p_2uiv(
         &mut self,
         index: GLuint,
         r#type: VertexAttribPointerType,
         normalized: GLboolean,
         value: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_p2uiv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_p_2uiv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_p3uiv(
+    pub unsafe fn oxidegl_vertex_attrib_p_3uiv(
         &mut self,
         index: GLuint,
         r#type: VertexAttribPointerType,
         normalized: GLboolean,
         value: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_p3uiv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_p_3uiv not yet implemented");
     }
-    pub unsafe fn oxidegl_vertex_attrib_p4uiv(
+    pub unsafe fn oxidegl_vertex_attrib_p_4uiv(
         &mut self,
         index: GLuint,
         r#type: VertexAttribPointerType,
         normalized: GLboolean,
         value: *const GLuint,
     ) -> GlFallible {
-        panic!("command oxidegl_vertex_attrib_p4uiv not yet implemented");
+        panic!("command oxidegl_vertex_attrib_p_4uiv not yet implemented");
     }
-    pub fn oxidegl_uniform1d(&mut self, location: GLint, x: GLdouble) -> GlFallible {
-        panic!("command oxidegl_uniform1d not yet implemented");
+    pub fn oxidegl_uniform_1d(&mut self, location: GLint, x: GLdouble) -> GlFallible {
+        panic!("command oxidegl_uniform_1d not yet implemented");
     }
-    pub fn oxidegl_uniform2d(&mut self, location: GLint, x: GLdouble, y: GLdouble) -> GlFallible {
-        panic!("command oxidegl_uniform2d not yet implemented");
+    pub fn oxidegl_uniform_2d(&mut self, location: GLint, x: GLdouble, y: GLdouble) -> GlFallible {
+        panic!("command oxidegl_uniform_2d not yet implemented");
     }
-    pub fn oxidegl_uniform3d(
+    pub fn oxidegl_uniform_3d(
         &mut self,
         location: GLint,
         x: GLdouble,
         y: GLdouble,
         z: GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform3d not yet implemented");
+        panic!("command oxidegl_uniform_3d not yet implemented");
     }
-    pub fn oxidegl_uniform4d(
+    pub fn oxidegl_uniform_4d(
         &mut self,
         location: GLint,
         x: GLdouble,
@@ -21821,206 +19981,196 @@ impl Context {
         z: GLdouble,
         w: GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform4d not yet implemented");
+        panic!("command oxidegl_uniform_4d not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform1dv(
+    pub unsafe fn oxidegl_uniform_1dv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform1dv not yet implemented");
+        panic!("command oxidegl_uniform_1dv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform2dv(
+    pub unsafe fn oxidegl_uniform_2dv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform2dv not yet implemented");
+        panic!("command oxidegl_uniform_2dv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform3dv(
+    pub unsafe fn oxidegl_uniform_3dv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform3dv not yet implemented");
+        panic!("command oxidegl_uniform_3dv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform4dv(
+    pub unsafe fn oxidegl_uniform_4dv(
         &mut self,
         location: GLint,
         count: GLsizei,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform4dv not yet implemented");
+        panic!("command oxidegl_uniform_4dv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix2dv(
-        &mut self,
-        location: GLint,
-        count: GLsizei,
-        transpose: GLboolean,
-        value: *const GLdouble,
-    ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix2dv not yet implemented");
-    }
-    pub unsafe fn oxidegl_uniform_matrix3dv(
+    pub unsafe fn oxidegl_uniform_matrix_2dv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix3dv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_2dv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix4dv(
+    pub unsafe fn oxidegl_uniform_matrix_3dv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix4dv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_3dv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix2x3dv(
+    pub unsafe fn oxidegl_uniform_matrix_4dv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix2x3dv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_4dv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix2x4dv(
+    pub unsafe fn oxidegl_uniform_matrix_2x_3dv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix2x4dv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_2x_3dv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix3x2dv(
+    pub unsafe fn oxidegl_uniform_matrix_2x_4dv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix3x2dv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_2x_4dv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix3x4dv(
+    pub unsafe fn oxidegl_uniform_matrix_3x_2dv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix3x4dv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_3x_2dv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix4x2dv(
+    pub unsafe fn oxidegl_uniform_matrix_3x_4dv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix4x2dv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_3x_4dv not yet implemented");
     }
-    pub unsafe fn oxidegl_uniform_matrix4x3dv(
+    pub unsafe fn oxidegl_uniform_matrix_4x_2dv(
         &mut self,
         location: GLint,
         count: GLsizei,
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_uniform_matrix4x3dv not yet implemented");
+        panic!("command oxidegl_uniform_matrix_4x_2dv not yet implemented");
     }
-    pub fn oxidegl_program_uniform1d(
+    pub unsafe fn oxidegl_uniform_matrix_4x_3dv(
+        &mut self,
+        location: GLint,
+        count: GLsizei,
+        transpose: GLboolean,
+        value: *const GLdouble,
+    ) -> GlFallible {
+        panic!("command oxidegl_uniform_matrix_4x_3dv not yet implemented");
+    }
+    pub fn oxidegl_program_uniform_1d(
         &mut self,
         program: GLuint,
         location: GLint,
-        v0: GLdouble,
+        v_0: GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform1d not yet implemented");
+        panic!("command oxidegl_program_uniform_1d not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform1dv(
-        &mut self,
-        program: GLuint,
-        location: GLint,
-        count: GLsizei,
-        value: *const GLdouble,
-    ) -> GlFallible {
-        panic!("command oxidegl_program_uniform1dv not yet implemented");
-    }
-    pub fn oxidegl_program_uniform2d(
-        &mut self,
-        program: GLuint,
-        location: GLint,
-        v0: GLdouble,
-        v1: GLdouble,
-    ) -> GlFallible {
-        panic!("command oxidegl_program_uniform2d not yet implemented");
-    }
-    pub unsafe fn oxidegl_program_uniform2dv(
+    pub unsafe fn oxidegl_program_uniform_1dv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform2dv not yet implemented");
+        panic!("command oxidegl_program_uniform_1dv not yet implemented");
     }
-    pub fn oxidegl_program_uniform3d(
+    pub fn oxidegl_program_uniform_2d(
         &mut self,
         program: GLuint,
         location: GLint,
-        v0: GLdouble,
-        v1: GLdouble,
-        v2: GLdouble,
+        v_0: GLdouble,
+        v_1: GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform3d not yet implemented");
+        panic!("command oxidegl_program_uniform_2d not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform3dv(
-        &mut self,
-        program: GLuint,
-        location: GLint,
-        count: GLsizei,
-        value: *const GLdouble,
-    ) -> GlFallible {
-        panic!("command oxidegl_program_uniform3dv not yet implemented");
-    }
-    pub fn oxidegl_program_uniform4d(
-        &mut self,
-        program: GLuint,
-        location: GLint,
-        v0: GLdouble,
-        v1: GLdouble,
-        v2: GLdouble,
-        v3: GLdouble,
-    ) -> GlFallible {
-        panic!("command oxidegl_program_uniform4d not yet implemented");
-    }
-    pub unsafe fn oxidegl_program_uniform4dv(
+    pub unsafe fn oxidegl_program_uniform_2dv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform4dv not yet implemented");
+        panic!("command oxidegl_program_uniform_2dv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix2dv(
+    pub fn oxidegl_program_uniform_3d(
+        &mut self,
+        program: GLuint,
+        location: GLint,
+        v_0: GLdouble,
+        v_1: GLdouble,
+        v_2: GLdouble,
+    ) -> GlFallible {
+        panic!("command oxidegl_program_uniform_3d not yet implemented");
+    }
+    pub unsafe fn oxidegl_program_uniform_3dv(
         &mut self,
         program: GLuint,
         location: GLint,
         count: GLsizei,
-        transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix2dv not yet implemented");
+        panic!("command oxidegl_program_uniform_3dv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix3dv(
+    pub fn oxidegl_program_uniform_4d(
+        &mut self,
+        program: GLuint,
+        location: GLint,
+        v_0: GLdouble,
+        v_1: GLdouble,
+        v_2: GLdouble,
+        v_3: GLdouble,
+    ) -> GlFallible {
+        panic!("command oxidegl_program_uniform_4d not yet implemented");
+    }
+    pub unsafe fn oxidegl_program_uniform_4dv(
+        &mut self,
+        program: GLuint,
+        location: GLint,
+        count: GLsizei,
+        value: *const GLdouble,
+    ) -> GlFallible {
+        panic!("command oxidegl_program_uniform_4dv not yet implemented");
+    }
+    pub unsafe fn oxidegl_program_uniform_matrix_2dv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -22028,9 +20178,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix3dv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_2dv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix4dv(
+    pub unsafe fn oxidegl_program_uniform_matrix_3dv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -22038,9 +20188,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix4dv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_3dv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix2x3dv(
+    pub unsafe fn oxidegl_program_uniform_matrix_4dv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -22048,9 +20198,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix2x3dv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_4dv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix3x2dv(
+    pub unsafe fn oxidegl_program_uniform_matrix_2x_3dv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -22058,9 +20208,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix3x2dv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_2x_3dv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix2x4dv(
+    pub unsafe fn oxidegl_program_uniform_matrix_3x_2dv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -22068,9 +20218,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix2x4dv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_3x_2dv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix4x2dv(
+    pub unsafe fn oxidegl_program_uniform_matrix_2x_4dv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -22078,9 +20228,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix4x2dv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_2x_4dv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix3x4dv(
+    pub unsafe fn oxidegl_program_uniform_matrix_4x_2dv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -22088,9 +20238,9 @@ impl Context {
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix3x4dv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_4x_2dv not yet implemented");
     }
-    pub unsafe fn oxidegl_program_uniform_matrix4x3dv(
+    pub unsafe fn oxidegl_program_uniform_matrix_3x_4dv(
         &mut self,
         program: GLuint,
         location: GLint,
@@ -22098,7 +20248,17 @@ impl Context {
         transpose: GLboolean,
         value: *const GLdouble,
     ) -> GlFallible {
-        panic!("command oxidegl_program_uniform_matrix4x3dv not yet implemented");
+        panic!("command oxidegl_program_uniform_matrix_3x_4dv not yet implemented");
+    }
+    pub unsafe fn oxidegl_program_uniform_matrix_4x_3dv(
+        &mut self,
+        program: GLuint,
+        location: GLint,
+        count: GLsizei,
+        transpose: GLboolean,
+        value: *const GLdouble,
+    ) -> GlFallible {
+        panic!("command oxidegl_program_uniform_matrix_4x_3dv not yet implemented");
     }
     pub unsafe fn oxidegl_specialize_shader(
         &mut self,

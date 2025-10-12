@@ -609,12 +609,12 @@ impl ReprABGR4 {
         ((self.inner >> (idx * 4)) & Self::MAX_COMPONENT) as u8
     }
     fn index_float<const N: u32>(self) -> f32 {
-        self.index(N) as f32 / Self::MAX_COMPONENT as f32
+        f32::from(self.index(N)) / f32::from(Self::MAX_COMPONENT)
     }
     fn from_bytes(vals: [u8; 4]) -> Self {
         let mut inner = 0;
         for v in vals {
-            inner |= (v >> 4) as u16 & Self::MAX_COMPONENT;
+            inner |= u16::from(v >> 4) & Self::MAX_COMPONENT;
             inner <<= 4;
         }
         Self { inner }
